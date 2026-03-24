@@ -10,3 +10,5 @@ django-celery-beat==2.7.0
 Pillow==11.0.0
 python-slugify==8.0.4
 requests==2.32.3
+gunicorn
+whitenoise

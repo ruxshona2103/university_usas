@@ -13,6 +13,6 @@ urlpatterns = [
     path('redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
     # Domenlar API lari
-    path('api/v1/pages/', include('domains.pages.api.urls')),
-    path('api/v1/news/', include('domains.news.api.urls')),
+    path('api/', include('domains.pages.api.urls')),
+    path('api/', include('domains.news.api.urls')),
 ]

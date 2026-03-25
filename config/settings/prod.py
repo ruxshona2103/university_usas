@@ -12,8 +12,9 @@ ALLOWED_HOSTS = [
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        default=os.getenv('DATABASE_URL'),
         conn_max_age=600,
+        ssl_require=True 
     )
 }
 

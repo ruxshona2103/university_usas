@@ -13,5 +13,3 @@ celery
 redis
 django-celery-results
 django-celery-beat
-cloudinary
-django-cloudinary-storage

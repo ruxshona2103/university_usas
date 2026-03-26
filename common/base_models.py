@@ -5,12 +5,7 @@ from django.utils.text import slugify
 
 
 class TimeStampedModel(models.Model):
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-        verbose_name="ID"
-    )
+    id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False,verbose_name="ID")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Yaratilgan vaqt")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Yangilangan vaqt")
 

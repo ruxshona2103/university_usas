@@ -44,25 +44,6 @@ class NavbarCategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name_uz', 'name_ru', 'name_en', 'slug', 'order', 'items']
 
 
-class NavbarLanguageGroupedSerializer(serializers.Serializer):
-
-    def to_representation(self, categories):
-        result = {'uz': [], 'ru': [], 'en': []}
-        for lang in ('uz', 'ru', 'en'):
-            for cat in categories:
-                label = getattr(cat, f'name_{lang}') or cat.name_uz
-                items = [
-                    getattr(item, f'name_{lang}') or item.name_uz
-                    for item in cat.items.all()
-                ]
-                result[lang].append({
-                    'key':   cat.slug,
-                    'label': label,
-                    'items': items,
-                })
-        return result
-
-
 class NavbarPageSerializer(serializers.ModelSerializer):
     category_name_uz = serializers.CharField(source='category.name_uz', read_only=True)
     is_empty = serializers.SerializerMethodField()

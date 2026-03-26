@@ -5,7 +5,6 @@ from .views import (
     SocialLinkListAPIView,
     PartnerListAPIView,
     NavbarListAPIView,
-    NavbarCategoryDetailAPIView,
     NavbarPageDetailAPIView,
 )
 
@@ -19,10 +18,6 @@ urlpatterns = [
     path('navbar/',
          NavbarListAPIView.as_view(),
          name='navbar-list'),
-
-    path('navbar/<slug:category_slug>/',
-         NavbarCategoryDetailAPIView.as_view(),
-         name='navbar-category-detail'),
 
     path('navbar/<slug:category_slug>/<slug:page_slug>/',
          NavbarPageDetailAPIView.as_view(),

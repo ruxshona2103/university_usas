@@ -109,7 +109,7 @@ class NavbarSubItemInline(admin.TabularInline):
 
 @admin.register(NavbarCategory)
 class NavbarCategoryAdmin(admin.ModelAdmin):
-    list_display = ('order', 'name_uz', 'name_ru', 'name_en', 'slug', 'items_count', 'is_active')
+    list_display = ('order', 'name_uz', 'name_ru', 'name_en', 'slug', 'items_count', 'direct_url_display', 'is_active')
     list_display_links = ('name_uz',)
     list_editable = ('order', 'is_active')
     list_filter = ('is_active',)
@@ -120,6 +120,15 @@ class NavbarCategoryAdmin(admin.ModelAdmin):
     fieldsets = (
         ("Bo'lim nomi", {
             'fields': ('name_uz', 'name_ru', 'name_en')
+        }),
+        ("Yo'naltirish URL (ixtiyoriy)", {
+            'fields': ('direct_url',),
+            'description': (
+                "Faqat children bo'lmasa ishlatiladi. "
+                "Tashqi sayt uchun: https://hemis.uz — "
+                "Ichki sahifa uchun: /news — "
+                "Bo'sh qolsa slug'dan avtomatik yasaladi."
+            )
         }),
         ("Tartib va holat", {
             'fields': ('order', 'is_active')
@@ -137,6 +146,18 @@ class NavbarCategoryAdmin(admin.ModelAdmin):
             '<span style="background:#e8f4fd; color:#1a73e8; padding:2px 10px; '
             'border-radius:12px; font-size:12px; font-weight:600;">{}</span>',
             count
+        )
+
+    @admin.display(description="URL")
+    def direct_url_display(self, obj):
+        if obj.direct_url:
+            return format_html(
+                '<span style="background:#fef7e0; color:#b06000; padding:2px 8px; '
+                'border-radius:12px; font-size:12px;">&#128279; {}</span>',
+                obj.direct_url[:40] + ('...' if len(obj.direct_url) > 40 else '')
+            )
+        return format_html(
+            '<span style="color:#999; font-size:12px;">slug\'dan</span>'
         )
 
 

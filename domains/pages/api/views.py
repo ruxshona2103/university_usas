@@ -11,8 +11,6 @@ from .serializers import (
     ContactConfigSerializer,
     PresidentQuoteSerializer,
     SocialLinkSerializer,
-    NavbarCategorySerializer,
-    NavbarLanguageGroupedSerializer,
     NavbarPageSerializer,
     PartnerSerializer,
 )
@@ -71,30 +69,37 @@ class NavbarListAPIView(APIView):
             )
             .order_by('order')
         )
-        serializer = NavbarLanguageGroupedSerializer()
-        return Response(serializer.to_representation(categories))
+        result = {'uz': [], 'ru': [], 'en': []}
+        for lang in ('uz', 'ru', 'en'):
+            for cat in categories:
+                children = []
+                for item in cat.items.all():
+                    if item.page_type == NavbarSubItem.PageType.REDIRECT:
+                        url = item.redirect_url or ''
+                    else:
+                        url = f'/page/{item.slug}'
+                    children.append({
+                        'id':    str(item.id),
+                        'name':  getattr(item, f'name_{lang}') or item.name_uz,
+                        'slug':  item.slug,
+                        'url':   url,
+                        'order': item.order,
+                    })
 
+                has_children = len(children) > 0
+                url = cat.direct_url or f'/page/{cat.slug}'
 
-@extend_schema(tags=['navbar'])
-class NavbarCategoryDetailAPIView(generics.RetrieveAPIView):
-    serializer_class = NavbarCategorySerializer
-    permission_classes = [AllowAny]
-
-    def get_object(self):
-        category_slug = self.kwargs.get('category_slug')
-        try:
-            return (
-                NavbarCategory.objects
-                .prefetch_related(
-                    models.Prefetch(
-                        'items',
-                        queryset=NavbarSubItem.objects.filter(is_active=True).order_by('order')
-                    )
-                )
-                .get(slug=category_slug, is_active=True)
-            )
-        except NavbarCategory.DoesNotExist:
-            raise NotFound(detail="Bo'lim topilmadi.")
+                cat_entry = {
+                    'key':          cat.slug,
+                    'slug':         cat.slug,
+                    'label':        getattr(cat, f'name_{lang}') or cat.name_uz,
+                    'order':        cat.order,
+                    'has_children': has_children,
+                    'url':          url,
+                    'children':     children,
+                }
+                result[lang].append(cat_entry)
+        return Response(result)
 
 
 @extend_schema(tags=['navbar'])

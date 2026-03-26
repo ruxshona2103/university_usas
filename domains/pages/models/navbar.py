@@ -14,6 +14,12 @@ class NavbarCategory(TimeStampedModel):
     slug = models.SlugField(max_length=120, unique=True, blank=True, verbose_name="Slug (URL)")
     order = models.PositiveIntegerField(default=0, verbose_name="Tartib raqami")
     is_active = models.BooleanField(default=True, verbose_name="Ko'rsatilsinmi?")
+    direct_url = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name="To'g'ridan URL (ixtiyoriy)",
+        help_text="Children bo'lmasa ishlatiladi. Masalan: /news yoki https://hemis.uz. Bo'sh qolsa slug'dan avtomatik yasaladi."
+    )
 
     class Meta:
         verbose_name = "Navbar bo'limi"

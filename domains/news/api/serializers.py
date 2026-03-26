@@ -2,40 +2,51 @@ from rest_framework import serializers
 from domains.news.models import News, Event, Blog
 
 
-class NewsSerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField()
-    excerpt = serializers.SerializerMethodField()
-    badgeCategory = serializers.SerializerMethodField()
-
-    class Meta:
-        model = News
-        fields = ['id', 'image', 'title', 'excerpt', 'date', 'slug', 'badgeCategory', 'views']
+class PublishableMixin:
+    """
+    title, description, image — uchala serializer uchun umumiy logika.
+    image: request orqali to'liq URL yasaydi (https://domain.com/media/...)
+    """
 
     def get_title(self, obj):
         return {'uz': obj.title_uz, 'ru': obj.title_ru, 'en': obj.title_en}
 
-    def get_excerpt(self, obj):
+    def get_description(self, obj):
         return {'uz': obj.description_uz, 'ru': obj.description_ru, 'en': obj.description_en}
+
+    def get_image(self, obj):
+        if not obj.image:
+            return None
+        request = self.context.get('request')
+        if request:
+            return request.build_absolute_uri(obj.image.url)
+        return obj.image.url
+
+
+class NewsSerializer(PublishableMixin, serializers.ModelSerializer):
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    image       = serializers.SerializerMethodField()
+    badgeCategory = serializers.SerializerMethodField()
+
+    class Meta:
+        model = News
+        fields = ['id', 'image', 'title', 'description', 'date', 'slug', 'badgeCategory', 'views']
 
     def get_badgeCategory(self, obj):
         return 'news'
 
 
-class EventSerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField()
-    excerpt = serializers.SerializerMethodField()
-    location = serializers.SerializerMethodField()
+class EventSerializer(PublishableMixin, serializers.ModelSerializer):
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    image       = serializers.SerializerMethodField()
+    location    = serializers.SerializerMethodField()
     badgeCategory = serializers.SerializerMethodField()
 
     class Meta:
         model = Event
-        fields = ['id', 'image', 'title', 'excerpt', 'location', 'date', 'start_time', 'slug', 'badgeCategory', 'views']
-
-    def get_title(self, obj):
-        return {'uz': obj.title_uz, 'ru': obj.title_ru, 'en': obj.title_en}
-
-    def get_excerpt(self, obj):
-        return {'uz': obj.description_uz, 'ru': obj.description_ru, 'en': obj.description_en}
+        fields = ['id', 'image', 'title', 'description', 'location', 'date', 'start_time', 'slug', 'badgeCategory', 'views']
 
     def get_location(self, obj):
         return {'uz': obj.location_uz, 'ru': obj.location_ru, 'en': obj.location_en}
@@ -44,21 +55,16 @@ class EventSerializer(serializers.ModelSerializer):
         return 'events'
 
 
-class BlogSerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField()
-    excerpt = serializers.SerializerMethodField()
-    badgeCategory = serializers.SerializerMethodField()
+class BlogSerializer(PublishableMixin, serializers.ModelSerializer):
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    image       = serializers.SerializerMethodField()
     author_name = serializers.SerializerMethodField()
+    badgeCategory = serializers.SerializerMethodField()
 
     class Meta:
         model = Blog
-        fields = ['id', 'image', 'title', 'excerpt', 'date', 'slug', 'badgeCategory', 'author_name', 'views']
-
-    def get_title(self, obj):
-        return {'uz': obj.title_uz, 'ru': obj.title_ru, 'en': obj.title_en}
-
-    def get_excerpt(self, obj):
-        return {'uz': obj.description_uz, 'ru': obj.description_ru, 'en': obj.description_en}
+        fields = ['id', 'image', 'title', 'description', 'date', 'slug', 'badgeCategory', 'author_name', 'views']
 
     def get_badgeCategory(self, obj):
         return 'blog'

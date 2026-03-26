@@ -108,17 +108,12 @@ class NavbarPageDetailAPIView(generics.RetrieveAPIView):
     permission_classes = [AllowAny]
 
     def get_object(self):
-        category_slug = self.kwargs.get('category_slug')
         page_slug = self.kwargs.get('page_slug')
         try:
             return (
                 NavbarSubItem.objects
                 .select_related('category')
-                .get(
-                    slug=page_slug,
-                    category__slug=category_slug,
-                    is_active=True,
-                )
+                .get(slug=page_slug, is_active=True)
             )
         except NavbarSubItem.DoesNotExist:
             raise NotFound(detail="Sahifa topilmadi.")

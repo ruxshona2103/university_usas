@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 set -e
 
-python manage.py collectstatic --noinput
-python manage.py migrate
+DJANGO_SETTINGS_MODULE=config.settings.prod python manage.py collectstatic --noinput
+DJANGO_SETTINGS_MODULE=config.settings.prod python manage.py migrate

@@ -4,7 +4,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, Sp
 from django.conf import settings
 from django.conf.urls.static import static
 
-        
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -18,6 +18,8 @@ urlpatterns = [
     # Domenlar API lari
     path('api/', include('domains.pages.api.urls')),
     path('api/', include('domains.news.api.urls')),
+    path('api/', include('domains.students.api.urls')),
+
 ]
 
 if settings.DEBUG:

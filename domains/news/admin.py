@@ -4,14 +4,11 @@ from django.utils.html import format_html
 from .models import News, Event, Blog
 
 
-# ─────────────────────────────────────────────────────────────────────────────
 # UMUMIY MIXIN — News, Event, Blog uchun takrorlanuvchi logika
-# ─────────────────────────────────────────────────────────────────────────────
 class PublishableAdminMixin:
     list_filter  = ('is_published', 'date')
     search_fields = ('title_uz', 'title_ru', 'title_en')
     readonly_fields = ('slug', 'views', 'created_at', 'updated_at', 'image_preview')
-    date_hierarchy = 'date'
     list_per_page = 20
 
     @admin.display(description="Rasm")

@@ -19,7 +19,7 @@ urlpatterns = [
          NavbarListAPIView.as_view(),
          name='navbar-list'),
 
-    path('navbar/<slug:category_slug>/<slug:page_slug>/',
+    path('pages/<slug:page_slug>/',
          NavbarPageDetailAPIView.as_view(),
-         name='navbar-page-detail'),
+         name='page-detail'),
 ]

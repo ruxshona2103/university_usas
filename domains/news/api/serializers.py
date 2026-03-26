@@ -3,10 +3,7 @@ from domains.news.models import News, Event, Blog
 
 
 class PublishableMixin:
-    """
-    title, description, image — uchala serializer uchun umumiy logika.
-    image: request orqali to'liq URL yasaydi (https://domain.com/media/...)
-    """
+    # frontendchi xoxlagan metodda jsonni chiqarib berish uchun uchta classga mixin >> DRY
 
     def get_title(self, obj):
         return {'uz': obj.title_uz, 'ru': obj.title_ru, 'en': obj.title_en}
@@ -22,11 +19,17 @@ class PublishableMixin:
             return request.build_absolute_uri(obj.image.url)
         return obj.image.url
 
+    def get_date(self, obj):
+        if not obj.date:
+            return None
+        return obj.date.strftime('%Y-%m-%d %H:%M:%S')
+
 
 class NewsSerializer(PublishableMixin, serializers.ModelSerializer):
-    title       = serializers.SerializerMethodField()
-    description = serializers.SerializerMethodField()
-    image       = serializers.SerializerMethodField()
+    title         = serializers.SerializerMethodField()
+    description   = serializers.SerializerMethodField()
+    image         = serializers.SerializerMethodField()
+    date          = serializers.SerializerMethodField()
     badgeCategory = serializers.SerializerMethodField()
 
     class Meta:
@@ -38,10 +41,11 @@ class NewsSerializer(PublishableMixin, serializers.ModelSerializer):
 
 
 class EventSerializer(PublishableMixin, serializers.ModelSerializer):
-    title       = serializers.SerializerMethodField()
-    description = serializers.SerializerMethodField()
-    image       = serializers.SerializerMethodField()
-    location    = serializers.SerializerMethodField()
+    title         = serializers.SerializerMethodField()
+    description   = serializers.SerializerMethodField()
+    image         = serializers.SerializerMethodField()
+    date          = serializers.SerializerMethodField()
+    location      = serializers.SerializerMethodField()
     badgeCategory = serializers.SerializerMethodField()
 
     class Meta:
@@ -56,10 +60,11 @@ class EventSerializer(PublishableMixin, serializers.ModelSerializer):
 
 
 class BlogSerializer(PublishableMixin, serializers.ModelSerializer):
-    title       = serializers.SerializerMethodField()
-    description = serializers.SerializerMethodField()
-    image       = serializers.SerializerMethodField()
-    author_name = serializers.SerializerMethodField()
+    title         = serializers.SerializerMethodField()
+    description   = serializers.SerializerMethodField()
+    image         = serializers.SerializerMethodField()
+    date          = serializers.SerializerMethodField()
+    author_name   = serializers.SerializerMethodField()
     badgeCategory = serializers.SerializerMethodField()
 
     class Meta:

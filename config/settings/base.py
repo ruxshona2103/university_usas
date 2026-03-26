@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'domains.admissions',
     'domains.contact',
     'domains.alumni',
+
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [

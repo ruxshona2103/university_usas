@@ -29,7 +29,7 @@ class PublishableContent(TimeStampedModel):
     description_en = models.TextField(blank=True, verbose_name="Qisqa tavsif (En)")
 
     keywords = models.CharField(max_length=500, blank=True, verbose_name="SEO Kalit so'zlar")
-    date = models.DateField(verbose_name="Sana")
+    date = models.DateTimeField(verbose_name="Sana")
     slug = models.SlugField(unique=True, blank=True, max_length=300)
     is_published = models.BooleanField(default=True, verbose_name="Saytga chiqarilsinmi?")
     views = models.PositiveIntegerField(default=0, verbose_name="Ko'rishlar soni")

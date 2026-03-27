@@ -45,11 +45,9 @@ if imagekit_public_key and imagekit_private_key and imagekit_url_endpoint:
         'PRIVATE_KEY': imagekit_private_key,
         'URL_ENDPOINT': imagekit_url_endpoint,
     }
-    IMAGEKIT_STORAGE = IMAGEKITIO_SETTINGS
-
     STORAGES = {
         "default": {
-            "BACKEND": "imagekitio_storage.storage.MediaImagekitStorage",
+            "BACKEND": "imagekitio_storage.storage.ImageKitIOStorage",
         },
         "staticfiles": {
             "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",

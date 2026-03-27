@@ -40,14 +40,18 @@ imagekit_url_endpoint = os.getenv('IMAGEKIT_URL_ENDPOINT')
 
 if imagekit_public_key and imagekit_private_key and imagekit_url_endpoint:
     INSTALLED_APPS += ['imagekitio_storage']
-    IMAGEKITIO_SETTINGS = {
+
+    # SDK 'IMAGEKIT_STORAGE' kalitini o'qiydi (IMAGEKITIO_SETTINGS emas)
+    IMAGEKIT_STORAGE = {
         'PUBLIC_KEY': imagekit_public_key,
         'PRIVATE_KEY': imagekit_private_key,
         'URL_ENDPOINT': imagekit_url_endpoint,
     }
+
     STORAGES = {
         "default": {
-            "BACKEND": "imagekitio_storage.storage.ImageKitIOStorage",
+            # To'g'ri class nomi: imagekitio_storage/storage.py ichida MediaImagekitStorage
+            "BACKEND": "imagekitio_storage.storage.MediaImagekitStorage",
         },
         "staticfiles": {
             "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",

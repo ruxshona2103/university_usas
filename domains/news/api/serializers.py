@@ -14,10 +14,14 @@ class PublishableMixin:
     def get_image(self, obj):
         if not obj.image:
             return None
+        try:
+            image_url = obj.image.url
+        except Exception:
+            return None
         request = self.context.get('request')
         if request:
-            return request.build_absolute_uri(obj.image.url)
-        return obj.image.url
+            return request.build_absolute_uri(image_url)
+        return image_url
 
     def get_date(self, obj):
         if not obj.date:

@@ -29,7 +29,14 @@ class PersonSerializer(serializers.ModelSerializer):
         return {'uz': obj.description_uz, 'ru': obj.description_ru, 'en': obj.description_en}
 
     def get_image(self, obj):
+        if not obj.image:
+            return None
+        try:
+            image_url = obj.image.url
+        except Exception:
+            return None
         request = self.context.get('request')
-        if obj.image and request:
-            return request.build_absolute_uri(obj.image.url)
+        if request:
+            return request.build_absolute_uri(image_url)
+        return image_url
         return None

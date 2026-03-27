@@ -235,9 +235,13 @@ class PartnerAdmin(admin.ModelAdmin):
     @admin.display(description="Logo")
     def logo_preview(self, obj):
         if obj.image:
+            try:
+                url = obj.image.url
+            except Exception:
+                return format_html('<span style="color:#e53935;">⚠ URL topilmadi</span>')
             return format_html(
                 '<img src="{}" style="max-height:50px; max-width:120px; object-fit:contain;" />',
-                obj.image.url
+                url
             )
         return "—"
 
@@ -278,13 +282,21 @@ class HeroVideoAdmin(admin.ModelAdmin):
     def display_poster(self, obj):
         """Ro'yxatda kichik rasmcha chiqaradi"""
         if obj.poster_image:
-            return format_html('<img src="{0}" style="width: 50px; height: auto; border-radius: 5px;" />', obj.poster_image.url)
+            try:
+                url = obj.poster_image.url
+            except Exception:
+                return format_html('<span style="color:#e53935;">⚠ URL topilmadi</span>')
+            return format_html('<img src="{0}" style="width: 50px; height: auto; border-radius: 5px;" />', url)
         return "Rasm yo'q"
     display_poster.short_description = "Poster"
 
     def display_poster_preview(self, obj):
         """Edit sahifasida kattaroq rasmcha chiqaradi"""
         if obj.poster_image:
-            return format_html('<img src="{0}" style="width: 300px; height: auto; border-radius: 10px;" />', obj.poster_image.url)
+            try:
+                url = obj.poster_image.url
+            except Exception:
+                return format_html('<span style="color:#e53935;">⚠ URL topilmadi</span>')
+            return format_html('<img src="{0}" style="width: 300px; height: auto; border-radius: 10px;" />', url)
         return "Rasm yuklanmagan"
     display_poster_preview.short_description = "Poster Preview"

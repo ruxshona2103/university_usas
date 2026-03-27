@@ -14,10 +14,14 @@ class PublishableAdminMixin:
     @admin.display(description="Rasm")
     def image_preview(self, obj):
         if obj.image:
+            try:
+                url = obj.image.url
+            except Exception:
+                return format_html('<span style="color:#e53935;">⚠ Rasm URL topilmadi</span>')
             return format_html(
                 '<img src="{}" style="max-height: 120px; border-radius: 6px; '
                 'border: 1px solid #e0e0e0;" />',
-                obj.image.url
+                url
             )
         return format_html('<span style="color:#999;">Rasm yo\'q</span>')
 

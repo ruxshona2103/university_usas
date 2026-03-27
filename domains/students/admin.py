@@ -51,10 +51,14 @@ class PersonAdmin(admin.ModelAdmin):
     @admin.display(description="Rasm")
     def image_preview(self, obj):
         if obj.image:
+            try:
+                url = obj.image.url
+            except Exception:
+                return format_html('<span style="color:#e53935;">⚠ URL topilmadi</span>')
             return format_html(
                 '<img src="{}" style="max-height:60px; max-width:60px; '
                 'object-fit:cover; border-radius:50%;" />',
-                obj.image.url
+                url
             )
         return "—"
 

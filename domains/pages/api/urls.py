@@ -6,6 +6,7 @@ from .views import (
     PartnerListAPIView,
     NavbarListAPIView,
     NavbarPageDetailAPIView,
+    HeroVideoListAPIView
 )
 
 urlpatterns = [
@@ -13,6 +14,7 @@ urlpatterns = [
     path('president-quotes/', PresidentQuoteListAPIView.as_view(), name='president-quotes'),
     path('social-links/',     SocialLinkListAPIView.as_view(),     name='social-links'),
     path('partners/',         PartnerListAPIView.as_view(),        name='partner-list'),
+    path('hero-video/',       HeroVideoListAPIView.as_view(),       name='hero-video-list'),
 
     # Navbar
     path('navbar/',

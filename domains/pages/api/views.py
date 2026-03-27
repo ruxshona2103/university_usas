@@ -6,13 +6,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 
-from domains.pages.models import ContactConfig, PresidentQuote, SocialLink, NavbarCategory, NavbarSubItem, Partner
+from domains.pages.models import ContactConfig, PresidentQuote, SocialLink, NavbarCategory, NavbarSubItem, Partner, HeroVideo
 from .serializers import (
     ContactConfigSerializer,
     PresidentQuoteSerializer,
     SocialLinkSerializer,
     NavbarPageSerializer,
     PartnerSerializer,
+    HeroVideoSerializer,
 )
 
 
@@ -117,3 +118,15 @@ class NavbarPageDetailAPIView(generics.RetrieveAPIView):
             )
         except NavbarSubItem.DoesNotExist:
             raise NotFound(detail="Sahifa topilmadi.")
+
+
+# ----------------------------------------------HERO VIDEO---------------------------------------------------------
+
+@extend_schema(tags=['pages'])
+class HeroVideoListAPIView(generics.ListAPIView):
+    
+    queryset = HeroVideo.objects.filter(is_active=True)
+    serializer_class = HeroVideoSerializer
+    permission_classes = [AllowAny]
+
+    pagination_class= None

@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import ContactConfig, PresidentQuote, SocialLink, NavbarCategory, NavbarSubItem, Partner
+from .models import ContactConfig, PresidentQuote, SocialLink, NavbarCategory, NavbarSubItem, Partner, HeroVideo
 
 
-# ALOQA SOZLAMASI  
+#----------------------------------------------ALOQA SOZLAMASI--------------------------------------------  
 
 @admin.register(ContactConfig)
 class ContactConfigAdmin(admin.ModelAdmin):
@@ -29,7 +29,7 @@ class ContactConfigAdmin(admin.ModelAdmin):
         return False
 
 
-# PREZIDENT IQTIBOSI
+# ----------------------------------------------PREZIDENT IQTIBOSI----------------------------------------------
 
 @admin.register(PresidentQuote)
 class PresidentQuoteAdmin(admin.ModelAdmin):
@@ -59,7 +59,7 @@ class PresidentQuoteAdmin(admin.ModelAdmin):
         return obj.quote_uz
 
 
-# IJTIMOIY TARMOQLAR
+# ----------------------------------------------IJTIMOIY TARMOQLAR----------------------------------------------
 
 @admin.register(SocialLink)
 class SocialLinkAdmin(admin.ModelAdmin):
@@ -96,7 +96,7 @@ class SocialLinkAdmin(admin.ModelAdmin):
         )
 
 
-# NAVBAR BO'LIMLARI 
+# ----------------------------------------------NAVBAR BO'LIMLARI----------------------------------------------
 
 class NavbarSubItemInline(admin.TabularInline):
     """Bo'lim sahifasida subitemlarni to'g'ridan-to'g'ri ko'rish/tahrirlash"""
@@ -208,9 +208,7 @@ class NavbarSubItemAdmin(admin.ModelAdmin):
         )
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# HAMKORLARIMIZ
-# ─────────────────────────────────────────────────────────────────────────────
+# -------------------------------------------------HAMKORLARIMIZ--------------------------------------------------
 @admin.register(Partner)
 class PartnerAdmin(admin.ModelAdmin):
     list_display = ('logo_preview', 'title_uz', 'url', 'order', 'is_active')
@@ -242,3 +240,51 @@ class PartnerAdmin(admin.ModelAdmin):
                 obj.image.url
             )
         return "—"
+
+# -------------------------------------------------HERO VIDEO BO'LIMI--------------------------------------------------
+from django.contrib import admin
+from django.utils.html import format_html
+from .models import HeroVideo
+
+@admin.register(HeroVideo)
+class HeroVideoAdmin(admin.ModelAdmin):
+
+    list_display = ('display_poster', 'title', 'display_video_link', 'is_active', 'created_at')
+    list_filter = ('is_active',)
+    list_editable = ('is_active',)
+    search_fields = ('title',)
+    readonly_fields = ('created_at', 'display_poster_preview')
+
+    fieldsets = (
+        ('Video ma\'lumotlari', {
+            'fields': ('title', 'video_url', 'poster_image', 'is_active')
+        }),
+        ('Preview (Ko\'rinishi)', {
+            'fields': ('display_poster_preview',),
+        }),
+        ('Texnik ma\'lumotlar', {
+            'classes': ('collapse',),
+            'fields': ('created_at',) 
+        }),
+    )
+
+    def display_video_link(self, obj):
+        """Video URLni bosiladigan havola ko'rinishida chiqaradi"""
+        if obj.video_url:
+            return format_html('<a href="{0}" target="_blank">Videoni ko\'rish</a>', obj.video_url)
+        return "Havola yo'q"
+    display_video_link.short_description = "Video Link"
+
+    def display_poster(self, obj):
+        """Ro'yxatda kichik rasmcha chiqaradi"""
+        if obj.poster_image:
+            return format_html('<img src="{0}" style="width: 50px; height: auto; border-radius: 5px;" />', obj.poster_image.url)
+        return "Rasm yo'q"
+    display_poster.short_description = "Poster"
+
+    def display_poster_preview(self, obj):
+        """Edit sahifasida kattaroq rasmcha chiqaradi"""
+        if obj.poster_image:
+            return format_html('<img src="{0}" style="width: 300px; height: auto; border-radius: 10px;" />', obj.poster_image.url)
+        return "Rasm yuklanmagan"
+    display_poster_preview.short_description = "Poster Preview"

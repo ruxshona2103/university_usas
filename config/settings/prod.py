@@ -40,14 +40,16 @@ imagekit_url_endpoint = os.getenv('IMAGEKIT_URL_ENDPOINT')
 
 if imagekit_public_key and imagekit_private_key and imagekit_url_endpoint:
     INSTALLED_APPS += ['imagekitio_storage']
-    IMAGEKIT_STORAGE = {
+    IMAGEKITIO_SETTINGS = {
         'PUBLIC_KEY': imagekit_public_key,
         'PRIVATE_KEY': imagekit_private_key,
         'URL_ENDPOINT': imagekit_url_endpoint,
     }
+    IMAGEKIT_STORAGE = IMAGEKITIO_SETTINGS
+
     STORAGES = {
         "default": {
-            "BACKEND": "imagekitio_storage.storage.ImageKitRenderStorage",
+            "BACKEND": "imagekitio_storage.storage.MediaImagekitStorage",
         },
         "staticfiles": {
             "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",

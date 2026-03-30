@@ -18,7 +18,8 @@ urlpatterns = [
     # Domenlar API lari
     path('api/', include('domains.pages.api.urls')),
     path('api/', include('domains.news.api.urls')),
-    path('api/', include('domains.students.api.urls'))
+    path('api/', include('domains.students.api.urls')),
+    path('api/', include('domains.academic.api.urls')),
 
 ]
 

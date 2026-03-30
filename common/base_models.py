@@ -20,13 +20,9 @@ class PublishableContent(TimeStampedModel):
     title_ru = models.CharField(max_length=255, blank=True, verbose_name="Sarlavha (Ru)")
     title_en = models.CharField(max_length=255, blank=True, verbose_name="Sarlavha (En)")
 
-    text_uz = models.TextField(verbose_name="To'liq matn (Uz)")
-    text_ru = models.TextField(blank=True, verbose_name="To'liq matn (Ru)")
-    text_en = models.TextField(blank=True, verbose_name="To'liq matn (En)")
-
-    description_uz = models.TextField(blank=True, verbose_name="Qisqa tavsif (Uz)")
-    description_ru = models.TextField(blank=True, verbose_name="Qisqa tavsif (Ru)")
-    description_en = models.TextField(blank=True, verbose_name="Qisqa tavsif (En)")
+    description_uz = models.TextField(verbose_name="Batafsil (Uz)")
+    description_ru = models.TextField(blank=True, verbose_name="Batafsil (Ru)")
+    description_en = models.TextField(blank=True, verbose_name="Batafsil (En)")
 
     keywords = models.CharField(max_length=500, blank=True, verbose_name="SEO Kalit so'zlar")
     date = models.DateTimeField(verbose_name="Sana")

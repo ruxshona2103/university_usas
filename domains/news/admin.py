@@ -56,15 +56,15 @@ class NewsAdmin(PublishableAdminMixin, admin.ModelAdmin):
 
     fieldsets = (
         ("O'zbek tili (majburiy)", {
-            'fields': ('image', 'image_preview', 'title_uz', 'description_uz', 'text_uz')
+            'fields': ('image', 'image_preview', 'title_uz', 'description_uz')
         }),
         ("Rus tili", {
             'classes': ('collapse',),
-            'fields': ('title_ru', 'description_ru', 'text_ru')
+            'fields': ('title_ru', 'description_ru')
         }),
         ("Ingliz tili", {
             'classes': ('collapse',),
-            'fields': ('title_en', 'description_en', 'text_en')
+            'fields': ('title_en', 'description_en')
         }),
         ("Qo'shimcha", {
             'fields': ('source', 'date', 'keywords', 'is_published')
@@ -86,15 +86,15 @@ class EventAdmin(PublishableAdminMixin, admin.ModelAdmin):
 
     fieldsets = (
         ("O'zbek tili (majburiy)", {
-            'fields': ('image', 'image_preview', 'title_uz', 'description_uz', 'text_uz')
+            'fields': ('image', 'image_preview', 'title_uz', 'description_uz')
         }),
         ("Rus tili", {
             'classes': ('collapse',),
-            'fields': ('title_ru', 'description_ru', 'text_ru')
+            'fields': ('title_ru', 'description_ru')
         }),
         ("Ingliz tili", {
             'classes': ('collapse',),
-            'fields': ('title_en', 'description_en', 'text_en')
+            'fields': ('title_en', 'description_en')
         }),
         ("Manzil", {
             'fields': ('location_uz', 'location_ru', 'location_en')
@@ -120,15 +120,15 @@ class BlogAdmin(PublishableAdminMixin, admin.ModelAdmin):
 
     fieldsets = (
         ("O'zbek tili (majburiy)", {
-            'fields': ('image', 'image_preview', 'title_uz', 'description_uz', 'text_uz')
+            'fields': ('image', 'image_preview', 'title_uz', 'description_uz')
         }),
         ("Rus tili", {
             'classes': ('collapse',),
-            'fields': ('title_ru', 'description_ru', 'text_ru')
+            'fields': ('title_ru', 'description_ru')
         }),
         ("Ingliz tili", {
             'classes': ('collapse',),
-            'fields': ('title_en', 'description_en', 'text_en')
+            'fields': ('title_en', 'description_en')
         }),
         ("Muallif va holat", {
             'fields': ('author', 'date', 'keywords', 'is_published')

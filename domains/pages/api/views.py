@@ -108,6 +108,12 @@ class NavbarPageDetailAPIView(generics.RetrieveAPIView):
     serializer_class = NavbarPageSerializer
     permission_classes = [AllowAny]
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        context['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return context
+
     def get_object(self):
         page_slug = self.kwargs.get('page_slug')
         try:

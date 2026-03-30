@@ -46,9 +46,7 @@ class PublishableAdminMixin:
         )
 
 
-# ─────────────────────────────────────────────────────────────────────────────
 # YANGILIKLAR
-# ─────────────────────────────────────────────────────────────────────────────
 @admin.register(News)
 class NewsAdmin(PublishableAdminMixin, admin.ModelAdmin):
     list_display = ('title_uz', 'date', 'source', 'is_published', 'views_badge', 'image_preview')
@@ -76,9 +74,7 @@ class NewsAdmin(PublishableAdminMixin, admin.ModelAdmin):
     )
 
 
-# ─────────────────────────────────────────────────────────────────────────────
 # TADBIRLAR
-# ─────────────────────────────────────────────────────────────────────────────
 @admin.register(Event)
 class EventAdmin(PublishableAdminMixin, admin.ModelAdmin):
     list_display = ('title_uz', 'date', 'start_time', 'location_uz', 'is_published', 'views_badge')
@@ -109,9 +105,7 @@ class EventAdmin(PublishableAdminMixin, admin.ModelAdmin):
     )
 
 
-# ─────────────────────────────────────────────────────────────────────────────
 # BLOG
-# ─────────────────────────────────────────────────────────────────────────────
 @admin.register(Blog)
 class BlogAdmin(PublishableAdminMixin, admin.ModelAdmin):
     list_display = ('title_uz', 'author_display', 'date', 'is_published', 'views_badge', 'image_preview')
@@ -145,3 +139,4 @@ class BlogAdmin(PublishableAdminMixin, admin.ModelAdmin):
             full_name = obj.author.get_full_name()
             return full_name if full_name else obj.author.username
         return format_html('<span style="color:#999;">—</span>')
+

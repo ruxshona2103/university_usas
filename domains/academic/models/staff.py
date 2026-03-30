@@ -1,7 +1,6 @@
 from django.db import models
 
 from common.base_models import TimeStampedModel
-from .unit import OrganizationUnit
 
 
 class StaffRole(models.TextChoices):
@@ -14,13 +13,13 @@ class StaffRole(models.TextChoices):
 
 
 class Staff(TimeStampedModel):
-    unit = models.ForeignKey(
-        OrganizationUnit,
+    navbar_item = models.ForeignKey(
+        'pages.NavbarSubItem',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name='staff',
-        verbose_name='Bo‘lim',
+        verbose_name='Navbar sahifasi',
     )
 
     role = models.CharField(max_length=20, choices=StaffRole.choices, verbose_name='Lavozim turi')
@@ -30,7 +29,7 @@ class Staff(TimeStampedModel):
     title_ru = models.CharField(max_length=255, blank=True, verbose_name='Lavozim nomi (Ru)')
     title_en = models.CharField(max_length=255, blank=True, verbose_name='Lavozim nomi (En)')
 
-    full_name = models.CharField(max_length=255, verbose_name='To‘liq ism')
+    full_name = models.CharField(max_length=255, verbose_name="To'liq ism")
 
     position_uz = models.CharField(max_length=255, blank=True, verbose_name='Ilmiy daraja / unvon (Uz)')
     position_ru = models.CharField(max_length=255, blank=True, verbose_name='Ilmiy daraja / unvon (Ru)')
@@ -57,7 +56,7 @@ class Staff(TimeStampedModel):
         verbose_name = 'Xodim'
         verbose_name_plural = 'Xodimlar'
         indexes = [
-            models.Index(fields=['unit', 'order']),
+            models.Index(fields=['navbar_item', 'order']),
             models.Index(fields=['role', 'is_active']),
             models.Index(fields=['is_head']),
         ]

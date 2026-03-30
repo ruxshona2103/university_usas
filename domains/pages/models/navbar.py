@@ -81,7 +81,7 @@ class NavbarSubItem(TimeStampedModel):
         max_length=500,
         blank=True,
         verbose_name="Yo'naltirish manzili (URL)",
-        help_text="Masalan: /api/v1/news/news/ yoki https://hemis.uz"
+        help_text="Masalan: /api/news/ yoki https://hemis.uz"
     )
 
     order = models.PositiveIntegerField(default=0, verbose_name="Tartib raqami")

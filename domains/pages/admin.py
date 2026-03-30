@@ -4,7 +4,7 @@ from django.utils.html import format_html
 from .models import ContactConfig, PresidentQuote, SocialLink, NavbarCategory, NavbarSubItem, Partner, HeroVideo
 
 
-#----------------------------------------------ALOQA SOZLAMASI--------------------------------------------  
+#----------------------------------------------ALOQA SOZLAMASI--------------------------------------------
 
 @admin.register(ContactConfig)
 class ContactConfigAdmin(admin.ModelAdmin):
@@ -161,7 +161,7 @@ class NavbarCategoryAdmin(admin.ModelAdmin):
         )
 
 
-# NAVBAR SAHIFALARI 
+# NAVBAR SAHIFALARI
 @admin.register(NavbarSubItem)
 class NavbarSubItemAdmin(admin.ModelAdmin):
     list_display = ('order', 'category', 'name_uz', 'page_type_badge', 'slug', 'is_active')
@@ -245,11 +245,8 @@ class PartnerAdmin(admin.ModelAdmin):
             )
         return "—"
 
-# -------------------------------------------------HERO VIDEO BO'LIMI--------------------------------------------------
-from django.contrib import admin
-from django.utils.html import format_html
-from .models import HeroVideo
 
+# -------------------------------------------------HERO VIDEO BO'LIMI--------------------------------------------------
 @admin.register(HeroVideo)
 class HeroVideoAdmin(admin.ModelAdmin):
 
@@ -268,19 +265,17 @@ class HeroVideoAdmin(admin.ModelAdmin):
         }),
         ('Texnik ma\'lumotlar', {
             'classes': ('collapse',),
-            'fields': ('created_at',) 
+            'fields': ('created_at',)
         }),
     )
 
     def display_video_link(self, obj):
-        """Video URLni bosiladigan havola ko'rinishida chiqaradi"""
         if obj.video_url:
             return format_html('<a href="{0}" target="_blank">Videoni ko\'rish</a>', obj.video_url)
         return "Havola yo'q"
     display_video_link.short_description = "Video Link"
 
     def display_poster(self, obj):
-        """Ro'yxatda kichik rasmcha chiqaradi"""
         if obj.poster_image:
             try:
                 url = obj.poster_image.url
@@ -291,7 +286,6 @@ class HeroVideoAdmin(admin.ModelAdmin):
     display_poster.short_description = "Poster"
 
     def display_poster_preview(self, obj):
-        """Edit sahifasida kattaroq rasmcha chiqaradi"""
         if obj.poster_image:
             try:
                 url = obj.poster_image.url

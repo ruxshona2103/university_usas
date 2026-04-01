@@ -1,5 +1,6 @@
 import uuid
 
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.utils.text import slugify
 
@@ -15,7 +16,8 @@ class TimeStampedModel(models.Model):
 
 class PublishableContent(TimeStampedModel):
     """Yangiliklar, blog, tadbirlar uchun asosiy klass."""
-    image = models.ImageField(upload_to='content/%Y/%m/', verbose_name="Asosiy rasm")
+    image  = models.ImageField(upload_to='content/%Y/%m/', verbose_name="Asosiy rasm")
+    images = GenericRelation('common.ContentImage', related_query_name='%(class)s')
 
     title_uz = models.CharField(max_length=255, verbose_name="Sarlavha (Uz)")
     title_ru = models.CharField(max_length=255, blank=True, verbose_name="Sarlavha (Ru)")

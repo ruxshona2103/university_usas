@@ -20,6 +20,11 @@ CORS_ALLOWED_ORIGINS = [
     ],
 ]
 
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r'^http://localhost:3\d{3}$',
+    r'^http://localhost:5\d{3}$',
+]
+
 # postgresql manzili
 database_url = os.getenv('DATABASE_URL')
 if database_url:

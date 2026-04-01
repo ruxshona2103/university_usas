@@ -1,7 +1,10 @@
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 
+from common.base_models import TimeStampedModel
 
-class HeroVideo(models.Model):
+
+class HeroVideo(TimeStampedModel):
     title = models.CharField(max_length=255, verbose_name="video nomi")
     video_url = models.URLField(
         max_length=500,
@@ -14,7 +17,7 @@ class HeroVideo(models.Model):
         help_text="Video yuborilmaguncha joylab turiladigan rasm (poster)"
     )
     is_active = models.BooleanField(default=True, verbose_name="Faolmi?")
-    created_at = models.DateTimeField(auto_now_add=True)
+    images = GenericRelation('common.ContentImage', related_query_name='hero_video')
 
     class Meta:
         verbose_name = "Asosiy page video"

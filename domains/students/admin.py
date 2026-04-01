@@ -1,32 +1,68 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Person, PersonCategory
+from domains.pages.models import NavbarSubItem
+from .models import Person, PersonCategory, PersonContent
 
+
+# ─── PersonCategory ───────────────────────────────────────────────────────────
 
 @admin.register(PersonCategory)
 class PersonCategoryAdmin(admin.ModelAdmin):
-    list_display  = ('title_uz', 'title_ru', 'title_en', 'slug')
+    list_display  = ('title_uz', 'navbar_item', 'slug', 'order')
+    list_editable = ('order',)
     search_fields = ('title_uz', 'title_ru', 'title_en')
-    prepopulated_fields = {'slug': ('title_uz',)}
+    readonly_fields = ('slug',)
     list_per_page = 20
 
     fieldsets = (
+        ("Navbar sahifasi", {
+            'fields': ('navbar_item',),
+            'description': "Bu kategoriya qaysi navbar sahifasiga tegishli?"
+        }),
         ("Kategoriya nomi", {
-            'fields': ('title_uz', 'title_ru', 'title_en', 'slug')
+            'fields': ('title_uz', 'title_ru', 'title_en')
+        }),
+        ("Tartib", {
+            'fields': ('order',)
+        }),
+        ('Texnik (avtomatik)', {
+            'classes': ('collapse',),
+            'fields': ('slug',)
         }),
     )
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'navbar_item':
+            kwargs['queryset'] = (
+                NavbarSubItem.objects
+                .filter(is_active=True)
+                .select_related('category')
+                .order_by('category__order', 'order', 'name_uz')
+            )
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+# ─── PersonContent inline ─────────────────────────────────────────────────────
+
+class PersonContentInline(admin.TabularInline):
+    model   = PersonContent
+    extra   = 1
+    fields  = ('tag', 'content_uz', 'content_ru', 'content_en', 'order')
+    ordering = ('order',)
+
+
+# ─── Person ───────────────────────────────────────────────────────────────────
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
-    list_display       = ('image_preview', 'full_name_uz', 'categories_list', 'order', 'is_active')
+    list_display       = ('image_preview', 'full_name_uz', 'category', 'order', 'is_active')
     list_display_links = ('full_name_uz',)
     list_editable      = ('order', 'is_active')
-    list_filter        = ('is_active', 'categories')
+    list_filter        = ('is_active', 'category')
     search_fields      = ('full_name_uz', 'full_name_ru', 'full_name_en')
-    filter_horizontal  = ('categories',)
-    readonly_fields    = ('image_preview',)
+    readonly_fields    = ('image_preview', 'created_at', 'updated_at')
+    inlines            = [PersonContentInline]
     list_per_page      = 20
 
     fieldsets = (
@@ -36,15 +72,20 @@ class PersonAdmin(admin.ModelAdmin):
         ("To'liq ismi", {
             'fields': ('full_name_uz', 'full_name_ru', 'full_name_en')
         }),
-        ("Tavsif", {
+        ("Tavsif (qisqa)", {
             'classes': ('collapse',),
             'fields': ('description_uz', 'description_ru', 'description_en')
         }),
-        ("Kategoriyalar", {
-            'fields': ('categories',)
+        ("Kategoriya", {
+            'fields': ('category',),
+            'description': "Qaysi bo'limga tegishli (Faxrlarimiz, Bitiruvchilar...)?"
         }),
         ("Tartib va holat", {
             'fields': ('order', 'is_active')
+        }),
+        ('Texnik', {
+            'classes': ('collapse',),
+            'fields': ('created_at', 'updated_at')
         }),
     )
 
@@ -61,10 +102,3 @@ class PersonAdmin(admin.ModelAdmin):
                 url
             )
         return "—"
-
-    @admin.display(description="Kategoriyalar")
-    def categories_list(self, obj):
-        cats = obj.categories.all()
-        if not cats:
-            return "—"
-        return ", ".join(c.title_uz for c in cats)

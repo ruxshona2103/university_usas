@@ -1,7 +1,13 @@
 from django.contrib import admin
+from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.html import format_html
 
-from .models import ContactConfig, PresidentQuote, SocialLink, NavbarCategory, NavbarSubItem, Partner, HeroVideo
+from common.models import ContentImage
+from .models import (
+    ContactConfig, PresidentQuote, SocialLink,
+    NavbarCategory, NavbarSubItem, Partner, HeroVideo,
+    ContentBlock, LinkBlock,
+)
 
 
 #----------------------------------------------ALOQA SOZLAMASI--------------------------------------------
@@ -294,3 +300,77 @@ class HeroVideoAdmin(admin.ModelAdmin):
             return format_html('<img src="{0}" style="width: 300px; height: auto; border-radius: 10px;" />', url)
         return "Rasm yuklanmagan"
     display_poster_preview.short_description = "Poster Preview"
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# CONTENT BLOCK
+# ──────────────────────────────────────────────────────────────────────────────
+
+class ContentImageInline(GenericTabularInline):
+    model  = ContentImage
+    extra  = 1
+    fields = ('image', 'order')
+
+
+@admin.register(ContentBlock)
+class ContentBlockAdmin(admin.ModelAdmin):
+    list_display  = ('navbar_item', 'title_uz', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter   = ('is_active', 'navbar_item__category')
+    search_fields = ('title_uz', 'title_ru', 'title_en')
+    readonly_fields = ('views', 'created_at', 'updated_at')
+    inlines       = [ContentImageInline]
+
+    fieldsets = (
+        ("Navbar sahifasi", {
+            'fields': ('navbar_item',),
+            'description': "Qaysi sahifada chiqishini tanlang.",
+        }),
+        ("Kontent", {
+            'fields': ('title_uz', 'title_ru', 'title_en',
+                       'description_uz', 'description_ru', 'description_en'),
+        }),
+        ("Havola (ixtiyoriy)", {
+            'fields': ('link',),
+        }),
+        ("Taglar", {
+            'fields': ('tags',),
+        }),
+        ("Tartib va holat", {
+            'fields': ('order', 'is_active'),
+        }),
+        ('Texnik', {
+            'classes': ('collapse',),
+            'fields': ('views', 'created_at', 'updated_at'),
+        }),
+    )
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# LINK BLOCK
+# ──────────────────────────────────────────────────────────────────────────────
+
+@admin.register(LinkBlock)
+class LinkBlockAdmin(admin.ModelAdmin):
+    list_display  = ('navbar_item', 'title_uz', 'link', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter   = ('is_active', 'navbar_item__category')
+    search_fields = ('title_uz', 'title_ru', 'title_en')
+    readonly_fields = ('created_at', 'updated_at')
+
+    fieldsets = (
+        ("Navbar sahifasi", {
+            'fields': ('navbar_item',),
+            'description': "Qaysi sahifada chiqishini tanlang.",
+        }),
+        ("Kontent", {
+            'fields': ('title_uz', 'title_ru', 'title_en', 'link', 'document_file'),
+        }),
+        ("Tartib va holat", {
+            'fields': ('order', 'is_active'),
+        }),
+        ('Texnik', {
+            'classes': ('collapse',),
+            'fields': ('created_at', 'updated_at'),
+        }),
+    )

@@ -6,7 +6,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 
-from domains.pages.models import ContactConfig, PresidentQuote, SocialLink, NavbarCategory, NavbarSubItem, Partner, HeroVideo
+from domains.pages.models import (
+    ContactConfig, PresidentQuote, SocialLink,
+    NavbarCategory, NavbarSubItem, Partner, HeroVideo,
+)
 from .serializers import (
     ContactConfigSerializer,
     PresidentQuoteSerializer,
@@ -17,45 +20,79 @@ from .serializers import (
 )
 
 
-@extend_schema(tags=['pages'])
+def _lang(request):
+    lang = request.query_params.get('lang', 'uz')
+    return lang if lang in ('uz', 'ru', 'en') else 'uz'
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Site-wide endpoints
+# ──────────────────────────────────────────────────────────────────────────────
+
+@extend_schema(tags=['pages'], summary="Aloqa ma'lumotlari")
 class ContactConfigAPIView(generics.RetrieveAPIView):
-    serializer_class = ContactConfigSerializer
+    """Yagona aloqa konfiguratsiyasi (singleton)."""
+    serializer_class   = ContactConfigSerializer
     permission_classes = [AllowAny]
 
     def get_object(self):
         return ContactConfig.get_solo()
 
 
-@extend_schema(tags=['pages'])
+@extend_schema(tags=['pages'], summary="Prezident iqtiboSlari")
 class PresidentQuoteListAPIView(generics.ListAPIView):
-    serializer_class = PresidentQuoteSerializer
+    """Faol prezident iqtiboslari ro'yxati."""
+    serializer_class   = PresidentQuoteSerializer
     permission_classes = [AllowAny]
+    pagination_class   = None
 
     def get_queryset(self):
         return PresidentQuote.objects.filter(is_active=True)
 
 
-@extend_schema(tags=['pages'])
+@extend_schema(tags=['pages'], summary="Ijtimoiy tarmoq havolalari")
 class SocialLinkListAPIView(generics.ListAPIView):
-    serializer_class = SocialLinkSerializer
+    """Faol ijtimoiy tarmoq havolalari."""
+    serializer_class   = SocialLinkSerializer
     permission_classes = [AllowAny]
+    pagination_class   = None
 
     def get_queryset(self):
         return SocialLink.objects.filter(is_active=True)
 
 
-@extend_schema(tags=['pages'])
+@extend_schema(tags=['pages'], summary="Hamkorlar")
 class PartnerListAPIView(generics.ListAPIView):
-    serializer_class = PartnerSerializer
+    """Faol hamkorlar ro'yxati."""
+    serializer_class   = PartnerSerializer
     permission_classes = [AllowAny]
+    pagination_class   = None
 
     def get_queryset(self):
         return Partner.objects.filter(is_active=True)
 
 
-# ----------------------------------------------NAVBAR---------------------------------------------------------
-@extend_schema(tags=['navbar'])
+@extend_schema(tags=['pages'], summary="Hero videolar")
+class HeroVideoListAPIView(generics.ListAPIView):
+    """Bosh sahifa hero video ro'yxati."""
+    serializer_class   = HeroVideoSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        return HeroVideo.objects.filter(is_active=True)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Navbar tree
+# ──────────────────────────────────────────────────────────────────────────────
+
+@extend_schema(tags=['navbar'], summary="Navbar daraxti (uz/ru/en)")
 class NavbarListAPIView(APIView):
+    """
+    To'liq navbar tuzilmasi uchta tilda.
+    Javob: { uz: [...], ru: [...], en: [...] }
+    """
     permission_classes = [AllowAny]
 
     def get(self, request):
@@ -65,7 +102,7 @@ class NavbarListAPIView(APIView):
             .prefetch_related(
                 models.Prefetch(
                     'items',
-                    queryset=NavbarSubItem.objects.filter(is_active=True).order_by('order')
+                    queryset=NavbarSubItem.objects.filter(is_active=True).order_by('order'),
                 )
             )
             .order_by('order')
@@ -75,10 +112,7 @@ class NavbarListAPIView(APIView):
             for cat in categories:
                 children = []
                 for item in cat.items.all():
-                    if item.page_type == NavbarSubItem.PageType.REDIRECT:
-                        url = item.redirect_url or ''
-                    else:
-                        url = f'/page/{item.slug}'
+                    url = item.redirect_url if item.page_type == NavbarSubItem.PageType.REDIRECT else f'/page/{item.slug}'
                     children.append({
                         'id':    str(item.id),
                         'name':  getattr(item, f'name_{lang}') or item.name_uz,
@@ -86,53 +120,53 @@ class NavbarListAPIView(APIView):
                         'url':   url,
                         'order': item.order,
                     })
-
-                has_children = len(children) > 0
-                url = cat.direct_url or f'/page/{cat.slug}'
-
-                cat_entry = {
+                result[lang].append({
                     'key':          cat.slug,
                     'slug':         cat.slug,
                     'label':        getattr(cat, f'name_{lang}') or cat.name_uz,
                     'order':        cat.order,
-                    'has_children': has_children,
-                    'url':          url,
+                    'has_children': bool(children),
+                    'url':          cat.direct_url or f'/page/{cat.slug}',
                     'children':     children,
-                }
-                result[lang].append(cat_entry)
+                })
         return Response(result)
 
 
-@extend_schema(tags=['navbar'])
+# ──────────────────────────────────────────────────────────────────────────────
+# Universal page detail
+# ──────────────────────────────────────────────────────────────────────────────
+
+@extend_schema(tags=['navbar'], summary="Sahifa kontenti (slug bo'yicha)")
 class NavbarPageDetailAPIView(generics.RetrieveAPIView):
-    serializer_class = NavbarPageSerializer
+    """
+    /api/pages/{slug}/ — universal endpoint.
+    NavbarSubItem ga bog'liq barcha kontent qaytariladi:
+    staff, content_blocks, link_blocks, information, foreign_reviews.
+    ?lang=uz|ru|en (default: uz)
+    """
+    serializer_class   = NavbarPageSerializer
     permission_classes = [AllowAny]
 
     def get_serializer_context(self):
-        context = super().get_serializer_context()
-        lang = self.request.query_params.get('lang', 'uz')
-        context['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
-        return context
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
 
     def get_object(self):
-        page_slug = self.kwargs.get('page_slug')
+        slug = self.kwargs.get('page_slug')
         try:
             return (
                 NavbarSubItem.objects
                 .select_related('category')
-                .get(slug=page_slug, is_active=True)
+                .prefetch_related(
+                    'staff',
+                    'contentblock_items__images',
+                    'contentblock_items__tags',
+                    'linkblock_items',
+                    'information_items__images',
+                    'foreign_reviews',
+                )
+                .get(slug=slug, is_active=True)
             )
         except NavbarSubItem.DoesNotExist:
             raise NotFound(detail="Sahifa topilmadi.")
-
-
-# ----------------------------------------------HERO VIDEO---------------------------------------------------------
-
-@extend_schema(tags=['pages'])
-class HeroVideoListAPIView(generics.ListAPIView):
-    
-    queryset = HeroVideo.objects.filter(is_active=True)
-    serializer_class = HeroVideoSerializer
-    permission_classes = [AllowAny]
-
-    pagination_class= None

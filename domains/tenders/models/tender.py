@@ -1,0 +1,50 @@
+from django.db import models
+
+from common.base_models import TimeStampedModel
+
+
+class TenderAnnouncement(TimeStampedModel):
+    """Tenderlar va e'lonlar."""
+    title_uz = models.CharField(max_length=500, verbose_name="Sarlavha (Uz)")
+    title_ru = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (Ru)")
+    title_en = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (En)")
+
+    description_uz = models.TextField(null=True, blank=True, verbose_name="Tavsif (Uz)")
+    description_ru = models.TextField(null=True, blank=True, verbose_name="Tavsif (Ru)")
+    description_en = models.TextField(null=True, blank=True, verbose_name="Tavsif (En)")
+
+    date    = models.DateTimeField(verbose_name="Sana")
+    address = models.CharField(max_length=300, blank=True, verbose_name="Manzil")
+    email   = models.EmailField(blank=True, verbose_name="Email")
+    phone   = models.CharField(max_length=25, blank=True, verbose_name="Telefon")
+
+    is_published = models.BooleanField(default=True, verbose_name="Chiqarilsinmi?")
+    views        = models.PositiveIntegerField(default=0, verbose_name="Ko'rishlar soni")
+
+    class Meta:
+        db_table            = 'tenders_announcement'
+        ordering            = ['-date']
+        verbose_name        = "Tender / E'lon"
+        verbose_name_plural = "Tenderlar va e'lonlar"
+
+    def __str__(self):
+        return self.title_uz
+
+
+class TenderImage(TimeStampedModel):
+    """TenderAnnouncement uchun ko'p rasm."""
+    tender = models.ForeignKey(
+        TenderAnnouncement,
+        on_delete=models.CASCADE,
+        related_name='images',
+        verbose_name='Tender',
+    )
+    image = models.ImageField(upload_to='tenders/%Y/%m/', verbose_name="Rasm")
+    order = models.PositiveIntegerField(default=0, verbose_name="Tartib")
+
+    class Meta:
+        db_table = 'tenders_image'
+        ordering = ['order']
+
+    def __str__(self):
+        return f'Rasm #{self.order} — {self.tender}'

@@ -1,7 +1,11 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import News, Event, Blog
+from .models import (
+    News, Event, Blog,
+    InformationContent, InformationImage,
+    RectorActivity, Briefing, Contest, PressService, PhotoGallery, VideoGallery,
+)
 
 
 # UMUMIY MIXIN — News, Event, Blog uchun takrorlanuvchi logika
@@ -140,3 +144,159 @@ class BlogAdmin(PublishableAdminMixin, admin.ModelAdmin):
             return full_name if full_name else obj.author.username
         return format_html('<span style="color:#999;">—</span>')
 
+
+# ──────────────────────────────────────────────────────────────────────────────
+# AXBOROT XIZMATI
+# ──────────────────────────────────────────────────────────────────────────────
+
+class InformationImageInline(admin.TabularInline):
+    model   = InformationImage
+    extra   = 1
+    fields  = ('image', 'order')
+    ordering = ('order',)
+
+
+class InformationContentAdminBase(admin.ModelAdmin):
+    """Barcha InformationContent proxy adminlari uchun umumiy base."""
+    list_display  = ('title_uz', 'content_type', 'navbar_item', 'date', 'is_published', 'views')
+    list_filter   = ('is_published', 'navbar_item')
+    search_fields = ('title_uz', 'title_ru', 'title_en')
+    list_per_page = 20
+    readonly_fields = ('views', 'created_at', 'updated_at')
+    inlines = [InformationImageInline]
+
+    fieldsets = (
+        ("O'zbek tili (majburiy)", {
+            'fields': ('title_uz', 'description_uz')
+        }),
+        ("Rus tili", {
+            'classes': ('collapse',),
+            'fields': ('title_ru', 'description_ru')
+        }),
+        ("Ingliz tili", {
+            'classes': ('collapse',),
+            'fields': ('title_en', 'description_en')
+        }),
+        ("Sozlamalar", {
+            'fields': ('navbar_item', 'content_type', 'date', 'video_url', 'external_url', 'is_published')
+        }),
+        ('Texnik (avtomatik)', {
+            'classes': ('collapse',),
+            'fields': ('views', 'created_at', 'updated_at')
+        }),
+    )
+
+
+@admin.register(RectorActivity)
+class RectorActivityAdmin(InformationContentAdminBase):
+    """Rektor tadbirlari va nutqlari."""
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(content_type='rector')
+
+    def save_model(self, request, obj, form, change):
+        obj.content_type = 'rector'
+        super().save_model(request, obj, form, change)
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super().get_fieldsets(request, obj)
+        # content_type maydonini yashir — avtomatik belgilanadi
+        return [
+            (name, {**opts, 'fields': [f for f in opts['fields'] if f != 'content_type']})
+            for name, opts in fieldsets
+        ]
+
+
+@admin.register(Briefing)
+class BrifingAdmin(InformationContentAdminBase):
+    """Brifinglar."""
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(content_type='briefing')
+
+    def save_model(self, request, obj, form, change):
+        obj.content_type = 'briefing'
+        super().save_model(request, obj, form, change)
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super().get_fieldsets(request, obj)
+        return [
+            (name, {**opts, 'fields': [f for f in opts['fields'] if f != 'content_type']})
+            for name, opts in fieldsets
+        ]
+
+
+@admin.register(Contest)
+class TanlovAdmin(InformationContentAdminBase):
+    """Tanlovlar."""
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(content_type='contest')
+
+    def save_model(self, request, obj, form, change):
+        obj.content_type = 'contest'
+        super().save_model(request, obj, form, change)
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super().get_fieldsets(request, obj)
+        return [
+            (name, {**opts, 'fields': [f for f in opts['fields'] if f != 'content_type']})
+            for name, opts in fieldsets
+        ]
+
+
+@admin.register(PressService)
+class MatbuotXizmatiAdmin(InformationContentAdminBase):
+    """Matbuot xizmati."""
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(content_type='press')
+
+    def save_model(self, request, obj, form, change):
+        obj.content_type = 'press'
+        super().save_model(request, obj, form, change)
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super().get_fieldsets(request, obj)
+        return [
+            (name, {**opts, 'fields': [f for f in opts['fields'] if f != 'content_type']})
+            for name, opts in fieldsets
+        ]
+
+
+@admin.register(PhotoGallery)
+class FotogalereyaAdmin(InformationContentAdminBase):
+    """Fotogalereya."""
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(content_type='photo')
+
+    def save_model(self, request, obj, form, change):
+        obj.content_type = 'photo'
+        super().save_model(request, obj, form, change)
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super().get_fieldsets(request, obj)
+        return [
+            (name, {**opts, 'fields': [f for f in opts['fields'] if f != 'content_type']})
+            for name, opts in fieldsets
+        ]
+
+
+@admin.register(VideoGallery)
+class VideogalereyaAdmin(InformationContentAdminBase):
+    """Videogalereya."""
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(content_type='video')
+
+    def save_model(self, request, obj, form, change):
+        obj.content_type = 'video'
+        super().save_model(request, obj, form, change)
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super().get_fieldsets(request, obj)
+        return [
+            (name, {**opts, 'fields': [f for f in opts['fields'] if f != 'content_type']})
+            for name, opts in fieldsets
+        ]

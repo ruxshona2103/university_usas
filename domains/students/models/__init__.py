@@ -1,3 +1,3 @@
-from .honored_people import Person, PersonCategory
+from .honored_people import Person, PersonCategory, PersonContent
 
-__all__ = ['Person', 'PersonCategory']
+__all__ = ['Person', 'PersonCategory', 'PersonContent']

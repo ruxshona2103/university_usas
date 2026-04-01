@@ -11,6 +11,15 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    'https://o-zdsa.vercel.app',
+    *[
+        origin.strip()
+        for origin in os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
+        if origin.strip()
+    ],
+]
+
 # postgresql manzili
 database_url = os.getenv('DATABASE_URL')
 if database_url:

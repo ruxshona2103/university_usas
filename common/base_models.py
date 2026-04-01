@@ -5,15 +5,16 @@ from django.utils.text import slugify
 
 
 class TimeStampedModel(models.Model):
-    id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False,verbose_name="ID")
+    id         = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name="ID")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Yaratilgan vaqt")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="Yangilangan vaqt")
+    updated_at = models.DateTimeField(auto_now=True,     verbose_name="Yangilangan vaqt")
 
     class Meta:
         abstract = True
 
 
 class PublishableContent(TimeStampedModel):
+    """Yangiliklar, blog, tadbirlar uchun asosiy klass."""
     image = models.ImageField(upload_to='content/%Y/%m/', verbose_name="Asosiy rasm")
 
     title_uz = models.CharField(max_length=255, verbose_name="Sarlavha (Uz)")
@@ -24,11 +25,11 @@ class PublishableContent(TimeStampedModel):
     description_ru = models.TextField(blank=True, verbose_name="Batafsil (Ru)")
     description_en = models.TextField(blank=True, verbose_name="Batafsil (En)")
 
-    keywords = models.CharField(max_length=500, blank=True, verbose_name="SEO Kalit so'zlar")
-    date = models.DateTimeField(verbose_name="Sana")
-    slug = models.SlugField(unique=True, blank=True, max_length=300)
+    keywords   = models.CharField(max_length=500, blank=True, verbose_name="SEO Kalit so'zlar")
+    date       = models.DateTimeField(verbose_name="Sana")
+    slug       = models.SlugField(unique=True, blank=True, max_length=300)
     is_published = models.BooleanField(default=True, verbose_name="Saytga chiqarilsinmi?")
-    views = models.PositiveIntegerField(default=0, verbose_name="Ko'rishlar soni")
+    views      = models.PositiveIntegerField(default=0, verbose_name="Ko'rishlar soni")
 
     class Meta:
         abstract = True
@@ -47,3 +48,69 @@ class PublishableContent(TimeStampedModel):
 
     def get_title(self, lang='uz'):
         return getattr(self, f'title_{lang}', self.title_uz) or self.title_uz
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Navbar sahifalariga bog'liq kontent uchun abstract bazalar
+# ──────────────────────────────────────────────────────────────────────────────
+
+class NavbarLinkedContent(TimeStampedModel):
+    """
+    NavbarSubItem ga FK orqali bog'langan kontent uchun asos.
+    Admin panelda qaysi sahifaga tegishli ekanini tanlash imkonini beradi.
+    """
+    navbar_item = models.ForeignKey(
+        'pages.NavbarSubItem',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='%(class)s_items',
+        verbose_name='Navbar sahifasi',
+    )
+    order     = models.PositiveIntegerField(default=0, verbose_name="Tartib")
+    is_active = models.BooleanField(default=True, verbose_name="Faolmi?")
+
+    class Meta:
+        abstract = True
+        ordering = ['order', 'created_at']
+
+
+class MultiLangImageContent(NavbarLinkedContent):
+    """
+    Rasm + title + description bo'lgan, navbar sahifasiga bog'liq kontent.
+    title/description nullable — ba'zi sahifalarda bo'sh bo'lishi mumkin.
+    images — ContentImage orqali ko'p rasm qo'shiladi (GenericFK).
+    """
+    title_uz = models.CharField(max_length=500, null=True, blank=True, verbose_name="Sarlavha (Uz)")
+    title_ru = models.CharField(max_length=500, null=True, blank=True, verbose_name="Sarlavha (Ru)")
+    title_en = models.CharField(max_length=500, null=True, blank=True, verbose_name="Sarlavha (En)")
+
+    description_uz = models.TextField(null=True, blank=True, verbose_name="Tavsif (Uz)")
+    description_ru = models.TextField(null=True, blank=True, verbose_name="Tavsif (Ru)")
+    description_en = models.TextField(null=True, blank=True, verbose_name="Tavsif (En)")
+
+    link  = models.CharField(max_length=500, null=True, blank=True, verbose_name="Havola (URL)")
+    views = models.PositiveIntegerField(default=0, verbose_name="Ko'rishlar soni")
+
+    class Meta:
+        abstract = True
+
+
+class LinkableContent(NavbarLinkedContent):
+    """
+    Title + link bo'lgan kontent (me'yoriy hujjatlar, ma'naviyat rukni va h.k.).
+    document_file ixtiyoriy — PDF yuklash uchun.
+    """
+    title_uz = models.CharField(max_length=500, verbose_name="Sarlavha (Uz)")
+    title_ru = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (Ru)")
+    title_en = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (En)")
+
+    link          = models.CharField(max_length=500, blank=True, verbose_name="Havola (URL)")
+    document_file = models.FileField(
+        upload_to='documents/%Y/%m/',
+        null=True, blank=True,
+        verbose_name="Fayl (PDF)",
+    )
+
+    class Meta:
+        abstract = True

@@ -31,12 +31,14 @@ INSTALLED_APPS = [
     'django_celery_results',
     'django_celery_beat',
     
+    'common',
     'domains.pages',
     'domains.academic',
     'domains.activity',
     'domains.international',
     'domains.students',
     'domains.news',
+    'domains.tenders',
     'domains.admissions',
     'domains.contact',
     'domains.alumni',
@@ -79,7 +81,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 
-# Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [

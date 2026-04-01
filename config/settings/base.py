@@ -34,14 +34,11 @@ INSTALLED_APPS = [
     'common',
     'domains.pages',
     'domains.academic',
-    'domains.activity',
     'domains.international',
     'domains.students',
     'domains.news',
     'domains.tenders',
-    'domains.admissions',
     'domains.contact',
-    'domains.alumni',
 
 ]
 

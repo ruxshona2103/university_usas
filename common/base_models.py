@@ -39,12 +39,18 @@ class PublishableContent(TimeStampedModel):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            base_slug = slugify(self.title_uz)
+            base_slug = slugify(self.title_uz) or str(self.pk)[:8]
             slug = base_slug
             counter = 1
-            while self.__class__.objects.filter(slug=slug).exists():
+            qs = self.__class__.objects.filter(slug=slug)
+            if self.pk:
+                qs = qs.exclude(pk=self.pk)
+            while qs.exists():
                 slug = f"{base_slug}-{counter}"
                 counter += 1
+                qs = self.__class__.objects.filter(slug=slug)
+                if self.pk:
+                    qs = qs.exclude(pk=self.pk)
             self.slug = slug
         super().save(*args, **kwargs)
 

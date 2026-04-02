@@ -5,13 +5,38 @@ from common.base_models import MultiLangImageContent, LinkableContent
 from common.models import ContentImage
 
 
+class BlockType(models.TextChoices):
+    HERO       = 'hero',       'Hero banner'
+    RICH_TEXT  = 'rich-text',  'Matn (HTML)'
+    STATS      = 'stats',      'Statistikalar'
+    GALLERY    = 'gallery',    'Galereya'
+    QUOTE      = 'quote',      'Iqtibos'
+    TABLE      = 'table',      'Jadval'
+    TIMELINE   = 'timeline',   "Vaqt chizig'i"
+
+
+class LinkBlockType(models.TextChoices):
+    FILE_LIST     = 'file-list',     "Fayllar ro'yxati"
+    USEFUL_LINKS  = 'useful-links',  'Foydali havolalar'
+
+
 class ContentBlock(MultiLangImageContent):
     """
     Universal kontent bloki — navbar sahifasiga bog'liq.
-    Akademiya raqamlarda, Yashil akademiya, Ekofaol, Psixolog,
-    Talabalar hayoti, Kontrakt narxlari va h.k. uchun.
-    Admin da navbar_item tanlanadi — qaysi sahifaga tegishli.
+    block_type orqali frontend qanday komponent ko'rsatishini biladi.
+    json_data — stats/table/timeline uchun strukturali ma'lumot (JSON).
     """
+    block_type = models.CharField(
+        max_length=20,
+        choices=BlockType.choices,
+        default=BlockType.RICH_TEXT,
+        verbose_name='Blok turi',
+    )
+    json_data = models.JSONField(
+        null=True, blank=True,
+        verbose_name='JSON ma\'lumot',
+        help_text='Stats, table, timeline uchun strukturali JSON. Rich-text/hero/gallery da bo\'sh qoldiring.',
+    )
     tags   = models.ManyToManyField(
         'common.Tag',
         blank=True,
@@ -38,8 +63,15 @@ class ContentBlock(MultiLangImageContent):
 class LinkBlock(LinkableContent):
     """
     Havola bloki — faqat title + link bo'lgan kontent.
-    Me'yoriy hujjatlar, Ma'naviyat rukni, Mening Konstitutsiyam uchun.
+    block_type: file-list (PDF yuklab olish) yoki useful-links (oddiy havolalar).
     """
+    block_type = models.CharField(
+        max_length=20,
+        choices=LinkBlockType.choices,
+        default=LinkBlockType.USEFUL_LINKS,
+        verbose_name='Blok turi',
+    )
+
     class Meta:
         db_table         = 'pages_link_block'
         verbose_name     = 'Havola bloki'

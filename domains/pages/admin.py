@@ -314,24 +314,33 @@ class ContentImageInline(GenericTabularInline):
 
 @admin.register(ContentBlock)
 class ContentBlockAdmin(admin.ModelAdmin):
-    list_display  = ('navbar_item', 'title_uz', 'order', 'is_active')
+    list_display  = ('navbar_item', 'block_type', 'title_uz', 'order', 'is_active')
     list_editable = ('order', 'is_active')
-    list_filter   = ('is_active', 'navbar_item__category')
+    list_filter   = ('block_type', 'is_active', 'navbar_item__category')
     search_fields = ('title_uz', 'title_ru', 'title_en')
     readonly_fields = ('views', 'created_at', 'updated_at')
     inlines       = [ContentImageInline]
 
     fieldsets = (
-        ("Navbar sahifasi", {
-            'fields': ('navbar_item',),
-            'description': "Qaysi sahifada chiqishini tanlang.",
+        ("Navbar sahifasi va blok turi", {
+            'fields': ('navbar_item', 'block_type'),
+            'description': (
+                "Blok turini tanlang: Hero — sarlavha+tagline, Rich-text — HTML matn, "
+                "Stats/Table/Timeline — JSON ma'lumot kiritiladi, Gallery — rasmlar qo'shiladi."
+            ),
         }),
-        ("Kontent", {
+        ("Kontent (hero / rich-text / gallery / quote uchun)", {
             'fields': ('title_uz', 'title_ru', 'title_en',
-                       'description_uz', 'description_ru', 'description_en'),
+                       'description_uz', 'description_ru', 'description_en', 'link'),
         }),
-        ("Havola (ixtiyoriy)", {
-            'fields': ('link',),
+        ("JSON ma'lumot (stats / table / timeline uchun)", {
+            'classes': ('collapse',),
+            'fields': ('json_data',),
+            'description': (
+                "Stats misoli: {\"stats\": [{\"value\": 5247, \"label\": \"Talabalar\", \"suffix\": \"\"}]}<br>"
+                "Table misoli: {\"headers\": [\"Kod\", \"Nomi\"], \"rows\": [[\"001\", \"...\"]]} <br>"
+                "Timeline misoli: {\"events\": [{\"date\": \"1991\", \"title\": \"...\", \"description\": \"...\"}]}"
+            ),
         }),
         ("Taglar", {
             'fields': ('tags',),
@@ -352,16 +361,16 @@ class ContentBlockAdmin(admin.ModelAdmin):
 
 @admin.register(LinkBlock)
 class LinkBlockAdmin(admin.ModelAdmin):
-    list_display  = ('navbar_item', 'title_uz', 'link', 'order', 'is_active')
+    list_display  = ('navbar_item', 'block_type', 'title_uz', 'link', 'order', 'is_active')
     list_editable = ('order', 'is_active')
-    list_filter   = ('is_active', 'navbar_item__category')
+    list_filter   = ('block_type', 'is_active', 'navbar_item__category')
     search_fields = ('title_uz', 'title_ru', 'title_en')
     readonly_fields = ('created_at', 'updated_at')
 
     fieldsets = (
-        ("Navbar sahifasi", {
-            'fields': ('navbar_item',),
-            'description': "Qaysi sahifada chiqishini tanlang.",
+        ("Navbar sahifasi va blok turi", {
+            'fields': ('navbar_item', 'block_type'),
+            'description': "Useful-links — oddiy havolalar ro'yxati. File-list — yuklab olinadigan fayllar.",
         }),
         ("Kontent", {
             'fields': ('title_uz', 'title_ru', 'title_en', 'link', 'document_file'),

@@ -245,31 +245,22 @@ class _ForeignReviewSerializer(serializers.Serializer):
 class NavbarPageSerializer(serializers.ModelSerializer):
     """
     /api/pages/{slug}/ — universal page serializer.
-    NavbarSubItem ga bog'liq barcha kontent turlari qaytariladi.
+    Barcha kontent turlari bitta `blocks` array da qaytariladi,
+    frontend tipiga qarab komponent ko'rsatadi.
+
+    Block turlari:
+      hero, rich-text, stats, gallery, quote, table, timeline  ← ContentBlock
+      file-list, useful-links                                   ← LinkBlock
+      staff-grid                                                ← Staff
+      information-list                                          ← InformationContent
+      foreign-reviews                                           ← ForeignProfessorReview
     """
-    name                = serializers.SerializerMethodField()
-    content             = serializers.SerializerMethodField()
-    has_staff           = serializers.SerializerMethodField()
-    staff               = serializers.SerializerMethodField()
-    has_content_blocks  = serializers.SerializerMethodField()
-    content_blocks      = serializers.SerializerMethodField()
-    has_link_blocks     = serializers.SerializerMethodField()
-    link_blocks         = serializers.SerializerMethodField()
-    has_information     = serializers.SerializerMethodField()
-    information         = serializers.SerializerMethodField()
-    has_foreign_reviews = serializers.SerializerMethodField()
-    foreign_reviews     = serializers.SerializerMethodField()
+    name   = serializers.SerializerMethodField()
+    blocks = serializers.SerializerMethodField()
 
     class Meta:
         model  = NavbarSubItem
-        fields = [
-            'id', 'slug', 'name', 'page_type', 'content', 'redirect_url',
-            'has_staff',          'staff',
-            'has_content_blocks', 'content_blocks',
-            'has_link_blocks',    'link_blocks',
-            'has_information',    'information',
-            'has_foreign_reviews','foreign_reviews',
-        ]
+        fields = ['id', 'slug', 'name', 'page_type', 'redirect_url', 'blocks']
 
     def _lang(self):
         return self.context.get('lang', 'uz')
@@ -278,56 +269,119 @@ class NavbarPageSerializer(serializers.ModelSerializer):
         lang = self._lang()
         return getattr(obj, f'name_{lang}') or obj.name_uz
 
-    def get_content(self, obj):
-        lang = self._lang()
-        return getattr(obj, f'content_{lang}') or obj.content_uz
+    def get_blocks(self, obj):
+        blocks = []
 
-    # ── Staff ──
-    def get_has_staff(self, obj):
-        return obj.staff.filter(is_active=True).exists()
-
-    def get_staff(self, obj):
-        qs = obj.staff.filter(is_active=True).order_by('-is_head', 'order')
-        return _StaffSerializer(qs, many=True, context=self.context).data
-
-    # ── ContentBlock ──
-    def get_has_content_blocks(self, obj):
-        return obj.contentblock_items.filter(is_active=True).exists()
-
-    def get_content_blocks(self, obj):
-        qs = (
+        # ── ContentBlock (hero/rich-text/stats/gallery/quote/table/timeline) ──
+        cb_qs = (
             obj.contentblock_items
             .filter(is_active=True)
             .prefetch_related('images', 'tags')
             .order_by('order', 'created_at')
         )
-        return _ContentBlockSerializer(qs, many=True, context=self.context).data
+        for cb in cb_qs:
+            blocks.append({
+                'type':  cb.block_type,
+                'order': cb.order,
+                'data':  self._content_block_data(cb),
+            })
 
-    # ── LinkBlock ──
-    def get_has_link_blocks(self, obj):
-        return obj.linkblock_items.filter(is_active=True).exists()
+        # ── LinkBlock (file-list / useful-links) ──
+        lb_qs = obj.linkblock_items.filter(is_active=True).order_by('order', 'created_at')
+        for lb in lb_qs:
+            blocks.append({
+                'type':  lb.block_type,
+                'order': lb.order,
+                'data':  self._link_block_data(lb),
+            })
 
-    def get_link_blocks(self, obj):
-        qs = obj.linkblock_items.filter(is_active=True).order_by('order', 'created_at')
-        return _LinkBlockSerializer(qs, many=True, context=self.context).data
+        # ── Staff → staff-grid ──
+        staff_qs = obj.staff.filter(is_active=True).order_by('-is_head', 'order')
+        if staff_qs.exists():
+            blocks.append({
+                'type':  'staff-grid',
+                'order': 9000,
+                'data': {
+                    'staff': _StaffSerializer(
+                        staff_qs, many=True, context=self.context
+                    ).data,
+                },
+            })
 
-    # ── InformationContent (news domain) ──
-    def get_has_information(self, obj):
-        return obj.information_items.filter(is_published=True).exists()
-
-    def get_information(self, obj):
-        qs = (
+        # ── InformationContent → information-list ──
+        info_qs = (
             obj.information_items
             .filter(is_published=True)
             .prefetch_related('images')
             .order_by('-date', '-created_at')
         )
-        return _InformationItemSerializer(qs, many=True, context=self.context).data
+        if info_qs.exists():
+            blocks.append({
+                'type':  'information-list',
+                'order': 9100,
+                'data': {
+                    'items': _InformationItemSerializer(
+                        info_qs, many=True, context=self.context
+                    ).data,
+                },
+            })
 
-    # ── ForeignProfessorReview (international domain) ──
-    def get_has_foreign_reviews(self, obj):
-        return obj.foreign_reviews.filter(is_active=True).exists()
+        # ── ForeignProfessorReview → foreign-reviews ──
+        fr_qs = obj.foreign_reviews.filter(is_active=True).order_by('order', 'created_at')
+        if fr_qs.exists():
+            blocks.append({
+                'type':  'foreign-reviews',
+                'order': 9200,
+                'data': {
+                    'reviews': _ForeignReviewSerializer(
+                        fr_qs, many=True, context=self.context
+                    ).data,
+                },
+            })
 
-    def get_foreign_reviews(self, obj):
-        qs = obj.foreign_reviews.filter(is_active=True).order_by('order', 'created_at')
-        return _ForeignReviewSerializer(qs, many=True, context=self.context).data
+        # order bo'yicha tartiblash
+        blocks.sort(key=lambda b: b['order'])
+        return blocks
+
+    # ── Helpers ──
+
+    def _content_block_data(self, obj):
+        lang = self._lang()
+        title = getattr(obj, f'title_{lang}') or obj.title_uz
+        desc  = getattr(obj, f'description_{lang}') or obj.description_uz
+
+        base = {'title': title, 'description': desc, 'link': obj.link, 'views': obj.views}
+
+        if obj.block_type == 'hero':
+            return {'title': title, 'subtitle': desc}
+
+        if obj.block_type == 'rich-text':
+            return {'content': desc}
+
+        if obj.block_type == 'quote':
+            return {'text': desc, 'author': title, 'role': obj.link}
+
+        if obj.block_type == 'gallery':
+            imgs = obj.images.all().order_by('order')
+            return {
+                'title':  title,
+                'images': [
+                    {'src': _abs_url(self.context.get('request'), i.image), 'order': i.order}
+                    for i in imgs
+                ],
+            }
+
+        if obj.block_type in ('stats', 'table', 'timeline'):
+            return obj.json_data or {}
+
+        # fallback
+        return base
+
+    def _link_block_data(self, obj):
+        lang  = self._lang()
+        title = getattr(obj, f'title_{lang}') or obj.title_uz
+        return {
+            'title':    title,
+            'link':     obj.link,
+            'document': _abs_url(self.context.get('request'), obj.document_file),
+        }

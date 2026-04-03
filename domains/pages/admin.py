@@ -318,16 +318,36 @@ class ContentBlockAdmin(admin.ModelAdmin):
     list_editable = ('order', 'is_active')
     list_filter   = ('block_type', 'is_active', 'navbar_item__category')
     search_fields = ('title_uz', 'title_ru', 'title_en')
-    readonly_fields = ('views', 'created_at', 'updated_at')
+    readonly_fields = ('views', 'created_at', 'updated_at', 'content_block_guide')
     inlines       = [ContentImageInline]
 
+    @admin.display(description='')
+    def content_block_guide(self, obj):
+        return format_html('''
+        <div style="background:#fff3f3;border-left:4px solid #e53935;padding:12px 16px;border-radius:4px;margin:4px 0;">
+          <strong style="color:#e53935;font-size:13px;">📌 KONTENT BLOKI — quyidagi sahifalar uchun ishlatiladi:</strong>
+          <table style="margin-top:8px;font-size:12px;color:#c62828;border-collapse:collapse;width:100%;">
+            <tr><td style="padding:2px 8px;font-weight:bold;">stats</td><td>→ Akademiya raqamlarda, Sport faoliyati, Ilmiy loyihalar, Milliy reyting</td></tr>
+            <tr style="background:#fff8f8;"><td style="padding:2px 8px;font-weight:bold;">timeline</td><td>→ Akademiya tarixi</td></tr>
+            <tr><td style="padding:2px 8px;font-weight:bold;">table</td><td>→ To'lov-kontrakt narxlari, Doktorantura, Magistratura, Stipendiyalar</td></tr>
+            <tr style="background:#fff8f8;"><td style="padding:2px 8px;font-weight:bold;">hero</td><td>→ Har qanday sahifa uchun yuqori banner</td></tr>
+            <tr><td style="padding:2px 8px;font-weight:bold;">rich-text</td><td>→ Yashil akademiya, Ekofaol klubi, Talabalar hayoti, Psixolog, Talabalar kengashi,
+            Turar joy, Avtomototransport, Xorijda malaka oshirish, Xalqaro e'lonlar,
+            Bakalavriat, Magistratura, Fakultetlar, Institutlar, Markazlar, Hamkorlar</td></tr>
+            <tr style="background:#fff8f8;"><td style="padding:2px 8px;font-weight:bold;">gallery</td><td>→ Galereya ko'rinishida rasmlar chiqarish uchun</td></tr>
+          </table>
+          <div style="margin-top:8px;font-size:12px;color:#555;">
+            <strong>Eslatma:</strong> "Navbar sahifasi" dropdowndan tegishli sahifani tanlang → Blok turi tanlang → Kontent to'ldiring.
+          </div>
+        </div>
+        ''')
+
     fieldsets = (
+        ("📌 Yo'riqnoma", {
+            'fields': ('content_block_guide',),
+        }),
         ("Navbar sahifasi va blok turi", {
             'fields': ('navbar_item', 'block_type'),
-            'description': (
-                "Blok turini tanlang: Hero — sarlavha+tagline, Rich-text — HTML matn, "
-                "Stats/Table/Timeline — JSON ma'lumot kiritiladi, Gallery — rasmlar qo'shiladi."
-            ),
         }),
         ("Kontent (hero / rich-text / gallery / quote uchun)", {
             'fields': ('title_uz', 'title_ru', 'title_en',
@@ -365,12 +385,32 @@ class LinkBlockAdmin(admin.ModelAdmin):
     list_editable = ('order', 'is_active')
     list_filter   = ('block_type', 'is_active', 'navbar_item__category')
     search_fields = ('title_uz', 'title_ru', 'title_en')
-    readonly_fields = ('created_at', 'updated_at')
+    readonly_fields = ('created_at', 'updated_at', 'link_block_guide')
+
+    @admin.display(description='')
+    def link_block_guide(self, obj):
+        return format_html('''
+        <div style="background:#fff3f3;border-left:4px solid #e53935;padding:12px 16px;border-radius:4px;margin:4px 0;">
+          <strong style="color:#e53935;font-size:13px;">📌 HAVOLA BLOKI — quyidagi sahifalar uchun ishlatiladi:</strong>
+          <table style="margin-top:8px;font-size:12px;color:#c62828;border-collapse:collapse;width:100%;">
+            <tr><td style="padding:2px 8px;font-weight:bold;">file-list</td>
+                <td>→ Me'yoriy hujjatlar, Qabul me'yoriy hujjatlari, O'quv adabiyotlari,
+                    Yangi adabiyotlar, Fanlar qo'llanmasi, Shartnomalar</td></tr>
+            <tr style="background:#fff8f8;"><td style="padding:2px 8px;font-weight:bold;">useful-links</td>
+                <td>→ Ma'naviyat rukni, Mening konstitutsiyam, Talabalar imtiyozlari (havolalar)</td></tr>
+          </table>
+          <div style="margin-top:8px;font-size:12px;color:#555;">
+            <strong>Eslatma:</strong> Har bir hujjat/havola uchun alohida yozuv qo'shing. "file-list" da fayl yuklash ham mumkin.
+          </div>
+        </div>
+        ''')
 
     fieldsets = (
+        ("📌 Yo'riqnoma", {
+            'fields': ('link_block_guide',),
+        }),
         ("Navbar sahifasi va blok turi", {
             'fields': ('navbar_item', 'block_type'),
-            'description': "Useful-links — oddiy havolalar ro'yxati. File-list — yuklab olinadigan fayllar.",
         }),
         ("Kontent", {
             'fields': ('title_uz', 'title_ru', 'title_en', 'link', 'document_file'),

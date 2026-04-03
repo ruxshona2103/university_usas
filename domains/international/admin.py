@@ -13,8 +13,17 @@ class ForeignProfessorReviewAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
 
     fieldsets = (
-        ("Navbar sahifasi", {'fields': ('navbar_item',),
-                             'description': "Qaysi sahifada chiqishini tanlang."}),
+        ("📌 Yo'riqnoma", {
+            'fields': (),
+            'description': (
+                '<div style="background:#fff3f3;border-left:4px solid #e53935;padding:10px 14px;border-radius:4px;">'
+                '<strong style="color:#e53935;">📌 XORIJIY PROFESSORLAR</strong> — '
+                'Navbar sahifasi: <strong>Xalqaro aloqalar → Xorijlik professor-o\'qituvchilar</strong> ni tanlang.<br>'
+                '<span style="color:#c62828;">Ism, lavozim, mamlakat, fikr matni to\'ldiring. Rasm ixtiyoriy.</span>'
+                '</div>'
+            ),
+        }),
+        ("Navbar sahifasi", {'fields': ('navbar_item',)}),
         ("Shaxs", {'fields': ('full_name', 'position_uz', 'position_ru', 'position_en', 'country', 'photo')}),
         ("Fikr", {'fields': ('review_uz', 'review_ru', 'review_en')}),
         ("Tartib va holat", {'fields': ('order', 'is_active')}),

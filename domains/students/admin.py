@@ -16,9 +16,23 @@ class PersonCategoryAdmin(admin.ModelAdmin):
     list_per_page = 20
 
     fieldsets = (
+        ("📌 Yo'riqnoma", {
+            'fields': (),
+            'description': (
+                '<div style="background:#fff3f3;border-left:4px solid #e53935;padding:10px 14px;border-radius:4px;">'
+                '<strong style="color:#e53935;">📌 SHAXSLAR KATEGORIYASI</strong> — '
+                'Har bir Faxrlarimiz bo\'limi uchun bir kategoriya:<br>'
+                '<span style="color:#c62828;">'
+                '• <strong>Faxrlarimiz → Bitiruvchilarimiz</strong> — bitiruvchilar kategoriyasi<br>'
+                '• <strong>Faxrlarimiz → Faxrli ustozlarimiz</strong> — faxriy o\'qituvchilar<br>'
+                '• <strong>Faxrlarimiz → Ilg\'or olimlarimiz</strong> — taniqli olimlar<br>'
+                '• <strong>Faxrlarimiz → O\'ZDSA yulduzlari</strong> — faol talabalar va sportchilar'
+                '</span>'
+                '</div>'
+            ),
+        }),
         ("Navbar sahifasi", {
             'fields': ('navbar_item',),
-            'description': "Bu kategoriya qaysi navbar sahifasiga tegishli?"
         }),
         ("Kategoriya nomi", {
             'fields': ('title_uz', 'title_ru', 'title_en')
@@ -78,7 +92,11 @@ class PersonAdmin(admin.ModelAdmin):
         }),
         ("Kategoriya", {
             'fields': ('category',),
-            'description': "Qaysi bo'limga tegishli (Faxrlarimiz, Bitiruvchilar...)?"
+            'description': (
+                '<span style="color:#e53935;font-weight:bold;">📌</span> '
+                '<span style="color:#c62828;">Avval Shaxslar kategoriyalari bo\'limida kategoriya yarating, '
+                'keyin shu yerda tanlang.</span>'
+            ),
         }),
         ("Tartib va holat", {
             'fields': ('order', 'is_active')

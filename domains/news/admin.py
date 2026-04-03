@@ -55,8 +55,18 @@ class PublishableAdminMixin:
 class NewsAdmin(PublishableAdminMixin, admin.ModelAdmin):
     list_display = ('title_uz', 'date', 'source', 'is_published', 'views_badge', 'image_preview')
     list_editable = ('is_published',)
+    readonly_fields = ('slug', 'views', 'created_at', 'updated_at', 'image_preview')
 
     fieldsets = (
+        ("📌 Yo'riqnoma", {
+            'fields': (),
+            'description': (
+                '<div style="background:#fff3f3;border-left:4px solid #e53935;padding:10px 14px;border-radius:4px;">'
+                '<strong style="color:#e53935;">📌 YANGILIKLAR</strong> — Umumiy sayt yangiliklari va '
+                'Talabalarga bo\'limida ham ko\'rsatiladi. Rasm, sarlavha, to\'liq matn va sana <strong>majburiy</strong>.'
+                '</div>'
+            ),
+        }),
         ("O'zbek tili (majburiy)", {
             'fields': ('image', 'image_preview', 'title_uz', 'description_uz')
         }),
@@ -83,8 +93,18 @@ class NewsAdmin(PublishableAdminMixin, admin.ModelAdmin):
 class EventAdmin(PublishableAdminMixin, admin.ModelAdmin):
     list_display = ('title_uz', 'date', 'start_time', 'location_uz', 'is_published', 'views_badge')
     list_editable = ('is_published',)
+    readonly_fields = ('slug', 'views', 'created_at', 'updated_at', 'image_preview')
 
     fieldsets = (
+        ("📌 Yo'riqnoma", {
+            'fields': (),
+            'description': (
+                '<div style="background:#fff3f3;border-left:4px solid #e53935;padding:10px 14px;border-radius:4px;">'
+                '<strong style="color:#e53935;">📌 KUTILAYOTGAN TADBIRLAR</strong> — Konferensiya, festival, ochiq eshiklar kuni va h.k. '
+                'Manzil, boshlanish vaqti <strong>majburiy emas</strong> — bo\'lsa to\'ldiring.'
+                '</div>'
+            ),
+        }),
         ("O'zbek tili (majburiy)", {
             'fields': ('image', 'image_preview', 'title_uz', 'description_uz')
         }),
@@ -115,8 +135,18 @@ class BlogAdmin(PublishableAdminMixin, admin.ModelAdmin):
     list_display = ('title_uz', 'author_display', 'date', 'is_published', 'views_badge', 'image_preview')
     list_editable = ('is_published',)
     list_filter = ('is_published', 'date', 'author')
+    readonly_fields = ('slug', 'views', 'created_at', 'updated_at', 'image_preview')
 
     fieldsets = (
+        ("📌 Yo'riqnoma", {
+            'fields': (),
+            'description': (
+                '<div style="background:#fff3f3;border-left:4px solid #e53935;padding:10px 14px;border-radius:4px;">'
+                '<strong style="color:#e53935;">📌 BLOG MAQOLALAR</strong> — O\'quv, sport, sog\'lom turmush mavzusidagi maqolalar. '
+                'Muallif tanlash <strong>ixtiyoriy</strong>. Talabalarga bo\'limida ham ko\'rsatiladi.'
+                '</div>'
+            ),
+        }),
         ("O'zbek tili (majburiy)", {
             'fields': ('image', 'image_preview', 'title_uz', 'description_uz')
         }),
@@ -162,10 +192,24 @@ class InformationContentAdminBase(admin.ModelAdmin):
     list_filter   = ('is_published', 'navbar_item')
     search_fields = ('title_uz', 'title_ru', 'title_en')
     list_per_page = 20
-    readonly_fields = ('views', 'created_at', 'updated_at')
+    readonly_fields = ('views', 'created_at', 'updated_at', 'info_guide')
     inlines = [InformationImageInline]
 
+    INFO_GUIDE_TEXT = ''  # har bir subklass o'z matnini belgilaydi
+
+    @admin.display(description='')
+    def info_guide(self, obj):
+        return format_html(
+            '<div style="background:#fff3f3;border-left:4px solid #e53935;padding:10px 14px;border-radius:4px;">'
+            '<strong style="color:#e53935;font-size:13px;">📌 {}</strong>'
+            '</div>',
+            self.INFO_GUIDE_TEXT
+        )
+
     fieldsets = (
+        ("📌 Yo'riqnoma", {
+            'fields': ('info_guide',),
+        }),
         ("O'zbek tili (majburiy)", {
             'fields': ('title_uz', 'description_uz')
         }),
@@ -190,6 +234,7 @@ class InformationContentAdminBase(admin.ModelAdmin):
 @admin.register(RectorActivity)
 class RectorActivityAdmin(InformationContentAdminBase):
     """Rektor tadbirlari va nutqlari."""
+    INFO_GUIDE_TEXT = "Navbar sahifasi → 'Axborot xizmati → Rektor tadbirlari va nutqlari' ni tanlang. Rasm, sarlavha, matn, sana to'ldiring."
 
     def get_queryset(self, request):
         return super().get_queryset(request).filter(content_type='rector')
@@ -210,6 +255,7 @@ class RectorActivityAdmin(InformationContentAdminBase):
 @admin.register(Briefing)
 class BrifingAdmin(InformationContentAdminBase):
     """Brifinglar."""
+    INFO_GUIDE_TEXT = "Navbar sahifasi → 'Axborot xizmati → Brifinglar' ni tanlang. Rasm, sarlavha, matn, sana to'ldiring."
 
     def get_queryset(self, request):
         return super().get_queryset(request).filter(content_type='briefing')
@@ -229,6 +275,7 @@ class BrifingAdmin(InformationContentAdminBase):
 @admin.register(Contest)
 class TanlovAdmin(InformationContentAdminBase):
     """Tanlovlar."""
+    INFO_GUIDE_TEXT = "Navbar sahifasi → 'Axborot xizmati → Tanlovlar' ni tanlang. Ko'p rasm qo'shish mumkin (pastdagi Rasmlar bo'limidan)."
 
     def get_queryset(self, request):
         return super().get_queryset(request).filter(content_type='contest')
@@ -248,6 +295,7 @@ class TanlovAdmin(InformationContentAdminBase):
 @admin.register(PressService)
 class MatbuotXizmatiAdmin(InformationContentAdminBase):
     """Matbuot xizmati."""
+    INFO_GUIDE_TEXT = "Navbar sahifasi → 'Axborot xizmati → Matbuot xizmati' ni tanlang. Maqola yoki xabar uchun sarlavha va matn kiriting."
 
     def get_queryset(self, request):
         return super().get_queryset(request).filter(content_type='press')
@@ -267,6 +315,7 @@ class MatbuotXizmatiAdmin(InformationContentAdminBase):
 @admin.register(PhotoGallery)
 class FotogalereyaAdmin(InformationContentAdminBase):
     """Fotogalereya."""
+    INFO_GUIDE_TEXT = "Navbar sahifasi → 'Axborot xizmati → Fotogalereya' ni tanlang. Sarlavha yozing va pastdagi Rasmlar bo'limidan ko'p rasm qo'shing."
 
     def get_queryset(self, request):
         return super().get_queryset(request).filter(content_type='photo')
@@ -286,6 +335,7 @@ class FotogalereyaAdmin(InformationContentAdminBase):
 @admin.register(VideoGallery)
 class VideogalereyaAdmin(InformationContentAdminBase):
     """Videogalereya."""
+    INFO_GUIDE_TEXT = "Navbar sahifasi → 'Axborot xizmati → Videogalereya' ni tanlang. Video URL (YouTube/Vimeo) yoki tashqi havola kiriting."
 
     def get_queryset(self, request):
         return super().get_queryset(request).filter(content_type='video')

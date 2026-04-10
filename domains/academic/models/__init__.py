@@ -1,8 +1,3 @@
-from .staff import Staff, StaffRole
-from .staff_content import StaffContent
+from .academy_stat import AcademyStat
 
-__all__ = [
-    'Staff',
-    'StaffRole',
-    'StaffContent',
-]
+__all__ = ['AcademyStat']

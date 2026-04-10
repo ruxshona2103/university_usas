@@ -1,6 +1,16 @@
 from rest_framework import serializers
 
-from ..models import Person, PersonCategory, PersonContent
+from ..models import Person, PersonCategory, PersonContent, PersonImage
+
+
+def _abs_url(request, field):
+    if not field:
+        return None
+    try:
+        url = field.url
+    except Exception:
+        return None
+    return request.build_absolute_uri(url) if request else url
 
 
 class PersonCategorySerializer(serializers.ModelSerializer):
@@ -11,21 +21,38 @@ class PersonCategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'slug']
 
     def get_title(self, obj):
-        return {'uz': obj.title_uz, 'ru': obj.title_ru or obj.title_uz, 'en': obj.title_en or obj.title_uz}
+        return {
+            'uz': obj.title_uz,
+            'ru': obj.title_ru or obj.title_uz,
+            'en': obj.title_en or obj.title_uz,
+        }
+
+
+class PersonImageSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = PersonImage
+        fields = ['id', 'image', 'order']
+
+    def get_image(self, obj):
+        return _abs_url(self.context.get('request'), obj.image)
 
 
 class PersonContentSerializer(serializers.ModelSerializer):
-    tag_slug  = serializers.CharField(source='tag.slug', read_only=True)
-    label     = serializers.SerializerMethodField()
-    content   = serializers.SerializerMethodField()
+    tags    = serializers.SerializerMethodField()
+    content = serializers.SerializerMethodField()
 
     class Meta:
         model  = PersonContent
-        fields = ['tag_slug', 'label', 'content', 'order']
+        fields = ['tags', 'content', 'order']
 
-    def get_label(self, obj):
+    def get_tags(self, obj):
         lang = self.context.get('lang', 'uz')
-        return getattr(obj.tag, f'name_{lang}', '') or obj.tag.name_uz
+        return [
+            {'slug': t.slug, 'name': getattr(t, f'name_{lang}', '') or t.name_uz}
+            for t in obj.tags.all()
+        ]
 
     def get_content(self, obj):
         lang = self.context.get('lang', 'uz')
@@ -36,25 +63,47 @@ class PersonSerializer(serializers.ModelSerializer):
     full_name   = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
     image       = serializers.SerializerMethodField()
+    images      = serializers.SerializerMethodField()
+    title       = serializers.SerializerMethodField()
+    position    = serializers.SerializerMethodField()
     category    = PersonCategorySerializer(read_only=True)
     tabs        = PersonContentSerializer(many=True, read_only=True)
 
     class Meta:
         model  = Person
-        fields = ['id', 'image', 'full_name', 'description', 'category', 'tabs']
+        fields = [
+            'id', 'category',
+            'image', 'images',
+            'full_name', 'description',
+            'title', 'position',
+            'phone', 'fax', 'email', 'address', 'reception',
+            'is_head', 'order',
+            'tabs',
+        ]
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
 
     def get_full_name(self, obj):
-        return {'uz': obj.full_name_uz, 'ru': obj.full_name_ru or obj.full_name_uz, 'en': obj.full_name_en or obj.full_name_uz}
+        lang = self._lang()
+        return getattr(obj, f'full_name_{lang}') or obj.full_name_uz
 
     def get_description(self, obj):
-        return {'uz': obj.description_uz, 'ru': obj.description_ru, 'en': obj.description_en}
+        lang = self._lang()
+        return getattr(obj, f'description_{lang}') or obj.description_uz
 
     def get_image(self, obj):
-        if not obj.image:
-            return None
-        try:
-            url = obj.image.url
-        except Exception:
-            return None
-        request = self.context.get('request')
-        return request.build_absolute_uri(url) if request else url
+        return _abs_url(self.context.get('request'), obj.image)
+
+    def get_images(self, obj):
+        return PersonImageSerializer(
+            obj.images.all(), many=True, context=self.context
+        ).data
+
+    def get_title(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    def get_position(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'position_{lang}') or obj.position_uz

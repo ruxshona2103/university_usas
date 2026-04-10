@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from domains.news.models import News, Event, Blog, InformationContent, InformationImage
+from common.models import ContentImage
+from domains.news.models import Article, News, Event, Blog, InformationContent, InformationImage
 
 
 def _abs_url(request, field):
@@ -11,6 +12,17 @@ def _abs_url(request, field):
     except Exception:
         return None
     return request.build_absolute_uri(url) if request else url
+
+
+class ContentImageSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = ContentImage
+        fields = ['id', 'image', 'order']
+
+    def get_image(self, obj):
+        return _abs_url(self.context.get('request'), obj.image)
 
 
 class PublishableMixin:
@@ -28,20 +40,26 @@ class PublishableMixin:
     def get_date(self, obj):
         return obj.date.strftime('%Y-%m-%d %H:%M:%S') if obj.date else None
 
+    def get_badgeCategory(self, obj):
+        return obj.get_content_type()
+
+    def get_images(self, obj):
+        return ContentImageSerializer(
+            obj.images.all(), many=True, context=self.context
+        ).data
+
 
 class NewsSerializer(PublishableMixin, serializers.ModelSerializer):
     title         = serializers.SerializerMethodField()
     description   = serializers.SerializerMethodField()
     image         = serializers.SerializerMethodField()
     date          = serializers.SerializerMethodField()
+    images        = serializers.SerializerMethodField()
     badgeCategory = serializers.SerializerMethodField()
 
     class Meta:
         model  = News
-        fields = ['id', 'image', 'title', 'description', 'date', 'slug', 'badgeCategory', 'views']
-
-    def get_badgeCategory(self, obj):
-        return 'news'
+        fields = ['id', 'image', 'images', 'title', 'description', 'date', 'slug', 'badgeCategory', 'views']
 
 
 class EventSerializer(PublishableMixin, serializers.ModelSerializer):
@@ -49,18 +67,16 @@ class EventSerializer(PublishableMixin, serializers.ModelSerializer):
     description   = serializers.SerializerMethodField()
     image         = serializers.SerializerMethodField()
     date          = serializers.SerializerMethodField()
+    images        = serializers.SerializerMethodField()
     location      = serializers.SerializerMethodField()
     badgeCategory = serializers.SerializerMethodField()
 
     class Meta:
         model  = Event
-        fields = ['id', 'image', 'title', 'description', 'location', 'date', 'start_time', 'slug', 'badgeCategory', 'views']
+        fields = ['id', 'image', 'images', 'title', 'description', 'location', 'date', 'start_time', 'slug', 'badgeCategory', 'views']
 
     def get_location(self, obj):
         return {'uz': obj.location_uz, 'ru': obj.location_ru, 'en': obj.location_en}
-
-    def get_badgeCategory(self, obj):
-        return 'events'
 
 
 class BlogSerializer(PublishableMixin, serializers.ModelSerializer):
@@ -68,15 +84,13 @@ class BlogSerializer(PublishableMixin, serializers.ModelSerializer):
     description   = serializers.SerializerMethodField()
     image         = serializers.SerializerMethodField()
     date          = serializers.SerializerMethodField()
+    images        = serializers.SerializerMethodField()
     author_name   = serializers.SerializerMethodField()
     badgeCategory = serializers.SerializerMethodField()
 
     class Meta:
         model  = Blog
-        fields = ['id', 'image', 'title', 'description', 'date', 'slug', 'badgeCategory', 'author_name', 'views']
-
-    def get_badgeCategory(self, obj):
-        return 'blog'
+        fields = ['id', 'image', 'images', 'title', 'description', 'date', 'slug', 'badgeCategory', 'author_name', 'views']
 
     def get_author_name(self, obj):
         if obj.author:
@@ -96,10 +110,6 @@ class InformationImageSerializer(serializers.ModelSerializer):
 
 
 class InformationContentSerializer(serializers.ModelSerializer):
-    """
-    Axborot xizmati kontent — rektor tadbirlari, brifinglar,
-    tanlovlar, matbuot xizmati, fotogalereya, videogalereya.
-    """
     title       = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
     images      = serializers.SerializerMethodField()

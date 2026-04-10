@@ -6,61 +6,118 @@ from common.base_models import PublishableContent, TimeStampedModel
 User = get_user_model()
 
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Mavjud modellar (o'zgarishsiz)
-# ──────────────────────────────────────────────────────────────────────────────
 
-class News(PublishableContent):
-    """So'nggi yangiliklar."""
+# Article — bitta jadval, uch turdagi kontent
+class ArticleType(models.TextChoices):
+    NEWS  = 'news',  'Yangilik'
+    EVENT = 'event', 'Tadbir'
+    BLOG  = 'blog',  'Blog'
+
+
+class Article(PublishableContent):
+    """
+    Yangilik, Tadbir, Blog — bitta DB jadval (news_article).
+    article_type orqali tur aniqlanadi — xuddi InformationContent kabi.
+    """
+    article_type = models.CharField(
+        max_length=10,
+        choices=ArticleType.choices,
+        verbose_name='Tur',
+        db_index=True,
+    )
+
+    # News uchun 
     source = models.CharField(max_length=200, blank=True, verbose_name="Manba")
 
-    class Meta:
-        verbose_name        = "Yangilik"
-        verbose_name_plural = "So'nggi yangiliklar"
-        db_table            = "news_news"
-
-    def __str__(self):
-        return self.title_uz
-
-
-class Event(PublishableContent):
-    """Kutilayotgan tadbirlar."""
-    location_uz = models.CharField(max_length=300, verbose_name="Manzil (Uz)")
+    # Event uchun
+    location_uz = models.CharField(max_length=300, blank=True, verbose_name="Manzil (Uz)")
     location_ru = models.CharField(max_length=300, blank=True, verbose_name="Manzil (Ru)")
     location_en = models.CharField(max_length=300, blank=True, verbose_name="Manzil (En)")
     start_time  = models.DateTimeField(null=True, blank=True, verbose_name="Boshlanish vaqti")
 
-    class Meta:
-        verbose_name        = "Tadbir"
-        verbose_name_plural = "Kutilayotgan tadbirlar"
-        db_table            = "news_event"
-
-    def __str__(self):
-        return self.title_uz
-
-
-class Blog(PublishableContent):
-    """Blog."""
+    # Blog uchun
     author = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
-        null=True,
-        related_name='blogs',
+        null=True, blank=True,
+        related_name='articles',
         verbose_name="Muallif",
     )
 
     class Meta:
-        verbose_name        = "Blog"
-        verbose_name_plural = "Bloglar"
-        db_table            = "news_blog"
+        db_table            = 'news_article'
+        ordering            = ['-date']
+        verbose_name        = 'Maqola'
+        verbose_name_plural = 'Maqolalar'
 
     def __str__(self):
-        return self.title_uz
+        return f'[{self.get_article_type_display()}] {self.title_uz}'
+
+    def get_content_type(self) -> str:
+        """Polymorphic method — har bir tur o'z nomini qaytaradi."""
+        return self.article_type
 
 
-# ──────────────────────────────────────────────────────────────────────────────
-# InformationContent — Axborot xizmati kontent
-# ──────────────────────────────────────────────────────────────────────────────
+#proxy model uchun avtomatik filter
+
+class NewsManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(article_type=ArticleType.NEWS)
+
+
+class EventManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(article_type=ArticleType.EVENT)
+
+
+class BlogManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(article_type=ArticleType.BLOG)
+
+
+#Proxy modellar DB da yangi jadval yo
+
+class News(Article):
+    objects = NewsManager()
+
+    class Meta:
+        proxy               = True
+        verbose_name        = "Yangilik"
+        verbose_name_plural = "Yangiliklar (News)"
+
+    def save(self, *args, **kwargs):
+        self.article_type = ArticleType.NEWS
+        super().save(*args, **kwargs)
+
+
+class Event(Article):
+    objects = EventManager()
+
+    class Meta:
+        proxy               = True
+        verbose_name        = "Tadbir"
+        verbose_name_plural = "Tadbirlar (Event)"
+
+    def save(self, *args, **kwargs):
+        self.article_type = ArticleType.EVENT
+        super().save(*args, **kwargs)
+
+
+class Blog(Article):
+    objects = BlogManager()
+
+    class Meta:
+        proxy               = True
+        verbose_name        = "Blog"
+        verbose_name_plural = "Bloglar"
+
+    def save(self, *args, **kwargs):
+        self.article_type = ArticleType.BLOG
+        super().save(*args, **kwargs)
+
+
+
+# InformationContent — Axborot xizmati (o'zgarishsiz)
 
 class InformationContentType(models.TextChoices):
     RECTOR   = 'rector',   'Rektor tadbirlari va nutqlari'
@@ -75,15 +132,7 @@ class InformationContent(TimeStampedModel):
     """
     Axborot xizmati kontent — navbar sahifasiga bog'liq.
     content_type orqali tur aniqlanadi.
-    Barcha maydonlar nullable — admin faqat keraklilarini to'ldiradi.
     """
-    navbar_item = models.ForeignKey(
-        'pages.NavbarSubItem',
-        on_delete=models.SET_NULL,
-        null=True, blank=True,
-        related_name='information_items',
-        verbose_name='Navbar sahifasi',
-    )
     content_type = models.CharField(
         max_length=20,
         choices=InformationContentType.choices,
@@ -110,17 +159,11 @@ class InformationContent(TimeStampedModel):
         verbose_name_plural = 'Axborot xizmati kontentlari'
         indexes             = [
             models.Index(fields=['content_type', 'is_published']),
-            models.Index(fields=['navbar_item', 'content_type']),
         ]
 
     def __str__(self):
         return f'[{self.get_content_type_display()}] {self.title_uz or "—"}'
 
-
-# ──────────────────────────────────────────────────────────────────────────────
-# Proxy modellar — har bir tur uchun alohida admin menu item
-# DB da yangi jadval yaratmaydi
-# ──────────────────────────────────────────────────────────────────────────────
 
 class RectorActivity(InformationContent):
     class Meta:

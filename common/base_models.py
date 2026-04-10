@@ -42,13 +42,15 @@ class PublishableContent(TimeStampedModel):
             base_slug = slugify(self.title_uz) or str(self.pk)[:8]
             slug = base_slug
             counter = 1
-            qs = self.__class__.objects.filter(slug=slug)
+            # Proxy model bo'lsa, concrete modelni ishlatamiz — global unique slug
+            concrete = self._meta.proxy_for_model or self.__class__
+            qs = concrete.objects.filter(slug=slug)
             if self.pk:
                 qs = qs.exclude(pk=self.pk)
             while qs.exists():
                 slug = f"{base_slug}-{counter}"
                 counter += 1
-                qs = self.__class__.objects.filter(slug=slug)
+                qs = concrete.objects.filter(slug=slug)
                 if self.pk:
                     qs = qs.exclude(pk=self.pk)
             self.slug = slug
@@ -58,22 +60,13 @@ class PublishableContent(TimeStampedModel):
         return getattr(self, f'title_{lang}', self.title_uz) or self.title_uz
 
 
-# ──────────────────────────────────────────────────────────────────────────────
 # Navbar sahifalariga bog'liq kontent uchun abstract bazalar
-# ──────────────────────────────────────────────────────────────────────────────
-
 class NavbarLinkedContent(TimeStampedModel):
-    """
-    NavbarSubItem ga FK orqali bog'langan kontent uchun asos.
-    Admin panelda qaysi sahifaga tegishli ekanini tanlash imkonini beradi.
-    """
-    navbar_item = models.ForeignKey(
+    navbar_items = models.ManyToManyField(
         'pages.NavbarSubItem',
-        on_delete=models.SET_NULL,
-        null=True,
         blank=True,
         related_name='%(class)s_items',
-        verbose_name='Navbar sahifasi',
+        verbose_name='Navbar sahifalari',
     )
     order     = models.PositiveIntegerField(default=0, verbose_name="Tartib")
     is_active = models.BooleanField(default=True, verbose_name="Faolmi?")
@@ -84,11 +77,6 @@ class NavbarLinkedContent(TimeStampedModel):
 
 
 class MultiLangImageContent(NavbarLinkedContent):
-    """
-    Rasm + title + description bo'lgan, navbar sahifasiga bog'liq kontent.
-    title/description nullable — ba'zi sahifalarda bo'sh bo'lishi mumkin.
-    images — ContentImage orqali ko'p rasm qo'shiladi (GenericFK).
-    """
     title_uz = models.CharField(max_length=500, null=True, blank=True, verbose_name="Sarlavha (Uz)")
     title_ru = models.CharField(max_length=500, null=True, blank=True, verbose_name="Sarlavha (Ru)")
     title_en = models.CharField(max_length=500, null=True, blank=True, verbose_name="Sarlavha (En)")
@@ -105,10 +93,6 @@ class MultiLangImageContent(NavbarLinkedContent):
 
 
 class LinkableContent(NavbarLinkedContent):
-    """
-    Title + link bo'lgan kontent (me'yoriy hujjatlar, ma'naviyat rukni va h.k.).
-    document_file ixtiyoriy — PDF yuklash uchun.
-    """
     title_uz = models.CharField(max_length=500, verbose_name="Sarlavha (Uz)")
     title_ru = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (Ru)")
     title_en = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (En)")

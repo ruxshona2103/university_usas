@@ -8,8 +8,15 @@ class HeroVideo(TimeStampedModel):
     title = models.CharField(max_length=255, verbose_name="video nomi")
     video_url = models.URLField(
         max_length=500,
+        blank=True, null=True,
         verbose_name='Video URLi',
         help_text="MP4 yoki WebM formatidagi to'g'ridan-to'g'ri havolani kiriting"
+    )
+    video_file = models.FileField(
+        upload_to='hero_videos/files/',
+        blank=True, null=True,
+        verbose_name='Video fayli',
+        help_text="MP4 yoki WebM formatidagi video faylni yuklang (URL bo'lmasa)"
     )
     poster_image = models.ImageField(
         upload_to="hero_videos/posters/",

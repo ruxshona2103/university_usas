@@ -95,37 +95,6 @@ class NavbarCategorySerializer(serializers.ModelSerializer):
 # Page detail — /api/pages/{slug}/
 # ──────────────────────────────────────────────────────────────────────────────
 
-class _StaffSerializer(serializers.Serializer):
-    """Staff ro'yxati uchun ichki serializer (pages context da ishlatiladi)."""
-    id        = serializers.UUIDField()
-    is_head   = serializers.BooleanField()
-    role      = serializers.CharField()
-    title     = serializers.SerializerMethodField()
-    full_name = serializers.CharField()
-    position  = serializers.SerializerMethodField()
-    image     = serializers.SerializerMethodField()
-    address   = serializers.CharField()
-    reception = serializers.CharField()
-    phone     = serializers.CharField()
-    fax       = serializers.CharField()
-    email     = serializers.EmailField()
-    order     = serializers.IntegerField()
-
-    def _lang(self):
-        return self.context.get('lang', 'uz')
-
-    def get_title(self, obj):
-        lang = self._lang()
-        return getattr(obj, f'title_{lang}', obj.title_uz) or obj.title_uz
-
-    def get_position(self, obj):
-        lang = self._lang()
-        return getattr(obj, f'position_{lang}', obj.position_uz) or obj.position_uz
-
-    def get_image(self, obj):
-        return _abs_url(self.context.get('request'), obj.image)
-
-
 class _ContentImageSerializer(serializers.Serializer):
     """ContentBlock ichidagi rasmlar."""
     id    = serializers.UUIDField()
@@ -186,62 +155,6 @@ class _LinkBlockSerializer(serializers.ModelSerializer):
         return _abs_url(self.context.get('request'), obj.document_file)
 
 
-class _InformationItemSerializer(serializers.Serializer):
-    """InformationContent — page detail ichida (news domain dan)."""
-    id           = serializers.UUIDField()
-    content_type = serializers.CharField()
-    title        = serializers.SerializerMethodField()
-    description  = serializers.SerializerMethodField()
-    date         = serializers.DateTimeField(allow_null=True)
-    video_url    = serializers.URLField(allow_null=True)
-    external_url = serializers.URLField(allow_null=True)
-    views        = serializers.IntegerField()
-    images       = serializers.SerializerMethodField()
-
-    def _lang(self):
-        return self.context.get('lang', 'uz')
-
-    def get_title(self, obj):
-        lang = self._lang()
-        return getattr(obj, f'title_{lang}') or obj.title_uz
-
-    def get_description(self, obj):
-        lang = self._lang()
-        return getattr(obj, f'description_{lang}') or obj.description_uz
-
-    def get_images(self, obj):
-        request = self.context.get('request')
-        return [
-            _abs_url(request, img.image)
-            for img in obj.images.all().order_by('order')
-        ]
-
-
-class _ForeignReviewSerializer(serializers.Serializer):
-    """ForeignProfessorReview — page detail ichida (international domain dan)."""
-    id       = serializers.UUIDField()
-    full_name = serializers.CharField()
-    position = serializers.SerializerMethodField()
-    country  = serializers.CharField()
-    photo    = serializers.SerializerMethodField()
-    review   = serializers.SerializerMethodField()
-    order    = serializers.IntegerField()
-
-    def _lang(self):
-        return self.context.get('lang', 'uz')
-
-    def get_position(self, obj):
-        lang = self._lang()
-        return getattr(obj, f'position_{lang}') or obj.position_uz
-
-    def get_photo(self, obj):
-        return _abs_url(self.context.get('request'), obj.photo)
-
-    def get_review(self, obj):
-        lang = self._lang()
-        return getattr(obj, f'review_{lang}') or obj.review_uz
-
-
 class NavbarPageSerializer(serializers.ModelSerializer):
     """
     /api/pages/{slug}/ — universal page serializer.
@@ -251,9 +164,6 @@ class NavbarPageSerializer(serializers.ModelSerializer):
     Block turlari:
       hero, rich-text, stats, gallery, quote, table, timeline  ← ContentBlock
       file-list, useful-links                                   ← LinkBlock
-      staff-grid                                                ← Staff
-      information-list                                          ← InformationContent
-      foreign-reviews                                           ← ForeignProfessorReview
     """
     name   = serializers.SerializerMethodField()
     blocks = serializers.SerializerMethodField()
@@ -293,50 +203,6 @@ class NavbarPageSerializer(serializers.ModelSerializer):
                 'type':  lb.block_type,
                 'order': lb.order,
                 'data':  self._link_block_data(lb),
-            })
-
-        # ── Staff → staff-grid ──
-        staff_qs = obj.staff.filter(is_active=True).order_by('-is_head', 'order')
-        if staff_qs.exists():
-            blocks.append({
-                'type':  'staff-grid',
-                'order': 9000,
-                'data': {
-                    'staff': _StaffSerializer(
-                        staff_qs, many=True, context=self.context
-                    ).data,
-                },
-            })
-
-        # ── InformationContent → information-list ──
-        info_qs = (
-            obj.information_items
-            .filter(is_published=True)
-            .prefetch_related('images')
-            .order_by('-date', '-created_at')
-        )
-        if info_qs.exists():
-            blocks.append({
-                'type':  'information-list',
-                'order': 9100,
-                'data': {
-                    'items': _InformationItemSerializer(
-                        info_qs, many=True, context=self.context
-                    ).data,
-                },
-            })
-
-        # ── ForeignProfessorReview → foreign-reviews ──
-        fr_qs = obj.foreign_reviews.filter(is_active=True).order_by('order', 'created_at')
-        if fr_qs.exists():
-            blocks.append({
-                'type':  'foreign-reviews',
-                'order': 9200,
-                'data': {
-                    'reviews': _ForeignReviewSerializer(
-                        fr_qs, many=True, context=self.context
-                    ).data,
-                },
             })
 
         # order bo'yicha tartiblash

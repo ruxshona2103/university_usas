@@ -4,17 +4,7 @@ from common.base_models import TimeStampedModel
 
 
 class ForeignProfessorReview(TimeStampedModel):
-    """
-    Xorijlik professorlar fikri — /api/pages/biz-haqimizda/ orqali ham keladi.
-    navbar_item FK orqali qaysi sahifada chiqishini tanlash mumkin.
-    """
-    navbar_item = models.ForeignKey(
-        'pages.NavbarSubItem',
-        on_delete=models.SET_NULL,
-        null=True, blank=True,
-        related_name='foreign_reviews',
-        verbose_name='Navbar sahifasi',
-    )
+    """Xorijlik professorlar fikri."""
     full_name   = models.CharField(max_length=255, verbose_name="Ismi sharifi")
     position_uz = models.CharField(max_length=255, blank=True, verbose_name="Lavozimi (Uz)")
     position_ru = models.CharField(max_length=255, blank=True, verbose_name="Lavozimi (Ru)")
@@ -32,9 +22,6 @@ class ForeignProfessorReview(TimeStampedModel):
         ordering            = ['order', '-created_at']
         verbose_name        = 'Xorijlik professor fikri'
         verbose_name_plural = 'Xorijlik professorlar fikrlari'
-        indexes             = [
-            models.Index(fields=['navbar_item', 'is_active', 'order']),
-        ]
 
     def __str__(self):
         return f'{self.full_name} ({self.country})'

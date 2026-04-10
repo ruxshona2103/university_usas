@@ -1,109 +1,96 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from domains.pages.models import NavbarSubItem
-from .models import Person, PersonCategory, PersonContent
+from .models import Person, PersonCategory, PersonContent, PersonImage
 
 
-# ─── PersonCategory ───────────────────────────────────────────────────────────
+# ── PersonImage inline ────────────────────────────────────────────────────────
 
-@admin.register(PersonCategory)
-class PersonCategoryAdmin(admin.ModelAdmin):
-    list_display  = ('title_uz', 'navbar_item', 'slug', 'order')
-    list_editable = ('order',)
-    search_fields = ('title_uz', 'title_ru', 'title_en')
-    readonly_fields = ('slug',)
-    list_per_page = 20
-
-    fieldsets = (
-        ("📌 Yo'riqnoma", {
-            'fields': (),
-            'description': (
-                '<div style="background:#fff3f3;border-left:4px solid #e53935;padding:10px 14px;border-radius:4px;">'
-                '<strong style="color:#e53935;">📌 SHAXSLAR KATEGORIYASI</strong> — '
-                'Har bir Faxrlarimiz bo\'limi uchun bir kategoriya:<br>'
-                '<span style="color:#c62828;">'
-                '• <strong>Faxrlarimiz → Bitiruvchilarimiz</strong> — bitiruvchilar kategoriyasi<br>'
-                '• <strong>Faxrlarimiz → Faxrli ustozlarimiz</strong> — faxriy o\'qituvchilar<br>'
-                '• <strong>Faxrlarimiz → Ilg\'or olimlarimiz</strong> — taniqli olimlar<br>'
-                '• <strong>Faxrlarimiz → O\'ZDSA yulduzlari</strong> — faol talabalar va sportchilar'
-                '</span>'
-                '</div>'
-            ),
-        }),
-        ("Navbar sahifasi", {
-            'fields': ('navbar_item',),
-        }),
-        ("Kategoriya nomi", {
-            'fields': ('title_uz', 'title_ru', 'title_en')
-        }),
-        ("Tartib", {
-            'fields': ('order',)
-        }),
-        ('Texnik (avtomatik)', {
-            'classes': ('collapse',),
-            'fields': ('slug',)
-        }),
-    )
-
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == 'navbar_item':
-            kwargs['queryset'] = (
-                NavbarSubItem.objects
-                .filter(is_active=True)
-                .select_related('category')
-                .order_by('category__order', 'order', 'name_uz')
-            )
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+class PersonImageInline(admin.TabularInline):
+    model   = PersonImage
+    extra   = 1
+    fields  = ('image', 'order')
+    ordering = ('order',)
 
 
-# ─── PersonContent inline ─────────────────────────────────────────────────────
+# ── PersonContent inline ──────────────────────────────────────────────────────
 
 class PersonContentInline(admin.TabularInline):
     model   = PersonContent
     extra   = 1
-    fields  = ('tag', 'content_uz', 'content_ru', 'content_en', 'order')
+    fields  = ('tags', 'content_uz', 'content_ru', 'content_en', 'order')
     ordering = ('order',)
 
 
-# ─── Person ───────────────────────────────────────────────────────────────────
+# ── PersonCategory ────────────────────────────────────────────────────────────
+
+@admin.register(PersonCategory)
+class PersonCategoryAdmin(admin.ModelAdmin):
+    list_display   = ('title_uz', 'slug', 'order')
+    list_editable  = ('order',)
+    search_fields  = ('title_uz', 'title_ru', 'title_en')
+    readonly_fields = ('slug',)
+    list_per_page  = 20
+
+    fieldsets = (
+        ("Kategoriya nomi", {
+            'fields': ('title_uz', 'title_ru', 'title_en'),
+        }),
+        ("Tartib", {
+            'fields': ('order',),
+        }),
+        ("Texnik (avtomatik)", {
+            'classes': ('collapse',),
+            'fields': ('slug',),
+        }),
+    )
+
+
+# ── Person ────────────────────────────────────────────────────────────────────
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
-    list_display       = ('image_preview', 'full_name_uz', 'category', 'order', 'is_active')
+    list_display       = ('image_preview', 'full_name_uz', 'category', 'is_head', 'order', 'is_active')
     list_display_links = ('full_name_uz',)
     list_editable      = ('order', 'is_active')
-    list_filter        = ('is_active', 'category')
-    search_fields      = ('full_name_uz', 'full_name_ru', 'full_name_en')
+    list_filter        = ('is_active', 'is_head', 'category')
+    search_fields      = ('full_name_uz', 'full_name_ru', 'full_name_en', 'email', 'phone')
     readonly_fields    = ('image_preview', 'created_at', 'updated_at')
-    inlines            = [PersonContentInline]
+    inlines            = [PersonImageInline, PersonContentInline]
     list_per_page      = 20
 
     fieldsets = (
-        ("Rasm", {
-            'fields': ('image', 'image_preview')
+        ("Kategoriya", {
+            'fields': ('category', 'is_head'),
+        }),
+        ("Asosiy rasm", {
+            'fields': ('image', 'image_preview'),
         }),
         ("To'liq ismi", {
-            'fields': ('full_name_uz', 'full_name_ru', 'full_name_en')
+            'fields': ('full_name_uz', 'full_name_ru', 'full_name_en'),
         }),
-        ("Tavsif (qisqa)", {
+        ("Tavsif", {
             'classes': ('collapse',),
-            'fields': ('description_uz', 'description_ru', 'description_en')
+            'fields': ('description_uz', 'description_ru', 'description_en'),
         }),
-        ("Kategoriya", {
-            'fields': ('category',),
-            'description': (
-                '<span style="color:#e53935;font-weight:bold;">📌</span> '
-                '<span style="color:#c62828;">Avval Shaxslar kategoriyalari bo\'limida kategoriya yarating, '
-                'keyin shu yerda tanlang.</span>'
+        # Rektorat, dekan, kafedra mudiri kabi xodimlar uchun
+        ("Lavozim va ilmiy unvon (xodimlar uchun)", {
+            'classes': ('collapse',),
+            'fields': (
+                'title_uz', 'title_ru', 'title_en',
+                'position_uz', 'position_ru', 'position_en',
             ),
         }),
-        ("Tartib va holat", {
-            'fields': ('order', 'is_active')
-        }),
-        ('Texnik', {
+        ("Kontakt (xodimlar uchun)", {
             'classes': ('collapse',),
-            'fields': ('created_at', 'updated_at')
+            'fields': ('phone', 'fax', 'email', 'address', 'reception'),
+        }),
+        ("Tartib va holat", {
+            'fields': ('order', 'is_active'),
+        }),
+        ("Texnik", {
+            'classes': ('collapse',),
+            'fields': ('created_at', 'updated_at'),
         }),
     )
 
@@ -115,8 +102,8 @@ class PersonAdmin(admin.ModelAdmin):
             except Exception:
                 return format_html('<span style="color:#e53935;">⚠ URL topilmadi</span>')
             return format_html(
-                '<img src="{}" style="max-height:60px; max-width:60px; '
-                'object-fit:cover; border-radius:50%;" />',
-                url
+                '<img src="{}" style="max-height:60px;max-width:60px;'
+                'object-fit:cover;border-radius:50%;" />',
+                url,
             )
         return "—"

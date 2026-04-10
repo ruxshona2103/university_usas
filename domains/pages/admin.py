@@ -129,12 +129,6 @@ class NavbarCategoryAdmin(admin.ModelAdmin):
         }),
         ("Yo'naltirish URL (ixtiyoriy)", {
             'fields': ('direct_url',),
-            'description': (
-                "Faqat children bo'lmasa ishlatiladi. "
-                "Tashqi sayt uchun: https://hemis.uz — "
-                "Ichki sahifa uchun: /news — "
-                "Bo'sh qolsa slug'dan avtomatik yasaladi."
-            )
         }),
         ("Tartib va holat", {
             'fields': ('order', 'is_active')
@@ -177,6 +171,12 @@ class NavbarSubItemAdmin(admin.ModelAdmin):
     search_fields = ('name_uz', 'name_ru', 'name_en')
     readonly_fields = ('slug', 'created_at', 'updated_at')
 
+    @admin.display(description='Tur', ordering='page_type')
+    def page_type_badge(self, obj):
+        if obj.page_type == 'static':
+            return format_html('<span style="background:#e6f4ea;color:#137333;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">Statik</span>')
+        return format_html('<span style="background:#fce8e6;color:#c5221f;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">Yo\'naltirish</span>')
+
     fieldsets = (
         ("Sahifa nomi", {
             'fields': ('category', 'name_uz', 'name_ru', 'name_en')
@@ -201,17 +201,6 @@ class NavbarSubItemAdmin(admin.ModelAdmin):
         }),
     )
 
-    @admin.display(description="Turi")
-    def page_type_badge(self, obj):
-        if obj.page_type == 'static':
-            return format_html(
-                '<span style="background:#e6f4ea; color:#137333; padding:2px 10px; '
-                'border-radius:12px; font-size:12px;">Statik</span>'
-            )
-        return format_html(
-            '<span style="background:#fef7e0; color:#b06000; padding:2px 10px; '
-            'border-radius:12px; font-size:12px;">Redirect</span>'
-        )
 
 
 # -------------------------------------------------HAMKORLARIMIZ--------------------------------------------------
@@ -264,7 +253,8 @@ class HeroVideoAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Video ma\'lumotlari', {
-            'fields': ('title', 'video_url', 'poster_image', 'is_active')
+            'fields': ('title', 'video_url', 'video_file', 'poster_image', 'is_active'),
+            'description': "Video URL yoki Video fayli — bittasini to'ldiring.",
         }),
         ('Preview (Ko\'rinishi)', {
             'fields': ('display_poster_preview',),
@@ -314,40 +304,28 @@ class ContentImageInline(GenericTabularInline):
 
 @admin.register(ContentBlock)
 class ContentBlockAdmin(admin.ModelAdmin):
-    list_display  = ('navbar_item', 'block_type', 'title_uz', 'order', 'is_active')
+    list_display  = ('block_type', 'title_uz', 'order', 'is_active')
     list_editable = ('order', 'is_active')
-    list_filter   = ('block_type', 'is_active', 'navbar_item__category')
+    list_filter   = ('block_type', 'is_active', 'navbar_items__category')
     search_fields = ('title_uz', 'title_ru', 'title_en')
     readonly_fields = ('views', 'created_at', 'updated_at', 'content_block_guide')
     inlines       = [ContentImageInline]
 
     @admin.display(description='')
     def content_block_guide(self, obj):
-        return format_html('''
-        <div style="background:#fff3f3;border-left:4px solid #e53935;padding:12px 16px;border-radius:4px;margin:4px 0;">
-          <strong style="color:#e53935;font-size:13px;">📌 KONTENT BLOKI — quyidagi sahifalar uchun ishlatiladi:</strong>
-          <table style="margin-top:8px;font-size:12px;color:#c62828;border-collapse:collapse;width:100%;">
-            <tr><td style="padding:2px 8px;font-weight:bold;">stats</td><td>→ Akademiya raqamlarda, Sport faoliyati, Ilmiy loyihalar, Milliy reyting</td></tr>
-            <tr style="background:#fff8f8;"><td style="padding:2px 8px;font-weight:bold;">timeline</td><td>→ Akademiya tarixi</td></tr>
-            <tr><td style="padding:2px 8px;font-weight:bold;">table</td><td>→ To'lov-kontrakt narxlari, Doktorantura, Magistratura, Stipendiyalar</td></tr>
-            <tr style="background:#fff8f8;"><td style="padding:2px 8px;font-weight:bold;">hero</td><td>→ Har qanday sahifa uchun yuqori banner</td></tr>
-            <tr><td style="padding:2px 8px;font-weight:bold;">rich-text</td><td>→ Yashil akademiya, Ekofaol klubi, Talabalar hayoti, Psixolog, Talabalar kengashi,
-            Turar joy, Avtomototransport, Xorijda malaka oshirish, Xalqaro e'lonlar,
-            Bakalavriat, Magistratura, Fakultetlar, Institutlar, Markazlar, Hamkorlar</td></tr>
-            <tr style="background:#fff8f8;"><td style="padding:2px 8px;font-weight:bold;">gallery</td><td>→ Galereya ko'rinishida rasmlar chiqarish uchun</td></tr>
-          </table>
-          <div style="margin-top:8px;font-size:12px;color:#555;">
-            <strong>Eslatma:</strong> "Navbar sahifasi" dropdowndan tegishli sahifani tanlang → Blok turi tanlang → Kontent to'ldiring.
-          </div>
-        </div>
-        ''')
+        return format_html(
+            '<div style="background:#fff3f3;border-left:4px solid #e53935;padding:10px 14px;border-radius:4px;">'
+            '<strong style="color:#e53935;">📌 KONTENT BLOKI:</strong> Navbar sahifalarini tanlang → '
+            'Blok turini tanlang (hero/rich-text/stats/gallery/quote/table/timeline) → Kontent to\'ldiring.'
+            '</div>'
+        )
 
     fieldsets = (
         ("📌 Yo'riqnoma", {
             'fields': ('content_block_guide',),
         }),
-        ("Navbar sahifasi va blok turi", {
-            'fields': ('navbar_item', 'block_type'),
+        ("Navbar sahifalari va blok turi", {
+            'fields': ('navbar_items', 'block_type'),
         }),
         ("Kontent (hero / rich-text / gallery / quote uchun)", {
             'fields': ('title_uz', 'title_ru', 'title_en',
@@ -374,43 +352,42 @@ class ContentBlockAdmin(admin.ModelAdmin):
         }),
     )
 
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == 'navbar_items':
+            kwargs['queryset'] = (
+                NavbarSubItem.objects.filter(is_active=True)
+                .select_related('category')
+                .order_by('category__order', 'order', 'name_uz')
+            )
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
 
-# ──────────────────────────────────────────────────────────────────────────────
+
 # LINK BLOCK
-# ──────────────────────────────────────────────────────────────────────────────
 
 @admin.register(LinkBlock)
 class LinkBlockAdmin(admin.ModelAdmin):
-    list_display  = ('navbar_item', 'block_type', 'title_uz', 'link', 'order', 'is_active')
+    list_display  = ('block_type', 'title_uz', 'link', 'order', 'is_active')
     list_editable = ('order', 'is_active')
-    list_filter   = ('block_type', 'is_active', 'navbar_item__category')
+    list_filter   = ('block_type', 'is_active', 'navbar_items__category')
     search_fields = ('title_uz', 'title_ru', 'title_en')
     readonly_fields = ('created_at', 'updated_at', 'link_block_guide')
 
     @admin.display(description='')
     def link_block_guide(self, obj):
-        return format_html('''
-        <div style="background:#fff3f3;border-left:4px solid #e53935;padding:12px 16px;border-radius:4px;margin:4px 0;">
-          <strong style="color:#e53935;font-size:13px;">📌 HAVOLA BLOKI — quyidagi sahifalar uchun ishlatiladi:</strong>
-          <table style="margin-top:8px;font-size:12px;color:#c62828;border-collapse:collapse;width:100%;">
-            <tr><td style="padding:2px 8px;font-weight:bold;">file-list</td>
-                <td>→ Me'yoriy hujjatlar, Qabul me'yoriy hujjatlari, O'quv adabiyotlari,
-                    Yangi adabiyotlar, Fanlar qo'llanmasi, Shartnomalar</td></tr>
-            <tr style="background:#fff8f8;"><td style="padding:2px 8px;font-weight:bold;">useful-links</td>
-                <td>→ Ma'naviyat rukni, Mening konstitutsiyam, Talabalar imtiyozlari (havolalar)</td></tr>
-          </table>
-          <div style="margin-top:8px;font-size:12px;color:#555;">
-            <strong>Eslatma:</strong> Har bir hujjat/havola uchun alohida yozuv qo'shing. "file-list" da fayl yuklash ham mumkin.
-          </div>
-        </div>
-        ''')
+        return format_html(
+            '<div style="background:#fff3f3;border-left:4px solid #e53935;padding:10px 14px;border-radius:4px;">'
+            '<strong style="color:#e53935;">📌 HAVOLA BLOKI:</strong> '
+            'file-list → PDF yuklab olish uchun. useful-links → foydali havolalar uchun. '
+            'Har bir hujjat/havola uchun alohida yozuv qo\'shing.'
+            '</div>'
+        )
 
     fieldsets = (
         ("📌 Yo'riqnoma", {
             'fields': ('link_block_guide',),
         }),
-        ("Navbar sahifasi va blok turi", {
-            'fields': ('navbar_item', 'block_type'),
+        ("Navbar sahifalari va blok turi", {
+            'fields': ('navbar_items', 'block_type'),
         }),
         ("Kontent", {
             'fields': ('title_uz', 'title_ru', 'title_en', 'link', 'document_file'),
@@ -423,3 +400,12 @@ class LinkBlockAdmin(admin.ModelAdmin):
             'fields': ('created_at', 'updated_at'),
         }),
     )
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == 'navbar_items':
+            kwargs['queryset'] = (
+                NavbarSubItem.objects.filter(is_active=True)
+                .select_related('category')
+                .order_by('category__order', 'order', 'name_uz')
+            )
+        return super().formfield_for_manytomany(db_field, request, **kwargs)

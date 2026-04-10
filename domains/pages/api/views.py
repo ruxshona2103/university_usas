@@ -159,12 +159,9 @@ class NavbarPageDetailAPIView(generics.RetrieveAPIView):
                 NavbarSubItem.objects
                 .select_related('category')
                 .prefetch_related(
-                    'staff',
                     'contentblock_items__images',
                     'contentblock_items__tags',
                     'linkblock_items',
-                    'information_items__images',
-                    'foreign_reviews',
                 )
                 .get(slug=slug, is_active=True)
             )

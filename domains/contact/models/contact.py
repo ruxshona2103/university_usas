@@ -6,8 +6,6 @@ from common.base_models import TimeStampedModel
 class FAQ(TimeStampedModel):
     """
     Savol-javob.
-    Foydalanuvchi savol yuboradi, admin javob beradi.
-    vote_count bo'yicha saralanadi — eng ko'p so'ralgan birinchi chiqadi.
     """
     question_uz = models.CharField(max_length=500, verbose_name="Savol (Uz)")
     question_ru = models.CharField(max_length=500, blank=True, verbose_name="Savol (Ru)")

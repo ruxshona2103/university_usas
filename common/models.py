@@ -38,10 +38,6 @@ class Tag(TimeStampedModel):
 
 
 class ContentImage(TimeStampedModel):
-    """
-    Ko'p rasm uchun universal model (GenericFK).
-    ContentBlock, InformationContent, TenderAnnouncement bilan ishlaydi.
-    """
     content_type   = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id      = models.UUIDField()
     content_object = GenericForeignKey('content_type', 'object_id')

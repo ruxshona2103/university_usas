@@ -21,25 +21,26 @@ class BaseContentListAPIView(generics.ListAPIView):
 @extend_schema(tags=['news'], summary="Yangiliklar ro'yxati")
 class NewsListAPIView(BaseContentListAPIView):
     """Nashr etilgan yangiliklar. ?search= qidiruv."""
-    queryset        = News.objects.filter(is_published=True).order_by('-date')
+    # News.objects — NewsManager → WHERE article_type='news' AND is_published=True
+    queryset         = News.objects.filter(is_published=True).prefetch_related('images')
     serializer_class = NewsSerializer
 
 
 @extend_schema(tags=['news'], summary="Tadbirlar ro'yxati")
 class EventListAPIView(BaseContentListAPIView):
     """Nashr etilgan tadbirlar."""
-    queryset        = Event.objects.filter(is_published=True).order_by('-date')
+    queryset         = Event.objects.filter(is_published=True).prefetch_related('images')
     serializer_class = EventSerializer
 
 
 @extend_schema(tags=['news'], summary="Blog ro'yxati")
 class BlogListAPIView(BaseContentListAPIView):
     """Nashr etilgan blog yozuvlari."""
-    queryset        = Blog.objects.filter(is_published=True).select_related('author').order_by('-date')
+    queryset         = Blog.objects.filter(is_published=True).select_related('author').prefetch_related('images')
     serializer_class = BlogSerializer
 
 
-@extend_schema(tags=['information'], summary="Axborot xizmati kontenti")
+@extend_schema(tags=['news'], summary="Axborot xizmati kontenti")
 class InformationContentListAPIView(generics.ListAPIView):
     """
     Axborot xizmati kontenti.

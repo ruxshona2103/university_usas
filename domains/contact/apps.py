@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 class ContactConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'domains.contact'
+    name         = 'domains.contact'
+    verbose_name = "Aloqa"

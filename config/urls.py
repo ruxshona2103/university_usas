@@ -7,19 +7,18 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # API sxema
     path('api/schema/', SpectacularAPIView.as_view(),                          name='schema'),
     path('swagger/',    SpectacularSwaggerView.as_view(url_name='schema'),     name='swagger-ui'),
     path('redoc/',      SpectacularRedocView.as_view(url_name='schema'),       name='redoc'),
 
-    # Domenlar
-    path('api/', include('domains.pages.api.urls')),
-    path('api/', include('domains.academic.api.urls')),
-    path('api/', include('domains.news.api.urls')),
-    path('api/', include('domains.students.api.urls')),
-    path('api/', include('domains.tenders.api.urls')),
-    path('api/', include('domains.contact.api.urls')),
-    path('api/', include('domains.international.api.urls')),
+    path('api/', include('domains.pages.urls')),
+    path('api/', include('domains.academic.urls')),
+    path('api/', include('domains.news.urls')),
+    path('api/', include('domains.students.urls')),
+    path('api/', include('domains.tenders.urls')),
+    path('api/', include('domains.contact.urls')),
+    path('api/', include('domains.international.urls')),
+    path('api/', include('domains.activities.urls')),
 ]
 
 if settings.DEBUG:

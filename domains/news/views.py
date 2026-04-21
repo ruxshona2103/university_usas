@@ -21,7 +21,6 @@ class BaseContentListAPIView(generics.ListAPIView):
 @extend_schema(tags=['news'], summary="Yangiliklar ro'yxati")
 class NewsListAPIView(BaseContentListAPIView):
     """Nashr etilgan yangiliklar. ?search= qidiruv."""
-    # News.objects — NewsManager → WHERE article_type='news' AND is_published=True
     queryset         = News.objects.filter(is_published=True).prefetch_related('images')
     serializer_class = NewsSerializer
 
@@ -43,7 +42,6 @@ class BlogListAPIView(BaseContentListAPIView):
 @extend_schema(tags=['news'], summary="Axborot xizmati kontenti")
 class InformationContentListAPIView(generics.ListAPIView):
     """
-    Axborot xizmati kontenti.
     ?type=rector|briefing|contest|press|photo|video
     ?lang=uz|ru|en
     """

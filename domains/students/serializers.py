@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..models import Person, PersonCategory, PersonContent, PersonImage
+from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo
 
 
 def _abs_url(request, field):
@@ -107,3 +107,65 @@ class PersonSerializer(serializers.ModelSerializer):
     def get_position(self, obj):
         lang = self._lang()
         return getattr(obj, f'position_{lang}') or obj.position_uz
+
+
+class PersonCategoryWithPersonsSerializer(serializers.ModelSerializer):
+    """Kategoriya + ichida o'sha kategoriyaga tegishli shaxslar."""
+    title   = serializers.SerializerMethodField()
+    persons = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = PersonCategory
+        fields = ['id', 'title', 'slug', 'persons']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    def get_title(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    def get_persons(self, obj):
+        qs = obj.persons.filter(is_active=True).prefetch_related('images', 'tabs__tags').order_by('order', '-id')
+        return PersonSerializer(qs, many=True, context=self.context).data
+
+
+class StudentInfoSerializer(serializers.ModelSerializer):
+    title   = serializers.SerializerMethodField()
+    content = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = StudentInfo
+        fields = ['id', 'title', 'content', 'order']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    def get_title(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    def get_content(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'content_{lang}') or obj.content_uz
+
+
+class StudentInfoCategorySerializer(serializers.ModelSerializer):
+    """Kategoriya + ichida o'sha kategoriyaga tegishli ma'lumotlar."""
+    title = serializers.SerializerMethodField()
+    items = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = StudentInfoCategory
+        fields = ['id', 'title', 'slug', 'items']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    def get_title(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    def get_items(self, obj):
+        qs = obj.items.filter(is_active=True).order_by('order')
+        return StudentInfoSerializer(qs, many=True, context=self.context).data

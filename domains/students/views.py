@@ -3,8 +3,8 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import generics, filters
 
 from common.pagination import CustomDashboardPagination
-from ..models import Person, PersonCategory
-from .serializers import PersonSerializer, PersonCategorySerializer
+from .models import Person, PersonCategory, StudentInfoCategory, StudentInfo
+from .serializers import PersonSerializer, PersonCategorySerializer, StudentInfoSerializer, PersonCategoryWithPersonsSerializer, StudentInfoCategorySerializer
 
 
 def _lang(request):
@@ -14,10 +14,6 @@ def _lang(request):
 
 @extend_schema(tags=['people'], summary="Shaxslar kategoriyalari ro'yxati")
 class PersonCategoryListAPIView(generics.ListAPIView):
-    """
-    Barcha kategoriyalar.
-    Admin o'zi qo'shgan: Rektorat, Faxrlarimiz, Bitiruvchilar...
-    """
     serializer_class = PersonCategorySerializer
     queryset         = PersonCategory.objects.all().order_by('order')
     pagination_class = None
@@ -26,12 +22,7 @@ class PersonCategoryListAPIView(generics.ListAPIView):
 @extend_schema(tags=['people'], summary="Shaxslar ro'yxati")
 class PersonListAPIView(generics.ListAPIView):
     """
-    Faol shaxslar ro'yxati.
-    ?category=rektorat    → faqat rektorat
-    ?category=faxrlarimiz → faqat faxrlarimiz
-    ?is_head=1            → bo'lim boshliqlar
-    ?search=              → ism bo'yicha qidiruv
-    ?lang=uz|ru|en
+    ?category=rektorat  ?is_head=1  ?search=  ?lang=uz|ru|en
     """
     serializer_class = PersonSerializer
     pagination_class = CustomDashboardPagination
@@ -78,4 +69,52 @@ class PersonDetailAPIView(generics.RetrieveAPIView):
             .filter(is_active=True)
             .select_related('category')
             .prefetch_related('images', 'tabs__tags')
+        )
+
+
+@extend_schema(tags=['people'], summary="Shaxslar kategoriya bo'yicha guruhlangan")
+class PersonGroupedAPIView(generics.ListAPIView):
+    """
+    Har bir kategoriya o'z persons array'i bilan qaytariladi.
+    ?lang=uz|ru|en
+    """
+    serializer_class = PersonCategoryWithPersonsSerializer
+    pagination_class = None
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+    def get_queryset(self):
+        return (
+            PersonCategory.objects
+            .filter(persons__is_active=True)
+            .prefetch_related('persons__images', 'persons__tabs__tags')
+            .order_by('order')
+            .distinct()
+        )
+
+
+@extend_schema(tags=['students'], summary="Talaba ma'lumotlari kategoriya bo'yicha guruhlangan")
+class StudentInfoGroupedAPIView(generics.ListAPIView):
+    """
+    Har bir kategoriya o'z items array'i bilan qaytariladi.
+    ?lang=uz|ru|en
+    """
+    serializer_class = StudentInfoCategorySerializer
+    pagination_class = None
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+    def get_queryset(self):
+        return (
+            StudentInfoCategory.objects
+            .filter(items__is_active=True)
+            .prefetch_related('items')
+            .order_by('order')
+            .distinct()
         )

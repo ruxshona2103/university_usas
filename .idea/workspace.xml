@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ce883b75-c8a2-430c-b49f-26fc4e16a15a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/common/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/common/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/settings/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/settings/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/academic/api/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/academic/api/serializers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/academic/api/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/academic/api/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/academic/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/domains/academic/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/academic/models/academy_stat.py" beforeDir="false" afterPath="$PROJECT_DIR$/domains/academic/models/academy_stat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/contact/api/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/contact/api/serializers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/contact/api/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/contact/api/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/contact/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/domains/contact/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/international/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/domains/international/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/international/api/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/international/api/serializers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/international/api/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/international/api/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/international/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/domains/international/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/international/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/domains/international/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/news/api/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/news/api/serializers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/news/api/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/news/api/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/news/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/domains/news/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/pages/api/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/pages/api/serializers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/pages/api/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/pages/api/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/pages/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/domains/pages/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/students/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/domains/students/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/students/api/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/students/api/serializers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/students/api/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/students/api/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/students/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/domains/students/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/students/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/domains/students/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/tenders/api/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/tenders/api/serializers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/tenders/api/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domains/tenders/api/views.py" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4,
+  "fromUser": false
+}]]></component>
+  <component name="ProjectId" id="3Cev8ZDIrOjtFMOt5h8BMdmHF3O" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/ruxshona/Nextin/university_usas",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-b63d5a1f7c97-b61e75351b1f-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.22158.340" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ce883b75-c8a2-430c-b49f-26fc4e16a15a" name="Changes" comment="" />
+      <created>1776758691765</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1776758691765</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

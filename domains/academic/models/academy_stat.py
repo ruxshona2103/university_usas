@@ -21,7 +21,7 @@ class AcademyStat(TimeStampedModel):
         db_table   = 'academic_academy_stat'
         ordering   = ['order', 'created_at']
         verbose_name        = "Akademiya raqamda"
-        verbose_name_plural = "Akademiya raqamlarda va Stipendiyalar bo'limi"
+        verbose_name_plural = "Akademiya raqamlarda"
 
     def __str__(self):
         return self.label_uz

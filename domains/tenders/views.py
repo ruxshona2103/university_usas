@@ -10,7 +10,6 @@ from .serializers import TenderAnnouncementSerializer
 @extend_schema(tags=['tenders'], summary="Tenderlar va e'lonlar")
 class TenderAnnouncementListAPIView(generics.ListAPIView):
     """
-    Nashr etilgan tenderlar va e'lonlar.
     ?search= — sarlavha bo'yicha qidiruv
     ?lang=uz|ru|en
     """

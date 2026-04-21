@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Person, PersonCategory, PersonContent, PersonImage
+from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo
 
 
 # ── PersonImage inline ────────────────────────────────────────────────────────
@@ -107,3 +107,42 @@ class PersonAdmin(admin.ModelAdmin):
                 url,
             )
         return "—"
+
+
+class StudentInfoInline(admin.TabularInline):
+    model   = StudentInfo
+    extra   = 1
+    fields  = ('title_uz', 'order', 'is_active')
+    ordering = ('order',)
+
+
+@admin.register(StudentInfoCategory)
+class StudentInfoCategoryAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'slug', 'order')
+    list_editable = ('order',)
+    search_fields = ('title_uz',)
+    readonly_fields = ('slug',)
+    inlines       = [StudentInfoInline]
+    list_per_page = 20
+
+    fieldsets = (
+        ("Nomi", {'fields': ('title_uz', 'title_ru', 'title_en')}),
+        ("Tartib", {'fields': ('order',)}),
+        ("Texnik", {'classes': ('collapse',), 'fields': ('slug',)}),
+    )
+
+
+@admin.register(StudentInfo)
+class StudentInfoAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'category', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter   = ('category',)
+    search_fields = ('title_uz', 'title_ru', 'title_en')
+    list_per_page = 20
+
+    fieldsets = (
+        ("Kategoriya", {'fields': ('category',)}),
+        ("Sarlavha", {'fields': ('title_uz', 'title_ru', 'title_en')}),
+        ("Matn", {'fields': ('content_uz', 'content_ru', 'content_en')}),
+        ("Tartib va holat", {'fields': ('order', 'is_active')}),
+    )

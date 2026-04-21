@@ -25,7 +25,6 @@ class TenderImageSerializer(serializers.ModelSerializer):
 
 
 class TenderAnnouncementSerializer(serializers.ModelSerializer):
-    """Tenderlar va e'lonlar."""
     title       = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
     images      = serializers.SerializerMethodField()

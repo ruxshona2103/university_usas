@@ -7,10 +7,6 @@ from .base_models import TimeStampedModel
 
 
 class Tag(TimeStampedModel):
-    """
-    Universal tag — StaffContent tablar va ActivityContent filter uchun.
-    Slug avtomatik yaratiladi.
-    """
     name_uz = models.CharField(max_length=100, verbose_name="Nomi (Uz)")
     name_ru = models.CharField(max_length=100, blank=True, verbose_name="Nomi (Ru)")
     name_en = models.CharField(max_length=100, blank=True, verbose_name="Nomi (En)")

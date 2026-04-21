@@ -16,10 +16,7 @@ def _lang(request):
 
 @extend_schema(tags=['contact'], summary="Savol-javob ro'yxati")
 class FAQListAPIView(generics.ListAPIView):
-    """
-    Nashr etilgan FAQ lar — eng ko'p ovoz olganlar birinchi.
-    ?lang=uz|ru|en
-    """
+    """?lang=uz|ru|en"""
     serializer_class   = FAQSerializer
     permission_classes = [AllowAny]
     pagination_class   = CustomDashboardPagination
@@ -35,17 +32,13 @@ class FAQListAPIView(generics.ListAPIView):
 
 @extend_schema(tags=['contact'], summary="Savol yuborish")
 class FAQCreateAPIView(generics.CreateAPIView):
-    """Yangi savol yuborish (foydalanuvchi tomonidan)."""
     serializer_class   = FAQCreateSerializer
     permission_classes = [AllowAny]
 
 
 @extend_schema(tags=['contact'], summary="Savolga ovoz berish")
 class FAQVoteAPIView(APIView):
-    """
-    Savolga ovoz berish — vote_count oshadi.
-    POST /api/faq/{id}/vote/
-    """
+    """POST /api/faq/{id}/vote/"""
     permission_classes = [AllowAny]
 
     def post(self, request, pk):
@@ -59,9 +52,5 @@ class FAQVoteAPIView(APIView):
 
 @extend_schema(tags=['contact'], summary="Rektorga murojaat yuborish")
 class RectorAppealCreateAPIView(generics.CreateAPIView):
-    """
-    Rektorga murojaat yuborish.
-    POST /api/rector-appeal/
-    """
     serializer_class   = RectorAppealSerializer
     permission_classes = [AllowAny]

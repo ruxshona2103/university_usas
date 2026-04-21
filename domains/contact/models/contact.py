@@ -16,6 +16,8 @@ class FAQ(TimeStampedModel):
     answer_en = models.TextField(blank=True, verbose_name="Javob (En)")
 
     vote_count  = models.PositiveIntegerField(default=0, verbose_name="Ovozlar soni")
+    views       = models.PositiveIntegerField(default=0, verbose_name="Ko'rishlar soni")
+    comments    = models.PositiveIntegerField(default=0, verbose_name="Komment soni")
     is_answered = models.BooleanField(default=False, verbose_name="Javob berilganmi?")
     is_published = models.BooleanField(default=True, verbose_name="Chiqarilsinmi?")
 

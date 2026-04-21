@@ -5,10 +5,17 @@ from domains.contact.models import FAQ, RectorAppeal
 class FAQSerializer(serializers.ModelSerializer):
     question = serializers.SerializerMethodField()
     answer   = serializers.SerializerMethodField()
+    likes    = serializers.IntegerField(source='vote_count', read_only=True)
 
     class Meta:
         model  = FAQ
-        fields = ['id', 'question', 'answer', 'vote_count', 'is_answered']
+        fields = [
+            'id',
+            'question', 'answer',
+            'views', 'likes', 'comments',
+            'vote_count',
+            'is_answered',
+        ]
 
     def _lang(self):
         return self.context.get('lang', 'uz')

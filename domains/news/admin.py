@@ -38,7 +38,7 @@ class ArticleAdminBase(admin.ModelAdmin):
     """News, Event, Blog proxy adminlari uchun umumiy base."""
     list_filter    = ('is_published', 'date')
     search_fields  = ('title_uz', 'title_ru', 'title_en')
-    readonly_fields = ('slug', 'views', 'created_at', 'updated_at', 'image_preview')
+    readonly_fields = ('slug', 'views', 'likes', 'comments', 'created_at', 'updated_at', 'image_preview')
     list_per_page  = 20
 
     @admin.display(description="Rasm")
@@ -100,7 +100,7 @@ class NewsAdmin(ArticleAdminBase):
         }),
         ("Texnik (avtomatik)", {
             'classes': ('collapse',),
-            'fields': ('slug', 'views', 'created_at', 'updated_at'),
+            'fields': ('slug', 'views', 'likes', 'comments', 'created_at', 'updated_at'),
         }),
     )
 
@@ -140,7 +140,7 @@ class EventAdmin(ArticleAdminBase):
         }),
         ("Texnik (avtomatik)", {
             'classes': ('collapse',),
-            'fields': ('slug', 'views', 'created_at', 'updated_at'),
+            'fields': ('slug', 'views', 'likes', 'comments', 'created_at', 'updated_at'),
         }),
     )
 
@@ -178,7 +178,7 @@ class BlogAdmin(ArticleAdminBase):
         }),
         ("Texnik (avtomatik)", {
             'classes': ('collapse',),
-            'fields': ('slug', 'views', 'created_at', 'updated_at'),
+            'fields': ('slug', 'views', 'likes', 'comments', 'created_at', 'updated_at'),
         }),
     )
 
@@ -207,11 +207,11 @@ class InformationImageInline(admin.TabularInline):
 
 
 class InformationContentAdminBase(admin.ModelAdmin):
-    list_display   = ('title_uz', 'content_type', 'date', 'is_published', 'views')
+    list_display   = ('title_uz', 'content_type', 'date', 'is_published', 'views', 'likes', 'comments')
     list_filter    = ('is_published',)
     search_fields  = ('title_uz', 'title_ru', 'title_en')
     list_per_page  = 20
-    readonly_fields = ('views', 'created_at', 'updated_at')
+    readonly_fields = ('views', 'likes', 'comments', 'created_at', 'updated_at')
     inlines        = [InformationImageInline]
 
     fieldsets = (
@@ -231,7 +231,7 @@ class InformationContentAdminBase(admin.ModelAdmin):
         }),
         ("Texnik (avtomatik)", {
             'classes': ('collapse',),
-            'fields': ('views', 'created_at', 'updated_at'),
+            'fields': ('views', 'likes', 'comments', 'created_at', 'updated_at'),
         }),
     )
 

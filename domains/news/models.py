@@ -191,6 +191,8 @@ class InformationContent(TimeStampedModel):
     external_url = models.URLField(null=True, blank=True, verbose_name="Tashqi havola")
     is_published = models.BooleanField(default=True, verbose_name="Chiqarilsinmi?")
     views        = models.PositiveIntegerField(default=0, verbose_name="Ko'rishlar soni")
+    likes        = models.PositiveIntegerField(default=0, verbose_name="Like soni")
+    comments     = models.PositiveIntegerField(default=0, verbose_name="Komment soni")
 
     class Meta:
         db_table            = 'news_information_content'

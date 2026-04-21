@@ -47,7 +47,8 @@ class FAQVoteAPIView(APIView):
         except FAQ.DoesNotExist:
             return Response({'detail': 'Topilmadi.'}, status=status.HTTP_404_NOT_FOUND)
         FAQ.objects.filter(pk=pk).update(vote_count=faq.vote_count + 1)
-        return Response({'vote_count': faq.vote_count + 1})
+        new_count = faq.vote_count + 1
+        return Response({'vote_count': new_count, 'likes': new_count})
 
 
 @extend_schema(tags=['contact'], summary="Rektorga murojaat yuborish")

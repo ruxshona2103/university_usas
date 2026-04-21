@@ -79,7 +79,13 @@ class NewsSerializer(PublishableMixin, serializers.ModelSerializer):
 
     class Meta:
         model  = News
-        fields = ['id', 'image', 'images', 'title', 'description', 'date', 'slug', 'badgeCategory', 'categories', 'views']
+        fields = [
+            'id', 'image', 'images',
+            'title', 'description',
+            'date', 'slug',
+            'badgeCategory', 'categories',
+            'views', 'likes', 'comments',
+        ]
 
 
 class EventSerializer(PublishableMixin, serializers.ModelSerializer):
@@ -94,7 +100,13 @@ class EventSerializer(PublishableMixin, serializers.ModelSerializer):
 
     class Meta:
         model  = Event
-        fields = ['id', 'image', 'images', 'title', 'description', 'location', 'date', 'start_time', 'slug', 'badgeCategory', 'categories', 'views']
+        fields = [
+            'id', 'image', 'images',
+            'title', 'description', 'location',
+            'date', 'start_time', 'slug',
+            'badgeCategory', 'categories',
+            'views', 'likes', 'comments',
+        ]
 
     def get_location(self, obj):
         return {'uz': obj.location_uz, 'ru': obj.location_ru, 'en': obj.location_en}
@@ -112,7 +124,14 @@ class BlogSerializer(PublishableMixin, serializers.ModelSerializer):
 
     class Meta:
         model  = Blog
-        fields = ['id', 'image', 'images', 'title', 'description', 'date', 'slug', 'badgeCategory', 'categories', 'author_name', 'views']
+        fields = [
+            'id', 'image', 'images',
+            'title', 'description',
+            'date', 'slug',
+            'badgeCategory', 'categories',
+            'author_name',
+            'views', 'likes', 'comments',
+        ]
 
     def get_author_name(self, obj):
         if obj.author:
@@ -143,7 +162,8 @@ class InformationContentSerializer(serializers.ModelSerializer):
             'id', 'content_type', 'type_label',
             'title', 'description',
             'date', 'video_url', 'external_url',
-            'views', 'images',
+            'views', 'likes', 'comments',
+            'images',
         ]
 
     def _lang(self):

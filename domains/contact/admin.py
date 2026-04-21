@@ -5,17 +5,17 @@ from .models import FAQ, RectorAppeal
 
 @admin.register(FAQ)
 class FAQAdmin(admin.ModelAdmin):
-    list_display  = ('short_question', 'vote_count', 'is_answered', 'is_published', 'created_at')
+    list_display  = ('short_question', 'vote_count', 'views', 'comments', 'is_answered', 'is_published', 'created_at')
     list_editable = ('is_answered', 'is_published')
     list_filter   = ('is_answered', 'is_published')
     search_fields = ('question_uz', 'question_ru', 'question_en')
-    readonly_fields = ('vote_count', 'created_at', 'updated_at')
+    readonly_fields = ('vote_count', 'views', 'comments', 'created_at', 'updated_at')
 
     fieldsets = (
         ("Savol", {'fields': ('question_uz', 'question_ru', 'question_en')}),
         ("Javob", {'fields': ('answer_uz', 'answer_ru', 'answer_en')}),
         ("Holat", {'fields': ('is_answered', 'is_published', 'vote_count')}),
-        ('Texnik', {'classes': ('collapse',), 'fields': ('created_at', 'updated_at')}),
+        ('Texnik', {'classes': ('collapse',), 'fields': ('views', 'comments', 'created_at', 'updated_at')}),
     )
 
     @admin.display(description="Savol")

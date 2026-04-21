@@ -16,19 +16,19 @@ class TimeStampedModel(models.Model):
 
 class PublishableContent(TimeStampedModel):
     """Yangiliklar, blog, tadbirlar uchun asosiy klass."""
-    image  = models.ImageField(upload_to='content/%Y/%m/', verbose_name="Asosiy rasm")
+    image  = models.ImageField(upload_to='content/%Y/%m/', blank=True, null=True, verbose_name="Asosiy rasm")
     images = GenericRelation('common.ContentImage', related_query_name='%(class)s')
 
-    title_uz = models.CharField(max_length=255, verbose_name="Sarlavha (Uz)")
+    title_uz = models.CharField(max_length=255, blank=True, verbose_name="Sarlavha (Uz)")
     title_ru = models.CharField(max_length=255, blank=True, verbose_name="Sarlavha (Ru)")
     title_en = models.CharField(max_length=255, blank=True, verbose_name="Sarlavha (En)")
 
-    description_uz = models.TextField(verbose_name="Batafsil (Uz)")
+    description_uz = models.TextField(blank=True, verbose_name="Batafsil (Uz)")
     description_ru = models.TextField(blank=True, verbose_name="Batafsil (Ru)")
     description_en = models.TextField(blank=True, verbose_name="Batafsil (En)")
 
     keywords   = models.CharField(max_length=500, blank=True, verbose_name="SEO Kalit so'zlar")
-    date       = models.DateTimeField(verbose_name="Sana")
+    date       = models.DateTimeField(null=True, blank=True, verbose_name="Sana")
     slug       = models.SlugField(unique=True, blank=True, max_length=300)
     is_published = models.BooleanField(default=True, verbose_name="Saytga chiqarilsinmi?")
     views      = models.PositiveIntegerField(default=0, verbose_name="Ko'rishlar soni")

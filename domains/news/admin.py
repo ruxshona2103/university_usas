@@ -5,10 +5,23 @@ from django.utils.html import format_html
 from common.models import ContentImage
 from .models import (
     Article, ArticleType,
-    News, Event, Blog,
+    News, Event, Blog, NewsCategory,
     InformationContent, InformationImage,
     RectorActivity, Briefing, Contest, PressService, PhotoGallery, VideoGallery,
 )
+
+
+@admin.register(NewsCategory)
+class NewsCategoryAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'slug', 'order')
+    list_editable = ('order',)
+    search_fields = ('title_uz', 'title_ru')
+    fieldsets = (
+        ("Nomi (Uz)", {'fields': ('title_uz',)}),
+        ("Nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('title_ru', 'title_en')}),
+        ("Meta", {'fields': ('slug', 'order')}),
+    )
+
 
 
 class ArticleImageInline(GenericTabularInline):
@@ -83,7 +96,7 @@ class NewsAdmin(ArticleAdminBase):
             'fields': ('title_en', 'description_en'),
         }),
         ("Qo'shimcha", {
-            'fields': ('source', 'date', 'keywords', 'is_published'),
+            'fields': ('source', 'categories', 'date', 'keywords', 'is_published'),
         }),
         ("Texnik (avtomatik)", {
             'classes': ('collapse',),
@@ -123,7 +136,7 @@ class EventAdmin(ArticleAdminBase):
             'fields': ('location_uz', 'location_ru', 'location_en'),
         }),
         ("Vaqt va holat", {
-            'fields': ('date', 'start_time', 'keywords', 'is_published'),
+            'fields': ('date', 'start_time', 'categories', 'keywords', 'is_published'),
         }),
         ("Texnik (avtomatik)", {
             'classes': ('collapse',),
@@ -161,7 +174,7 @@ class BlogAdmin(ArticleAdminBase):
             'fields': ('title_en', 'description_en'),
         }),
         ("Muallif va holat", {
-            'fields': ('author', 'date', 'keywords', 'is_published'),
+            'fields': ('author', 'date', 'categories', 'keywords', 'is_published'),
         }),
         ("Texnik (avtomatik)", {
             'classes': ('collapse',),

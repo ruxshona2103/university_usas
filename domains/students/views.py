@@ -3,8 +3,12 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import generics, filters
 
 from common.pagination import CustomDashboardPagination
-from .models import Person, PersonCategory, StudentInfoCategory, StudentInfo
-from .serializers import PersonSerializer, PersonCategorySerializer, StudentInfoSerializer, PersonCategoryWithPersonsSerializer, StudentInfoCategorySerializer
+from .models import Person, PersonCategory, StudentInfoCategory, StudentInfo, OlimpiyaChempion
+from .serializers import (
+    PersonSerializer, PersonCategorySerializer, StudentInfoSerializer,
+    PersonCategoryWithPersonsSerializer, StudentInfoCategorySerializer,
+    OlimpiyaChempionSerializer,
+)
 
 
 def _lang(request):
@@ -96,6 +100,27 @@ class PersonGroupedAPIView(generics.ListAPIView):
         )
 
 
+@extend_schema(tags=['people'], summary="Kategoriya slug bo'yicha shaxslar")
+class PersonCategoryDetailAPIView(generics.RetrieveAPIView):
+    """
+    Bitta PersonCategory va uning barcha aktiv shaxslari.
+    /api/persons/categories/<slug>/  ?lang=uz|ru|en
+    """
+    serializer_class = PersonCategoryWithPersonsSerializer
+    lookup_field = 'slug'
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+    def get_queryset(self):
+        return (
+            PersonCategory.objects
+            .prefetch_related('persons__images', 'persons__tabs__tags')
+        )
+
+
 @extend_schema(tags=['students'], summary="Talaba ma'lumotlari kategoriya bo'yicha guruhlangan")
 class StudentInfoGroupedAPIView(generics.ListAPIView):
     """
@@ -118,3 +143,41 @@ class StudentInfoGroupedAPIView(generics.ListAPIView):
             .order_by('order')
             .distinct()
         )
+
+
+@extend_schema(tags=['students'], summary="StudentInfo kategoriya slug bo'yicha")
+class StudentInfoCategoryDetailAPIView(generics.RetrieveAPIView):
+    """
+    Bitta StudentInfoCategory va uning barcha aktiv itemlari.
+    /api/student-info/<slug>/  ?lang=uz|ru|en
+    """
+    serializer_class = StudentInfoCategorySerializer
+    lookup_field = 'slug'
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+    def get_queryset(self):
+        return StudentInfoCategory.objects.prefetch_related('items')
+
+
+@extend_schema(tags=['people'], summary="Olimpiya chempionlari ro'yxati")
+class OlimpiyaChempionListAPIView(generics.ListAPIView):
+    """
+    ?yonalish=<sport>   — sport turi bo'yicha filter
+    ?guruh=<guruh>      — guruh bo'yicha filter
+    """
+    serializer_class   = OlimpiyaChempionSerializer
+    pagination_class   = None
+
+    def get_queryset(self):
+        qs = OlimpiyaChempion.objects.filter(is_active=True)
+        yonalish = self.request.query_params.get('yonalish')
+        guruh    = self.request.query_params.get('guruh')
+        if yonalish:
+            qs = qs.filter(yonalish__icontains=yonalish)
+        if guruh:
+            qs = qs.filter(guruh__icontains=guruh)
+        return qs

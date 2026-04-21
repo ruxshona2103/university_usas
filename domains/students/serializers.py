@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo
+from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion
 
 
 def _abs_url(request, field):
@@ -169,3 +169,14 @@ class StudentInfoCategorySerializer(serializers.ModelSerializer):
     def get_items(self, obj):
         qs = obj.items.filter(is_active=True).order_by('order')
         return StudentInfoSerializer(qs, many=True, context=self.context).data
+
+
+class OlimpiyaChempionSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = OlimpiyaChempion
+        fields = ['id', 'full_name', 'image_url', 'yonalish', 'guruh', 'order']
+
+    def get_image_url(self, obj):
+        return _abs_url(self.context.get('request'), obj.image)

@@ -1,10 +1,41 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils.text import slugify
 
 from common.base_models import PublishableContent, TimeStampedModel
 
 User = get_user_model()
 
+
+# ── NewsCategory ───────────────────────────────────────────────────────────────
+class NewsCategory(TimeStampedModel):
+    """Yangiliklar uchun kategoriya (bir yangilikka bir nechta kategoriya)."""
+
+    title_uz = models.CharField(max_length=200, verbose_name="Nomi (Uz)")
+    title_ru = models.CharField(max_length=200, blank=True, verbose_name="Nomi (Ru)")
+    title_en = models.CharField(max_length=200, blank=True, verbose_name="Nomi (En)")
+    slug     = models.SlugField(max_length=220, unique=True, blank=True)
+    order    = models.PositiveIntegerField(default=0, verbose_name="Tartib")
+
+    class Meta:
+        db_table            = 'news_category'
+        ordering            = ['order', 'title_uz']
+        verbose_name        = "Yangilik kategoriyasi"
+        verbose_name_plural = "Yangilik kategoriyalari"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base = slugify(self.title_uz)
+            slug = base
+            n = 1
+            while NewsCategory.objects.filter(slug=slug).exists():
+                slug = f'{base}-{n}'
+                n += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title_uz
 
 
 # Article — bitta jadval, uch turdagi kontent
@@ -12,6 +43,7 @@ class ArticleType(models.TextChoices):
     NEWS  = 'news',  'Yangilik'
     EVENT = 'event', 'Tadbir'
     BLOG  = 'blog',  'Blog'
+
 
 
 class Article(PublishableContent):
@@ -26,7 +58,15 @@ class Article(PublishableContent):
         db_index=True,
     )
 
-    # News uchun 
+    # Kategoriyalar (bir nechta, ixtiyoriy)
+    categories = models.ManyToManyField(
+        NewsCategory,
+        blank=True,
+        related_name='articles',
+        verbose_name="Kategoriyalar",
+    )
+
+    # News uchun
     source = models.CharField(max_length=200, blank=True, verbose_name="Manba")
 
     # Event uchun

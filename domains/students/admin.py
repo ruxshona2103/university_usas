@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo
+from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion
 
 
 # ── PersonImage inline ────────────────────────────────────────────────────────
@@ -146,3 +146,34 @@ class StudentInfoAdmin(admin.ModelAdmin):
         ("Matn", {'fields': ('content_uz', 'content_ru', 'content_en')}),
         ("Tartib va holat", {'fields': ('order', 'is_active')}),
     )
+
+
+@admin.register(OlimpiyaChempion)
+class OlimpiyaChempionAdmin(admin.ModelAdmin):
+    list_display  = ('full_name', 'yonalish', 'guruh', 'order', 'is_active', 'image_preview')
+    list_editable = ('order', 'is_active')
+    list_filter   = ('is_active', 'yonalish', 'guruh')
+    search_fields = ('full_name', 'yonalish', 'guruh')
+
+    fieldsets = (
+        ("Shaxs", {
+            'fields': ('full_name', 'image', 'image_preview'),
+        }),
+        ("Sport", {
+            'fields': ('yonalish', 'guruh'),
+        }),
+        ("Tartib va holat", {
+            'fields': ('order', 'is_active'),
+        }),
+    )
+    readonly_fields = ('image_preview',)
+
+    @admin.display(description="Rasm")
+    def image_preview(self, obj):
+        if obj.image:
+            try:
+                url = obj.image.url
+            except Exception:
+                return '—'
+            return format_html('<img src="{}" style="max-height:80px;border-radius:4px;"/>', url)
+        return '—'

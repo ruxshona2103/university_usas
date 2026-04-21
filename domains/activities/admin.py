@@ -1,6 +1,21 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
-from .models import ContractPrice, ServiceVehicle
+from .models import ContractPrice, ServiceVehicle, IlmiyFaoliyatCategory, IlmiyFaoliyat
+
+
+@admin.register(IlmiyFaoliyatCategory)
+class IlmiyFaoliyatCategoryAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'slug', 'order')
+    list_editable = ('order',)
+    search_fields = ('title_uz', 'title_ru')
+    prepopulated_fields = {}  # slug auto-generated on save
+
+    fieldsets = (
+        ("Nomi (Uz)", {'fields': ('title_uz',)}),
+        ("Nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('title_ru', 'title_en')}),
+        ("Meta", {'fields': ('slug', 'order')}),
+    )
 
 
 @admin.register(ContractPrice)
@@ -53,3 +68,40 @@ class ServiceVehicleAdmin(admin.ModelAdmin):
             'fields': ('order', 'is_active'),
         }),
     )
+
+
+@admin.register(IlmiyFaoliyat)
+class IlmiyFaoliyatAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'category', 'author', 'year', 'file_link', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter   = ('category', 'year', 'is_active')
+    search_fields = ('title_uz', 'title_ru', 'author')
+
+    fieldsets = (
+        ("Asosiy ma'lumot", {
+            'fields': ('category', 'author', 'year'),
+        }),
+        ("Sarlavha (Uz)", {
+            'fields': ('title_uz',),
+        }),
+        ("Sarlavha (Ru / En)", {
+            'classes': ('collapse',),
+            'fields': ('title_ru', 'title_en'),
+        }),
+        ("Tavsif (Uz)", {
+            'fields': ('description_uz',),
+        }),
+        ("Tavsif (Ru / En)", {
+            'classes': ('collapse',),
+            'fields': ('description_ru', 'description_en'),
+        }),
+        ("Media va holat", {
+            'fields': ('image', 'file', 'order', 'is_active'),
+        }),
+    )
+
+    @admin.display(description="Fayl")
+    def file_link(self, obj):
+        if obj.file:
+            return format_html('<a href="{}" target="_blank">📄 Ko\'rish</a>', obj.file.url)
+        return "—"

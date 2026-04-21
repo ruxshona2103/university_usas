@@ -233,6 +233,204 @@ Asosan, yakuniy nazoratlar fan sillabuslarida belgilangan shaklda o'tkaziladi:
 Talabalarning fan bo'yicha o'zlashtirish darajasi, nazariy bilimlari hamda amaliy ko'nikmalari kompleks tarzda baholanadi.
 
 Yakuniy nazorat jarayonlari belgilangan tartib va me'yoriy hujjatlar asosida shaffoflik va xolislik tamoyillariga amal qilgan holda tashkil etiladi.""",
+
+    # ── XALQARO ALOQALAR ─────────────────────────────────────────────────────
+    "international-partners": """O'zbekiston davlat sport akademiyasi xalqaro hamkorlik yo'nalishida bir qator nufuzli tashkilotlar bilan aloqalarni yo'lga qo'ygan.
+
+ASOSIY HAMKOR TASHKILOTLAR
+
+• Xalqaro Olimpiya Qo'mitasi (IOC)
+• Jahon Anti-doping Agentligi (WADA)
+• O'zbekiston Olimpiya va Sport Milliy Qo'mitasi
+• Osiyo Olimpiya Kengashi (OCA)
+• Xalqaro Sport Federatsiyalari (sport turlari bo'yicha)
+• MDH mamlakatlari sport oliygohlar birlashmasi
+
+HAMKORLIK YO'NALISHLARI
+
+— Talabalar va o'qituvchilar akademik almashinuvi
+— Qo'shma ilmiy tadqiqot loyihalari
+— Xalqaro sport musobaqalariga birgalikda ishtirok etish
+— Metodik va uslubiy materiallar almashish
+— Malaka oshirish dasturlari va treninglar
+
+SHARTNOMALAR
+
+Akademiya 10 dan ortiq xorijiy oliy o'quv yurtlari va sport tashkilotlari bilan hamkorlik memorandumlari imzolagan. Batafsil ma'lumot uchun xalqaro aloqalar bo'limiga murojaat qilishingiz mumkin.""",
+
+    "abroad-training": """XORIJDA MALAKA OSHIRISH VA TA'LIM
+
+O'zbekiston davlat sport akademiyasi professor-o'qituvchilar va talabalariga xorijda malaka oshirish imkoniyatlarini taqdim etadi.
+
+PROFESSOR-O'QITUVCHILAR UCHUN
+
+— Xorijiy yetakchi sport universitetlarida qisqa muddatli kurslar (1–4 hafta)
+— Xalqaro konferensiya va simpoziyumlarda qatnashish
+— Ilmiy tadqiqot maqsadida xorijiy universitetlarda staj o'tash (1–6 oy)
+— Xorijiy mutaxassislar tomonidan o'tkaziladigan treninglar
+
+TALABALAR UCHUN
+
+— Akademik almashinuv dasturlari orqali bir semestr yoki bir yil xorijda o'qish
+— Xalqaro sport musobaqalariga akademiya vakili sifatida qatnashish
+— Yozgi maktablar va intensiv kurslar
+
+MUROJAAT TARTIBI
+
+1. Xalqaro aloqalar bo'limiga ariza topshirish
+2. Til bilimi sertifikati taqdim etish (ingliz yoki boshqa talab qilingan til)
+3. Akademik ko'rsatkichlarni tasdiqlash (GPA ≥ 3,0 tavsiya etiladi)
+4. Tanlov bo'yicha ishtirok etish
+
+Batafsil ma'lumot va dolzarb takliflar uchun xalqaro aloqalar bo'limiga murojaat qiling yoki email orqali so'rov yuboring.""",
+
+    "international-announcements": """XALQARO BO'LIM E'LONLARI
+
+Bu sahifada O'zbekiston davlat sport akademiyasining xalqaro aloqalar bo'limi tomonidan chiqarilgan rasmiy e'lonlar joylashtiriladi.
+
+E'LONLAR TURLARI
+
+— Xorijda malaka oshirish va o'qish imkoniyatlari
+— Xalqaro grant dasturlari va stipendiyalar
+— Qo'shma tadqiqot loyihalari uchun tanlovlar
+— Xorijiy universitetlar va sport tashkilotlari bilan hamkorlik takliflari
+— Xalqaro konferensiya va simpoziyumlar
+
+GRANT DASTURLARI
+
+Akademiya talabalari va xodimlari quyidagi xalqaro grant dasturlarida qatnashish imkoniyatiga ega:
+— O'zbekiston Respublikasi Prezidenti stipendiyalari (xorijda o'qish uchun)
+— El-Yurt Umidi jamg'armasi grantlari
+— Erasmus+ dasturi
+— Hamkor universitetlarning ichki grantlari
+
+MUROJAAT
+
+Xalqaro aloqalar bo'limi
+Ish vaqti: dushanba–juma, 09:00–18:00
+Akademiya bosh binosining 2-qavatida joylashgan.""",
+
+    "academic-mobility": """AKADEMIK ALMASHINUV DASTURI
+
+Akademik almashinuv (Academic Mobility) — talabalar va o'qituvchilarning bir semestr yoki o'quv yili davomida xorijiy universitetda tahsil olish yoki dars berish imkoniyatidir.
+
+KIMLAR QATNASHA OLADI?
+
+Talabalar uchun talablar:
+— Kamida 2-kurs talabasi bo'lish
+— GPA ko'rsatkichi 3,0 va undan yuqori bo'lish
+— Xorijiy til bilimi (ingliz yoki boshqa talab qilingan til)
+— Akademik qarzdorligi bo'lmasligi
+
+O'qituvchilar uchun:
+— Akademiyada kamida 1 yil ishlagan bo'lish
+— Ilmiy unvon yoki akademik daraja (tavsiya etiladi)
+
+ALMASHINUV TARTIBI
+
+1. Xalqaro aloqalar bo'limiga ariza topshirish (o'quv yili boshlanishidan 3 oy oldin)
+2. Kerakli hujjatlarni tayyorlash
+3. Qabul qiluvchi universitetning tasdig'ini olish
+4. Akademiya rektori buyrug'iga asosan jo'natish
+
+O'QISH NATIJALARI
+
+Xorijda o'qitilgan fanlar akademiyaning o'quv rejasi doirasida hisobga olinadi. Kreditlarni o'tkazish tartibi xalqaro aloqalar bo'limi va o'quv ishlari bo'limi bilan kelishiladi.""",
+
+    "about-us-foreigners": """XORIJLIKLAR «BIZ HAQIMIZDA»
+
+O'zbekiston davlat sport akademiyasi xalqaro hamkorlar va xorijiy mutaxassislar tomonidan yuqori baholanmoqda.
+
+XORIJIY HAMKORLARNING FIKRI
+
+Akademiya O'zbekistonda sport ta'limini rivojlantirishda muhim rol o'ynaydi. Sport fanlari bo'yicha ixtisoslashgan yagona davlat akademiyasi sifatida u mintaqada noyob o'rin tutadi.
+
+Akademiya bizning hamkorimiz sifatida professional munosabatlar, ilmiy hamkorlik va talabalar almashinuvi borasida ishonchli va ochiq tashkilot ekanligini isbotladi.
+
+XALQARO HAMKORLIK NATIJALARI
+
+— Xorijiy universitetlar bilan 10+ hamkorlik memorandumi
+— Har yili xorijda malaka oshirayotgan 5–10 nafar o'qituvchi
+— Xalqaro musobaqalarda medallar qozongan talabalar
+— Xorijiy ekspertlar bilan o'tkazilgan qo'shma seminarlar va treninglar
+
+AKADEMIYA HAQIDA
+
+O'zbekiston davlat sport akademiyasi 2022-yilda tashkil etilgan bo'lib, sport mutaxassislari va trenerlarini tayyorlashga ixtisoslashgan. Akademiya O'zbekiston sport tizimini rivojlantirishga munosib hissa qo'shmoqda.""",
+
+    "foreign-professors": """XORIJLIK PROFESSOR-O'QITUVCHILAR
+
+O'zbekiston davlat sport akademiyasi xorijiy mutaxassislarni dars berish, ilmiy hamkorlik va malaka oshirish dasturlariga jalb etadi.
+
+XORIJLIK MUTAXASSISLAR ISHTIROKI
+
+Akademiyada xorijiy professor-o'qituvchilar quyidagi shakllarda faoliyat yuritadi:
+
+— Vaqtincha o'qitish (visiting professor): bir semestr yoki o'quv yili davomida maxsus kurslar o'qitish
+— Qisqa muddatli treninglar va master-klasslar (1 hafta–1 oy)
+— Onlayn darslar va vebinarlar
+— Qo'shma ilmiy tadqiqotlarda hamkorlik
+
+TAKLIF QILINAYOTGAN YO'NALISHLAR
+
+— Sport pedagogikasi va metodikasi
+— Sport fiziologiyasi va biomexanikasi
+— Sport psixologiyasi
+— Olimpiya tayyorgarligi va yuqori natijalar menejmenti
+— Xalqaro sport huquqi va boshqaruvi
+
+MUROJAAT
+
+Xorijlik mutaxassislarni jalb etish yoki o'z nomzodingizni taklif qilish uchun xalqaro aloqalar bo'limiga murojaat qiling. Ariza va rezyume elektron pochta orqali yuborilishi mumkin.""",
+
+    "rating-sportsmen": """SPORTCHILARNI REYTINGI
+
+O'zbekiston davlat sport akademiyasi talabalarining xalqaro va milliy musobaqalardagi natijalari asosida reyting tuziladi.
+
+REYTING MEZONLARI
+
+Sportchi reytingi quyidagi ko'rsatkichlar asosida shakllanadi:
+— Olimpiya o'yinlaridagi natijalar
+— Jahon chempionatlari natijalari
+— Osiyo o'yinlari va chempionatlaridagi natijalar
+— O'zbekiston chempionati natijalari
+— Xalqaro reytingdagi o'rin (sport turi bo'yicha)
+
+SPORT TURLARI
+
+Akademiyada quyidagi sport turlari bo'yicha talabalar tahsil oladi va musobaqalarda ishtirok etadi:
+kurash, judo, boks, karate, taekwondo, gimnastika, yengil atletika, og'ir atletika, suzish, velosipord sport, stol tennisi, tennis va boshqalar.
+
+YUTUQLAR
+
+Akademiya talabalari va bitiruvchilari milliy va xalqaro musobaqalarda yuqori natijalar ko'rsatib kelmoqda. Batafsil natijalar va statistika uchun axborot xizmati bo'limiga murojaat qiling.""",
+
+    "rating-faculty": """PROFESSOR-O'QITUVCHILARNI REYTINGI
+
+O'zbekiston davlat sport akademiyasida professor-o'qituvchilar ilmiy va pedagogik faoliyati asosida baholanadi.
+
+REYTING MEZONLARI
+
+Professor-o'qituvchilar reytingi quyidagi ko'rsatkichlar bo'yicha tuziladi:
+
+Ilmiy faoliyat:
+— Xalqaro va mahalliy jurnallardagi maqolalar soni (Scopus, Web of Science)
+— Monografiyalar va o'quv qo'llanmalar
+— Ilmiy loyihalarda ishtirok
+
+Pedagogik faoliyat:
+— Talabalar tomonidan berilgan baholash
+— O'quv-uslubiy ishlanmalar va sillabuslar
+— Xalqaro konferensiyalarda ma'ruzalar
+
+Ijtimoiy faoliyat:
+— Amaliyot bazalari bilan hamkorlik
+— Talabalar ilmiy ishlarini rahbarlik qilish
+— Malaka oshirish kurslari
+
+NATIJALAR
+
+Reyting natijalari har o'quv yili yakunida e'lon qilinadi. Yuqori ko'rsatkichlarga erishgan professor-o'qituvchilar rag'batlantirish tizimi doirasida mukofotlanadi.""",
 }
 
 

@@ -50,7 +50,7 @@ class Person(TimeStampedModel):
         related_name='persons',
         verbose_name="Kategoriya",
     )
-    image = models.ImageField(upload_to='persons/%Y/%m/', verbose_name="Asosiy rasm")
+    image = models.ImageField(upload_to='persons/%Y/%m/', blank=True, null=True, verbose_name="Asosiy rasm")
 
     full_name_uz = models.CharField(max_length=255, verbose_name="To'liq ismi (Uz)")
     full_name_ru = models.CharField(max_length=255, blank=True, verbose_name="To'liq ismi (Ru)")

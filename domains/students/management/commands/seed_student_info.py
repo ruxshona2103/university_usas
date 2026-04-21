@@ -7,14 +7,13 @@ from domains.students.models import StudentInfoCategory, StudentInfo
 
 CATEGORIES = [
     # (slug, order, uz, ru, en)
-    ("bakalavriat-kategoriyalari",  1, "Bakalavriat kategoriyalari", "Категории бакалавриата",  "Bachelor's Categories"),
-    ("bakalavriat-malumotnoma",     2, "Bakalavriat ma'lumotnomasi", "Справочник бакалавриата", "Bachelor's Reference"),
+    ("bakalavriat-malumotnoma", 1, "Bakalavriat ma'lumotnomasi", "Справочник бакалавриата", "Bachelor's Reference"),
 ]
 
 ITEMS = [
-    # ══ BAKALAVRIAT KATEGORIYALARI ═══════════════════════════════════════════════
+    # ══ KATEGORIYASIZ ITEMLAR ═════════════════════════════════════════════════════
     (
-        "bakalavriat-kategoriyalari", 1,
+        None, 1,
         "Yo'riqnoma",
         "Руководство",
         "Guide",
@@ -152,7 +151,7 @@ Applications: autumn — 15 July–5 August; spring — 10–20 January.
 Review: autumn — 6–31 August; spring — 21 January–10 February.""",
     ),
     (
-        "bakalavriat-kategoriyalari", 2,
+        None, 2,
         "Baholash tizimi",
         "Система оценивания",
         "Grading System",
@@ -182,7 +181,7 @@ Review: autumn — 6–31 August; spring — 21 January–10 February.""",
 0–49 points   — 1 (Fail): very low result""",
     ),
     (
-        "bakalavriat-kategoriyalari", 3,
+        None, 3,
         "GPA va kredit talablari",
         "Требования GPA и кредитов",
         "GPA & Credit Requirements",
@@ -215,7 +214,7 @@ Students must maintain or improve this score. Otherwise:
 — Academic probation measures may be applied.""",
     ),
     (
-        "bakalavriat-kategoriyalari", 4,
+        None, 4,
         "Stipendiyalar",
         "Стипендии",
         "Scholarships",
@@ -233,7 +232,7 @@ Mazkur talabalar O'zbekiston Respublikasi amaldagi normativ-huquqiy hujjatlariga
 All of them have been admitted on a full state grant in accordance with the current regulatory framework of the Republic of Uzbekistan and are provided with state scholarships in the prescribed manner.""",
     ),
     (
-        "bakalavriat-kategoriyalari", 5,
+        None, 5,
         "Yakuniy nazorat",
         "Итоговый контроль",
         "Final Control",
@@ -273,80 +272,6 @@ Final assessments are generally conducted in the form specified in the course sy
 Students' level of subject mastery, theoretical knowledge and practical skills are assessed comprehensively.
 
 Final control is organised in accordance with established rules and regulatory documents, adhering to the principles of transparency and objectivity.""",
-    ),
-
-    # ══ AKADEMIYA RAQAMLARDA (Bakalavriat kategoriyalari ichida) ════════════════
-    (
-        "bakalavriat-kategoriyalari", 6,
-        "Fakultetlar soni",
-        "Количество факультетов",
-        "Number of Faculties",
-        "1 ta — «Sport va parasport turlari fakulteti»",
-        "1 — «Факультет спортивных и параспортивных видов»",
-        "1 — «Faculty of Sports and Para-sports»",
-    ),
-    (
-        "bakalavriat-kategoriyalari", 7,
-        "Kafedralar soni",
-        "Количество кафедр",
-        "Number of Departments",
-        "2 ta: «Yakkakurash va suv sport turlari» hamda «Parasport va umumkasbiy fanlar»",
-        "2: кафедра «Единоборства и водные виды спорта» и кафедра «Параспорт и общепрофессиональные дисциплины»",
-        "2: «Combat Sports & Aquatics» and «Para-sports & General Professional Disciplines»",
-    ),
-    (
-        "bakalavriat-kategoriyalari", 8,
-        "Ta'lim yo'nalishlari soni",
-        "Количество направлений обучения",
-        "Number of Study Directions",
-        "2 ta ta'lim yo'nalishi negizida 14 ta sport turi va 4 ta magistratura mutaxassisligi",
-        "На базе 2 направлений — 14 видов спорта и 4 специальности магистратуры",
-        "2 directions covering 14 sports types and 4 master's specialisations",
-    ),
-    (
-        "bakalavriat-kategoriyalari", 9,
-        "Professor-o'qituvchilar soni",
-        "Количество профессорско-преподавательского состава",
-        "Number of Academic Staff",
-        "31 nafar: 13 nafar asosiy, 4 nafar ichki o'rindosh, 14 nafar tashqi o'rindosh",
-        "31 человек: 13 штатных, 4 внутренних совместителя, 14 внешних совместителей",
-        "31 staff: 13 full-time, 4 internal part-time, 14 external part-time",
-    ),
-    (
-        "bakalavriat-kategoriyalari", 10,
-        "Talabalar soni",
-        "Количество студентов",
-        "Number of Students",
-        "159 nafar: 146 nafar bakalavriat, 13 nafar magistratura (2026-yil 2-aprel holatiga ko'ra)",
-        "159 студентов: 146 — бакалавриат, 13 — магистратура (по состоянию на 2 апреля 2026 г.)",
-        "159 students: 146 bachelor's, 13 master's (as of 2 April 2026)",
-    ),
-    (
-        "bakalavriat-kategoriyalari", 11,
-        "O'quv binolari va auditoriyalar soni",
-        "Учебные корпуса и аудитории",
-        "Buildings and Classrooms",
-        "1 ta o'quv binosi, 22 ta o'quv auditoriyasi, umumiy sig'im — 900 o'rin",
-        "1 учебный корпус, 22 аудитории, общая вместимость — 900 мест",
-        "1 building, 22 classrooms, total capacity — 900 seats",
-    ),
-    (
-        "bakalavriat-kategoriyalari", 12,
-        "Qo'shma dasturlar soni",
-        "Количество совместных программ",
-        "Number of Joint Programmes",
-        "Hozirda qo'shma dasturlar mavjud emas",
-        "Совместных программ на данный момент нет",
-        "No joint programmes at present",
-    ),
-    (
-        "bakalavriat-kategoriyalari", 13,
-        "O'quv-uslubiy adabiyotlar fondi",
-        "Фонд учебно-методической литературы",
-        "Educational Resource Fund",
-        "546 nomdagi 8 260 dona: 3 752 dona darslik, 3 474 dona o'quv qo'llanma, 440 dona monografiya, 105 dona badiiy adabiyot, 489 dona boshqa adabiyot",
-        "8 260 экз. 546 наим.: 3 752 учебника, 3 474 пособия, 440 монографий, 105 худ. литературы, 489 прочих",
-        "8,260 copies of 546 titles: 3,752 textbooks, 3,474 guides, 440 monographs, 105 fiction, 489 other",
     ),
 
     # ══ BAKALAVRIAT MA'LUMOTNOMASI ═══════════════════════════════════════════════
@@ -427,10 +352,13 @@ class Command(BaseCommand):
         # ── Yozuvlar ────────────────────────────────────────────────────────────
         created_n = updated_n = 0
         for cat_slug, order, t_uz, t_ru, t_en, c_uz, c_ru, c_en in ITEMS:
-            cat = cat_map.get(cat_slug)
-            if not cat:
-                self.stdout.write(self.style.WARNING(f"  kategoriya topilmadi: {cat_slug}"))
-                continue
+            if cat_slug is None:
+                cat = None
+            else:
+                cat = cat_map.get(cat_slug)
+                if cat is None:
+                    self.stdout.write(self.style.WARNING(f"  kategoriya topilmadi: {cat_slug}"))
+                    continue
             _, is_new = StudentInfo.objects.update_or_create(
                 category=cat, order=order,
                 defaults=dict(

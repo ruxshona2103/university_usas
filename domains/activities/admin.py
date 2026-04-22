@@ -5,7 +5,7 @@ from .models import ContractPrice, ServiceVehicle, IlmiyFaoliyatCategory, IlmiyF
 
 
 @admin.register(IlmiyFaoliyatCategory)
-class IlmiyFaoliyatCategoryAdmin(admin.ModelAdmin):
+class OquvFaoliyatCategoryAdmin(admin.ModelAdmin):
     list_display  = ('title_uz', 'slug', 'order')
     list_editable = ('order',)
     search_fields = ('title_uz', 'title_ru')
@@ -71,7 +71,7 @@ class ServiceVehicleAdmin(admin.ModelAdmin):
 
 
 @admin.register(IlmiyFaoliyat)
-class IlmiyFaoliyatAdmin(admin.ModelAdmin):
+class OquvFaoliyatAdmin(admin.ModelAdmin):
     list_display  = ('title_uz', 'category', 'file_link', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('category', 'is_active')

@@ -16,8 +16,8 @@ class IlmiyFaoliyatCategory(TimeStampedModel):
     class Meta:
         db_table            = 'activities_ilmiy_faoliyat_category'
         ordering            = ['order', 'title_uz']
-        verbose_name        = "Ilmiy faoliyat kategoriyasi"
-        verbose_name_plural = "Ilmiy faoliyat kategoriyalari"
+        verbose_name        = "O'quv faoliyat kategoriyasi"
+        verbose_name_plural = "O'quv faoliyat kategoriyalari"
 
     def save(self, *args, **kwargs):
         if not self.slug:

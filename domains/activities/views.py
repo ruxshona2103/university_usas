@@ -55,26 +55,15 @@ class ServiceVehicleListAPIView(generics.ListAPIView):
         return ctx
 
 
-@extend_schema(tags=['activities'], summary="Ilmiy faoliyat ro'yxati")
+@extend_schema(tags=['activities'], summary="O'quv faoliyat ro'yxati")
 class IlmiyFaoliyatListAPIView(generics.ListAPIView):
-    """
-    ?lang=uz|ru|en
-    ?category=article|monograph|manual|report|patent|conference|other
-    ?year=2024
-    """
+    """?lang=uz|ru|en"""
     serializer_class   = IlmiyFaoliyatSerializer
     permission_classes = [AllowAny]
     pagination_class   = None
 
     def get_queryset(self):
-        qs = IlmiyFaoliyat.objects.filter(is_active=True)
-        category = self.request.query_params.get('category')
-        year     = self.request.query_params.get('year')
-        if category:
-            qs = qs.filter(category=category)
-        if year:
-            qs = qs.filter(year=year)
-        return qs
+        return IlmiyFaoliyat.objects.filter(is_active=True)
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()
@@ -82,7 +71,7 @@ class IlmiyFaoliyatListAPIView(generics.ListAPIView):
         return ctx
 
 
-@extend_schema(tags=['activities'], summary="Ilmiy faoliyat — bitta yozuv")
+@extend_schema(tags=['activities'], summary="O'quv faoliyat — bitta yozuv")
 class IlmiyFaoliyatDetailAPIView(generics.RetrieveAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = IlmiyFaoliyatSerializer

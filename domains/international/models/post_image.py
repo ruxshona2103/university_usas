@@ -21,8 +21,9 @@ class InternationalPostImage(TimeStampedModel):
     order = models.PositiveIntegerField(default=0, verbose_name="Tartib")
 
     class Meta:
-        db_table  = 'international_post_image'
-        ordering  = ['order']
+        app_label           = 'international'
+        db_table            = 'international_post_image'
+        ordering            = ['order']
         verbose_name        = "E'lon rasmi"
         verbose_name_plural = "E'lon rasmlari"
 

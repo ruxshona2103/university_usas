@@ -50,11 +50,12 @@ class InternationalPostAdmin(admin.ModelAdmin):
     list_filter   = ('is_active', 'post_type')
     search_fields = ('title_uz', 'title_ru', 'title_en')
     list_per_page = 20
+    inlines       = [InternationalPostImageInline]
 
     fieldsets = (
         ("Turi va sana", {'fields': ('post_type', 'date')}),
         ("Sarlavha", {'fields': ('title_uz', 'title_ru', 'title_en')}),
         ("Matn", {'fields': ('content_uz', 'content_ru', 'content_en')}),
-        ("Rasm", {'fields': ('image',)}),
+        ("Asosiy rasm", {'fields': ('image',)}),
         ("Tartib va holat", {'fields': ('order', 'is_active')}),
     )

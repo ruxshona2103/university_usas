@@ -50,8 +50,8 @@ class IlmiyFaoliyat(TimeStampedModel):
     class Meta:
         db_table            = 'activities_ilmiy_faoliyat'
         ordering            = ['order']
-        verbose_name        = "Ilmiy faoliyat"
-        verbose_name_plural = "Ilmiy faoliyat"
+        verbose_name        = "O'quv faoliyat"
+        verbose_name_plural = "O'quv faoliyat"
 
     def __str__(self):
         return self.title_uz

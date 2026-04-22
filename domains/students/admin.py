@@ -121,7 +121,6 @@ class StudentInfoCategoryAdmin(admin.ModelAdmin):
     list_display  = ('title_uz', 'slug', 'order')
     list_editable = ('order',)
     search_fields = ('title_uz',)
-    readonly_fields = ('slug',)
     inlines       = [StudentInfoInline]
     list_per_page = 20
 

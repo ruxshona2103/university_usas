@@ -2,6 +2,9 @@ from .base import *
 import dj_database_url
 import os
 from django.core.exceptions import ImproperlyConfigured
+from dotenv import load_dotenv
+
+load_dotenv()
 
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 

@@ -31,7 +31,7 @@ ITEMS = [
     # ── AKADEMIYA ────────────────────────────────────────────────────────────────
     ("akademiya", "about-academy",        1,  "Akademiya haqida",                             "Об академии",                                      "About Academy",                 "/page/about-academy"),
     ("akademiya", "academy-in-numbers",   2,  "Akademiya raqamlarda",                         "Академия в цифрах",                                "Academy in Numbers",            "/page/academy-in-numbers"),
-    ("akademiya", "rectorate",            3,  "Rektorat",                                     "Ректорат",                                         "Rectorate",                     "/page/rectorate"),
+    ("akademiya", "rectorate",            3,  "Rektorat",                                     "Ректорат",                                         "Rectorate",                     "/api/categories/rektorat/"),
     ("akademiya", "academy-structure",    4,  "Tuzilma",                                      "Структура",                                        "Structure",                     "/page/academy-structure"),
     ("akademiya", "academy-details",      5,  "Rekvizitlar",                                  "Реквизиты",                                        "Details",                       "/page/academy-details"),
     ("akademiya", "academy-regulations",  6,  "Me'yoriy hujjatlar",                           "Нормативные документы",                            "Regulations",                   "/page/academy-regulations"),

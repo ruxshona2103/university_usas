@@ -114,11 +114,13 @@ class NavbarListAPIView(APIView):
                 for item in cat.items.all():
                     url = item.redirect_url if item.page_type == NavbarSubItem.PageType.REDIRECT else f'/page/{item.slug}'
                     children.append({
-                        'id':    str(item.id),
-                        'name':  getattr(item, f'name_{lang}') or item.name_uz,
-                        'slug':  item.slug,
-                        'url':   url,
-                        'order': item.order,
+                        'id':           str(item.id),
+                        'name':         getattr(item, f'name_{lang}') or item.name_uz,
+                        'slug':         item.slug,
+                        'url':          url,
+                        'page_type':    item.page_type,
+                        'redirect_url': item.redirect_url or None,
+                        'order':        item.order,
                     })
                 result[lang].append({
                     'key':          cat.slug,

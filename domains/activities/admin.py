@@ -72,28 +72,18 @@ class ServiceVehicleAdmin(admin.ModelAdmin):
 
 @admin.register(IlmiyFaoliyat)
 class IlmiyFaoliyatAdmin(admin.ModelAdmin):
-    list_display  = ('title_uz', 'category', 'author', 'year', 'file_link', 'order', 'is_active')
+    list_display  = ('title_uz', 'category', 'file_link', 'order', 'is_active')
     list_editable = ('order', 'is_active')
-    list_filter   = ('category', 'year', 'is_active')
-    search_fields = ('title_uz', 'title_ru', 'author')
+    list_filter   = ('category', 'is_active')
+    search_fields = ('title_uz', 'title_ru')
 
     fieldsets = (
         ("Asosiy ma'lumot", {
-            'fields': ('category', 'author', 'year'),
-        }),
-        ("Sarlavha (Uz)", {
-            'fields': ('title_uz',),
+            'fields': ('category', 'title_uz'),
         }),
         ("Sarlavha (Ru / En)", {
             'classes': ('collapse',),
             'fields': ('title_ru', 'title_en'),
-        }),
-        ("Tavsif (Uz)", {
-            'fields': ('description_uz',),
-        }),
-        ("Tavsif (Ru / En)", {
-            'classes': ('collapse',),
-            'fields': ('description_ru', 'description_en'),
         }),
         ("Media va holat", {
             'fields': ('image', 'file', 'order', 'is_active'),

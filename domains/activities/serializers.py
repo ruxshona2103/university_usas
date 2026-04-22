@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.openapi import OpenApiTypes
 
 from domains.activities.models import ContractPrice, ServiceVehicle, IlmiyFaoliyat
 
@@ -16,6 +18,7 @@ class ContractPriceSerializer(serializers.ModelSerializer):
             'price', 'order',
         ]
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_specialty_name(self, obj):
         lang = self.context.get('lang', 'uz')
         return getattr(obj, f'specialty_name_{lang}') or obj.specialty_name_uz
@@ -32,6 +35,7 @@ class ServiceVehicleSerializer(serializers.ModelSerializer):
             'manufactured_year', 'fuel_type', 'order',
         ]
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_vehicle_type(self, obj):
         lang = self.context.get('lang', 'uz')
         return getattr(obj, f'vehicle_type_{lang}') or obj.vehicle_type_uz
@@ -53,23 +57,26 @@ class IlmiyFaoliyatSerializer(serializers.ModelSerializer):
     def _req(self):
         return self.context.get('request')
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_title(self, obj):
         return getattr(obj, f'title_{self._lang()}') or obj.title_uz
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_category(self, obj):
         if not obj.category:
             return None
         return getattr(obj.category, f'title_{self._lang()}') or obj.category.title_uz
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_image_url(self, obj):
         if not obj.image:
             return None
         req = self._req()
         return req.build_absolute_uri(obj.image.url) if req else obj.image.url
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_file_url(self, obj):
         if not obj.file:
             return None
         req = self._req()
         return req.build_absolute_uri(obj.file.url) if req else obj.file.url
-

@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.openapi import OpenApiTypes
 
 from common.models import ContentImage
 from domains.pages.models import (
@@ -55,9 +57,11 @@ class PartnerSerializer(serializers.ModelSerializer):
         model  = Partner
         fields = ['id', 'image', 'url', 'title', 'order']
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_image(self, obj):
         return _abs_url(self.context.get('request'), obj.image)
 
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):
         return {'uz': obj.title_uz, 'ru': obj.title_ru, 'en': obj.title_en}
 
@@ -69,6 +73,7 @@ class HeroVideoSerializer(serializers.ModelSerializer):
         model  = HeroVideo
         fields = ['id', 'title', 'video_url', 'poster_image', 'is_active', 'created_at']
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_poster_image(self, obj):
         return _abs_url(self.context.get('request'), obj.poster_image)
 
@@ -176,14 +181,17 @@ class NavbarPageSerializer(serializers.ModelSerializer):
     def _lang(self):
         return self.context.get('lang', 'uz')
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_name(self, obj):
         lang = self._lang()
         return getattr(obj, f'name_{lang}') or obj.name_uz
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_content(self, obj):
         lang = self._lang()
         return getattr(obj, f'content_{lang}') or obj.content_uz or ''
 
+    @extend_schema_field(serializers.ListField(child=serializers.DictField()))
     def get_blocks(self, obj):
         blocks = []
 

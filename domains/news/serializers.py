@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.openapi import OpenApiTypes
 
 from common.models import ContentImage
 from domains.news.models import Article, News, Event, Blog, InformationContent, InformationImage, NewsCategory
@@ -22,6 +24,7 @@ class NewsCategorySerializer(serializers.ModelSerializer):
         model  = NewsCategory
         fields = ['id', 'slug', 'title', 'order']
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_title(self, obj):
         lang = self.context.get('lang', 'uz')
         return getattr(obj, f'title_{lang}') or obj.title_uz
@@ -35,6 +38,7 @@ class ContentImageSerializer(serializers.ModelSerializer):
         model  = ContentImage
         fields = ['id', 'image', 'order']
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_image(self, obj):
         return _abs_url(self.context.get('request'), obj.image)
 
@@ -42,26 +46,33 @@ class ContentImageSerializer(serializers.ModelSerializer):
 class PublishableMixin:
     """DRY mixin — News, Event, Blog uchun umumiy maydonlar."""
 
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):
         return {'uz': obj.title_uz, 'ru': obj.title_ru, 'en': obj.title_en}
 
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_description(self, obj):
         return {'uz': obj.description_uz, 'ru': obj.description_ru, 'en': obj.description_en}
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_image(self, obj):
         return _abs_url(self.context.get('request'), obj.image)
 
+    @extend_schema_field(OpenApiTypes.DATETIME)
     def get_date(self, obj):
         return obj.date.strftime('%Y-%m-%d %H:%M:%S') if obj.date else None
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_badgeCategory(self, obj):
         return obj.get_content_type()
 
+    @extend_schema_field(ContentImageSerializer(many=True))
     def get_images(self, obj):
         return ContentImageSerializer(
             obj.images.all(), many=True, context=self.context
         ).data
 
+    @extend_schema_field(NewsCategorySerializer(many=True))
     def get_categories(self, obj):
         return NewsCategorySerializer(
             obj.categories.all(), many=True, context=self.context
@@ -108,6 +119,7 @@ class EventSerializer(PublishableMixin, serializers.ModelSerializer):
             'views', 'likes', 'comments',
         ]
 
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_location(self, obj):
         return {'uz': obj.location_uz, 'ru': obj.location_ru, 'en': obj.location_en}
 
@@ -133,6 +145,7 @@ class BlogSerializer(PublishableMixin, serializers.ModelSerializer):
             'views', 'likes', 'comments',
         ]
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_author_name(self, obj):
         if obj.author:
             return obj.author.get_full_name() or obj.author.username
@@ -146,6 +159,7 @@ class InformationImageSerializer(serializers.ModelSerializer):
         model  = InformationImage
         fields = ['id', 'image', 'order']
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_image(self, obj):
         return _abs_url(self.context.get('request'), obj.image)
 
@@ -169,14 +183,17 @@ class InformationContentSerializer(serializers.ModelSerializer):
     def _lang(self):
         return self.context.get('lang', 'uz')
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_title(self, obj):
         lang = self._lang()
         return getattr(obj, f'title_{lang}') or obj.title_uz
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_description(self, obj):
         lang = self._lang()
         return getattr(obj, f'description_{lang}') or obj.description_uz
 
+    @extend_schema_field(InformationImageSerializer(many=True))
     def get_images(self, obj):
         return InformationImageSerializer(
             obj.images.all(), many=True, context=self.context

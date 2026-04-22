@@ -1,4 +1,7 @@
 from rest_framework import serializers
+from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.openapi import OpenApiTypes
+
 from domains.contact.models import FAQ, RectorAppeal
 
 
@@ -20,10 +23,12 @@ class FAQSerializer(serializers.ModelSerializer):
     def _lang(self):
         return self.context.get('lang', 'uz')
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_question(self, obj):
         lang = self._lang()
         return getattr(obj, f'question_{lang}') or obj.question_uz
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_answer(self, obj):
         lang = self._lang()
         return getattr(obj, f'answer_{lang}') or obj.answer_uz

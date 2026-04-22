@@ -7,6 +7,6 @@ from .views import (
 
 urlpatterns = [
     path('foreign-reviews/',    ForeignProfessorReviewListAPIView.as_view(), name='foreign-reviews-list'),
-    path('partners/',           PartnerOrganizationListAPIView.as_view(),    name='international-partners'),
+    path('partner-organizations/', PartnerOrganizationListAPIView.as_view(), name='international-partners'),
     path('international-posts/', InternationalPostListAPIView.as_view(),     name='international-posts'),
 ]

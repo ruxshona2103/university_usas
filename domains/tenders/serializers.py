@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.openapi import OpenApiTypes
 
 from domains.tenders.models import TenderAnnouncement, TenderImage
 
@@ -20,6 +22,7 @@ class TenderImageSerializer(serializers.ModelSerializer):
         model  = TenderImage
         fields = ['id', 'image', 'order']
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_image(self, obj):
         return _abs_url(self.context.get('request'), obj.image)
 
@@ -41,13 +44,16 @@ class TenderAnnouncementSerializer(serializers.ModelSerializer):
     def _lang(self):
         return self.context.get('lang', 'uz')
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_title(self, obj):
         lang = self._lang()
         return getattr(obj, f'title_{lang}') or obj.title_uz
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_description(self, obj):
         lang = self._lang()
         return getattr(obj, f'description_{lang}') or obj.description_uz
 
+    @extend_schema_field(TenderImageSerializer(many=True))
     def get_images(self, obj):
         return TenderImageSerializer(obj.images.all(), many=True, context=self.context).data

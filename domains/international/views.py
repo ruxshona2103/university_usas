@@ -64,7 +64,7 @@ class InternationalPostListAPIView(generics.ListAPIView):
         return ctx
 
     def get_queryset(self):
-        qs = InternationalPost.objects.filter(is_active=True)
+        qs = InternationalPost.objects.filter(is_active=True).prefetch_related('images')
         post_type = self.request.query_params.get('type')
         if post_type:
             qs = qs.filter(post_type=post_type)

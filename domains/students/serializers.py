@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.openapi import OpenApiTypes
 
 from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion
 
@@ -20,6 +22,7 @@ class PersonCategorySerializer(serializers.ModelSerializer):
         model  = PersonCategory
         fields = ['id', 'title', 'slug']
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_title(self, obj):
         return {
             'uz': obj.title_uz,
@@ -35,6 +38,7 @@ class PersonImageSerializer(serializers.ModelSerializer):
         model  = PersonImage
         fields = ['id', 'image', 'order']
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_image(self, obj):
         return _abs_url(self.context.get('request'), obj.image)
 
@@ -47,6 +51,7 @@ class PersonContentSerializer(serializers.ModelSerializer):
         model  = PersonContent
         fields = ['tags', 'content', 'order']
 
+    @extend_schema_field(serializers.ListField(child=serializers.DictField()))
     def get_tags(self, obj):
         lang = self.context.get('lang', 'uz')
         return [
@@ -54,6 +59,7 @@ class PersonContentSerializer(serializers.ModelSerializer):
             for t in obj.tags.all()
         ]
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_content(self, obj):
         lang = self.context.get('lang', 'uz')
         return getattr(obj, f'content_{lang}', '') or obj.content_uz
@@ -84,26 +90,32 @@ class PersonSerializer(serializers.ModelSerializer):
     def _lang(self):
         return self.context.get('lang', 'uz')
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_full_name(self, obj):
         lang = self._lang()
         return getattr(obj, f'full_name_{lang}') or obj.full_name_uz
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_description(self, obj):
         lang = self._lang()
         return getattr(obj, f'description_{lang}') or obj.description_uz
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_image(self, obj):
         return _abs_url(self.context.get('request'), obj.image)
 
+    @extend_schema_field(PersonImageSerializer(many=True))
     def get_images(self, obj):
         return PersonImageSerializer(
             obj.images.all(), many=True, context=self.context
         ).data
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_title(self, obj):
         lang = self._lang()
         return getattr(obj, f'title_{lang}') or obj.title_uz
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_position(self, obj):
         lang = self._lang()
         return getattr(obj, f'position_{lang}') or obj.position_uz
@@ -121,10 +133,12 @@ class PersonCategoryWithPersonsSerializer(serializers.ModelSerializer):
     def _lang(self):
         return self.context.get('lang', 'uz')
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_title(self, obj):
         lang = self._lang()
         return getattr(obj, f'title_{lang}') or obj.title_uz
 
+    @extend_schema_field(PersonSerializer(many=True))
     def get_persons(self, obj):
         qs = obj.persons.filter(is_active=True).prefetch_related('images', 'tabs__tags').order_by('order', '-id')
         return PersonSerializer(qs, many=True, context=self.context).data
@@ -141,10 +155,12 @@ class StudentInfoSerializer(serializers.ModelSerializer):
     def _lang(self):
         return self.context.get('lang', 'uz')
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_title(self, obj):
         lang = self._lang()
         return getattr(obj, f'title_{lang}') or obj.title_uz
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_content(self, obj):
         lang = self._lang()
         return getattr(obj, f'content_{lang}') or obj.content_uz
@@ -162,10 +178,12 @@ class StudentInfoCategorySerializer(serializers.ModelSerializer):
     def _lang(self):
         return self.context.get('lang', 'uz')
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_title(self, obj):
         lang = self._lang()
         return getattr(obj, f'title_{lang}') or obj.title_uz
 
+    @extend_schema_field(StudentInfoSerializer(many=True))
     def get_items(self, obj):
         qs = obj.items.filter(is_active=True).order_by('order')
         return StudentInfoSerializer(qs, many=True, context=self.context).data
@@ -178,5 +196,6 @@ class OlimpiyaChempionSerializer(serializers.ModelSerializer):
         model  = OlimpiyaChempion
         fields = ['id', 'full_name', 'image_url', 'yonalish', 'guruh', 'order']
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_image_url(self, obj):
         return _abs_url(self.context.get('request'), obj.image)

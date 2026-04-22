@@ -38,30 +38,28 @@ class ServiceVehicleSerializer(serializers.ModelSerializer):
 
 
 class IlmiyFaoliyatSerializer(serializers.ModelSerializer):
-    title       = serializers.SerializerMethodField()
-    description = serializers.SerializerMethodField()
-    category    = serializers.CharField(source='get_category_display')
-    image_url   = serializers.SerializerMethodField()
-    file_url    = serializers.SerializerMethodField()
+    title     = serializers.SerializerMethodField()
+    category  = serializers.SerializerMethodField()
+    image_url = serializers.SerializerMethodField()
+    file_url  = serializers.SerializerMethodField()
 
     class Meta:
         model  = IlmiyFaoliyat
-        fields = [
-            'id', 'title', 'description', 'author', 'year',
-            'category', 'image_url', 'file_url', 'order',
-        ]
-
-    def _req(self):
-        return self.context.get('request')
+        fields = ['id', 'title', 'category', 'image_url', 'file_url', 'order']
 
     def _lang(self):
         return self.context.get('lang', 'uz')
 
+    def _req(self):
+        return self.context.get('request')
+
     def get_title(self, obj):
         return getattr(obj, f'title_{self._lang()}') or obj.title_uz
 
-    def get_description(self, obj):
-        return getattr(obj, f'description_{self._lang()}') or obj.description_uz
+    def get_category(self, obj):
+        if not obj.category:
+            return None
+        return getattr(obj.category, f'title_{self._lang()}') or obj.category.title_uz
 
     def get_image_url(self, obj):
         if not obj.image:

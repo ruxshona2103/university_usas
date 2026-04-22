@@ -1,6 +1,13 @@
 from django.contrib import admin
 
-from .models import ForeignProfessorReview, PartnerOrganization, InternationalPost
+from .models import ForeignProfessorReview, PartnerOrganization, InternationalPost, InternationalPostImage
+
+
+class InternationalPostImageInline(admin.TabularInline):
+    model   = InternationalPostImage
+    extra   = 1
+    fields  = ('image', 'order')
+    ordering = ('order',)
 
 
 @admin.register(ForeignProfessorReview)

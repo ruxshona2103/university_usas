@@ -9,6 +9,12 @@ class PersonCategory(TimeStampedModel):
     Shaxs kategoriyasi — admin o'zi qo'shadi.
     Misol: Rektorat, Faxrlarimiz, Bitiruvchilar, Ilg'or olimlar, UZDSA yulduzlari
     """
+    parent   = models.ForeignKey(
+        'self', null=True, blank=True,
+        on_delete=models.CASCADE,
+        related_name='children',
+        verbose_name="Ota kategoriya",
+    )
     title_uz = models.CharField(max_length=100, verbose_name="Nomi (Uz)")
     title_ru = models.CharField(max_length=100, blank=True, verbose_name="Nomi (Ru)")
     title_en = models.CharField(max_length=100, blank=True, verbose_name="Nomi (En)")

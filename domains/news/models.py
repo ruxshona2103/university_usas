@@ -9,8 +9,14 @@ User = get_user_model()
 
 # ── NewsCategory ───────────────────────────────────────────────────────────────
 class NewsCategory(TimeStampedModel):
-    """Yangiliklar uchun kategoriya (bir yangilikka bir nechta kategoriya)."""
+    """Yangiliklar uchun kategoriya (ota-bola ierarxiyasini qo'llab-quvvatlaydi)."""
 
+    parent   = models.ForeignKey(
+        'self', null=True, blank=True,
+        on_delete=models.CASCADE,
+        related_name='children',
+        verbose_name="Ota kategoriya",
+    )
     title_uz = models.CharField(max_length=200, verbose_name="Nomi (Uz)")
     title_ru = models.CharField(max_length=200, blank=True, verbose_name="Nomi (Ru)")
     title_en = models.CharField(max_length=200, blank=True, verbose_name="Nomi (En)")

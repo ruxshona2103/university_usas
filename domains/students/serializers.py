@@ -16,19 +16,25 @@ def _abs_url(request, field):
 
 
 class PersonCategorySerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField()
+    title    = serializers.SerializerMethodField()
+    children = serializers.SerializerMethodField()
 
     class Meta:
         model  = PersonCategory
-        fields = ['id', 'title', 'slug']
+        fields = ['id', 'title', 'slug', 'children']
 
-    @extend_schema_field(OpenApiTypes.STR)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):
         return {
             'uz': obj.title_uz,
             'ru': obj.title_ru or obj.title_uz,
             'en': obj.title_en or obj.title_uz,
         }
+
+    @extend_schema_field(serializers.ListField())
+    def get_children(self, obj):
+        qs = obj.children.order_by('order')
+        return PersonCategorySerializer(qs, many=True, context=self.context).data
 
 
 class PersonImageSerializer(serializers.ModelSerializer):
@@ -122,13 +128,14 @@ class PersonSerializer(serializers.ModelSerializer):
 
 
 class PersonCategoryWithPersonsSerializer(serializers.ModelSerializer):
-    """Kategoriya + ichida o'sha kategoriyaga tegishli shaxslar."""
-    title   = serializers.SerializerMethodField()
-    persons = serializers.SerializerMethodField()
+    """Kategoriya + ichida o'sha kategoriyaga tegishli shaxslar + children."""
+    title    = serializers.SerializerMethodField()
+    persons  = serializers.SerializerMethodField()
+    children = serializers.SerializerMethodField()
 
     class Meta:
         model  = PersonCategory
-        fields = ['id', 'title', 'slug', 'persons']
+        fields = ['id', 'title', 'slug', 'children', 'persons']
 
     def _lang(self):
         return self.context.get('lang', 'uz')
@@ -137,6 +144,11 @@ class PersonCategoryWithPersonsSerializer(serializers.ModelSerializer):
     def get_title(self, obj):
         lang = self._lang()
         return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    @extend_schema_field(serializers.ListField())
+    def get_children(self, obj):
+        qs = obj.children.order_by('order')
+        return PersonCategoryWithPersonsSerializer(qs, many=True, context=self.context).data
 
     @extend_schema_field(PersonSerializer(many=True))
     def get_persons(self, obj):
@@ -167,13 +179,14 @@ class StudentInfoSerializer(serializers.ModelSerializer):
 
 
 class StudentInfoCategorySerializer(serializers.ModelSerializer):
-    """Kategoriya + ichida o'sha kategoriyaga tegishli ma'lumotlar."""
-    title = serializers.SerializerMethodField()
-    items = serializers.SerializerMethodField()
+    """Kategoriya + ichida o'sha kategoriyaga tegishli ma'lumotlar + children."""
+    title    = serializers.SerializerMethodField()
+    children = serializers.SerializerMethodField()
+    items    = serializers.SerializerMethodField()
 
     class Meta:
         model  = StudentInfoCategory
-        fields = ['id', 'title', 'slug', 'items']
+        fields = ['id', 'title', 'slug', 'children', 'items']
 
     def _lang(self):
         return self.context.get('lang', 'uz')
@@ -182,6 +195,11 @@ class StudentInfoCategorySerializer(serializers.ModelSerializer):
     def get_title(self, obj):
         lang = self._lang()
         return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    @extend_schema_field(serializers.ListField())
+    def get_children(self, obj):
+        qs = obj.children.order_by('order')
+        return StudentInfoCategorySerializer(qs, many=True, context=self.context).data
 
     @extend_schema_field(StudentInfoSerializer(many=True))
     def get_items(self, obj):

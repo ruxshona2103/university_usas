@@ -30,15 +30,20 @@ class BaseContentListAPIView(generics.ListAPIView):
         return ctx
 
 
-@extend_schema(tags=['news'], summary="Yangilik kategoriyalari ro'yxati")
+@extend_schema(tags=['news'], summary="Yangilik kategoriyalari ro'yxati (ierarxik)")
 class NewsCategoryListAPIView(generics.ListAPIView):
-    """Barcha yangilik kategoriyalari."""
+    """Faqat ildiz kategoriyalar; har birida children[] ichida bola kategoriyalar."""
     serializer_class   = NewsCategorySerializer
     permission_classes = [AllowAny]
     pagination_class   = None
 
     def get_queryset(self):
-        return NewsCategory.objects.all().order_by('order', 'title_uz')
+        return (
+            NewsCategory.objects
+            .filter(parent=None)
+            .prefetch_related('children')
+            .order_by('order', 'title_uz')
+        )
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

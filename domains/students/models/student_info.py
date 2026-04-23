@@ -6,9 +6,15 @@ from common.base_models import TimeStampedModel
 
 class StudentInfoCategory(TimeStampedModel):
     """
-    Talaba ma'lumotlari kategoriyasi.
+    Talaba ma'lumotlari kategoriyasi (ota-bola ierarxiyasini qo'llab-quvvatlaydi).
     Misol: Bakalavriat, Magistratura, Bakalavriat ma'lumotnomasi...
     """
+    parent   = models.ForeignKey(
+        'self', null=True, blank=True,
+        on_delete=models.CASCADE,
+        related_name='children',
+        verbose_name="Ota kategoriya",
+    )
     title_uz = models.CharField(max_length=200, verbose_name="Nomi (Uz)")
     title_ru = models.CharField(max_length=200, blank=True, verbose_name="Nomi (Ru)")
     title_en = models.CharField(max_length=200, blank=True, verbose_name="Nomi (En)")

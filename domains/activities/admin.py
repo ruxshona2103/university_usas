@@ -6,15 +6,16 @@ from .models import ContractPrice, ServiceVehicle, IlmiyFaoliyatCategory, IlmiyF
 
 @admin.register(IlmiyFaoliyatCategory)
 class OquvFaoliyatCategoryAdmin(admin.ModelAdmin):
-    list_display  = ('title_uz', 'slug', 'order')
+    list_display  = ('title_uz', 'parent', 'slug', 'order')
     list_editable = ('order',)
+    list_filter   = ('parent',)
     search_fields = ('title_uz', 'title_ru')
     prepopulated_fields = {}  # slug auto-generated on save
 
     fieldsets = (
         ("Nomi (Uz)", {'fields': ('title_uz',)}),
         ("Nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('title_ru', 'title_en')}),
-        ("Meta", {'fields': ('slug', 'order')}),
+        ("Meta", {'fields': ('parent', 'slug', 'order')}),
     )
 
 

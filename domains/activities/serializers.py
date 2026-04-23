@@ -42,17 +42,23 @@ class ServiceVehicleSerializer(serializers.ModelSerializer):
 
 
 class IlmiyFaoliyatCategorySerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField()
-    items = serializers.SerializerMethodField()
+    title    = serializers.SerializerMethodField()
+    children = serializers.SerializerMethodField()
+    items    = serializers.SerializerMethodField()
 
     class Meta:
         model  = IlmiyFaoliyatCategory
-        fields = ['id', 'slug', 'title', 'order', 'items']
+        fields = ['id', 'slug', 'title', 'order', 'children', 'items']
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_title(self, obj):
         lang = self.context.get('lang', 'uz')
         return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    @extend_schema_field(serializers.ListField())
+    def get_children(self, obj):
+        qs = obj.children.order_by('order')
+        return IlmiyFaoliyatCategorySerializer(qs, many=True, context=self.context).data
 
     @extend_schema_field(serializers.ListField())
     def get_items(self, obj):

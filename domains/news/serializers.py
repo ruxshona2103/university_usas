@@ -18,16 +18,22 @@ def _abs_url(request, field):
 
 
 class NewsCategorySerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField()
+    title    = serializers.SerializerMethodField()
+    children = serializers.SerializerMethodField()
 
     class Meta:
         model  = NewsCategory
-        fields = ['id', 'slug', 'title', 'order']
+        fields = ['id', 'slug', 'title', 'order', 'children']
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_title(self, obj):
         lang = self.context.get('lang', 'uz')
         return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    @extend_schema_field(serializers.ListField())
+    def get_children(self, obj):
+        qs = obj.children.order_by('order')
+        return NewsCategorySerializer(qs, many=True, context=self.context).data
 
 
 

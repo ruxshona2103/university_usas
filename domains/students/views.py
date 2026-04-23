@@ -16,11 +16,19 @@ def _lang(request):
     return lang if lang in ('uz', 'ru', 'en') else 'uz'
 
 
-@extend_schema(tags=['people'], summary="Shaxslar kategoriyalari ro'yxati")
+@extend_schema(tags=['people'], summary="Shaxslar kategoriyalari ro'yxati (ierarxik)")
 class PersonCategoryListAPIView(generics.ListAPIView):
+    """Faqat ildiz kategoriyalar; har birida children[] ichida bola kategoriyalar."""
     serializer_class = PersonCategorySerializer
-    queryset         = PersonCategory.objects.all().order_by('order')
     pagination_class = None
+
+    def get_queryset(self):
+        return (
+            PersonCategory.objects
+            .filter(parent=None)
+            .prefetch_related('children')
+            .order_by('order')
+        )
 
 
 @extend_schema(tags=['people'], summary="Shaxslar ro'yxati")
@@ -76,10 +84,10 @@ class PersonDetailAPIView(generics.RetrieveAPIView):
         )
 
 
-@extend_schema(tags=['people'], summary="Shaxslar kategoriya bo'yicha guruhlangan")
+@extend_schema(tags=['people'], summary="Shaxslar kategoriya bo'yicha guruhlangan (ierarxik)")
 class PersonGroupedAPIView(generics.ListAPIView):
     """
-    Har bir kategoriya o'z persons array'i bilan qaytariladi.
+    Faqat ildiz kategoriyalar; har birida children[] va persons[] bilan.
     ?lang=uz|ru|en
     """
     serializer_class = PersonCategoryWithPersonsSerializer
@@ -93,10 +101,9 @@ class PersonGroupedAPIView(generics.ListAPIView):
     def get_queryset(self):
         return (
             PersonCategory.objects
-            .filter(persons__is_active=True)
-            .prefetch_related('persons__images', 'persons__tabs__tags')
+            .filter(parent=None)
+            .prefetch_related('children', 'persons__images', 'persons__tabs__tags')
             .order_by('order')
-            .distinct()
         )
 
 
@@ -121,10 +128,10 @@ class PersonCategoryDetailAPIView(generics.RetrieveAPIView):
         )
 
 
-@extend_schema(tags=['students'], summary="Talaba ma'lumotlari kategoriya bo'yicha guruhlangan")
+@extend_schema(tags=['students'], summary="Talaba ma'lumotlari kategoriya bo'yicha guruhlangan (ierarxik)")
 class StudentInfoGroupedAPIView(generics.ListAPIView):
     """
-    Har bir kategoriya o'z items array'i bilan qaytariladi.
+    Faqat ildiz kategoriyalar; har birida children[] va items[] bilan.
     ?lang=uz|ru|en
     """
     serializer_class = StudentInfoCategorySerializer
@@ -138,10 +145,9 @@ class StudentInfoGroupedAPIView(generics.ListAPIView):
     def get_queryset(self):
         return (
             StudentInfoCategory.objects
-            .filter(items__is_active=True)
-            .prefetch_related('items')
+            .filter(parent=None)
+            .prefetch_related('children', 'items')
             .order_by('order')
-            .distinct()
         )
 
 

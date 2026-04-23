@@ -29,9 +29,12 @@ class IlmiyFaoliyat(TimeStampedModel):
         related_name='items',
         verbose_name="Kategoriya",
     )
-    title_uz = models.CharField(max_length=500, verbose_name="Sarlavha (Uz)")
-    title_ru = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (Ru)")
-    title_en = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (En)")
+    title_uz       = models.CharField(max_length=500, verbose_name="Sarlavha (Uz)")
+    title_ru       = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (Ru)")
+    title_en       = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (En)")
+    description_uz = models.TextField(blank=True, null=True, verbose_name="Tavsif (Uz)")
+    description_ru = models.TextField(blank=True, null=True, verbose_name="Tavsif (Ru)")
+    description_en = models.TextField(blank=True, null=True, verbose_name="Tavsif (En)")
 
     image = models.FileField(
         upload_to=ilmiy_image_upload,

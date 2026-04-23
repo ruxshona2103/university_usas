@@ -13,11 +13,14 @@ class IlmiyFaoliyatCategory(TimeStampedModel):
         related_name='children',
         verbose_name="Ota kategoriya",
     )
-    title_uz = models.CharField(max_length=200, verbose_name="Nomi (Uz)")
-    title_ru = models.CharField(max_length=200, blank=True, verbose_name="Nomi (Ru)")
-    title_en = models.CharField(max_length=200, blank=True, verbose_name="Nomi (En)")
-    slug     = models.SlugField(max_length=220, unique=True, blank=True)
-    order    = models.PositiveIntegerField(default=0, verbose_name="Tartib")
+    title_uz       = models.CharField(max_length=200, verbose_name="Nomi (Uz)")
+    title_ru       = models.CharField(max_length=200, blank=True, verbose_name="Nomi (Ru)")
+    title_en       = models.CharField(max_length=200, blank=True, verbose_name="Nomi (En)")
+    description_uz = models.TextField(blank=True, null=True, verbose_name="Tavsif (Uz)")
+    description_ru = models.TextField(blank=True, null=True, verbose_name="Tavsif (Ru)")
+    description_en = models.TextField(blank=True, null=True, verbose_name="Tavsif (En)")
+    slug           = models.SlugField(max_length=220, unique=True, blank=True)
+    order          = models.PositiveIntegerField(default=0, verbose_name="Tartib")
 
     class Meta:
         db_table            = 'activities_ilmiy_faoliyat_category'

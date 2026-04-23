@@ -106,7 +106,7 @@ class IlmiyFaoliyatListAPIView(generics.ListAPIView):
     pagination_class   = None
 
     def get_queryset(self):
-        qs = IlmiyFaoliyat.objects.filter(is_active=True)
+        qs = IlmiyFaoliyat.objects.all()
         category_slug = self.request.query_params.get('category')
         if category_slug:
             qs = qs.filter(category__slug=category_slug)
@@ -123,7 +123,7 @@ class IlmiyFaoliyatDetailAPIView(generics.RetrieveAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = IlmiyFaoliyatSerializer
     permission_classes = [AllowAny]
-    queryset           = IlmiyFaoliyat.objects.filter(is_active=True)
+    queryset           = IlmiyFaoliyat.objects.all()
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

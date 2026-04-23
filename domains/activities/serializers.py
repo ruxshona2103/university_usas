@@ -42,15 +42,12 @@ class ServiceVehicleSerializer(serializers.ModelSerializer):
 
 
 class IlmiyFaoliyatSerializer(serializers.ModelSerializer):
-    title       = serializers.SerializerMethodField()
-    description = serializers.SerializerMethodField()
-    category    = serializers.SerializerMethodField()
-    image_url   = serializers.SerializerMethodField()
-    url         = serializers.SerializerMethodField()
+    title = serializers.SerializerMethodField()
+    url   = serializers.SerializerMethodField()
 
     class Meta:
         model  = IlmiyFaoliyat
-        fields = ['id', 'title', 'description', 'category', 'image_url', 'url', 'order']
+        fields = ['id', 'title', 'url', 'order']
 
     def _req(self):
         return self.context.get('request')
@@ -65,23 +62,6 @@ class IlmiyFaoliyatSerializer(serializers.ModelSerializer):
     def get_title(self, obj):
         return {'uz': obj.title_uz or '', 'ru': obj.title_ru or '', 'en': obj.title_en or ''}
 
-    @extend_schema_field(OpenApiTypes.OBJECT)
-    def get_description(self, obj):
-        return {'uz': obj.description_uz or '', 'ru': obj.description_ru or '', 'en': obj.description_en or ''}
-
-    @extend_schema_field(OpenApiTypes.OBJECT)
-    def get_category(self, obj):
-        if not obj.category:
-            return None
-        return {
-            'slug':  obj.category.slug,
-            'title': {'uz': obj.category.title_uz or '', 'ru': obj.category.title_ru or '', 'en': obj.category.title_en or ''},
-        }
-
-    @extend_schema_field(OpenApiTypes.URI)
-    def get_image_url(self, obj):
-        return self._build_url(obj.image)
-
     @extend_schema_field(OpenApiTypes.URI)
     def get_url(self, obj):
         return self._build_url(obj.file)
@@ -90,11 +70,23 @@ class IlmiyFaoliyatSerializer(serializers.ModelSerializer):
 class IlmiyFaoliyatCategorySerializer(serializers.ModelSerializer):
     title       = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
-    children    = serializers.SerializerMethodField()
+    blocks      = serializers.SerializerMethodField()
 
     class Meta:
         model  = IlmiyFaoliyatCategory
-        fields = ['id', 'slug', 'title', 'description', 'order', 'children']
+        fields = ['id', 'slug', 'title', 'description', 'order', 'blocks']
+
+    def _item_url(self, item):
+        if not item.file:
+            return None
+        req = self.context.get('request')
+        return req.build_absolute_uri(item.file.url) if req else item.file.url
+
+    def _item_to_link(self, item):
+        return {
+            'label': {'uz': item.title_uz or '', 'ru': item.title_ru or '', 'en': item.title_en or ''},
+            'url': self._item_url(item),
+        }
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):
@@ -105,20 +97,32 @@ class IlmiyFaoliyatCategorySerializer(serializers.ModelSerializer):
         return {'uz': obj.description_uz or '', 'ru': obj.description_ru or '', 'en': obj.description_en or ''}
 
     @extend_schema_field(serializers.ListField())
-    def get_children(self, obj):
+    def get_blocks(self, obj):
         result = []
 
-        # Sub-kategoriyalar (type: category)
+        # Sub-kategoriyalar → har biri structure-links blok
         for cat in obj.children.order_by('order'):
+            links = [self._item_to_link(item) for item in cat.items.order_by('order')]
             result.append({
-                'type': 'category',
-                **IlmiyFaoliyatCategorySerializer(cat, context=self.context).data,
+                'type': 'structure-links',
+                'data': {
+                    'title': {'uz': cat.title_uz or '', 'ru': cat.title_ru or '', 'en': cat.title_en or ''},
+                    'links': links,
+                },
             })
 
-        # Itemlar (type: item)
-        for item in obj.items.filter(is_active=True).order_by('order'):
-            data = IlmiyFaoliyatSerializer(item, context=self.context).data
-            data['type'] = 'item'
-            result.append(data)
+        # To'g'ridan-to'g'ri itemlar → title bo'yicha guruhlash → har bir guruh bitta blok
+        groups: dict = {}
+        for item in obj.items.order_by('order'):
+            key = (item.title_uz or '', item.title_ru or '', item.title_en or '')
+            if key not in groups:
+                groups[key] = {
+                    'title': {'uz': item.title_uz or '', 'ru': item.title_ru or '', 'en': item.title_en or ''},
+                    'links': [],
+                }
+            groups[key]['links'].append(self._item_to_link(item))
+
+        for group in groups.values():
+            result.append({'type': 'structure-links', 'data': group})
 
         return result

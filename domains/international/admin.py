@@ -1,10 +1,24 @@
 from django.contrib import admin
 
 from .models import (
-    ForeignProfessorReview, PartnerOrganization,
+    ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
     InternationalPost, InternationalPostImage,
     InternationalRating, InternationalRatingImage,
 )
+
+
+@admin.register(PartnerPageConfig)
+class PartnerPageConfigAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ("Sarlavha", {'fields': ('title_uz', 'title_ru', 'title_en')}),
+        ("Tavsif",   {'fields': ('description_uz', 'description_ru', 'description_en')}),
+    )
+
+    def has_add_permission(self, request):
+        return not PartnerPageConfig.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 class InternationalPostImageInline(admin.TabularInline):

@@ -1,10 +1,14 @@
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema
 
-from domains.international.models import ForeignProfessorReview, PartnerOrganization, InternationalPost, InternationalRating
+from domains.international.models import (
+    ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
+    InternationalPost, InternationalRating,
+)
 from .serializers import (
-    ForeignProfessorReviewSerializer, PartnerOrganizationSerializer,
+    ForeignProfessorReviewSerializer, PartnerOrganizationSerializer, PartnerPageConfigSerializer,
     InternationalPostSerializer, InternationalRatingSerializer,
 )
 
@@ -48,6 +52,16 @@ class PartnerOrganizationListAPIView(generics.ListAPIView):
         if partner_type:
             qs = qs.filter(partner_type=partner_type)
         return qs
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        ctx      = self.get_serializer_context()
+        config   = PartnerPageConfig.load()
+        return Response({
+            'title':       PartnerPageConfigSerializer(config, context=ctx).data['title'],
+            'description': PartnerPageConfigSerializer(config, context=ctx).data['description'],
+            'items':       PartnerOrganizationSerializer(queryset, many=True, context=ctx).data,
+        })
 
 
 @extend_schema(tags=['international'], summary="Xalqaro reytinglar ro'yxati")

@@ -86,6 +86,7 @@ class IlmiyFaoliyatCategorySerializer(serializers.ModelSerializer):
         return {
             'label': {'uz': item.title_uz or '', 'ru': item.title_ru or '', 'en': item.title_en or ''},
             'url': self._item_url(item),
+            'order': item.order,
         }
 
     @extend_schema_field(OpenApiTypes.OBJECT)

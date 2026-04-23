@@ -2,8 +2,8 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from drf_spectacular.utils import extend_schema
 
-from domains.activities.models import ContractPrice, ServiceVehicle, IlmiyFaoliyat
-from .serializers import ContractPriceSerializer, ServiceVehicleSerializer, IlmiyFaoliyatSerializer
+from domains.activities.models import ContractPrice, ServiceVehicle, IlmiyFaoliyat, IlmiyFaoliyatCategory
+from .serializers import ContractPriceSerializer, ServiceVehicleSerializer, IlmiyFaoliyatSerializer, IlmiyFaoliyatCategorySerializer
 
 
 
@@ -55,15 +55,13 @@ class ServiceVehicleListAPIView(generics.ListAPIView):
         return ctx
 
 
-@extend_schema(tags=['activities'], summary="O'quv faoliyat ro'yxati")
-class IlmiyFaoliyatListAPIView(generics.ListAPIView):
+@extend_schema(tags=['activities'], summary="Faoliyat kategoriyalari ro'yxati")
+class IlmiyFaoliyatCategoryListAPIView(generics.ListAPIView):
     """?lang=uz|ru|en"""
-    serializer_class   = IlmiyFaoliyatSerializer
+    serializer_class   = IlmiyFaoliyatCategorySerializer
     permission_classes = [AllowAny]
     pagination_class   = None
-
-    def get_queryset(self):
-        return IlmiyFaoliyat.objects.filter(is_active=True)
+    queryset           = IlmiyFaoliyatCategory.objects.all().order_by('order')
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()
@@ -71,7 +69,30 @@ class IlmiyFaoliyatListAPIView(generics.ListAPIView):
         return ctx
 
 
-@extend_schema(tags=['activities'], summary="O'quv faoliyat — bitta yozuv")
+@extend_schema(
+    tags=['activities'],
+    summary="Faoliyat ro'yxati",
+    description="?lang=uz|ru|en  &  ?category=<kategoriya-slug>",
+)
+class IlmiyFaoliyatListAPIView(generics.ListAPIView):
+    serializer_class   = IlmiyFaoliyatSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        qs = IlmiyFaoliyat.objects.filter(is_active=True)
+        category_slug = self.request.query_params.get('category')
+        if category_slug:
+            qs = qs.filter(category__slug=category_slug)
+        return qs
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['activities'], summary="Faoliyat — bitta yozuv")
 class IlmiyFaoliyatDetailAPIView(generics.RetrieveAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = IlmiyFaoliyatSerializer

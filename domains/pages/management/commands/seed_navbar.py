@@ -44,11 +44,11 @@ ITEMS = [
     ("akademiya", "360-panorama",         13, "360° ko'rinish",                               "Просмотр 360°",                                    "360° View",                     "/360"),
 
     # ── FAOLIYAT ─────────────────────────────────────────────────────────────────
-    ("faoliyat", "faoliyat-sport",    1, "Sport faoliyat",                "Спортивная деятельность",              "Sports Activity",              "/faoliyat/sport"),
-    ("faoliyat", "faoliyat-ilmiy",    2, "Ilmiy faoliyat",               "Научная деятельность",                 "Scientific Activity",          "/faoliyat/ilmiy"),
-    ("faoliyat", "faoliyat-oquv",     3, "O'quv faoliyat",               "Учебная деятельность",                 "Educational Activity",         "/faoliyat/oquv"),
-    ("faoliyat", "faoliyat-manaviy",  4, "Ma'naviy-marifiy faoliyat",    "Духовно-просветительская деятельность","Spiritual & Educational",       "/faoliyat/manaviy"),
-    ("faoliyat", "faoliyat-moliyaviy",5, "Moliyaviy faoliyat",           "Финансовая деятельность",              "Financial Activity",            "/faoliyat/moliyaviy"),
+    ("faoliyat", "faoliyat-sport",    1, "Sport faoliyat",                "Спортивная деятельность",              "Sports Activity",              "/api/activities/faoliyat/?category=sport-faoliyat"),
+    ("faoliyat", "faoliyat-ilmiy",    2, "Ilmiy faoliyat",               "Научная деятельность",                 "Scientific Activity",          "/api/activities/faoliyat/?category=ilmiy-faoliyat"),
+    ("faoliyat", "faoliyat-oquv",     3, "O'quv faoliyat",               "Учебная деятельность",                 "Educational Activity",         "/api/activities/faoliyat/?category=oquv-faoliyat"),
+    ("faoliyat", "faoliyat-manaviy",  4, "Ma'naviy-marifiy faoliyat",    "Духовно-просветительская деятельность","Spiritual & Educational",       "/api/activities/faoliyat/?category=manaviy-faoliyat"),
+    ("faoliyat", "faoliyat-moliyaviy",5, "Moliyaviy faoliyat",           "Финансовая деятельность",              "Financial Activity",            "/api/activities/faoliyat/?category=moliyaviy-faoliyat"),
 
     # ── XALQARO ALOQALAR ─────────────────────────────────────────────────────────
     ("xalqaro-aloqalar", "international-partners",      1, "Xalqaro hamkor tashkilotlar",           "Международные партнёрские организации",       "International Partners",        "/page/international-partners"),
@@ -62,7 +62,7 @@ ITEMS = [
 
     # ── TALABALARGA ──────────────────────────────────────────────────────────────
     ("talabalarga", "student-privileges",          1,  "Talabalarga imtiyozlar",          "Льготы для студентов",                    "Student Privileges",            "/page/student-privileges"),
-    ("talabalarga", "st-news",                     2,  "So'nggi yangiliklar",             "Последние новости",                       "Latest News",                   "/news"),
+    ("talabalarga", "st-news",                     2,  "So'nggi yangiliklar",             "Последние новости",                       "Latest News",                   "/api/news/"),
     ("talabalarga", "st-guide-student",            3,  "Yo'riqnoma (abituriyent)",        "Руководство (абитуриент)",                "Guide (Applicant)",             "/page/st-guide-student"),
     ("talabalarga", "st-guide",                    4,  "Yo'riqnoma (bakalavr)",           "Руководство (бакалавр)",                  "Bachelor Guide",                "/page/st-guide"),
     ("talabalarga", "grading-system",              5,  "Bakalavr baholash tizimi",        "Система оценивания бакалавриата",         "Grading System",                "/page/grading-system"),
@@ -79,7 +79,7 @@ ITEMS = [
     ("talabalarga", "course-manual-magistratura",  16, "Magistratura: fanlar o'quv qo'llanmasi","Магистратура: учебное пособие по предметам","Masters Course Manual",    "/page/course-manual-magistratura"),
 
     # ── AXBOROT XIZMATI ──────────────────────────────────────────────────────────
-    ("axborot-xizmati", "ax-news",          1, "Yangiliklar",                       "Новости",                             "News",                 "/news"),
+    ("axborot-xizmati", "ax-news",          1, "Yangiliklar",                       "Новости",                             "News",                 "/api/news/"),
     ("axborot-xizmati", "rector-speeches",  2, "Rektor tabriklari va nutqlari",     "Поздравления и выступления ректора",  "Rector Speeches",      "/page/rector-speeches"),
     ("axborot-xizmati", "briefings",        3, "Brifinglar",                        "Брифинги",                            "Briefings",            "/page/briefings"),
     ("axborot-xizmati", "contests",         4, "Tanlovlar",                         "Конкурсы",                            "Contests",             "/page/contests"),

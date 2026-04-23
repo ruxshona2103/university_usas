@@ -2,7 +2,7 @@ from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.openapi import OpenApiTypes
 
-from domains.activities.models import ContractPrice, ServiceVehicle, IlmiyFaoliyat
+from domains.activities.models import ContractPrice, ServiceVehicle, IlmiyFaoliyat, IlmiyFaoliyatCategory
 
 
 class ContractPriceSerializer(serializers.ModelSerializer):
@@ -41,6 +41,19 @@ class ServiceVehicleSerializer(serializers.ModelSerializer):
         return getattr(obj, f'vehicle_type_{lang}') or obj.vehicle_type_uz
 
 
+class IlmiyFaoliyatCategorySerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = IlmiyFaoliyatCategory
+        fields = ['id', 'slug', 'title', 'order']
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_title(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+
 class IlmiyFaoliyatSerializer(serializers.ModelSerializer):
     title     = serializers.SerializerMethodField()
     category  = serializers.SerializerMethodField()
@@ -61,11 +74,14 @@ class IlmiyFaoliyatSerializer(serializers.ModelSerializer):
     def get_title(self, obj):
         return getattr(obj, f'title_{self._lang()}') or obj.title_uz
 
-    @extend_schema_field(OpenApiTypes.STR)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_category(self, obj):
         if not obj.category:
             return None
-        return getattr(obj.category, f'title_{self._lang()}') or obj.category.title_uz
+        return {
+            'slug':  obj.category.slug,
+            'title': getattr(obj.category, f'title_{self._lang()}') or obj.category.title_uz,
+        }
 
     @extend_schema_field(OpenApiTypes.URI)
     def get_image_url(self, obj):

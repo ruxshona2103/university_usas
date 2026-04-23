@@ -33,7 +33,7 @@ class IlmiyFaoliyat(TimeStampedModel):
     title_ru = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (Ru)")
     title_en = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (En)")
 
-    image = models.ImageField(
+    image = models.FileField(
         upload_to=ilmiy_image_upload,
         blank=True, null=True,
         verbose_name="Muqova rasmi",

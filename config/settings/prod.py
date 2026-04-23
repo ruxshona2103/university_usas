@@ -55,8 +55,7 @@ if imagekit_public_key and imagekit_private_key and imagekit_url_endpoint:
 
     STORAGES = {
         "default": {
-            # To'g'ri class nomi: imagekitio_storage/storage.py ichida MediaImagekitStorage
-            "BACKEND": "imagekitio_storage.storage.MediaImagekitStorage",
+            "BACKEND": "common.storage.PatchedMediaImagekitStorage",
         },
         "staticfiles": {
             "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",

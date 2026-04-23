@@ -17,7 +17,7 @@ class InternationalPostImage(TimeStampedModel):
         related_name='images',
         verbose_name="E'lon",
     )
-    image = models.ImageField(upload_to=post_image_upload, verbose_name="Rasm")
+    image = models.FileField(upload_to=post_image_upload, verbose_name="Rasm")
     order = models.PositiveIntegerField(default=0, verbose_name="Tartib")
 
     class Meta:

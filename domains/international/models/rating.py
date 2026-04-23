@@ -28,7 +28,7 @@ class InternationalRating(TimeStampedModel):
     description_ru = models.TextField(blank=True, verbose_name="Matn (Ru)")
     description_en = models.TextField(blank=True, verbose_name="Matn (En)")
 
-    cover  = models.ImageField(
+    cover  = models.FileField(
         upload_to=rating_cover_upload,
         blank=True, null=True,
         verbose_name="Muqova rasmi",
@@ -69,7 +69,7 @@ class InternationalRatingImage(TimeStampedModel):
         related_name='images',
         verbose_name="Reyting",
     )
-    image = models.ImageField(upload_to=rating_image_upload, verbose_name="Rasm")
+    image = models.FileField(upload_to=rating_image_upload, verbose_name="Rasm")
     order = models.PositiveIntegerField(default=0, verbose_name="Tartib")
 
     class Meta:

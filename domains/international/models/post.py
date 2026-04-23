@@ -27,7 +27,7 @@ class InternationalPost(TimeStampedModel):
     content_ru = models.TextField(blank=True, verbose_name="Matn (Ru)")
     content_en = models.TextField(blank=True, verbose_name="Matn (En)")
 
-    image = models.ImageField(upload_to='international/posts/%Y/%m/', blank=True, verbose_name="Rasm")
+    image = models.FileField(upload_to='international/posts/%Y/%m/', blank=True, verbose_name="Rasm")
     date  = models.DateField(verbose_name="Sana")
 
     order     = models.PositiveIntegerField(default=0, verbose_name="Tartib")

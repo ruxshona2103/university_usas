@@ -18,7 +18,7 @@ class HeroVideo(TimeStampedModel):
         verbose_name='Video fayli',
         help_text="MP4 yoki WebM formatidagi video faylni yuklang (URL bo'lmasa)"
     )
-    poster_image = models.ImageField(
+    poster_image = models.FileField(
         upload_to="hero_videos/posters/",
         verbose_name="Poster rasmi",
         help_text="Video yuborilmaguncha joylab turiladigan rasm (poster)"

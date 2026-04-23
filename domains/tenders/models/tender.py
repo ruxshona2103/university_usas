@@ -41,7 +41,7 @@ class TenderImage(TimeStampedModel):
         related_name='images',
         verbose_name='Tender',
     )
-    image = models.ImageField(upload_to='tenders/%Y/%m/', verbose_name="Rasm")
+    image = models.FileField(upload_to='tenders/%Y/%m/', verbose_name="Rasm")
     order = models.PositiveIntegerField(default=0, verbose_name="Tartib")
 
     class Meta:

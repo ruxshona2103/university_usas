@@ -26,8 +26,8 @@ class PartnerOrganization(TimeStampedModel):
     country_ru = models.CharField(max_length=100, blank=True, verbose_name="Mamlakat (Ru)")
     country_en = models.CharField(max_length=100, blank=True, verbose_name="Mamlakat (En)")
 
-    logo  = models.ImageField(upload_to='international/logos/%Y/', blank=True, verbose_name="Logo")
-    image = models.ImageField(upload_to='international/partners/%Y/', blank=True, verbose_name="Rasm")
+    logo  = models.FileField(upload_to='international/logos/%Y/', blank=True, verbose_name="Logo")
+    image = models.FileField(upload_to='international/partners/%Y/', blank=True, verbose_name="Rasm")
 
     website  = models.URLField(blank=True, verbose_name="Veb-sayt")
     order    = models.PositiveIntegerField(default=0, verbose_name="Tartib")

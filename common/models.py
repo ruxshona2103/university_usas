@@ -38,7 +38,7 @@ class ContentImage(TimeStampedModel):
     object_id      = models.UUIDField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
-    image = models.ImageField(upload_to='content_images/%Y/%m/', verbose_name="Rasm")
+    image = models.FileField(upload_to='content_images/%Y/%m/', verbose_name="Rasm")
     order = models.PositiveIntegerField(default=0, verbose_name="Tartib")
 
     class Meta:

@@ -10,7 +10,7 @@ class ForeignProfessorReview(TimeStampedModel):
     position_ru = models.CharField(max_length=255, blank=True, verbose_name="Lavozimi (Ru)")
     position_en = models.CharField(max_length=255, blank=True, verbose_name="Lavozimi (En)")
     country     = models.CharField(max_length=100, blank=True, verbose_name="Mamlakat")
-    photo       = models.ImageField(upload_to='foreign_professors/%Y/%m/', null=True, blank=True, verbose_name="Foto")
+    photo       = models.FileField(upload_to='foreign_professors/%Y/%m/', null=True, blank=True, verbose_name="Foto")
     review_uz   = models.TextField(verbose_name="Fikr (Uz)")
     review_ru   = models.TextField(blank=True, verbose_name="Fikr (Ru)")
     review_en   = models.TextField(blank=True, verbose_name="Fikr (En)")

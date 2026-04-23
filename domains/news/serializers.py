@@ -54,6 +54,10 @@ class PublishableMixin:
     def get_description(self, obj):
         return {'uz': obj.description_uz, 'ru': obj.description_ru, 'en': obj.description_en}
 
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_tavsif(self, obj):
+        return {'uz': obj.tavsif_uz, 'ru': obj.tavsif_ru, 'en': obj.tavsif_en}
+
     @extend_schema_field(OpenApiTypes.URI)
     def get_image(self, obj):
         return _abs_url(self.context.get('request'), obj.image)
@@ -82,6 +86,7 @@ class PublishableMixin:
 class NewsSerializer(PublishableMixin, serializers.ModelSerializer):
     title         = serializers.SerializerMethodField()
     description   = serializers.SerializerMethodField()
+    tavsif        = serializers.SerializerMethodField()
     image         = serializers.SerializerMethodField()
     date          = serializers.SerializerMethodField()
     images        = serializers.SerializerMethodField()
@@ -92,7 +97,7 @@ class NewsSerializer(PublishableMixin, serializers.ModelSerializer):
         model  = News
         fields = [
             'id', 'image', 'images',
-            'title', 'description',
+            'title', 'description', 'tavsif',
             'date', 'slug',
             'badgeCategory', 'categories',
             'views', 'likes', 'comments',
@@ -102,6 +107,7 @@ class NewsSerializer(PublishableMixin, serializers.ModelSerializer):
 class EventSerializer(PublishableMixin, serializers.ModelSerializer):
     title         = serializers.SerializerMethodField()
     description   = serializers.SerializerMethodField()
+    tavsif        = serializers.SerializerMethodField()
     image         = serializers.SerializerMethodField()
     date          = serializers.SerializerMethodField()
     images        = serializers.SerializerMethodField()
@@ -113,7 +119,7 @@ class EventSerializer(PublishableMixin, serializers.ModelSerializer):
         model  = Event
         fields = [
             'id', 'image', 'images',
-            'title', 'description', 'location',
+            'title', 'description', 'tavsif', 'location',
             'date', 'start_time', 'slug',
             'badgeCategory', 'categories',
             'views', 'likes', 'comments',
@@ -127,6 +133,7 @@ class EventSerializer(PublishableMixin, serializers.ModelSerializer):
 class BlogSerializer(PublishableMixin, serializers.ModelSerializer):
     title         = serializers.SerializerMethodField()
     description   = serializers.SerializerMethodField()
+    tavsif        = serializers.SerializerMethodField()
     image         = serializers.SerializerMethodField()
     date          = serializers.SerializerMethodField()
     images        = serializers.SerializerMethodField()
@@ -138,7 +145,7 @@ class BlogSerializer(PublishableMixin, serializers.ModelSerializer):
         model  = Blog
         fields = [
             'id', 'image', 'images',
-            'title', 'description',
+            'title', 'description', 'tavsif',
             'date', 'slug',
             'badgeCategory', 'categories',
             'author_name',

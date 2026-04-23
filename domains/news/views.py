@@ -1,9 +1,11 @@
 from rest_framework import generics, filters
 from rest_framework.permissions import AllowAny
 from django_filters.rest_framework import DjangoFilterBackend
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.openapi import OpenApiTypes
 
 from common.pagination import CustomDashboardPagination
+from rest_framework.generics import get_object_or_404
 from domains.news.models import News, Event, Blog, InformationContent, NewsCategory
 from .serializers import (
     NewsSerializer, EventSerializer, BlogSerializer,
@@ -44,9 +46,20 @@ class NewsCategoryListAPIView(generics.ListAPIView):
         return ctx
 
 
-@extend_schema(tags=['news'], summary="Yangiliklar ro'yxati")
+_CATEGORY_PARAM = OpenApiParameter(
+    name='category', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
+    description="Kategoriya slug'i bo'yicha filter (masalan: sport, ilmiy)",
+    required=False,
+)
+_LANG_PARAM = OpenApiParameter(
+    name='lang', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
+    description="Til: uz | ru | en (default: uz)",
+    required=False,
+)
+
+
+@extend_schema(tags=['news'], summary="Yangiliklar ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM])
 class NewsListAPIView(BaseContentListAPIView):
-    """Nashr etilgan yangiliklar. ?search= qidiruv. ?category=<slug> filter."""
     serializer_class = NewsSerializer
 
     def get_queryset(self):
@@ -57,9 +70,8 @@ class NewsListAPIView(BaseContentListAPIView):
         return qs
 
 
-@extend_schema(tags=['news'], summary="Tadbirlar ro'yxati")
+@extend_schema(tags=['news'], summary="Tadbirlar ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM])
 class EventListAPIView(BaseContentListAPIView):
-    """Nashr etilgan tadbirlar. ?category=<slug> filter."""
     serializer_class = EventSerializer
 
     def get_queryset(self):
@@ -70,9 +82,8 @@ class EventListAPIView(BaseContentListAPIView):
         return qs
 
 
-@extend_schema(tags=['news'], summary="Blog ro'yxati")
+@extend_schema(tags=['news'], summary="Blog ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM])
 class BlogListAPIView(BaseContentListAPIView):
-    """Nashr etilgan blog yozuvlari. ?category=<slug> filter."""
     serializer_class = BlogSerializer
 
     def get_queryset(self):
@@ -81,6 +92,113 @@ class BlogListAPIView(BaseContentListAPIView):
         if cat:
             qs = qs.filter(categories__slug=cat)
         return qs
+
+
+@extend_schema(tags=['news'], summary="Yangilik kategoriyasi — slug bo'yicha")
+class NewsCategoryDetailAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = NewsCategorySerializer
+    permission_classes = [AllowAny]
+    queryset           = NewsCategory.objects.all()
+    lookup_field       = 'slug'
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['news'], summary="Bitta yangilik — slug bo'yicha")
+class NewsDetailAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = NewsSerializer
+    permission_classes = [AllowAny]
+    lookup_field       = 'slug'
+
+    def get_queryset(self):
+        return News.objects.filter(is_published=True).prefetch_related('images', 'categories')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['news'], summary="Bitta yangilik — ID bo'yicha")
+class NewsDetailByIdAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = NewsSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return News.objects.filter(is_published=True).prefetch_related('images', 'categories')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['news'], summary="Bitta tadbir — slug bo'yicha")
+class EventDetailAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = EventSerializer
+    permission_classes = [AllowAny]
+    lookup_field       = 'slug'
+
+    def get_queryset(self):
+        return Event.objects.filter(is_published=True).prefetch_related('images', 'categories')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['news'], summary="Bitta tadbir — ID bo'yicha")
+class EventDetailByIdAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = EventSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return Event.objects.filter(is_published=True).prefetch_related('images', 'categories')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['news'], summary="Bitta blog — slug bo'yicha")
+class BlogDetailAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = BlogSerializer
+    permission_classes = [AllowAny]
+    lookup_field       = 'slug'
+
+    def get_queryset(self):
+        return Blog.objects.filter(is_published=True).select_related('author').prefetch_related('images', 'categories')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['news'], summary="Bitta blog — ID bo'yicha")
+class BlogDetailByIdAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = BlogSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return Blog.objects.filter(is_published=True).select_related('author').prefetch_related('images', 'categories')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
 
 
 @extend_schema(tags=['news'], summary="Axborot xizmati kontenti")

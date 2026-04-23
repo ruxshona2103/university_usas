@@ -2,7 +2,11 @@ from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.openapi import OpenApiTypes
 
-from domains.international.models import ForeignProfessorReview, PartnerOrganization, InternationalPost, InternationalPostImage
+from domains.international.models import (
+    ForeignProfessorReview, PartnerOrganization,
+    InternationalPost, InternationalPostImage,
+    InternationalRating, InternationalRatingImage,
+)
 
 
 def _abs_url(request, field):
@@ -84,6 +88,49 @@ class InternationalPostImageSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.URI)
     def get_image(self, obj):
         return _abs_url(self.context.get('request'), obj.image)
+
+
+class InternationalRatingImageSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = InternationalRatingImage
+        fields = ['id', 'image', 'order']
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image(self, obj):
+        return _abs_url(self.context.get('request'), obj.image)
+
+
+class InternationalRatingSerializer(serializers.ModelSerializer):
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    cover       = serializers.SerializerMethodField()
+    images      = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = InternationalRating
+        fields = ['id', 'slug', 'title', 'description', 'cover', 'images', 'date', 'order']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_title(self, obj):
+        return getattr(obj, f'title_{self._lang()}') or obj.title_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_description(self, obj):
+        return getattr(obj, f'description_{self._lang()}') or obj.description_uz
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_cover(self, obj):
+        return _abs_url(self.context.get('request'), obj.cover)
+
+    @extend_schema_field(InternationalRatingImageSerializer(many=True))
+    def get_images(self, obj):
+        qs = obj.images.all().order_by('order')
+        return InternationalRatingImageSerializer(qs, many=True, context=self.context).data
 
 
 class InternationalPostSerializer(serializers.ModelSerializer):

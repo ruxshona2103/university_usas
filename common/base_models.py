@@ -20,13 +20,13 @@ class PublishableContent(TimeStampedModel):
     image  = models.ImageField(upload_to='content/%Y/%m/', blank=True, null=True, verbose_name="Asosiy rasm")
     images = GenericRelation('common.ContentImage', related_query_name='%(class)s')
 
-    title_uz = models.CharField(max_length=255, blank=True, verbose_name="Sarlavha (Uz)")
-    title_ru = models.CharField(max_length=255, blank=True, verbose_name="Sarlavha (Ru)")
-    title_en = models.CharField(max_length=255, blank=True, verbose_name="Sarlavha (En)")
+    title_uz = models.CharField(max_length=255, blank=True, null=True, verbose_name="Sarlavha (Uz)")
+    title_ru = models.CharField(max_length=255, blank=True, null=True, verbose_name="Sarlavha (Ru)")
+    title_en = models.CharField(max_length=255, blank=True, null=True, verbose_name="Sarlavha (En)")
 
-    description_uz = models.TextField(blank=True, verbose_name="Batafsil (Uz)")
-    description_ru = models.TextField(blank=True, verbose_name="Batafsil (Ru)")
-    description_en = models.TextField(blank=True, verbose_name="Batafsil (En)")
+    description_uz = models.TextField(blank=True, null=True, verbose_name="Batafsil (Uz)")
+    description_ru = models.TextField(blank=True, null=True, verbose_name="Batafsil (Ru)")
+    description_en = models.TextField(blank=True, null=True, verbose_name="Batafsil (En)")
 
     keywords   = models.CharField(max_length=500, blank=True, verbose_name="SEO Kalit so'zlar")
     date       = models.DateTimeField(null=True, blank=True, verbose_name="Sana")

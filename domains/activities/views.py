@@ -55,13 +55,27 @@ class ServiceVehicleListAPIView(generics.ListAPIView):
         return ctx
 
 
-@extend_schema(tags=['activities'], summary="Faoliyat kategoriyalari ro'yxati")
+@extend_schema(tags=['activities'], summary="Faoliyat kategoriyalari ro'yxati (itemlar bilan)")
 class IlmiyFaoliyatCategoryListAPIView(generics.ListAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = IlmiyFaoliyatCategorySerializer
     permission_classes = [AllowAny]
     pagination_class   = None
-    queryset           = IlmiyFaoliyatCategory.objects.all().order_by('order')
+    queryset           = IlmiyFaoliyatCategory.objects.prefetch_related('items').order_by('order')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['activities'], summary="Faoliyat kategoriyasi — slug bo'yicha")
+class IlmiyFaoliyatCategoryDetailAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en  — kategoriya + uning barcha itemlari"""
+    serializer_class   = IlmiyFaoliyatCategorySerializer
+    permission_classes = [AllowAny]
+    queryset           = IlmiyFaoliyatCategory.objects.prefetch_related('items')
+    lookup_field       = 'slug'
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

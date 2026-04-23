@@ -1,6 +1,10 @@
 from django.contrib import admin
 
-from .models import ForeignProfessorReview, PartnerOrganization, InternationalPost, InternationalPostImage
+from .models import (
+    ForeignProfessorReview, PartnerOrganization,
+    InternationalPost, InternationalPostImage,
+    InternationalRating, InternationalRatingImage,
+)
 
 
 class InternationalPostImageInline(admin.TabularInline):
@@ -40,6 +44,34 @@ class PartnerOrganizationAdmin(admin.ModelAdmin):
         ("Mamlakat", {'fields': ('country_uz', 'country_ru', 'country_en')}),
         ("Rasm va havola", {'fields': ('logo', 'image', 'website')}),
         ("Tartib va holat", {'fields': ('order', 'is_active')}),
+    )
+
+
+class InternationalRatingImageInline(admin.TabularInline):
+    model    = InternationalRatingImage
+    extra    = 1
+    fields   = ('image', 'order')
+    ordering = ('order',)
+
+
+@admin.register(InternationalRating)
+class InternationalRatingAdmin(admin.ModelAdmin):
+    list_display   = ('title_uz', 'date', 'order', 'is_active')
+    list_editable  = ('order', 'is_active')
+    list_filter    = ('is_active',)
+    search_fields  = ('title_uz', 'title_ru', 'title_en')
+    prepopulated_fields = {'slug': ('title_uz',)}
+    readonly_fields     = ('created_at', 'updated_at')
+    list_per_page  = 20
+    inlines        = [InternationalRatingImageInline]
+
+    fieldsets = (
+        ("Sarlavha", {'fields': ('title_uz', 'title_ru', 'title_en')}),
+        ("Matn",     {'fields': ('description_uz', 'description_ru', 'description_en')}),
+        ("Rasm va sana", {'fields': ('cover', 'date')}),
+        ("Slug",     {'fields': ('slug',)}),
+        ("Tartib va holat", {'fields': ('order', 'is_active')}),
+        ('Texnik',   {'classes': ('collapse',), 'fields': ('created_at', 'updated_at')}),
     )
 
 

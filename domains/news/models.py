@@ -66,6 +66,11 @@ class Article(PublishableContent):
         verbose_name="Kategoriyalar",
     )
 
+    # Qisqa tavsif (kartada ko'rinadigan preview)
+    tavsif_uz = models.TextField(blank=True, null=True, verbose_name="Tavsif (Uz)")
+    tavsif_ru = models.TextField(blank=True, null=True, verbose_name="Tavsif (Ru)")
+    tavsif_en = models.TextField(blank=True, null=True, verbose_name="Tavsif (En)")
+
     # News uchun
     source = models.CharField(max_length=200, blank=True, verbose_name="Manba")
 

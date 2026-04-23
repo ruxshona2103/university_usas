@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import AcademyStat
+from .models import AcademyStat, AcademyDetailPage
 
 
 @admin.register(AcademyStat)
@@ -24,5 +24,20 @@ class AcademyStatAdmin(admin.ModelAdmin):
         }),
         ("Sozlamalar", {
             'fields': ('order', 'is_active'),
+        }),
+    )
+
+
+@admin.register(AcademyDetailPage)
+class AcademyDetailPageAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ("Axborot-resurs markazi", {
+            'fields': ('resource_center_uz', 'resource_center_ru', 'resource_center_en'),
+        }),
+        ("Ta'lim va tarkib ko'rsatkichlari", {
+            'fields': ('edu_direction_count', 'sport_type_count', 'masters_count', 'auditorium_count'),
+        }),
+        ("Batafsil ma'lumotlar", {
+            'fields': ('detail_uz', 'detail_ru', 'detail_en'),
         }),
     )

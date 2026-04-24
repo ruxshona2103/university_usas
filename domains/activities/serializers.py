@@ -67,6 +67,23 @@ class IlmiyFaoliyatSerializer(serializers.ModelSerializer):
         return self._build_url(obj.file)
 
 
+class IlmiyFaoliyatCategorySimpleSerializer(serializers.ModelSerializer):
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = IlmiyFaoliyatCategory
+        fields = ['id', 'slug', 'title', 'description', 'order']
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_title(self, obj):
+        return {'uz': obj.title_uz or '', 'ru': obj.title_ru or '', 'en': obj.title_en or ''}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_description(self, obj):
+        return {'uz': obj.description_uz or '', 'ru': obj.description_ru or '', 'en': obj.description_en or ''}
+
+
 class IlmiyFaoliyatCategorySerializer(serializers.ModelSerializer):
     title       = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()

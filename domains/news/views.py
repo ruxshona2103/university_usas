@@ -61,9 +61,19 @@ _LANG_PARAM = OpenApiParameter(
     description="Til: uz | ru | en (default: uz)",
     required=False,
 )
+_DATE_FROM_PARAM = OpenApiParameter(
+    name='date_from', type=OpenApiTypes.DATE, location=OpenApiParameter.QUERY,
+    description="Boshlanish sanasi (YYYY-MM-DD)",
+    required=False,
+)
+_DATE_TO_PARAM = OpenApiParameter(
+    name='date_to', type=OpenApiTypes.DATE, location=OpenApiParameter.QUERY,
+    description="Tugash sanasi (YYYY-MM-DD)",
+    required=False,
+)
 
 
-@extend_schema(tags=['news'], summary="Yangiliklar ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM])
+@extend_schema(tags=['news'], summary="Yangiliklar ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM, _DATE_FROM_PARAM, _DATE_TO_PARAM])
 class NewsListAPIView(BaseContentListAPIView):
     serializer_class = NewsSerializer
 
@@ -72,6 +82,12 @@ class NewsListAPIView(BaseContentListAPIView):
         cat = self.request.query_params.get('category')
         if cat:
             qs = qs.filter(categories__slug=cat)
+        date_from = self.request.query_params.get('date_from')
+        date_to = self.request.query_params.get('date_to')
+        if date_from:
+            qs = qs.filter(date__date__gte=date_from)
+        if date_to:
+            qs = qs.filter(date__date__lte=date_to)
         return qs
 
 

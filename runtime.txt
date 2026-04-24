@@ -1,1 +1,10 @@
 python-3.10.12
+
+
+
+IlmiyFaoliyatCategory(Ma'laka talablari) null
+
+        Bakalavr parent(Ma'laka talablari)
+
+                kunduzgi parent(Bakalavr)
+                Masofaviy parent(Bakalavr)

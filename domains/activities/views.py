@@ -2,8 +2,17 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from drf_spectacular.utils import extend_schema
 
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
+
 from domains.activities.models import ContractPrice, ServiceVehicle, IlmiyFaoliyat, IlmiyFaoliyatCategory
-from .serializers import ContractPriceSerializer, ServiceVehicleSerializer, IlmiyFaoliyatSerializer, IlmiyFaoliyatCategorySerializer
+from .serializers import (
+    ContractPriceSerializer, ServiceVehicleSerializer,
+    IlmiyFaoliyatSerializer,
+    IlmiyFaoliyatCategorySimpleSerializer,
+    IlmiyFaoliyatCategorySerializer,
+)
 
 
 
@@ -55,13 +64,13 @@ class ServiceVehicleListAPIView(generics.ListAPIView):
         return ctx
 
 
-@extend_schema(tags=['activities'], summary="Faoliyat kategoriyalari ro'yxati (ierarxik)")
+@extend_schema(
+    tags=['activities'],
+    summary="API 1 — Asosiy kategoriyalar ro'yxati",
+    description="Faqat ildiz (parent=null) kategoriyalar. Sahifa: /faoliyat/oquv  ?lang=uz|ru|en",
+)
 class IlmiyFaoliyatCategoryListAPIView(generics.ListAPIView):
-    """
-    ?lang=uz|ru|en
-    Faqat ildiz kategoriyalar qaytadi; har birining ichida children[] va items[] bo'ladi.
-    """
-    serializer_class   = IlmiyFaoliyatCategorySerializer
+    serializer_class   = IlmiyFaoliyatCategorySimpleSerializer
     permission_classes = [AllowAny]
     pagination_class   = None
 
@@ -69,7 +78,6 @@ class IlmiyFaoliyatCategoryListAPIView(generics.ListAPIView):
         return (
             IlmiyFaoliyatCategory.objects
             .filter(parent=None)
-            .prefetch_related('children', 'items')
             .order_by('order')
         )
 
@@ -79,20 +87,38 @@ class IlmiyFaoliyatCategoryListAPIView(generics.ListAPIView):
         return ctx
 
 
-@extend_schema(tags=['activities'], summary="Faoliyat kategoriyasi — slug bo'yicha")
-class IlmiyFaoliyatCategoryDetailAPIView(generics.RetrieveAPIView):
-    """?lang=uz|ru|en  — kategoriya + children + items"""
-    serializer_class   = IlmiyFaoliyatCategorySerializer
+@extend_schema(
+    tags=['activities'],
+    summary="API 2 — Kategoriya bolalari (sub-kategoriyalar)",
+    description="Berilgan slug bo'yicha to'g'ridan-to'g'ri bolalar. Sahifa: /page/<slug>  ?lang=uz|ru|en",
+)
+class IlmiyFaoliyatCategoryChildrenAPIView(APIView):
     permission_classes = [AllowAny]
-    lookup_field       = 'slug'
 
-    def get_queryset(self):
-        return IlmiyFaoliyatCategory.objects.prefetch_related('children', 'items')
+    def get(self, request, slug):
+        parent = get_object_or_404(IlmiyFaoliyatCategory, slug=slug)
+        children = IlmiyFaoliyatCategory.objects.filter(parent=parent).order_by('order')
+        serializer = IlmiyFaoliyatCategorySimpleSerializer(
+            children, many=True, context={'request': request, 'lang': _lang(request)}
+        )
+        return Response(serializer.data)
 
-    def get_serializer_context(self):
-        ctx = super().get_serializer_context()
-        ctx['lang'] = _lang(self.request)
-        return ctx
+
+@extend_schema(
+    tags=['activities'],
+    summary="API 3 — Kategoriya fayllari (leaf items)",
+    description="Berilgan slug kategoriyasiga tegishli fayllar. Sahifa: /page/<slug> (leaf)  ?lang=uz|ru|en",
+)
+class IlmiyFaoliyatCategoryItemsAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, slug):
+        category = get_object_or_404(IlmiyFaoliyatCategory, slug=slug)
+        items = IlmiyFaoliyat.objects.filter(category=category).order_by('order')
+        serializer = IlmiyFaoliyatSerializer(
+            items, many=True, context={'request': request, 'lang': _lang(request)}
+        )
+        return Response(serializer.data)
 
 
 @extend_schema(

@@ -121,7 +121,13 @@ class IlmiyFaoliyatCategoryItemsAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         category = get_object_or_404(IlmiyFaoliyatCategory, slug=self.kwargs['slug'])
-        return IlmiyFaoliyat.objects.filter(category=category).order_by('order')
+        # Agar kategoriyaning o'z itemlari bo'lsa → o'zini qaytaradi
+        # Agar yo'q bo'lsa (root/ota) → bolalari ichidagi itemlarni qaytaradi
+        direct_items = IlmiyFaoliyat.objects.filter(category=category)
+        if direct_items.exists():
+            return direct_items.order_by('order')
+        child_ids = IlmiyFaoliyatCategory.objects.filter(parent=category).values_list('id', flat=True)
+        return IlmiyFaoliyat.objects.filter(category__in=child_ids).order_by('category__order', 'order')
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

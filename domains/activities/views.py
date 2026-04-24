@@ -91,34 +91,42 @@ class IlmiyFaoliyatCategoryListAPIView(generics.ListAPIView):
     tags=['activities'],
     summary="API 2 — Kategoriya bolalari (sub-kategoriyalar)",
     description="Berilgan slug bo'yicha to'g'ridan-to'g'ri bolalar. Sahifa: /page/<slug>  ?lang=uz|ru|en",
+    responses={200: IlmiyFaoliyatCategorySimpleSerializer(many=True)},
 )
-class IlmiyFaoliyatCategoryChildrenAPIView(APIView):
+class IlmiyFaoliyatCategoryChildrenAPIView(generics.ListAPIView):
+    serializer_class   = IlmiyFaoliyatCategorySimpleSerializer
     permission_classes = [AllowAny]
+    pagination_class   = None
 
-    def get(self, request, slug):
-        parent = get_object_or_404(IlmiyFaoliyatCategory, slug=slug)
-        children = IlmiyFaoliyatCategory.objects.filter(parent=parent).order_by('order')
-        serializer = IlmiyFaoliyatCategorySimpleSerializer(
-            children, many=True, context={'request': request, 'lang': _lang(request)}
-        )
-        return Response(serializer.data)
+    def get_queryset(self):
+        parent = get_object_or_404(IlmiyFaoliyatCategory, slug=self.kwargs['slug'])
+        return IlmiyFaoliyatCategory.objects.filter(parent=parent).order_by('order')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
 
 
 @extend_schema(
     tags=['activities'],
     summary="API 3 — Kategoriya fayllari (leaf items)",
     description="Berilgan slug kategoriyasiga tegishli fayllar. Sahifa: /page/<slug> (leaf)  ?lang=uz|ru|en",
+    responses={200: IlmiyFaoliyatSerializer(many=True)},
 )
-class IlmiyFaoliyatCategoryItemsAPIView(APIView):
+class IlmiyFaoliyatCategoryItemsAPIView(generics.ListAPIView):
+    serializer_class   = IlmiyFaoliyatSerializer
     permission_classes = [AllowAny]
+    pagination_class   = None
 
-    def get(self, request, slug):
-        category = get_object_or_404(IlmiyFaoliyatCategory, slug=slug)
-        items = IlmiyFaoliyat.objects.filter(category=category).order_by('order')
-        serializer = IlmiyFaoliyatSerializer(
-            items, many=True, context={'request': request, 'lang': _lang(request)}
-        )
-        return Response(serializer.data)
+    def get_queryset(self):
+        category = get_object_or_404(IlmiyFaoliyatCategory, slug=self.kwargs['slug'])
+        return IlmiyFaoliyat.objects.filter(category=category).order_by('order')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
 
 
 @extend_schema(

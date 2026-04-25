@@ -67,6 +67,65 @@ class IlmiyFaoliyatSerializer(serializers.ModelSerializer):
         return self._build_url(obj.file)
 
 
+class IlmiyFaoliyatItemSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+    url   = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = IlmiyFaoliyat
+        fields = ['id', 'title', 'url', 'order']
+
+    def get_title(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    def get_url(self, obj):
+        if not obj.file:
+            return None
+        req = self.context.get('request')
+        return req.build_absolute_uri(obj.file.url) if req else obj.file.url
+
+
+class IlmiyFaoliyatSubCategorySerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+    items = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = IlmiyFaoliyatCategory
+        fields = ['id', 'slug', 'title', 'order', 'items']
+
+    def get_title(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    def get_items(self, obj):
+        qs = obj.items.filter(is_active=True).order_by('order')
+        return IlmiyFaoliyatItemSerializer(qs, many=True, context=self.context).data
+
+
+class IlmiyFaoliyatCategoryTreeSerializer(serializers.ModelSerializer):
+    title         = serializers.SerializerMethodField()
+    subcategories = serializers.SerializerMethodField()
+    items         = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = IlmiyFaoliyatCategory
+        fields = ['id', 'slug', 'title', 'order', 'subcategories', 'items']
+
+    def get_title(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    def get_subcategories(self, obj):
+        qs = obj.children.order_by('order')
+        return IlmiyFaoliyatSubCategorySerializer(qs, many=True, context=self.context).data
+
+    def get_items(self, obj):
+        # Faqat to'g'ridan-to'g'ri bog'liq itemlar (sub-kategoriyasiz)
+        qs = obj.items.filter(is_active=True).order_by('order')
+        return IlmiyFaoliyatItemSerializer(qs, many=True, context=self.context).data
+
+
 class IlmiyFaoliyatCategorySimpleSerializer(serializers.ModelSerializer):
     title       = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()

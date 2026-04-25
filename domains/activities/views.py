@@ -12,6 +12,7 @@ from .serializers import (
     IlmiyFaoliyatSerializer,
     IlmiyFaoliyatCategorySimpleSerializer,
     IlmiyFaoliyatCategorySerializer,
+    IlmiyFaoliyatCategoryTreeSerializer,
 )
 
 
@@ -141,7 +142,7 @@ class IlmiyFaoliyatCategoryItemsAPIView(generics.ListAPIView):
     description="Bir so'rovda: barcha root kategoriyalar → har birining sub-kategoriyalari → fayllar. ?lang=uz|ru|en",
 )
 class IlmiyFaoliyatCategoryFullListAPIView(generics.ListAPIView):
-    serializer_class   = IlmiyFaoliyatCategorySerializer
+    serializer_class   = IlmiyFaoliyatCategoryTreeSerializer
     permission_classes = [AllowAny]
     pagination_class   = None
 

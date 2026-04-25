@@ -6,6 +6,7 @@ from .views import (
     IlmiyFaoliyatCategoryListAPIView,
     IlmiyFaoliyatCategoryChildrenAPIView,
     IlmiyFaoliyatCategoryItemsAPIView,
+    IlmiyFaoliyatCategoryFullListAPIView,
     IlmiyFaoliyatListAPIView,
     IlmiyFaoliyatDetailAPIView,
 )
@@ -15,7 +16,10 @@ urlpatterns = [
     path('activities/vehicles/',                                 ServiceVehicleListAPIView.as_view(),         name='service-vehicles'),
 
     # API 1 — asosiy kategoriyalar (parent=null)
-    path('activities/faoliyat/categories/',                      IlmiyFaoliyatCategoryListAPIView.as_view(),  name='faoliyat-categories'),
+    path('activities/faoliyat/categories/',                      IlmiyFaoliyatCategoryListAPIView.as_view(),     name='faoliyat-categories'),
+
+    # API 4 — barcha kategoriyalar + sub-kategoriyalar + fayllar (bir so'rovda)
+    path('activities/faoliyat/categories/full/',                 IlmiyFaoliyatCategoryFullListAPIView.as_view(), name='faoliyat-categories-full'),
 
     # API 2 — kategoriya bolalari (sub-kategoriyalar)
     path('activities/faoliyat/categories/<slug:slug>/children/', IlmiyFaoliyatCategoryChildrenAPIView.as_view(), name='faoliyat-category-children'),

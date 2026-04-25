@@ -137,6 +137,30 @@ class IlmiyFaoliyatCategoryItemsAPIView(generics.ListAPIView):
 
 @extend_schema(
     tags=['activities'],
+    summary="API 4 — Barcha kategoriyalar (sub-kategoriya + fayllar bilan)",
+    description="Bir so'rovda: barcha root kategoriyalar → har birining sub-kategoriyalari → fayllar. ?lang=uz|ru|en",
+)
+class IlmiyFaoliyatCategoryFullListAPIView(generics.ListAPIView):
+    serializer_class   = IlmiyFaoliyatCategorySerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        return (
+            IlmiyFaoliyatCategory.objects
+            .filter(parent=None)
+            .prefetch_related('children__items', 'items')
+            .order_by('order')
+        )
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(
+    tags=['activities'],
     summary="Faoliyat ro'yxati",
     description="?lang=uz|ru|en  &  ?category=<kategoriya-slug>",
 )

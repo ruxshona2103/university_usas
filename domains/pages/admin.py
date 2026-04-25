@@ -7,6 +7,8 @@ from .models import (
     ContactConfig, PresidentQuote, SocialLink,
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     ContentBlock, LinkBlock,
+    AboutSocial, AboutSocialSection, AboutSocialSectionItem, AboutSocialExtraTask,
+    OrgNode,
 )
 
 
@@ -409,3 +411,133 @@ class LinkBlockAdmin(admin.ModelAdmin):
                 .order_by('category__order', 'order', 'name_uz')
             )
         return super().formfield_for_manytomany(db_field, request, **kwargs)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# AXBOROT XIZMATI HAQIDA (AboutSocial)
+# ──────────────────────────────────────────────────────────────────────────────
+
+class AboutSocialSectionItemInline(admin.TabularInline):
+    model   = AboutSocialSectionItem
+    extra   = 1
+    fields  = ('text_uz', 'text_ru', 'text_en', 'order')
+    ordering = ('order',)
+
+
+class AboutSocialSectionInline(admin.StackedInline):
+    model            = AboutSocialSection
+    extra            = 0
+    fields           = ('key', 'title_uz', 'title_ru', 'title_en', 'order')
+    ordering         = ('order',)
+    show_change_link = True
+
+
+class AboutSocialExtraTaskInline(admin.TabularInline):
+    model   = AboutSocialExtraTask
+    extra   = 1
+    fields  = ('text_uz', 'text_ru', 'text_en', 'order')
+    ordering = ('order',)
+
+
+@admin.register(AboutSocial)
+class AboutSocialAdmin(admin.ModelAdmin):
+    inlines         = [AboutSocialSectionInline, AboutSocialExtraTaskInline]
+    readonly_fields = ('created_at', 'updated_at')
+    fieldsets = (
+        ("Sahifa sarlavhasi", {
+            'fields': ('title_uz', 'title_ru', 'title_en'),
+        }),
+        ('Texnik', {
+            'classes': ('collapse',),
+            'fields': ('created_at', 'updated_at'),
+        }),
+    )
+
+    def has_add_permission(self, request):
+        return not AboutSocial.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(AboutSocialSection)
+class AboutSocialSectionAdmin(admin.ModelAdmin):
+    list_display    = ('key', 'title_uz', 'order', 'about_social')
+    list_editable   = ('order',)
+    search_fields   = ('title_uz', 'key')
+    inlines         = [AboutSocialSectionItemInline]
+    readonly_fields = ('created_at', 'updated_at')
+    fieldsets = (
+        ("Bo'lim", {
+            'fields': ('about_social', 'key', 'order'),
+        }),
+        ("Sarlavha", {
+            'fields': ('title_uz', 'title_ru', 'title_en'),
+        }),
+        ('Texnik', {
+            'classes': ('collapse',),
+            'fields': ('created_at', 'updated_at'),
+        }),
+    )
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# TASHKILIY TUZILMA (OrgNode)
+# ──────────────────────────────────────────────────────────────────────────────
+
+class OrgNodeChildInline(admin.TabularInline):
+    model          = OrgNode
+    fk_name        = 'parent'
+    extra          = 0
+    fields         = ('name_uz', 'node_type', 'order', 'is_starred', 'is_double_starred', 'is_highlighted', 'is_active')
+    ordering       = ('order',)
+    show_change_link = True
+
+
+@admin.register(OrgNode)
+class OrgNodeAdmin(admin.ModelAdmin):
+    list_display  = ('indented_name', 'node_type', 'parent', 'order', 'is_highlighted', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter   = ('node_type', 'is_active', 'is_highlighted')
+    search_fields = ('name_uz', 'name_ru')
+    list_select_related = ('parent',)
+    inlines       = [OrgNodeChildInline]
+    readonly_fields = ('created_at', 'updated_at')
+
+    fieldsets = (
+        ("Nomi", {
+            'fields': ('name_uz', 'name_ru', 'name_en'),
+        }),
+        ("Joylashuv va tur", {
+            'fields': ('parent', 'node_type', 'order'),
+        }),
+        ("Belgilar", {
+            'fields': ('is_starred', 'is_double_starred', 'is_highlighted', 'is_active'),
+            'description': (
+                "* — yulduz belgisi (instituti*)  "
+                "** — ikki yulduz (sport klubi**)  "
+                "Ajratilgan — qizil ramkali tugun"
+            ),
+        }),
+        ('Texnik', {
+            'classes': ('collapse',),
+            'fields': ('created_at', 'updated_at'),
+        }),
+    )
+
+    @admin.display(description='Nomi', ordering='name_uz')
+    def indented_name(self, obj):
+        depth = 0
+        p = obj.parent
+        while p:
+            depth += 1
+            p = p.parent
+        indent = '&nbsp;&nbsp;&nbsp;&nbsp;' * depth + ('└─ ' if depth else '')
+        mark = ''
+        if obj.is_highlighted:
+            mark = ' <span style="color:#e53935;font-weight:bold;">[★]</span>'
+        elif obj.is_starred:
+            mark = ' <sup style="color:#888;">*</sup>'
+        elif obj.is_double_starred:
+            mark = ' <sup style="color:#888;">**</sup>'
+        return format_html('{}{}{}', indent, obj.name_uz, mark)

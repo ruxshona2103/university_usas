@@ -7,6 +7,7 @@ from domains.pages.models import (
     ContactConfig, PresidentQuote, SocialLink,
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     ContentBlock, LinkBlock,
+    OrgNode,
 )
 
 
@@ -264,3 +265,30 @@ class NavbarPageSerializer(serializers.ModelSerializer):
             'link':     obj.link,
             'document': _abs_url(self.context.get('request'), obj.document_file),
         }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Org Structure
+# ──────────────────────────────────────────────────────────────────────────────
+
+class OrgNodeSerializer(serializers.ModelSerializer):
+    name     = serializers.SerializerMethodField()
+    children = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = OrgNode
+        fields = [
+            'id', 'node_type', 'name',
+            'is_starred', 'is_double_starred', 'is_highlighted',
+            'order', 'children',
+        ]
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_name(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'name_{lang}') or obj.name_uz
+
+    @extend_schema_field(serializers.ListField())
+    def get_children(self, obj):
+        qs = obj.children.filter(is_active=True).order_by('order', 'name_uz')
+        return OrgNodeSerializer(qs, many=True, context=self.context).data

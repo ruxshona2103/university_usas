@@ -3,6 +3,8 @@ from .navbar import NavbarCategory, NavbarSubItem
 from .partner import Partner
 from .hero_video import HeroVideo
 from .content_block import ContentBlock, LinkBlock
+from .about_social import AboutSocial, AboutSocialSection, AboutSocialSectionItem, AboutSocialExtraTask
+from .org_structure import OrgNode
 
 __all__ = [
     'ContactConfig',
@@ -15,4 +17,9 @@ __all__ = [
     'HeroVideo',
     'ContentBlock',
     'LinkBlock',
+    'AboutSocial',
+    'AboutSocialSection',
+    'AboutSocialSectionItem',
+    'AboutSocialExtraTask',
+    'OrgNode',
 ]

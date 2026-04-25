@@ -4,11 +4,14 @@ from rest_framework.permissions import AllowAny
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.openapi import OpenApiTypes
 
 from domains.pages.models import (
     ContactConfig, PresidentQuote, SocialLink,
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
+    AboutSocial, AboutSocialSection, AboutSocialExtraTask,
+    OrgNode,
 )
 from .serializers import (
     ContactConfigSerializer,
@@ -17,6 +20,7 @@ from .serializers import (
     NavbarPageSerializer,
     PartnerSerializer,
     HeroVideoSerializer,
+    OrgNodeSerializer,
 )
 
 
@@ -169,3 +173,97 @@ class NavbarPageDetailAPIView(generics.RetrieveAPIView):
             )
         except NavbarSubItem.DoesNotExist:
             raise NotFound(detail="Sahifa topilmadi.")
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# About Social — Axborot xizmati
+# ──────────────────────────────────────────────────────────────────────────────
+
+@extend_schema(
+    tags=['pages'],
+    summary="Axborot xizmati vazifalari va funksiyalari",
+    parameters=[
+        OpenApiParameter(
+            name='lang', type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            description="Til: uz | ru | en (default: uz)",
+            required=False,
+        )
+    ],
+)
+class AboutSocialAPIView(APIView):
+    """
+    /api/aboutsocial/
+    Axborot xizmatining asosiy vazifalari va funksiyalari sahifasi.
+    Javob: { title, section_5: {title, items}, section_6: {title, items}, extra_tasks: [...] }
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        lang = _lang(request)
+        solo = AboutSocial.get_solo()
+
+        sections = (
+            AboutSocialSection.objects
+            .filter(about_social=solo)
+            .prefetch_related('items')
+        )
+        extra_tasks = AboutSocialExtraTask.objects.filter(about_social=solo)
+
+        result = {
+            'title': getattr(solo, f'title_{lang}') or solo.title_uz,
+        }
+        for section in sections:
+            items = [
+                getattr(item, f'text_{lang}') or item.text_uz
+                for item in section.items.all()
+            ]
+            result[section.key] = {
+                'title': getattr(section, f'title_{lang}') or section.title_uz,
+                'items': items,
+            }
+        result['extra_tasks'] = [
+            getattr(task, f'text_{lang}') or task.text_uz
+            for task in extra_tasks
+        ]
+        return Response(result)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Org Structure — Tashkiliy tuzilma
+# ──────────────────────────────────────────────────────────────────────────────
+
+_LANG_PARAM_ORG = OpenApiParameter(
+    name='lang', type=OpenApiTypes.STR,
+    location=OpenApiParameter.QUERY,
+    description='Til: uz | ru | en (default: uz)',
+    required=False,
+)
+
+
+@extend_schema(
+    tags=['pages'],
+    summary="Tashkiliy tuzilma daraxti",
+    parameters=[_LANG_PARAM_ORG],
+)
+class OrgStructureAPIView(APIView):
+    """
+    /api/org-structure/
+    To'liq tashkiliy tuzilma daraxti.
+    Faqat ildiz tugunlar qaytariladi; har birida children[] ichida bola tugunlar.
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        lang = _lang(request)
+        roots = (
+            OrgNode.objects
+            .filter(parent=None, is_active=True)
+            .prefetch_related(
+                'children__children__children__children',
+            )
+            .order_by('order', 'name_uz')
+        )
+        ctx = {'lang': lang, 'request': request}
+        data = OrgNodeSerializer(roots, many=True, context=ctx).data
+        return Response(data)

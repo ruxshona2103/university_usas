@@ -227,18 +227,29 @@ class Migration(migrations.Migration):
 
         migrations.RunPython(generate_slugs, migrations.RunPython.noop),
 
-        # PostgreSQL da qisman bajarilgan bo'lsa mavjud indexlarni o'chirib, qayta quradi
-        migrations.RunSQL(
-            sql="""
-                DROP INDEX IF EXISTS academic_fakultet_kafedra_slug_836bcdc5_like;
-                DROP INDEX IF EXISTS academic_fakultet_kafedra_slug_836bcdc5_uniq;
-            """,
-            reverse_sql=migrations.RunSQL.noop,
-        ),
-        migrations.AlterField(
-            model_name='fakultetkafedra',
-            name='slug',
-            field=models.SlugField(blank=True, max_length=200, unique=True, verbose_name='Slug'),
+        # PostgreSQL da qisman bajarilgan bo'lsa: AlterField IF NOT EXISTS ishlatmaydi,
+        # shuning uchun SeparateDatabaseAndState — DB da DROP+CREATE IF NOT EXISTS, state da AlterField
+        migrations.SeparateDatabaseAndState(
+            database_operations=[
+                migrations.RunSQL(
+                    sql="""
+                        DROP INDEX IF EXISTS academic_fakultet_kafedra_slug_836bcdc5_like;
+                        DROP INDEX IF EXISTS academic_fakultet_kafedra_slug_836bcdc5_uniq;
+                        CREATE UNIQUE INDEX IF NOT EXISTS academic_fakultet_kafedra_slug_836bcdc5_uniq
+                            ON academic_fakultet_kafedra (slug);
+                        CREATE INDEX IF NOT EXISTS academic_fakultet_kafedra_slug_836bcdc5_like
+                            ON academic_fakultet_kafedra (slug varchar_pattern_ops);
+                    """,
+                    reverse_sql=migrations.RunSQL.noop,
+                ),
+            ],
+            state_operations=[
+                migrations.AlterField(
+                    model_name='fakultetkafedra',
+                    name='slug',
+                    field=models.SlugField(blank=True, max_length=200, unique=True, verbose_name='Slug'),
+                ),
+            ],
         ),
 
         migrations.SeparateDatabaseAndState(

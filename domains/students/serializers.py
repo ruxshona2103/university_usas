@@ -2,7 +2,7 @@ from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.openapi import OpenApiTypes
 
-from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion
+from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent
 
 
 def _abs_url(request, field):
@@ -217,3 +217,44 @@ class OlimpiyaChempionSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.URI)
     def get_image_url(self, obj):
         return _abs_url(self.context.get('request'), obj.image)
+
+
+class MagistrStudentSerializer(serializers.ModelSerializer):
+    dissertation_topic = serializers.SerializerMethodField()
+    supervisor_info    = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = MagistrStudent
+        fields = ['order', 'student_name', 'dissertation_topic', 'supervisor_name', 'supervisor_info']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_dissertation_topic(self, obj):
+        return getattr(obj, f'dissertation_topic_{self._lang()}') or obj.dissertation_topic_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_supervisor_info(self, obj):
+        return getattr(obj, f'supervisor_info_{self._lang()}') or obj.supervisor_info_uz
+
+
+class MagistrGroupSerializer(serializers.ModelSerializer):
+    specialty_name = serializers.SerializerMethodField()
+    students       = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = MagistrGroup
+        fields = ['id', 'specialty_code', 'specialty_name', 'education_lang', 'year', 'order', 'students']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_specialty_name(self, obj):
+        return getattr(obj, f'specialty_name_{self._lang()}') or obj.specialty_name_uz
+
+    @extend_schema_field(MagistrStudentSerializer(many=True))
+    def get_students(self, obj):
+        qs = obj.students.order_by('order')
+        return MagistrStudentSerializer(qs, many=True, context=self.context).data

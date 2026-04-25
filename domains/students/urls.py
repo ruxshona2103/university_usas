@@ -9,6 +9,7 @@ from .views import (
     StudentInfoGroupedAPIView,
     StudentInfoCategoryDetailAPIView,
     OlimpiyaChempionListAPIView,
+    MagistrGroupListAPIView,
 )
 
 urlpatterns = [
@@ -27,5 +28,8 @@ urlpatterns = [
 
     # ── Olimpiya chempionlari ──────────────────────────────────────────────
     path('olimpiya/',                        OlimpiyaChempionListAPIView.as_view(), name='olimpiya-chempion-list'),
+
+    # ── Magistratura talabalari ────────────────────────────────────────────
+    path('magistr-students/',               MagistrGroupListAPIView.as_view(),    name='magistr-students'),
 ]
 

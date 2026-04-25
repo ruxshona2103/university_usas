@@ -1,13 +1,14 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics, filters
+from rest_framework.permissions import AllowAny
 
 from common.pagination import CustomDashboardPagination
-from .models import Person, PersonCategory, StudentInfoCategory, StudentInfo, OlimpiyaChempion
+from .models import Person, PersonCategory, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup
 from .serializers import (
     PersonSerializer, PersonCategorySerializer, StudentInfoSerializer,
     PersonCategoryWithPersonsSerializer, StudentInfoCategorySerializer,
-    OlimpiyaChempionSerializer,
+    OlimpiyaChempionSerializer, MagistrGroupSerializer,
 )
 
 
@@ -167,6 +168,32 @@ class StudentInfoCategoryDetailAPIView(generics.RetrieveAPIView):
 
     def get_queryset(self):
         return StudentInfoCategory.objects.prefetch_related('items')
+
+
+@extend_schema(
+    tags=['students'],
+    summary="Magistratura talabalari ro'yxati (guruh + dissertatsiya + rahbar)",
+    description="?year=2025-2026  ?specialty_code=71010301  ?lang=uz|ru|en",
+)
+class MagistrGroupListAPIView(generics.ListAPIView):
+    serializer_class   = MagistrGroupSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+    def get_queryset(self):
+        qs = MagistrGroup.objects.filter(is_active=True).prefetch_related('students')
+        year             = self.request.query_params.get('year')
+        specialty_code   = self.request.query_params.get('specialty_code')
+        if year:
+            qs = qs.filter(year=year)
+        if specialty_code:
+            qs = qs.filter(specialty_code=specialty_code)
+        return qs.order_by('year', 'order')
 
 
 @extend_schema(tags=['people'], summary="Olimpiya chempionlari ro'yxati")

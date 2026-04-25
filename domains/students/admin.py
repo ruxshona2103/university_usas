@@ -1,7 +1,38 @@
+import json
 from django.contrib import admin
+from django.http import JsonResponse
+from django.urls import path
 from django.utils.html import format_html
 
-from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion
+from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent
+
+
+class AutoTranslateMixin:
+    translate_url_name = None
+
+    def get_urls(self):
+        return [
+            path(
+                'translate/',
+                self.admin_site.admin_view(self.translate_view),
+                name=self.translate_url_name,
+            ),
+        ] + super().get_urls()
+
+    def translate_view(self, request):
+        if request.method != 'POST':
+            return JsonResponse({'error': 'POST required'}, status=405)
+        try:
+            from deep_translator import GoogleTranslator
+            body = json.loads(request.body)
+            text = (body.get('text') or '').strip()
+            if not text:
+                return JsonResponse({'ru': '', 'en': ''})
+            ru = GoogleTranslator(source='uz', target='ru').translate(text) or ''
+            en = GoogleTranslator(source='uz', target='en').translate(text) or ''
+            return JsonResponse({'ru': ru, 'en': en})
+        except Exception as exc:
+            return JsonResponse({'error': str(exc)}, status=500)
 
 
 # ── PersonImage inline ────────────────────────────────────────────────────────
@@ -144,6 +175,49 @@ class StudentInfoAdmin(admin.ModelAdmin):
         ("Sarlavha", {'fields': ('title_uz', 'title_ru', 'title_en')}),
         ("Matn", {'fields': ('content_uz', 'content_ru', 'content_en')}),
         ("Tartib va holat", {'fields': ('order', 'is_active')}),
+    )
+
+
+class MagistrStudentInline(admin.TabularInline):
+    model   = MagistrStudent
+    extra   = 1
+    fields  = ('order', 'student_name', 'dissertation_topic_uz', 'supervisor_name', 'supervisor_info_uz')
+    ordering = ('order',)
+
+
+@admin.register(MagistrGroup)
+class MagistrGroupAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name   = 'magistrgroup_translate'
+    change_form_template = 'admin/students/magistrgroup/change_form.html'
+    list_display  = ('specialty_code', 'specialty_name_uz', 'education_lang', 'year', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter   = ('year', 'education_lang', 'is_active')
+    search_fields = ('specialty_code', 'specialty_name_uz')
+    inlines       = [MagistrStudentInline]
+
+    fieldsets = (
+        ("Mutaxassislik", {
+            'fields': ('specialty_code', 'education_lang', 'year', 'order', 'is_active'),
+        }),
+        ("Nomi (Uz)", {'fields': ('specialty_name_uz',)}),
+        ("Nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('specialty_name_ru', 'specialty_name_en')}),
+    )
+
+
+@admin.register(MagistrStudent)
+class MagistrStudentAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name   = 'magistrstudent_translate'
+    change_form_template = 'admin/students/magistrstudent/change_form.html'
+    list_display  = ('order', 'student_name', 'group', 'supervisor_name')
+    list_filter   = ('group', 'group__year')
+    search_fields = ('student_name', 'dissertation_topic_uz', 'supervisor_name')
+
+    fieldsets = (
+        ("Talaba", {'fields': ('group', 'order', 'student_name')}),
+        ("Dissertatsiya mavzusi (Uz)", {'fields': ('dissertation_topic_uz',)}),
+        ("Dissertatsiya mavzusi (Ru / En)", {'classes': ('collapse',), 'fields': ('dissertation_topic_ru', 'dissertation_topic_en')}),
+        ("Ilmiy rahbar", {'fields': ('supervisor_name', 'supervisor_info_uz')}),
+        ("Ilmiy daraja (Ru / En)", {'classes': ('collapse',), 'fields': ('supervisor_info_ru', 'supervisor_info_en')}),
     )
 
 

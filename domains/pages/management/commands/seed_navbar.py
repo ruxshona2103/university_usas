@@ -39,7 +39,8 @@ ITEMS = [
     ("akademiya", "academy-organizations",8,  "Akademiya huzuridagi tashkilotlar",            "Организации при академии",                         "Organizations",                 "/page/academy-organizations"),
     ("akademiya", "academy-council",      9,  "Akademiya kengashi",                           "Совет академии",                                   "Academy Council",               "/page/academy-council"),
     ("akademiya", "faculties",            10, "Fakultet",                                     "Факультеты",                                       "Faculties",                     "/page/faculties"),
-    ("akademiya", "public-organizations", 11, "Jamoat tashkilotlari",                         "Общественные организации",                         "Public Organizations",          "/page/public-organizations"),
+    ("akademiya", "public-organizations",  11, "Jamoat tashkilotlari",                        "Общественные организации",                         "Public Organizations",          "/page/public-organizations"),
+    ("akademiya", "xotin-qizlar-qomitasi",12, "Xotin-qizlar qo'mitasi",                      "Женский комитет",                                  "Women's Committee",             "/page/xotin-qizlar-qomitasi"),
     ("akademiya", "centers",              12, "Markazlar",                                    "Центры",                                           "Centers",                       "/page/centers"),
     ("akademiya", "360-panorama",         13, "360° ko'rinish",                               "Просмотр 360°",                                    "360° View",                     "/360"),
 
@@ -51,15 +52,16 @@ ITEMS = [
     ("faoliyat", "faoliyat-moliyaviy",5, "Moliyaviy faoliyat",           "Финансовая деятельность",              "Financial Activity",            "/api/activities/faoliyat/?category=moliyaviy-faoliyat"),
 
     # ── XALQARO ALOQALAR ─────────────────────────────────────────────────────────
-    ("xalqaro-aloqalar", "international-partners",      1, "Xalqaro hamkor tashkilotlar",           "Международные партнёрские организации",       "International Partners",        "/page/international-partners"),
-    ("xalqaro-aloqalar", "abroad-training",             2, "Xorijda malaka oshirish va ta'lim",     "Повышение квалификации и обучение за рубежом","Abroad Training",               "/page/abroad-training"),
-    ("xalqaro-aloqalar", "international-announcements", 3, "Xalqaro bo'lim e'lonlari",              "Объявления международного отдела",            "International Announcements",   "/page/international-announcements"),
-    ("xalqaro-aloqalar", "academic-mobility",           4, "Akademik almashinuv",                   "Академическая мобильность",                   "Academic Mobility",             "/page/academic-mobility"),
-    ("xalqaro-aloqalar", "about-us-foreigners",         5, "Xorijliklar «Biz haqimizda»",           "Иностранцы «О нас»",                          "About Us (Foreigners)",         "/page/about-us-foreigners"),
-    ("xalqaro-aloqalar", "foreign-professors",          6, "Xorijlik professor-o'qituvchilar",      "Иностранные профессора-преподаватели",         "Foreign Professors",            "/page/foreign-professors"),
-    ("xalqaro-aloqalar", "rating-sportsmen",            7, "Sportchilarni reytingi",                "Рейтинг спортсменов",                         "Sportsmen Rating",              "/page/rating-sportsmen"),
-    ("xalqaro-aloqalar", "rating-faculty",              8, "Professor-o'qituvchilarni reytingi",    "Рейтинг профессорско-преподавательского состава","Faculty Rating",              "/page/rating-faculty"),
-    ("xalqaro-aloqalar", "usas-for-foreigners",         9, "O'zbekiston davlat sport akademiyasi (xorijliklar uchun)", "ГОСФКА для иностранцев", "USAS for Foreigners",         "/page/usas-for-foreigners"),
+    ("xalqaro-aloqalar", "international-dept",          1, "Xalqaro bo'lim",                        "Международный отдел",                         "International Department",      "/page/international-dept"),
+    ("xalqaro-aloqalar", "international-partners",      2, "Xalqaro hamkor tashkilotlar",           "Международные партнёрские организации",       "International Partners",        "/page/international-partners"),
+    ("xalqaro-aloqalar", "abroad-training",             3, "Xorijda malaka oshirish va ta'lim",     "Повышение квалификации и обучение за рубежом","Abroad Training",               "/page/abroad-training"),
+    ("xalqaro-aloqalar", "international-announcements", 4, "Xalqaro bo'lim e'lonlari",              "Объявления международного отдела",            "International Announcements",   "/page/international-announcements"),
+    ("xalqaro-aloqalar", "academic-mobility",           5, "Akademik almashinuv",                   "Академическая мобильность",                   "Academic Mobility",             "/page/academic-mobility"),
+    ("xalqaro-aloqalar", "about-us-foreigners",         6, "Xorijliklar «Biz haqimizda»",           "Иностранцы «О нас»",                          "About Us (Foreigners)",         "/page/about-us-foreigners"),
+    ("xalqaro-aloqalar", "foreign-professors",          7, "Xorijlik professor-o'qituvchilar",      "Иностранные профессора-преподаватели",         "Foreign Professors",            "/page/foreign-professors"),
+    ("xalqaro-aloqalar", "rating-sportsmen",            8, "Sportchilarni reytingi",                "Рейтинг спортсменов",                         "Sportsmen Rating",              "/page/rating-sportsmen"),
+    ("xalqaro-aloqalar", "rating-faculty",              9, "Professor-o'qituvchilarni reytingi",    "Рейтинг профессорско-преподавательского состава","Faculty Rating",              "/page/rating-faculty"),
+    ("xalqaro-aloqalar", "usas-for-foreigners",        10, "O'zbekiston davlat sport akademiyasi (xorijliklar uchun)", "ГОСФКА для иностранцев", "USAS for Foreigners",         "/page/usas-for-foreigners"),
 
     # ── TALABALARGA ──────────────────────────────────────────────────────────────
     ("talabalarga", "student-privileges",          1,  "Talabalarga imtiyozlar",          "Льготы для студентов",                    "Student Privileges",            "/page/student-privileges"),
@@ -235,7 +237,72 @@ Talabalarning fan bo'yicha o'zlashtirish darajasi, nazariy bilimlari hamda amali
 
 Yakuniy nazorat jarayonlari belgilangan tartib va me'yoriy hujjatlar asosida shaffoflik va xolislik tamoyillariga amal qilgan holda tashkil etiladi.""",
 
+    # ── AKADEMIYA ─────────────────────────────────────────────────────────────
+    "public-organizations": """JAMOAT TASHKILOTLARI
+
+O'zbekiston davlat sport akademiyasida quyidagi jamoat tashkilotlari faoliyat olib boradi:
+
+• Xotin-qizlar qo'mitasi
+• Yoshlar ittifoqi
+• Kasaba uyushmasi""",
+
+    "xotin-qizlar-qomitasi": """XOTIN-QIZLAR QO'MITASI
+
+Xotin-qizlar masalalari bo'yicha maslahat kengashi raisi, rektor maslahatchisi
+XUDAYBERDIYEVA NODIRA ABDUYAKUBOVNA
+Telefon: 95 080 7001
+E-mail: xudayberdiyeva89@mail.ru
+
+AKADEMIYA HAQIDA
+
+Akademiya ilmiy kengashining qaroriga muvofiq Akademiya xotin-qizlar qo'mitasi raisiga ichki imkoniyatdan kelib chiqib, qo'shimcha haq to'lanadi. Akademiya xotin-qizlar kengashi raisiga O'zbekiston Respublikasi Oliy va o'rta maxsus ta'lim vazirining 2020-yil 17-iyun № 326 buyrug'iga asosan xotin-qizlar masalalari bo'yicha rektor maslahatchisi maqomi berilgan.
+
+O'zbekiston davlat sport akademiyasi jamoasida 1023 ga yaqin ayollar faoliyat ko'rsatmoqdalar. Ulardan: 501 ta professor-o'qituvchilar bo'lib, 522 xodimlar va xizmatchilar ayollarni tashkil etadi. Talaba qizlarimiz soni 11714 tani shundan 2150 tasi oilali qizlarni tashkil qiladi.
+
+Akademiya xotin-qizlar kengashining nizomi mavjud bo'lib, ushbu nizom bo'yicha faoliyat olib boradi. Xotin-qizlar kengashi jamoat tashkiloti sifatida o'z faoliyatini O'zbekiston Respublikasi Konstitutsiyasi, O'zbekiston Respublikasining "Nodavlat notijorat tashkilotlari to'g'risida"gi, "O'zbekiston Respublikasida jamoat birlashmalari to'g'risida"gi Qonuni va nodavlat notijorat tashkilotlarni tartibga soluvchi boshqa qonunlariga muvofiq olib boradi.
+
+ASOSIY MAQSAD VA YO'NALISHLAR
+
+✓ Xotin-qizlarni qo'llab-quvvatlashga doir davlat siyosatining samarali amalga oshirilishini ta'minlash, ularning huquqlari, erkinliklari va qonuniy manfaatlarini himoya qilish, universitetning ijtimoiy-siyosiy, ilmiy va ma'naviy hayotidagi faolligi hamda liderlik salohiyatini oshirish.
+
+✓ Universitetdagi xotin-qizlarning muammolarini o'z vaqtida aniqlash, ijtimoiy himoyaga muhtoj, og'ir turmush sharoitiga tushib qolgan, nogironligi bo'lgan hamda yordamga ehtiyoji mavjud xotin-qizlarning manzilli ro'yxatini shakllantirish, ularga ijtimoiy-huquqiy, psixologik, ma'naviy va moddiy ko'mak ko'rsatish.
+
+✓ Universitetdagi xotin-qizlar uchun munosib mehnat va ta'lim sharoitlarini yaratish, ularning bandligini ta'minlash, tadbirkorlik tashabbuslarini qo'llab-quvvatlash, kasb-hunar va zamonaviy ko'nikmalarni egallashiga ko'maklashish.
+
+✓ Talaba-qizlarning, ayniqsa talabalar turar joyida va ijarada yashayotgan qizlarning bo'sh vaqtlarini mazmunli tashkil etish, sport, madaniyat, san'at, ilm-fan va innovatsion loyihalarga keng jalb etish orqali ularning ijtimoiy faolligini oshirish.
+
+✓ Universitetdagi xotin-qizlar o'rtasida huquqbuzarliklar, zo'ravonlik, tazyiq va salbiy holatlarning oldini olish, muammoli guruhlar bilan yakka tartibda ishlash hamda sog'lom ma'naviy-axloqiy muhitni mustahkamlash.
+
+✓ Oilaviy qadriyatlarni mustahkamlash, sog'lom oila muhitini shakllantirish, yoshlarni oilaviy hayotga tayyorlash, farzand tarbiyasi va ma'naviy barkamollik masalalarida targ'ibot ishlarini kuchaytirish.
+
+✓ Gender tenglik tamoyillarini keng joriy etish, xotin-qizlarning boshqaruv, ta'lim, sport va ilmiy faoliyatdagi ulushini oshirish, ularning tashabbus va iqtidorlarini ro'yobga chiqarishga ko'maklashish.""",
+
     # ── XALQARO ALOQALAR ─────────────────────────────────────────────────────
+    "international-dept": """XALQARO HAMKORLIK BO'LIMI
+
+Bo'lim boshlig'i: Karimova Farangiz Narzillo qizi
+Qabul kunlari: Dushanba-Juma 10:00-16:00
+Telefon: +998947551135
+E-mail: info@usas.uz, farangizkarimova100@gmail.com
+
+BO'LIM VAZIFALARI
+
+— Ta'lim sifati va samaradorligini oshirish maqsadida respublika oliy o'quv yurtlari bilan aloqalar o'rnatish.
+— Ta'limning sifati va samaradorligini oshirish hamda xorijiy mamlakatlarning ta'lim sohasidagi yutuqlarini o'rganishga qaratilgan respublika va chet el jamg'armalari bilan bevosita hamkorlik qilishni tashkil etish.
+— Turli yo'nalishlar bo'yicha xalqaro loyihalarni tuzishga, ularni amalga oshirishga rahbarlik qilish.
+— Xorijiy mamlakatlarni ta'lim sohasidagi yutuqlarini o'rganish va tajriba almashish maqsadida chet el olimlari, professor-o'qituvchi hamda mutaxassislarini taklif etish ishlarini tashkil etish.
+— Pedagogik xodimlarni xorijiy mamlakatlar oliy ta'lim muassasalariga tajriba almashish maqsadida yuborilishini tashkil etish.
+— Xorijiy mamlakatlar hamda respublika hududida o'tkaziladigan xalqaro anjumanlarda Akademiya jamoasining qatnashishi va tajriba almashishini tashkil etish.
+
+RAQAMLI MA'LUMOTLAR
+
+O'zbekiston davlat sport akademiyasi:
+— Xorijiy tashkilotlar bilan imzolangan memorandumlar: 2 ta
+— Mahalliy tashkilotlar bilan imzolangan memorandumlar: 6 ta
+
+O'ZDSA huzuridagi Jismoniy tarbiya va sport bo'yicha mutaxassislarni qayta tayyorlash va malakasini oshirish instituti:
+— Xorijiy tashkilotlar bilan imzolangan memorandumlar: 5 ta""",
+
     "international-partners": """O'zbekiston davlat sport akademiyasi xalqaro hamkorlik yo'nalishida bir qator nufuzli tashkilotlar bilan aloqalarni yo'lga qo'ygan.
 
 ASOSIY HAMKOR TASHKILOTLAR

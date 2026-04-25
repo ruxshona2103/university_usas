@@ -93,18 +93,32 @@ class Migration(migrations.Migration):
             field=models.SlugField(blank=True, max_length=200, verbose_name='Slug', default=''),
         ),
         migrations.RunPython(generate_slugs, migrations.RunPython.noop),
-        # PostgreSQL da qisman bajarilgan bo'lsa mavjud indexlarni o'chirib, qayta quradi
-        migrations.RunSQL(
-            sql="""
-                DROP INDEX IF EXISTS academic_fakultet_kafedra_slug_836bcdc5_like;
-                DROP INDEX IF EXISTS academic_fakultet_kafedra_slug_836bcdc5_uniq;
-            """,
-            reverse_sql=migrations.RunSQL.noop,
-        ),
-        migrations.AlterField(
-            model_name='fakultetkafedra',
-            name='slug',
-            field=models.SlugField(blank=True, max_length=200, unique=True, verbose_name='Slug'),
+        # SeparateDatabaseAndState: Django state ni to'g'ri saqlaydi,
+        # lekin SQL ni o'zimiz IF NOT EXISTS bilan yozamiz (PostgreSQL qisman bajarilgan holatga bardoshli)
+        migrations.SeparateDatabaseAndState(
+            database_operations=[
+                migrations.RunSQL(
+                    sql="""
+                        DROP INDEX IF EXISTS academic_fakultet_kafedra_slug_836bcdc5_like;
+                        DROP INDEX IF EXISTS academic_fakultet_kafedra_slug_836bcdc5_uniq;
+                        CREATE UNIQUE INDEX IF NOT EXISTS academic_fakultet_kafedra_slug_836bcdc5_uniq
+                            ON academic_fakultet_kafedra (slug);
+                        CREATE INDEX IF NOT EXISTS academic_fakultet_kafedra_slug_836bcdc5_like
+                            ON academic_fakultet_kafedra (slug varchar_pattern_ops);
+                    """,
+                    reverse_sql="""
+                        DROP INDEX IF EXISTS academic_fakultet_kafedra_slug_836bcdc5_like;
+                        DROP INDEX IF EXISTS academic_fakultet_kafedra_slug_836bcdc5_uniq;
+                    """,
+                ),
+            ],
+            state_operations=[
+                migrations.AlterField(
+                    model_name='fakultetkafedra',
+                    name='slug',
+                    field=models.SlugField(blank=True, max_length=200, unique=True, verbose_name='Slug'),
+                ),
+            ],
         ),
         migrations.AddField(
             model_name='fakultetkafedra',

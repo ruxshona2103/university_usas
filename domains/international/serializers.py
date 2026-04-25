@@ -108,6 +108,7 @@ class InternationalDeptConfigSerializer(serializers.ModelSerializer):
     class Meta:
         model  = InternationalDeptConfig
         fields = [
+            'slug',
             'head_name', 'head_position', 'head_working_hours',
             'head_phone', 'head_email', 'head_photo', 'tasks',
         ]

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 from common.base_models import TimeStampedModel
 
@@ -34,6 +35,7 @@ class OrgNode(TimeStampedModel):
     name_uz = models.CharField(max_length=400, verbose_name='Nomi (Uz)')
     name_ru = models.CharField(max_length=400, blank=True, verbose_name='Nomi (Ru)')
     name_en = models.CharField(max_length=400, blank=True, verbose_name='Nomi (En)')
+    slug    = models.SlugField(max_length=220, unique=True, blank=True, verbose_name='Slug')
 
     is_starred        = models.BooleanField(default=False, verbose_name='* (bir yulduz)')
     is_double_starred = models.BooleanField(default=False, verbose_name='** (ikki yulduz)')
@@ -46,6 +48,17 @@ class OrgNode(TimeStampedModel):
         ordering            = ['order', 'name_uz']
         verbose_name        = 'Tashkiliy tugun'
         verbose_name_plural = 'Tashkiliy tuzilma'
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base = slugify(self.name_uz) or str(self.id)[:8]
+            slug = base
+            n = 1
+            while OrgNode.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f'{base}-{n}'
+                n += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     def __str__(self):
         mark = ' *' if self.is_starred else (' **' if self.is_double_starred else '')

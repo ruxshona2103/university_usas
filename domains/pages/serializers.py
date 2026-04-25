@@ -278,7 +278,7 @@ class OrgNodeSerializer(serializers.ModelSerializer):
     class Meta:
         model  = OrgNode
         fields = [
-            'id', 'node_type', 'name',
+            'id', 'slug', 'node_type', 'name',
             'is_starred', 'is_double_starred', 'is_highlighted',
             'order', 'children',
         ]

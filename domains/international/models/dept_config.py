@@ -4,6 +4,7 @@ from django.db import models
 class InternationalDeptConfig(models.Model):
     """Singleton — Xalqaro hamkorlik bo'limi sahifasi konfiguratsiyasi."""
 
+    slug               = models.SlugField(max_length=200, blank=True, verbose_name="Slug (URL)", help_text="Navbar sahifa slug'i, masalan: international-dept")
     head_name_uz       = models.CharField(max_length=300, blank=True, verbose_name="Bo'lim boshlig'i (Uz)")
     head_name_ru       = models.CharField(max_length=300, blank=True, verbose_name="Bo'lim boshlig'i (Ru)")
     head_name_en       = models.CharField(max_length=300, blank=True, verbose_name="Bo'lim boshlig'i (En)")

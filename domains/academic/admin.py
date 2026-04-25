@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import AcademyStat, AcademyDetailPage
+from .models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication
 
 
 @admin.register(AcademyStat)
@@ -11,20 +11,10 @@ class AcademyStatAdmin(admin.ModelAdmin):
     search_fields = ('label_uz', 'label_ru', 'label_en')
 
     fieldsets = (
-        ("O'zbek tili", {
-            'fields': ('label_uz', 'value_uz'),
-        }),
-        ("Rus tili", {
-            'fields': ('label_ru', 'value_ru'),
-            'classes': ('collapse',),
-        }),
-        ("Ingliz tili", {
-            'fields': ('label_en', 'value_en'),
-            'classes': ('collapse',),
-        }),
-        ("Sozlamalar", {
-            'fields': ('order', 'is_active'),
-        }),
+        ("O'zbek tili", {'fields': ('label_uz', 'value_uz')}),
+        ("Rus tili",    {'fields': ('label_ru', 'value_ru'), 'classes': ('collapse',)}),
+        ("Ingliz tili", {'fields': ('label_en', 'value_en'), 'classes': ('collapse',)}),
+        ("Sozlamalar",  {'fields': ('order', 'is_active')}),
     )
 
 
@@ -41,3 +31,55 @@ class AcademyDetailPageAdmin(admin.ModelAdmin):
             'fields': ('detail_uz', 'detail_ru', 'detail_en'),
         }),
     )
+
+
+class KafedraPublicationInline(admin.TabularInline):
+    model   = KafedraPublication
+    extra   = 1
+    fields  = ('title_uz', 'author', 'pub_type', 'cover', 'order')
+    ordering = ('order',)
+
+
+@admin.register(FakultetKafedra)
+class FakultetKafedraAdmin(admin.ModelAdmin):
+    list_display  = ('name_uz', 'type', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter   = ('type', 'is_active')
+    search_fields = ('name_uz', 'name_ru', 'name_en')
+    readonly_fields = ('slug',)
+    list_per_page = 30
+    inlines = [KafedraPublicationInline]
+
+    fieldsets = (
+        ("Asosiy", {
+            'fields': ('type', 'slug', 'order', 'is_active', 'decree_info'),
+        }),
+        ("Nomi (Uz)", {'fields': ('name_uz',)}),
+        ("Nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('name_ru', 'name_en')}),
+        ("Tavsif (Uz)", {'fields': ('description_uz',)}),
+        ("Tavsif (Ru / En)", {'classes': ('collapse',), 'fields': ('description_ru', 'description_en')}),
+        ("Sport turlari", {
+            'fields': ('sport_types_uz', 'sport_types_ru', 'sport_types_en'),
+            'classes': ('collapse',),
+        }),
+        ("Bakalavriat fanlari", {
+            'fields': ('bachelor_subjects_uz', 'bachelor_subjects_ru', 'bachelor_subjects_en'),
+            'classes': ('collapse',),
+        }),
+        ("Magistratura fanlari", {
+            'fields': ('master_subjects_uz', 'master_subjects_ru', 'master_subjects_en'),
+            'classes': ('collapse',),
+        }),
+        ("Kontakt va havola", {
+            'fields': ('phone', 'email', 'link'),
+            'classes': ('collapse',),
+        }),
+    )
+
+
+@admin.register(KafedraPublication)
+class KafedraPublicationAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'author', 'pub_type', 'kafedra', 'order')
+    list_filter   = ('pub_type', 'kafedra')
+    search_fields = ('title_uz', 'author')
+    list_per_page = 30

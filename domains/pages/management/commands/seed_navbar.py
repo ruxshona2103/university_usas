@@ -59,6 +59,7 @@ ITEMS = [
     ("xalqaro-aloqalar", "foreign-professors",          6, "Xorijlik professor-o'qituvchilar",      "Иностранные профессора-преподаватели",         "Foreign Professors",            "/page/foreign-professors"),
     ("xalqaro-aloqalar", "rating-sportsmen",            7, "Sportchilarni reytingi",                "Рейтинг спортсменов",                         "Sportsmen Rating",              "/page/rating-sportsmen"),
     ("xalqaro-aloqalar", "rating-faculty",              8, "Professor-o'qituvchilarni reytingi",    "Рейтинг профессорско-преподавательского состава","Faculty Rating",              "/page/rating-faculty"),
+    ("xalqaro-aloqalar", "usas-for-foreigners",         9, "O'zbekiston davlat sport akademiyasi (xorijliklar uchun)", "ГОСФКА для иностранцев", "USAS for Foreigners",         "/page/usas-for-foreigners"),
 
     # ── TALABALARGA ──────────────────────────────────────────────────────────────
     ("talabalarga", "student-privileges",          1,  "Talabalarga imtiyozlar",          "Льготы для студентов",                    "Student Privileges",            "/page/student-privileges"),
@@ -404,6 +405,41 @@ kurash, judo, boks, karate, taekwondo, gimnastika, yengil atletika, og'ir atleti
 YUTUQLAR
 
 Akademiya talabalari va bitiruvchilari milliy va xalqaro musobaqalarda yuqori natijalar ko'rsatib kelmoqda. Batafsil natijalar va statistika uchun axborot xizmati bo'limiga murojaat qiling.""",
+
+    "usas-for-foreigners": """O'ZBEKISTON DAVLAT SPORT AKADEMIYASI (XORIJLIKLAR UCHUN)
+
+O'zbekiston davlat sport akademiyasi xorijiy fuqarolar uchun bakalavriat va magistratura ta'lim dasturlarini taklif etadi.
+
+TA'LIM DASTURLARI
+
+Xorijiy talabalar quyidagi yo'nalishlar bo'yicha tahsil olishlari mumkin:
+— Sport faoliyati
+— Jismoniy tarbiya
+— Sport menejmenti
+— Adaptiv jismoniy tarbiya va sport
+
+O'QISH TILI
+
+O'zbek va rus tillarida dars olib boriladi. Ingliz tilida alohida dasturlar bo'yicha kelishilishi mumkin.
+
+QABUL TARTIBI
+
+1. Ariza topshirish: Xalqaro aloqalar bo'limiga yoki elektron pochta orqali
+2. Hujjatlar: Pasport, ta'lim to'g'risidagi hujjat, sog'liqni saqlash sertifikati
+3. Qabul komissiyasi tomonidan ko'rib chiqiladi
+4. Shartnoma imzolanadi
+
+ALOQA
+
+Xalqaro aloqalar bo'limi
+Bo'lim boshlig'i: Karimova Farangiz Narzillo qizi
+Qabul kunlari: Dushanba-Juma 10:00-16:00
+Telefon: +998947551135
+E-mail: info@usas.uz, farangizkarimova100@gmail.com
+
+YASHASH SHAROITI
+
+Akademiya xorijiy talabalarga yotoqxona bilan ta'minlaydi. Yotoqxona haqida batafsil ma'lumot uchun xalqaro aloqalar bo'limiga murojaat qiling.""",
 
     "rating-faculty": """PROFESSOR-O'QITUVCHILARNI REYTINGI
 

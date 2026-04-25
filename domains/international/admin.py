@@ -4,6 +4,7 @@ from .models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
     InternationalPost, InternationalPostImage,
     InternationalRating, InternationalRatingImage,
+    InternationalDeptConfig, MemorandumStat,
 )
 
 
@@ -86,6 +87,38 @@ class InternationalRatingAdmin(admin.ModelAdmin):
         ("Slug",     {'fields': ('slug',)}),
         ("Tartib va holat", {'fields': ('order', 'is_active')}),
         ('Texnik',   {'classes': ('collapse',), 'fields': ('created_at', 'updated_at')}),
+    )
+
+
+@admin.register(InternationalDeptConfig)
+class InternationalDeptConfigAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ("Bo'lim boshlig'i", {
+            'fields': ('head_photo', 'head_name_uz', 'head_name_ru', 'head_name_en',
+                       'head_position_uz', 'head_position_ru', 'head_position_en',
+                       'head_working_hours', 'head_phone', 'head_email'),
+        }),
+        ("Vazifalari (Uz)", {'fields': ('tasks_uz',)}),
+        ("Vazifalari (Ru / En)", {'classes': ('collapse',), 'fields': ('tasks_ru', 'tasks_en')}),
+    )
+
+    def has_add_permission(self, request):
+        return not InternationalDeptConfig.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(MemorandumStat)
+class MemorandumStatAdmin(admin.ModelAdmin):
+    list_display  = ('organization_uz', 'foreign_count', 'domestic_count', 'order')
+    list_editable = ('foreign_count', 'domestic_count', 'order')
+    search_fields = ('organization_uz',)
+
+    fieldsets = (
+        ("Tashkilot nomi (Uz)", {'fields': ('organization_uz',)}),
+        ("Tashkilot nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('organization_ru', 'organization_en')}),
+        ("Memorandumlar", {'fields': ('foreign_count', 'domestic_count', 'order')}),
     )
 
 

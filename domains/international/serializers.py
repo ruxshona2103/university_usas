@@ -6,6 +6,7 @@ from domains.international.models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
     InternationalPost, InternationalPostImage,
     InternationalRating, InternationalRatingImage,
+    InternationalDeptConfig, MemorandumStat,
 )
 
 
@@ -96,6 +97,53 @@ class PartnerPageConfigSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_description(self, obj):
         return {'uz': obj.description_uz or '', 'ru': obj.description_ru or '', 'en': obj.description_en or ''}
+
+
+class InternationalDeptConfigSerializer(serializers.ModelSerializer):
+    head_name     = serializers.SerializerMethodField()
+    head_position = serializers.SerializerMethodField()
+    tasks         = serializers.SerializerMethodField()
+    head_photo    = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = InternationalDeptConfig
+        fields = [
+            'head_name', 'head_position', 'head_working_hours',
+            'head_phone', 'head_email', 'head_photo', 'tasks',
+        ]
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_head_name(self, obj):
+        return getattr(obj, f'head_name_{self._lang()}') or obj.head_name_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_head_position(self, obj):
+        return getattr(obj, f'head_position_{self._lang()}') or obj.head_position_uz
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_head_photo(self, obj):
+        return _abs_url(self.context.get('request'), obj.head_photo)
+
+    @extend_schema_field(serializers.ListField(child=serializers.CharField()))
+    def get_tasks(self, obj):
+        raw = getattr(obj, f'tasks_{self._lang()}') or obj.tasks_uz or ''
+        return [line.strip() for line in raw.splitlines() if line.strip()]
+
+
+class MemorandumStatSerializer(serializers.ModelSerializer):
+    organization = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = MemorandumStat
+        fields = ['id', 'organization', 'foreign_count', 'domestic_count', 'order']
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_organization(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'organization_{lang}') or obj.organization_uz
 
 
 class InternationalPostImageSerializer(serializers.ModelSerializer):

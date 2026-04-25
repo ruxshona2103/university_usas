@@ -5,6 +5,8 @@ from .views import (
     InternationalPostListAPIView,
     InternationalRatingListAPIView,
     InternationalRatingDetailAPIView,
+    InternationalDeptConfigAPIView,
+    MemorandumStatListAPIView,
 )
 
 urlpatterns = [
@@ -13,4 +15,6 @@ urlpatterns = [
     path('international-posts/',               InternationalPostListAPIView.as_view(),       name='international-posts'),
     path('international-ratings/',             InternationalRatingListAPIView.as_view(),     name='international-ratings-list'),
     path('international-ratings/<slug:slug>/', InternationalRatingDetailAPIView.as_view(),   name='international-ratings-detail'),
+    path('dept-config/',                       InternationalDeptConfigAPIView.as_view(),     name='international-dept-config'),
+    path('memorandum-stats/',                  MemorandumStatListAPIView.as_view(),          name='memorandum-stats'),
 ]

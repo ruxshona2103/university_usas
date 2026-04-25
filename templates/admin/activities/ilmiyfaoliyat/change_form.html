@@ -1,0 +1,114 @@
+{% extends "admin/change_form.html" %}
+
+{% block after_field_sets %}
+{{ block.super }}
+<style>
+  .translate-btn {
+    margin: 8px 0 16px;
+    padding: 6px 14px;
+    background: #417690;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .translate-btn:hover { background: #2b5372; }
+  .translate-btn:disabled { background: #888; cursor: not-allowed; }
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Sub-kategoriya dinamik filter ── */
+  const parentSelect = document.getElementById('id_parent_category');
+  const subSelect    = document.getElementById('id_category');
+
+  if (parentSelect && subSelect) {
+    const subcatUrl = '{% url "admin:oquvfaoliyat_get_subcategories" %}';
+
+    function loadSubcategories(parentId, keepSelectedId) {
+      if (!parentId) {
+        subSelect.innerHTML = '<option value="">---------</option>';
+        return;
+      }
+      fetch(subcatUrl + '?parent_id=' + encodeURIComponent(parentId), {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          subSelect.innerHTML = '<option value="">---------</option>';
+          data.subcategories.forEach(function (sub) {
+            const opt = document.createElement('option');
+            opt.value       = sub.id;
+            opt.textContent = sub.title_uz;
+            if (keepSelectedId && String(sub.id) === String(keepSelectedId)) opt.selected = true;
+            subSelect.appendChild(opt);
+          });
+        });
+    }
+
+    parentSelect.addEventListener('change', function () { loadSubcategories(this.value, null); });
+
+    if (parentSelect.value) loadSubcategories(parentSelect.value, subSelect.value);
+  }
+
+  /* ── Avto tarjima ── */
+  const translateUrl = '{% url "admin:oquvfaoliyat_translate" %}';
+  const csrfToken    = document.cookie.match(/csrftoken=([^;]+)/)?.[1] || '';
+
+  function getCsrfToken() {
+    const input = document.querySelector('[name=csrfmiddlewaretoken]');
+    return input ? input.value : csrfToken;
+  }
+
+  function addTranslateButton(labelText, uzFieldId, ruFieldId, enFieldId) {
+    const uzField = document.getElementById(uzFieldId);
+    if (!uzField) return;
+
+    const btn = document.createElement('button');
+    btn.type        = 'button';
+    btn.className   = 'translate-btn';
+    btn.textContent = '🌐 ' + labelText + ' — avtomatik tarjima (UZ → RU, EN)';
+    uzField.parentNode.insertBefore(btn, uzField.nextSibling);
+
+    btn.addEventListener('click', function () {
+      const text = uzField.value.trim();
+      if (!text) { alert("Avval UZ maydoni to'ldirilsin!"); return; }
+
+      btn.disabled    = true;
+      btn.textContent = 'Tarjima qilinmoqda…';
+
+      fetch(translateUrl, {
+        method:  'POST',
+        headers: {
+          'Content-Type':     'application/json',
+          'X-CSRFToken':      getCsrfToken(),
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: JSON.stringify({ text: text }),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.error) { alert('Xato: ' + data.error); return; }
+          const ruField = document.getElementById(ruFieldId);
+          const enField = document.getElementById(enFieldId);
+          if (ruField && data.ru) ruField.value = data.ru;
+          if (enField && data.en) enField.value = data.en;
+        })
+        .catch(function (err) { alert('Tarjima amalga oshmadi: ' + err); })
+        .finally(function () {
+          btn.disabled    = false;
+          btn.textContent = '🌐 ' + labelText + ' — avtomatik tarjima (UZ → RU, EN)';
+        });
+    });
+  }
+
+  // Sarlavha uchun tarjima tugmasi
+  addTranslateButton('Sarlavha', 'id_title_uz', 'id_title_ru', 'id_title_en');
+  // Tavsif uchun tarjima tugmasi
+  addTranslateButton('Tavsif',   'id_description_uz', 'id_description_ru', 'id_description_en');
+})();
+</script>
+{% endblock %}

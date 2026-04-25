@@ -4,6 +4,8 @@ from .partner_config import PartnerPageConfig
 from .post import InternationalPost
 from .post_image import InternationalPostImage
 from .rating import InternationalRating, InternationalRatingImage
+from .dept_config import InternationalDeptConfig
+from .memorandum_stat import MemorandumStat
 
 __all__ = [
     'ForeignProfessorReview',
@@ -13,4 +15,6 @@ __all__ = [
     'InternationalPostImage',
     'InternationalRating',
     'InternationalRatingImage',
+    'InternationalDeptConfig',
+    'MemorandumStat',
 ]

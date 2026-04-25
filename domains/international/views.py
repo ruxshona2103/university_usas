@@ -6,10 +6,12 @@ from drf_spectacular.utils import extend_schema
 from domains.international.models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
     InternationalPost, InternationalRating,
+    InternationalDeptConfig, MemorandumStat,
 )
 from .serializers import (
     ForeignProfessorReviewSerializer, PartnerOrganizationSerializer, PartnerPageConfigSerializer,
     InternationalPostSerializer, InternationalRatingSerializer,
+    InternationalDeptConfigSerializer, MemorandumStatSerializer,
 )
 
 
@@ -88,6 +90,39 @@ class InternationalRatingDetailAPIView(generics.RetrieveAPIView):
     permission_classes = [AllowAny]
     queryset           = InternationalRating.objects.filter(is_active=True).prefetch_related('images')
     lookup_field       = 'slug'
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+@extend_schema(tags=['international'], summary="Xalqaro hamkorlik bo'limi konfiguratsiyasi")
+class InternationalDeptConfigAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = InternationalDeptConfigSerializer
+    permission_classes = [AllowAny]
+
+    def get_object(self):
+        return InternationalDeptConfig.load()
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+@extend_schema(tags=['international'], summary="Memorandumlar statistikasi")
+class MemorandumStatListAPIView(generics.ListAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = MemorandumStatSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        return MemorandumStat.objects.all()
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

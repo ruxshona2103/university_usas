@@ -8,9 +8,10 @@ class InternationalPost(TimeStampedModel):
     Ikkalasi ham sarlavha + to'liq matn + sana + rasm tuzilmasiga ega.
     """
     class PostType(models.TextChoices):
-        ANNOUNCEMENT = 'announcement', "E'lon"
-        NEWS         = 'news',         'Yangilik'
-        TRAINING     = 'training',     'Xorijda malaka oshirish'
+        ANNOUNCEMENT      = 'announcement',      "E'lon"
+        NEWS              = 'news',              'Yangilik'
+        TRAINING          = 'training',          'Xorijda malaka oshirish'
+        ACADEMIC_EXCHANGE = 'academic_exchange', 'Akademik almashinuv'
 
     post_type = models.CharField(
         max_length=20,

@@ -81,7 +81,7 @@ class NewsListAPIView(BaseContentListAPIView):
         qs = News.objects.filter(is_published=True).prefetch_related('images', 'categories')
         cat = self.request.query_params.get('category')
         if cat:
-            qs = qs.filter(categories__slug=cat)
+            qs = qs.filter(categories__slug=cat).distinct()
         date_from = self.request.query_params.get('date_from')
         date_to = self.request.query_params.get('date_to')
         if date_from:

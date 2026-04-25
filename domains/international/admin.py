@@ -1,4 +1,7 @@
+import json
 from django.contrib import admin
+from django.http import JsonResponse
+from django.urls import path
 
 from .models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
@@ -6,6 +9,37 @@ from .models import (
     InternationalRating, InternationalRatingImage,
     InternationalDeptConfig, MemorandumStat,
 )
+
+
+class AutoTranslateMixin:
+    """UZ → RU/EN avtomatik tarjima AJAX endpoint ni admin ga qo'shadi."""
+
+    translate_url_name = None  # har bir subclass da noyob nom
+
+    def get_urls(self):
+        urls = super().get_urls()
+        return [
+            path(
+                'translate/',
+                self.admin_site.admin_view(self.translate_view),
+                name=self.translate_url_name,
+            ),
+        ] + urls
+
+    def translate_view(self, request):
+        if request.method != 'POST':
+            return JsonResponse({'error': 'POST required'}, status=405)
+        try:
+            from deep_translator import GoogleTranslator
+            body   = json.loads(request.body)
+            text   = (body.get('text') or '').strip()
+            if not text:
+                return JsonResponse({'ru': '', 'en': ''})
+            ru = GoogleTranslator(source='uz', target='ru').translate(text) or ''
+            en = GoogleTranslator(source='uz', target='en').translate(text) or ''
+            return JsonResponse({'ru': ru, 'en': en})
+        except Exception as exc:
+            return JsonResponse({'error': str(exc)}, status=500)
 
 
 @admin.register(PartnerPageConfig)
@@ -91,7 +125,10 @@ class InternationalRatingAdmin(admin.ModelAdmin):
 
 
 @admin.register(InternationalDeptConfig)
-class InternationalDeptConfigAdmin(admin.ModelAdmin):
+class InternationalDeptConfigAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name   = 'intdeptconfig_translate'
+    change_form_template = 'admin/international/internationaldeptconfig/change_form.html'
+
     fieldsets = (
         ("Bo'lim boshlig'i", {
             'fields': ('head_photo', 'head_name_uz', 'head_name_ru', 'head_name_en',
@@ -110,7 +147,10 @@ class InternationalDeptConfigAdmin(admin.ModelAdmin):
 
 
 @admin.register(MemorandumStat)
-class MemorandumStatAdmin(admin.ModelAdmin):
+class MemorandumStatAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name   = 'intmemorandum_translate'
+    change_form_template = 'admin/international/memorandumstat/change_form.html'
+
     list_display  = ('organization_uz', 'foreign_count', 'domestic_count', 'order')
     list_editable = ('foreign_count', 'domestic_count', 'order')
     search_fields = ('organization_uz',)

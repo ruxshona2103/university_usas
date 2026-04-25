@@ -1,0 +1,76 @@
+{% extends "admin/change_form.html" %}
+
+{% block after_field_sets %}
+{{ block.super }}
+<style>
+  .translate-btn {
+    margin: 6px 0 14px;
+    padding: 6px 14px;
+    background: #417690;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .translate-btn:hover    { background: #2b5372; }
+  .translate-btn:disabled { background: #888; cursor: not-allowed; }
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  const translateUrl = '{% url "admin:intmemorandum_translate" %}';
+
+  function getCsrf() {
+    const inp = document.querySelector('[name=csrfmiddlewaretoken]');
+    return inp ? inp.value : '';
+  }
+
+  function addBtn(labelText, uzId, ruId, enId) {
+    const uzField = document.getElementById(uzId);
+    if (!uzField) return;
+
+    const btn = document.createElement('button');
+    btn.type      = 'button';
+    btn.className = 'translate-btn';
+    btn.textContent = '🌐 ' + labelText + ' — UZ → RU, EN';
+    uzField.parentNode.insertBefore(btn, uzField.nextSibling);
+
+    btn.addEventListener('click', function () {
+      const text = uzField.value.trim();
+      if (!text) { alert("Avval UZ maydoni to'ldirilsin!"); return; }
+
+      btn.disabled    = true;
+      btn.textContent = 'Tarjima qilinmoqda…';
+
+      fetch(translateUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type':     'application/json',
+          'X-CSRFToken':      getCsrf(),
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: JSON.stringify({ text: text }),
+      })
+        .then(r => r.json())
+        .then(data => {
+          if (data.error) { alert('Xato: ' + data.error); return; }
+          const ru = document.getElementById(ruId);
+          const en = document.getElementById(enId);
+          if (ru && data.ru) ru.value = data.ru;
+          if (en && data.en) en.value = data.en;
+        })
+        .catch(err => alert('Tarjima amalga oshmadi: ' + err))
+        .finally(() => {
+          btn.disabled    = false;
+          btn.textContent = '🌐 ' + labelText + ' — UZ → RU, EN';
+        });
+    });
+  }
+
+  addBtn('Tashkilot nomi', 'id_organization_uz', 'id_organization_ru', 'id_organization_en');
+})();
+</script>
+{% endblock %}

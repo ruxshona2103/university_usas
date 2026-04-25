@@ -19,6 +19,8 @@ def generate_slugs(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
+    # atomic=False: PostgreSQL da qisman bajarilgan migratsiya indexlarini qayta yaratishda xato bermasin
+    atomic = False
 
     dependencies = [
         ('academic', '0004_add_fakultet_kafedra'),
@@ -91,6 +93,14 @@ class Migration(migrations.Migration):
             field=models.SlugField(blank=True, max_length=200, verbose_name='Slug', default=''),
         ),
         migrations.RunPython(generate_slugs, migrations.RunPython.noop),
+        # PostgreSQL da qisman bajarilgan bo'lsa mavjud indexlarni o'chirib, qayta quradi
+        migrations.RunSQL(
+            sql="""
+                DROP INDEX IF EXISTS academic_fakultet_kafedra_slug_836bcdc5_like;
+                DROP INDEX IF EXISTS academic_fakultet_kafedra_slug_836bcdc5_uniq;
+            """,
+            reverse_sql=migrations.RunSQL.noop,
+        ),
         migrations.AlterField(
             model_name='fakultetkafedra',
             name='slug',
@@ -115,6 +125,10 @@ class Migration(migrations.Migration):
             model_name='fakultetkafedra',
             name='link',
             field=models.URLField(blank=True, verbose_name='Tashqi havola (URL)'),
+        ),
+        migrations.RunSQL(
+            sql="DROP TABLE IF EXISTS academic_kafedra_publication CASCADE;",
+            reverse_sql=migrations.RunSQL.noop,
         ),
         migrations.CreateModel(
             name='KafedraPublication',

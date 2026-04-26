@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 from django.http import Http404
-from django.db.models import F, Window
+from django.db.models import F, Window, Case, When, IntegerField
 from django.db.models.functions import RowNumber
 
 from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra
@@ -53,7 +53,7 @@ class FakultetKafedraListAPIView(generics.ListAPIView):
     def get_queryset(self):
         qs = FakultetKafedra.objects.filter(is_active=True)
         type_filter = self.request.query_params.get('type')
-        if type_filter in ('fakultet', 'kafedra'):
+        if type_filter in ('tashkilot', 'fakultet', 'kafedra'):
             qs = qs.filter(type=type_filter)
         # Some environments may contain legacy duplicate slugs.
         # Keep only the first row per slug to avoid duplicate API items.
@@ -63,10 +63,17 @@ class FakultetKafedraListAPIView(generics.ListAPIView):
                     expression=RowNumber(),
                     partition_by=[F('slug')],
                     order_by=[F('order').asc(), F('created_at').asc(), F('id').asc()],
-                )
+                ),
+                _type_order=Case(
+                    When(type='tashkilot', then=0),
+                    When(type='fakultet',  then=1),
+                    When(type='kafedra',   then=2),
+                    default=3,
+                    output_field=IntegerField(),
+                ),
             )
             .filter(_slug_rank=1)
-            .order_by('order', 'name_uz')
+            .order_by('_type_order', 'order', 'name_uz')
         )
 
 

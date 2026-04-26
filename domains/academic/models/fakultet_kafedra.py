@@ -4,11 +4,13 @@ from common.base_models import TimeStampedModel
 
 
 class FakultetKafedra(TimeStampedModel):
-    FAKULTET = 'fakultet'
-    KAFEDRA  = 'kafedra'
+    FAKULTET   = 'fakultet'
+    KAFEDRA    = 'kafedra'
+    TASHKILOT  = 'tashkilot'
     TYPE_CHOICES = [
-        (FAKULTET, 'Fakultet'),
-        (KAFEDRA,  'Kafedra'),
+        (FAKULTET,  'Fakultet'),
+        (KAFEDRA,   'Kafedra'),
+        (TASHKILOT, 'Tashkilot'),
     ]
 
     type     = models.CharField(max_length=20, choices=TYPE_CHOICES, default=KAFEDRA, verbose_name="Turi")

@@ -139,7 +139,7 @@ class Command(BaseCommand):
             self.stdout.write(f"[i] Source page: requested={slug}, found={page_obj.slug}")
 
             defaults = {
-                "type": FakultetKafedra.KAFEDRA,
+                "type": FakultetKafedra.TASHKILOT,
                 "order": page_obj.order,
                 "is_active": page_obj.is_active,
                 "name_uz": page_obj.name_uz,

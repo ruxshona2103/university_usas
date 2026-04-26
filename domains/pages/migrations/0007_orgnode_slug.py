@@ -1,25 +1,79 @@
-from django.db import migrations, models
+from django.db import migrations
 from django.utils.text import slugify
 
 
-def assign_slugs(apps, schema_editor):
-    OrgNode = apps.get_model('pages', 'OrgNode')
+def forward(apps, schema_editor):
+    db = schema_editor.connection
+    vendor = db.vendor  # 'postgresql' | 'sqlite3'
+
+    # ── 1. slug column qo'shamiz ──────────────────────────────────────────────
+    with db.cursor() as c:
+        if vendor == 'postgresql':
+            c.execute(
+                "ALTER TABLE pages_org_node "
+                "ADD COLUMN IF NOT EXISTS slug varchar(220) NOT NULL DEFAULT ''"
+            )
+        else:
+            c.execute("PRAGMA table_info(pages_org_node)")
+            cols = [row[1] for row in c.fetchall()]
+            if 'slug' not in cols:
+                c.execute(
+                    "ALTER TABLE pages_org_node "
+                    "ADD COLUMN slug varchar(220) NOT NULL DEFAULT ''"
+                )
+
+    # ── 2. Slug qiymatlarini to'ldiramiz ──────────────────────────────────────
+    with db.cursor() as c:
+        c.execute('SELECT id, name_uz FROM pages_org_node ORDER BY "order"')
+        rows = c.fetchall()
+
     used = set()
-    for node in OrgNode.objects.all().order_by('order'):
-        base = slugify(node.name_uz) or f'node-{str(node.id)[:8]}'
-        slug = base
-        n = 1
+    updates = []
+    for node_id, name_uz in rows:
+        base = slugify(name_uz or '') or f'node-{str(node_id)[:8]}'
+        slug, n = base, 1
         while slug in used:
             slug = f'{base}-{n}'
             n += 1
-        node.slug = slug
-        node.save(update_fields=['slug'])
         used.add(slug)
+        updates.append((slug, node_id))
+
+    if updates:
+        with db.cursor() as c:
+            for slug, node_id in updates:
+                c.execute(
+                    "UPDATE pages_org_node SET slug = %s WHERE id = %s",
+                    [slug, node_id],
+                )
+
+    # ── 3. Unique index va LIKE index (idempotent) ────────────────────────────
+    with db.cursor() as c:
+        if vendor == 'postgresql':
+            c.execute("DROP INDEX IF EXISTS pages_org_node_slug_c1545551_like")
+            c.execute(
+                "CREATE UNIQUE INDEX IF NOT EXISTS pages_org_node_slug_uniq "
+                "ON pages_org_node (slug)"
+            )
+            c.execute(
+                "CREATE INDEX IF NOT EXISTS pages_org_node_slug_c1545551_like "
+                "ON pages_org_node (slug varchar_pattern_ops)"
+            )
+        else:
+            c.execute(
+                "CREATE UNIQUE INDEX IF NOT EXISTS pages_org_node_slug_uniq "
+                "ON pages_org_node (slug)"
+            )
 
 
-def remove_slugs(apps, schema_editor):
-    OrgNode = apps.get_model('pages', 'OrgNode')
-    OrgNode.objects.all().update(slug='')
+def backward(apps, schema_editor):
+    db = schema_editor.connection
+    with db.cursor() as c:
+        if db.vendor == 'postgresql':
+            c.execute("DROP INDEX IF EXISTS pages_org_node_slug_uniq")
+            c.execute("DROP INDEX IF EXISTS pages_org_node_slug_c1545551_like")
+            c.execute("ALTER TABLE pages_org_node DROP COLUMN IF EXISTS slug")
+        else:
+            c.execute("DROP INDEX IF EXISTS pages_org_node_slug_uniq")
 
 
 class Migration(migrations.Migration):
@@ -29,15 +83,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='orgnode',
-            name='slug',
-            field=models.SlugField(blank=True, max_length=220, verbose_name='Slug'),
-        ),
-        migrations.RunPython(assign_slugs, remove_slugs),
-        migrations.AlterField(
-            model_name='orgnode',
-            name='slug',
-            field=models.SlugField(blank=True, max_length=220, unique=True, verbose_name='Slug'),
-        ),
+        migrations.RunPython(forward, backward),
     ]

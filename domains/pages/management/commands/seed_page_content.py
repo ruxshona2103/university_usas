@@ -3,7 +3,7 @@ python manage.py seed_page_content          # yaratadi / yangilaydi
 python manage.py seed_page_content --clear  # content_uz larni tozalab qaytadan yozadi
 """
 from django.core.management.base import BaseCommand
-from domains.pages.models import NavbarSubItem
+from domains.pages.models import NavbarSubItem, LinkBlock
 
 # (slug, title_for_log, content_uz)
 PAGES = [
@@ -135,7 +135,73 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--clear', action='store_true', help="content_uz ni tozalab qaytadan yozadi")
 
+    def _seed_link_blocks(self):
+        """public-organizations va har bir tashkilot sahifasiga linklar."""
+        # ── Asosiy "Jamoat tashkilotlari" sahifasi ──────────────────────────────
+        try:
+            po_page = NavbarSubItem.objects.get(slug='public-organizations')
+        except NavbarSubItem.DoesNotExist:
+            po_page = None
+
+        if po_page:
+            existing_links = set(po_page.linkblock_items.values_list('link', flat=True))
+            orgs = [
+                ("Xotin-qizlar qo'mitasi", "Женский комитет",   "Women's Committee", '/page/xotin-qizlar-qomitasi', 1),
+                ("Yoshlar ittifoqi",        "Молодёжный союз",   "Youth Union",        '/page/yoshlar-ittifoqi',      2),
+                ("Kasaba uyushmasi",        "Профсоюз",          "Trade Union",        '/page/kasaba-uyushmasi',      3),
+            ]
+            for uz, ru, en, link, order in orgs:
+                if link not in existing_links:
+                    lb = LinkBlock.objects.create(
+                        block_type='useful-links',
+                        title_uz=uz, title_ru=ru, title_en=en,
+                        link=link, order=order, is_active=True,
+                    )
+                    lb.navbar_items.add(po_page)
+                    self.stdout.write(f"  [+] linkblock (public-organizations): {uz}")
+
+        # ── Har bir tashkilot sahifasiga boshqa tashkilotlar havolalari ──────────
+        sub_pages = [
+            (
+                'xotin-qizlar-qomitasi',
+                [
+                    ("Yoshlar ittifoqi",  "Молодёжный союз",  "Youth Union",  '/page/yoshlar-ittifoqi', 1),
+                    ("Kasaba uyushmasi",  "Профсоюз",         "Trade Union",  '/page/kasaba-uyushmasi', 2),
+                ],
+            ),
+            (
+                'yoshlar-ittifoqi',
+                [
+                    ("Xotin-qizlar qo'mitasi", "Женский комитет", "Women's Committee", '/page/xotin-qizlar-qomitasi', 1),
+                    ("Kasaba uyushmasi",        "Профсоюз",        "Trade Union",        '/page/kasaba-uyushmasi',      2),
+                ],
+            ),
+            (
+                'kasaba-uyushmasi',
+                [
+                    ("Xotin-qizlar qo'mitasi", "Женский комитет", "Women's Committee", '/page/xotin-qizlar-qomitasi', 1),
+                    ("Yoshlar ittifoqi",        "Молодёжный союз", "Youth Union",        '/page/yoshlar-ittifoqi',      2),
+                ],
+            ),
+        ]
+        for slug, links in sub_pages:
+            try:
+                page = NavbarSubItem.objects.get(slug=slug)
+            except NavbarSubItem.DoesNotExist:
+                continue
+            existing = set(page.linkblock_items.values_list('link', flat=True))
+            for uz, ru, en, link, order in links:
+                if link not in existing:
+                    lb = LinkBlock.objects.create(
+                        block_type='useful-links',
+                        title_uz=uz, title_ru=ru, title_en=en,
+                        link=link, order=order, is_active=True,
+                    )
+                    lb.navbar_items.add(page)
+                    self.stdout.write(f"  [+] linkblock ({slug}): {uz}")
+
     def handle(self, *args, **options):
+        self._seed_link_blocks()
         updated = skipped = 0
         for slug, title, content_uz in PAGES:
             try:

@@ -7,13 +7,19 @@ from domains.students.models import StudentInfoCategory, StudentInfo
 
 CATEGORIES = [
     # (slug, order, uz, ru, en)
-    ("bakalavriat-malumotnoma", 1, "Bakalavriat ma'lumotnomasi", "Справочник бакалавриата", "Bachelor's Reference"),
+    # Bakalavr
+    ("st-guide",              1,  "Yo'riqnoma (bakalavr)",       "Руководство (бакалавр)",              "Bachelor Guide"),
+    ("grading-system",        2,  "Bakalavr baholash tizimi",    "Система оценивания бакалавриата",     "Grading System"),
+    ("gpa-credit",            3,  "GPA va kredit talablari",     "Требования GPA и кредитов",           "GPA & Credit"),
+    ("scholarships",          4,  "Stipendiyalar",               "Стипендии",                           "Scholarships"),
+    ("final-control",         5,  "Yakuniy nazorat",             "Итоговый контроль",                   "Final Control"),
+    ("bakalavriat-malumotnoma", 6, "Bakalavriat ma'lumotnomasi", "Справочник бакалавриата",             "Bachelor's Reference"),
 ]
 
 ITEMS = [
-    # ══ KATEGORIYASIZ ITEMLAR ═════════════════════════════════════════════════════
+    # ══ YO'RIQNOMA ════════════════════════════════════════════════════════════════
     (
-        None, 1,
+        "st-guide", 1,
         "Yo'riqnoma",
         "Руководство",
         "Guide",
@@ -151,7 +157,7 @@ Applications: autumn — 15 July–5 August; spring — 10–20 January.
 Review: autumn — 6–31 August; spring — 21 January–10 February.""",
     ),
     (
-        None, 2,
+        "grading-system", 1,
         "Baholash tizimi",
         "Система оценивания",
         "Grading System",
@@ -181,7 +187,7 @@ Review: autumn — 6–31 August; spring — 21 January–10 February.""",
 0–49 points   — 1 (Fail): very low result""",
     ),
     (
-        None, 3,
+        "gpa-credit", 1,
         "GPA va kredit talablari",
         "Требования GPA и кредитов",
         "GPA & Credit Requirements",
@@ -214,7 +220,7 @@ Students must maintain or improve this score. Otherwise:
 — Academic probation measures may be applied.""",
     ),
     (
-        None, 4,
+        "scholarships", 1,
         "Stipendiyalar",
         "Стипендии",
         "Scholarships",
@@ -232,7 +238,7 @@ Mazkur talabalar O'zbekiston Respublikasi amaldagi normativ-huquqiy hujjatlariga
 All of them have been admitted on a full state grant in accordance with the current regulatory framework of the Republic of Uzbekistan and are provided with state scholarships in the prescribed manner.""",
     ),
     (
-        None, 5,
+        "final-control", 1,
         "Yakuniy nazorat",
         "Итоговый контроль",
         "Final Control",

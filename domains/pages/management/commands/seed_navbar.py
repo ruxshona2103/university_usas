@@ -30,18 +30,20 @@ CATEGORIES = [
 ITEMS = [
     # ── AKADEMIYA ────────────────────────────────────────────────────────────────
     ("akademiya", "about-academy",        1,  "Akademiya haqida",                             "Об академии",                                      "About Academy",                 "/page/about-academy"),
-    ("akademiya", "academy-in-numbers",   2,  "Akademiya raqamlarda",                         "Академия в цифрах",                                "Academy in Numbers",            "/page/academy-in-numbers"),
+    ("akademiya", "academy-in-numbers",   2,  "Akademiya raqamlarda",                         "Академия в цифрах",                                "Academy in Numbers",            "/api/academic/stats/"),
     ("akademiya", "rectorate",            3,  "Rektorat",                                     "Ректорат",                                         "Rectorate",                     "/api/categories/rektorat/"),
-    ("akademiya", "academy-structure",    4,  "Tuzilma",                                      "Структура",                                        "Structure",                     "/page/academy-structure"),
-    ("akademiya", "academy-details",      5,  "Rekvizitlar",                                  "Реквизиты",                                        "Details",                       "/page/academy-details"),
+    ("akademiya", "academy-structure",    4,  "Tuzilma",                                      "Структура",                                        "Structure",                     "/api/org-structure/"),
+    ("akademiya", "academy-details",      5,  "Rekvizitlar",                                  "Реквизиты",                                        "Details",                       "/api/academic/detail/"),
     ("akademiya", "academy-regulations",  6,  "Me'yoriy hujjatlar",                           "Нормативные документы",                            "Regulations",                   "/page/academy-regulations"),
     ("akademiya", "academy-buildings",    7,  "O'quv binolari va Sport inshootlari",           "Учебные корпуса",                                  "Academy Buildings",             "/page/academy-buildings"),
     ("akademiya", "academy-organizations",8,  "Akademiya huzuridagi tashkilotlar",            "Организации при академии",                         "Organizations",                 "/page/academy-organizations"),
-    ("akademiya", "academy-council",      9,  "Akademiya kengashi",                           "Совет академии",                                   "Academy Council",               "/page/academy-council"),
-    ("akademiya", "faculties",            10, "Fakultet",                                     "Факультеты",                                       "Faculties",                     "/page/faculties"),
+    ("akademiya", "academy-council",      9,  "Akademiya kengashi",                           "Совет академии",                                   "Academy Council",               "/api/categories/akademiya-kengashi/"),
+    ("akademiya", "faculties",            10, "Fakultet",                                     "Факультеты",                                       "Faculties",                     "/api/academic/fakultet-kafedralar/"),
     ("akademiya", "public-organizations",  11, "Jamoat tashkilotlari",                        "Общественные организации",                         "Public Organizations",          "/page/public-organizations"),
     ("akademiya", "xotin-qizlar-qomitasi",12, "Xotin-qizlar qo'mitasi",                      "Женский комитет",                                  "Women's Committee",             "/page/xotin-qizlar-qomitasi"),
-    ("akademiya", "centers",              12, "Markazlar",                                    "Центры",                                           "Centers",                       "/page/centers"),
+    ("akademiya", "yoshlar-ittifoqi",     13, "Yoshlar ittifoqi",                            "Молодёжный союз",                                  "Youth Union",                   "/page/yoshlar-ittifoqi"),
+    ("akademiya", "kasaba-uyushmasi",     14, "Kasaba uyushmasi",                            "Профсоюз",                                         "Trade Union",                   "/page/kasaba-uyushmasi"),
+    ("akademiya", "centers",              15, "Markazlar",                                    "Центры",                                           "Centers",                       "/api/categories/markazlar/"),
     ("akademiya", "360-panorama",         13, "360° ko'rinish",                               "Просмотр 360°",                                    "360° View",                     "/360"),
 
     # ── FAOLIYAT ─────────────────────────────────────────────────────────────────
@@ -53,14 +55,14 @@ ITEMS = [
 
     # ── XALQARO ALOQALAR ─────────────────────────────────────────────────────────
     ("xalqaro-aloqalar", "international-dept",          1, "Xalqaro bo'lim",                        "Международный отдел",                         "International Department",      "/page/international-dept"),
-    ("xalqaro-aloqalar", "international-partners",      2, "Xalqaro hamkor tashkilotlar",           "Международные партнёрские организации",       "International Partners",        "/page/international-partners"),
-    ("xalqaro-aloqalar", "abroad-training",             3, "Xorijda malaka oshirish va ta'lim",     "Повышение квалификации и обучение за рубежом","Abroad Training",               "/page/abroad-training"),
-    ("xalqaro-aloqalar", "international-announcements", 4, "Xalqaro bo'lim e'lonlari",              "Объявления международного отдела",            "International Announcements",   "/page/international-announcements"),
-    ("xalqaro-aloqalar", "academic-mobility",           5, "Akademik almashinuv",                   "Академическая мобильность",                   "Academic Mobility",             "/page/academic-mobility"),
-    ("xalqaro-aloqalar", "about-us-foreigners",         6, "Xorijliklar «Biz haqimizda»",           "Иностранцы «О нас»",                          "About Us (Foreigners)",         "/page/about-us-foreigners"),
-    ("xalqaro-aloqalar", "foreign-professors",          7, "Xorijlik professor-o'qituvchilar",      "Иностранные профессора-преподаватели",         "Foreign Professors",            "/page/foreign-professors"),
-    ("xalqaro-aloqalar", "rating-sportsmen",            8, "Sportchilarni reytingi",                "Рейтинг спортсменов",                         "Sportsmen Rating",              "/page/rating-sportsmen"),
-    ("xalqaro-aloqalar", "rating-faculty",              9, "Professor-o'qituvchilarni reytingi",    "Рейтинг профессорско-преподавательского состава","Faculty Rating",              "/page/rating-faculty"),
+    ("xalqaro-aloqalar", "international-partners",      2, "Xalqaro hamkor tashkilotlar",           "Международные партнёрские организации",       "International Partners",        "/api/partner-organizations/"),
+    ("xalqaro-aloqalar", "abroad-training",             3, "Xorijda malaka oshirish va ta'lim",     "Повышение квалификации и обучение за рубежom","Abroad Training",               "/api/international-posts/"),
+    ("xalqaro-aloqalar", "international-announcements", 4, "Xalqaro bo'lim e'lonlari",              "Объявления международного отдела",            "International Announcements",   "/api/international-posts/"),
+    ("xalqaro-aloqalar", "academic-mobility",           5, "Akademik almashinuv",                   "Академическая мобильность",                   "Academic Mobility",             "/api/international-posts/"),
+    ("xalqaro-aloqalar", "about-us-foreigners",         6, "Xorijliklar «Biz haqimizda»",           "Иностранцы «О нас»",                          "About Us (Foreigners)",         "/api/foreign-reviews/"),
+    ("xalqaro-aloqalar", "foreign-professors",          7, "Xorijlik professor-o'qituvchilar",      "Иностранные профессора-преподаватели",         "Foreign Professors",            "/api/foreign-reviews/"),
+    ("xalqaro-aloqalar", "rating-sportsmen",            8, "Sportchilarni reytingi",                "Рейтинг спортсменов",                         "Sportsmen Rating",              "/api/olimpiya/"),
+    ("xalqaro-aloqalar", "rating-faculty",              9, "Professor-o'qituvchilarni reytingi",    "Рейтинг профессорско-преподавательского состава","Faculty Rating",              "/api/academic/fakultet-kafedralar/"),
     ("xalqaro-aloqalar", "usas-for-foreigners",        10, "O'zbekiston davlat sport akademiyasi (xorijliklar uchun)", "ГОСФКА для иностранцев", "USAS for Foreigners",         "/page/usas-for-foreigners"),
 
     # ── TALABALARGA ──────────────────────────────────────────────────────────────
@@ -72,26 +74,26 @@ ITEMS = [
     ("talabalarga", "gpa-credit",                  6,  "GPA va kredit talablari",         "Требования GPA и кредитов",               "GPA & Credit",                  "/page/gpa-credit"),
     ("talabalarga", "st-schedule",                 7,  "Dars jadvali",                    "Расписание занятий",                      "Class Schedule",                "/page/st-schedule"),
     ("talabalarga", "scholarships",                8,  "Stipendiyalar",                   "Стипендии",                               "Scholarships",                  "/page/scholarships"),
-    ("talabalarga", "gifted-students",             9,  "Iqtidorli talabalar",             "Одарённые студенты",                      "Gifted Students",               "/page/gifted-students"),
+    ("talabalarga", "gifted-students",             9,  "Iqtidorli talabalar",             "Одарённые студенты",                      "Gifted Students",               "/api/olimpiya/"),
     ("talabalarga", "final-control",               10, "Yakuniy nazorat",                 "Итоговый контроль",                       "Final Control",                 "/page/final-control"),
     ("talabalarga", "scholarships-magistratura",   11, "Magistratura: stipendiyalar",     "Магистратура: стипендии",                 "Masters Scholarships",          "/page/scholarships-magistratura"),
     ("talabalarga", "master-defense",              12, "Magistrlik dissertatsiyasi himoyasi","Защита магистерской диссертации",       "Masters Defense",               "/page/master-defense"),
-    ("talabalarga", "master-topics",               13, "Magistrlik dissertatsiya mavzulari","Темы магистерских диссертаций",          "Masters Topics",                "/page/master-topics"),
+    ("talabalarga", "master-topics",               13, "Magistrlik dissertatsiya mavzulari","Темы магистерских диссертаций",          "Masters Topics",                "/api/magistr-students/"),
     ("talabalarga", "masters-grading",             14, "Magistratura baholash tizimi",    "Система оценивания магистратуры",         "Masters Grading",               "/page/masters-grading"),
     ("talabalarga", "yada-schedule-magistratura",  15, "Magistratura: yakuniy o'tkazish jadvali","Магистратура: график итоговой аттестации","Masters YADA Schedule",    "/page/yada-schedule-magistratura"),
     ("talabalarga", "course-manual-magistratura",  16, "Magistratura: fanlar o'quv qo'llanmasi","Магистратура: учебное пособие по предметам","Masters Course Manual",    "/page/course-manual-magistratura"),
 
     # ── AXBOROT XIZMATI ──────────────────────────────────────────────────────────
     ("axborot-xizmati", "ax-news",          1, "Yangiliklar",                       "Новости",                             "News",                 "/api/news/"),
-    ("axborot-xizmati", "rector-speeches",  2, "Rektor tabriklari va nutqlari",     "Поздравления и выступления ректора",  "Rector Speeches",      "/page/rector-speeches"),
-    ("axborot-xizmati", "briefings",        3, "Brifinglar",                        "Брифинги",                            "Briefings",            "/page/briefings"),
-    ("axborot-xizmati", "contests",         4, "Tanlovlar",                         "Конкурсы",                            "Contests",             "/page/contests"),
-    ("axborot-xizmati", "press-service",    5, "Matbuot xizmati",                   "Пресс-служба",                        "Press Service",        "/page/press-service"),
-    ("axborot-xizmati", "photo-gallery",    6, "Fotogalereya",                      "Фотогалерея",                         "Photo Gallery",        "/page/photo-gallery"),
-    ("axborot-xizmati", "video-gallery",    7, "Video galereya",                    "Видеогалерея",                        "Video Gallery",        "/page/video-gallery"),
+    ("axborot-xizmati", "rector-speeches",  2, "Rektor tabriklari va nutqlari",     "Поздравления и выступления ректора",  "Rector Speeches",      "/api/information/"),
+    ("axborot-xizmati", "briefings",        3, "Brifinglar",                        "Брифинги",                            "Briefings",            "/api/events/"),
+    ("axborot-xizmati", "contests",         4, "Tanlovlar",                         "Конкурсы",                            "Contests",             "/api/tenders/"),
+    ("axborot-xizmati", "press-service",    5, "Matbuot xizmati",                   "Пресс-служба",                        "Press Service",        "/api/categories/matbuot-xizmati/"),
+    ("axborot-xizmati", "photo-gallery",    6, "Fotogalereya",                      "Фотогалерея",                         "Photo Gallery",        "/api/news/"),
+    ("axborot-xizmati", "video-gallery",    7, "Video galereya",                    "Видеогалерея",                        "Video Gallery",        "/api/events/"),
 
     # ── QABUL ────────────────────────────────────────────────────────────────────
-    ("qabul", "admission-news",          1,  "Qabul yangiliklari",             "Новости приёма",                         "Admission News",                "/page/admission-news"),
+    ("qabul", "admission-news",          1,  "Qabul yangiliklari",             "Новости приёма",                         "Admission News",                "/api/news/"),
     ("qabul", "admission-commission",    2,  "Qabul komissiya tarkibi",        "Состав приёмной комиссии",               "Commission Members",            "/page/admission-commission"),
     ("qabul", "admission-regulations",   3,  "Me'yoriy hujjatlar (Qabul)",     "Нормативные документы (приём)",          "Admission Regulations",         "/page/admission-regulations"),
     ("qabul", "admission-days",          4,  "Qabul kunlari",                  "Дни приёма",                             "Admission Days",                "/page/admission-days"),
@@ -108,7 +110,7 @@ ITEMS = [
     ("qabul", "second-degree",           15, "Ikkinchi oliy ta'lim",           "Второе высшее образование",              "Second Degree",                 "/page/second-degree"),
     ("qabul", "admission-contracts",     16, "Shartnomalar",                   "Договоры",                               "Contracts",                     "/page/admission-contracts"),
     ("qabul", "increased-contract",      17, "Oshirilgan to'lov-shartnomasi",  "Повышенный платный договор",             "Increased Contract",            "/page/increased-contract"),
-    ("qabul", "admission-contract-prices",18,"Kontrakt narxlari (Qabul)",      "Стоимость контракта (приём)",            "Contract Prices",               "/page/admission-contract-prices"),
+    ("qabul", "admission-contract-prices",18,"Kontrakt narxlari (Qabul)",      "Стоимость контракта (приём)",            "Contract Prices",               "/api/activities/contract-prices/"),
     ("qabul", "bachelor-results",        19, "Bakalavr natijalari",            "Результаты бакалавриата",                "Bachelor Results",              "/page/bachelor-results"),
     ("qabul", "exam-schedule",           20, "Kasbiy imtihonlar jadvali",      "График профессиональных экзаменов",      "Exam Schedule",                 "/page/exam-schedule"),
     ("qabul", "masters-admission-plan",  21, "Magistratura qabul rejasi",      "План приёма в магистратуру",             "Masters Admission Plan",        "/page/masters-admission-plan"),
@@ -124,20 +126,20 @@ ITEMS = [
     ("rektorga-murojaat", "rector-appeal", 1, "Rektorga murojaat", "Обращение к ректору", "Rector Appeal", "/page/rector-appeal"),
 
     # ── FAXRLARIMIZ ──────────────────────────────────────────────────────────────
-    ("faxrlarimiz", "graduates",              1, "Bitiruvchilarimiz",         "Наши выпускники",              "Graduates",              "/page/graduates"),
-    ("faxrlarimiz", "honorary-teachers",      2, "Faxrli ustozlarimiz",       "Наши почётные наставники",     "Honorary Teachers",      "/page/honorary-teachers"),
-    ("faxrlarimiz", "distinguished-scientists",3,"Ilg'or olimlarimiz",        "Наши выдающиеся учёные",       "Distinguished Scientists","/page/distinguished-scientists"),
-    ("faxrlarimiz", "ozdsa-stars",            4, "O'ZDSA yulduzlari",         "Звёзды O'ZDSA",                "OZDSA Stars",            "/page/ozdsa-stars"),
+    ("faxrlarimiz", "graduates",              1, "Bitiruvchilarimiz",         "Наши выпускники",              "Graduates",              "/api/categories/bitiruvchilar/"),
+    ("faxrlarimiz", "honorary-teachers",      2, "Faxrli ustozlarimiz",       "Наши почётные наставники",     "Honorary Teachers",      "/api/categories/faxriy-ustozlar/"),
+    ("faxrlarimiz", "distinguished-scientists",3,"Ilg'or olimlarimiz",        "Наши выдающиеся учёные",       "Distinguished Scientists","/api/categories/ilgori-olimlar/"),
+    ("faxrlarimiz", "ozdsa-stars",            4, "O'ZDSA yulduzlari",         "Звёзды O'ZDSA",                "OZDSA Stars",            "/api/categories/ozdsa-yulduzlari/"),
 
     # ── ALOQA ────────────────────────────────────────────────────────────────────
-    ("aloqa", "contact", 1, "Aloqa", "Контакты", "Contact", "/page/contact"),
+    ("aloqa", "contact", 1, "Aloqa", "Контакты", "Contact", "/api/contact-info/"),
 
     # ── VIRTUAL SAYOHAT ──────────────────────────────────────────────────────────
     ("virtual-sayohat", "virtual-tour", 1, "Virtual sayohat", "Виртуальный тур", "Virtual Tour", "/page/virtual-tour"),
 
     # ── REYTING ──────────────────────────────────────────────────────────────────
     ("reyting", "national-rating",      1, "Milliy reyting",    "Национальный рейтинг",                                  "National Rating",      "/page/national-rating"),
-    ("reyting", "international-rating", 2, "Xalqaro reyting",   "Международный рейтинг (место академии среди вузов)",    "International Rating", "/page/international-rating"),
+    ("reyting", "international-rating", 2, "Xalqaro reyting",   "Международный рейтинг (место академии среди вузов)",    "International Rating", "/api/international-ratings/"),
 ]
 
 # Categories that have no sub-items — use direct_url from the single child above
@@ -245,6 +247,30 @@ O'zbekiston davlat sport akademiyasida quyidagi jamoat tashkilotlari faoliyat ol
 • Xotin-qizlar qo'mitasi
 • Yoshlar ittifoqi
 • Kasaba uyushmasi""",
+
+    "yoshlar-ittifoqi": """YOSHLAR ITTIFOQI
+
+O'zbekiston davlat sport akademiyasi Yoshlar ittifoqi — akademiya talabalar jamoasini birlashtiruvchi, yoshlarning ijtimoiy-madaniy va sport faoliyatini qo'llab-quvvatlovchi jamoat tashkiloti.
+
+ASOSIY VAZIFALAR
+
+✓ Talabalar o'rtasida vatanparvarlik, ma'naviyat va sport ruhini kuchaytirish.
+✓ Yoshlarning ilmiy, madaniy va ijtimoiy faoliyatini tashkil etish.
+✓ Talabalar huquqlari va manfaatlarini himoya qilish.
+✓ Sport tadbirlari, musobaqalar va festivallar tashkil etish.
+✓ Iqtidorli yoshlarni aniqlash va qo'llab-quvvatlash.""",
+
+    "kasaba-uyushmasi": """KASABA UYUSHMASI
+
+O'zbekiston davlat sport akademiyasi Kasaba uyushmasi — akademiya xodimlarining mehnat huquqlari va ijtimoiy manfaatlarini himoya qiluvchi jamoat tashkiloti.
+
+ASOSIY VAZIFALAR
+
+✓ Xodimlarning mehnat huquqlari va ijtimoiy kafolatlarini himoya qilish.
+✓ Mehnat sharoitlarini yaxshilash bo'yicha taklif va murojaat yuborish.
+✓ Xodimlar uchun dam olish, sog'lomlashtirish va ijtimoiy yordamni tashkil etish.
+✓ Mehnat ziddiyatlarini hal etishda vositachilik qilish.
+✓ A'zolarga moddiy yordam ko'rsatish.""",
 
     "xotin-qizlar-qomitasi": """XOTIN-QIZLAR QO'MITASI
 

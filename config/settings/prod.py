@@ -62,6 +62,11 @@ if imagekit_public_key and imagekit_private_key and imagekit_url_endpoint:
         },
     }
 else:
-    raise ImproperlyConfigured(
-        'Production uchun IMAGEKIT_PUBLIC_KEY, IMAGEKIT_PRIVATE_KEY va IMAGEKIT_URL_ENDPOINT env qiymatlari majburiy.'
-    )
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }

@@ -7,6 +7,7 @@ Usage:
 """
 
 from django.core.management.base import BaseCommand
+from django.db.models import Q
 
 from domains.academic.models import FakultetKafedra
 from domains.pages.models import NavbarSubItem
@@ -17,6 +18,12 @@ DEFAULT_SLUGS = (
     "yoshlar-ittifoqi",
     "kasaba-uyushmasi",
 )
+
+SLUG_NAME_HINTS = {
+    "xotin-qizlar-qomitasi": "xotin-qizlar qo'mitasi",
+    "yoshlar-ittifoqi": "yoshlar ittifoqi",
+    "kasaba-uyushmasi": "kasaba uyushmasi",
+}
 
 
 def _lang_value(obj, base, lang):
@@ -63,6 +70,33 @@ def _build_description(page_obj, lang):
     return content or blocks_text
 
 
+def _find_page_by_slug_hint(slug):
+    # 1) Exact slug (active/inactive)
+    qs = NavbarSubItem.objects.filter(slug=slug).order_by("-is_active", "-updated_at")
+    obj = qs.first()
+    if obj:
+        return obj
+
+    # 2) Redirect URL references
+    page_url = f"/page/{slug}"
+    qs = NavbarSubItem.objects.filter(redirect_url=page_url).order_by("-is_active", "-updated_at")
+    obj = qs.first()
+    if obj:
+        return obj
+
+    # 3) Name fallback for known slugs
+    hint = SLUG_NAME_HINTS.get(slug, "")
+    if hint:
+        qs = NavbarSubItem.objects.filter(
+            Q(name_uz__iexact=hint) | Q(name_ru__iexact=hint) | Q(name_en__iexact=hint)
+        ).order_by("-is_active", "-updated_at")
+        obj = qs.first()
+        if obj:
+            return obj
+
+    return None
+
+
 class Command(BaseCommand):
     help = (
         "Selected pages sluglarini academic/fakultet-kafedra jadvaliga "
@@ -84,22 +118,25 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING("Sync uchun slug berilmadi."))
             return
 
-        pages = {
-            p.slug: p
-            for p in NavbarSubItem.objects.filter(slug__in=slugs, is_active=True)
-            .prefetch_related("contentblock_items", "linkblock_items")
-        }
-
         created = 0
         updated = 0
         missed = 0
 
         for slug in slugs:
-            page_obj = pages.get(slug)
+            page_obj = _find_page_by_slug_hint(slug)
             if not page_obj:
                 missed += 1
                 self.stdout.write(self.style.WARNING(f"[!] Page topilmadi: {slug}"))
                 continue
+
+            # Ensure related objects are fetched for description building
+            page_obj = (
+                NavbarSubItem.objects
+                .filter(pk=page_obj.pk)
+                .prefetch_related("contentblock_items", "linkblock_items")
+                .first()
+            )
+            self.stdout.write(f"[i] Source page: requested={slug}, found={page_obj.slug}")
 
             defaults = {
                 "type": FakultetKafedra.KAFEDRA,

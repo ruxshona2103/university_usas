@@ -187,3 +187,5 @@ class OquvFaoliyatAdmin(admin.ModelAdmin):
         if obj.file:
             return format_html('<a href="{}" target="_blank">📄 Ko\'rish</a>', obj.file.url)
         return "—"
+ 
+ 

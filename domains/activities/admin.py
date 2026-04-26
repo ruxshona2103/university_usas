@@ -185,7 +185,10 @@ class OquvFaoliyatAdmin(admin.ModelAdmin):
     @admin.display(description="Fayl")
     def file_link(self, obj):
         if obj.file:
-            return format_html('<a href="{}" target="_blank">📄 Ko\'rish</a>', obj.file.url)
+            try:
+                return format_html('<a href="{}" target="_blank">Ko\'rish</a>', obj.file.url)
+            except Exception:
+                return obj.file.name or "—"
         return "—"
  
  

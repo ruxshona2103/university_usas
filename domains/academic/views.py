@@ -3,6 +3,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
+from django.http import Http404
+from django.db.models import F, Window
+from django.db.models.functions import RowNumber
 
 from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra
 from .serializers import (
@@ -52,7 +55,19 @@ class FakultetKafedraListAPIView(generics.ListAPIView):
         type_filter = self.request.query_params.get('type')
         if type_filter in ('fakultet', 'kafedra'):
             qs = qs.filter(type=type_filter)
-        return qs
+        # Some environments may contain legacy duplicate slugs.
+        # Keep only the first row per slug to avoid duplicate API items.
+        return (
+            qs.annotate(
+                _slug_rank=Window(
+                    expression=RowNumber(),
+                    partition_by=[F('slug')],
+                    order_by=[F('order').asc(), F('created_at').asc(), F('id').asc()],
+                )
+            )
+            .filter(_slug_rank=1)
+            .order_by('order', 'name_uz')
+        )
 
 
 @extend_schema(tags=['academic'], summary="Fakultet/Kafedra batafsil ma'lumoti")
@@ -61,3 +76,15 @@ class FakultetKafedraDetailAPIView(generics.RetrieveAPIView):
     permission_classes = [AllowAny]
     queryset           = FakultetKafedra.objects.filter(is_active=True).prefetch_related('publications')
     lookup_field       = 'slug'
+
+    def get_object(self):
+        slug = self.kwargs.get(self.lookup_field)
+        obj = (
+            self.get_queryset()
+            .filter(slug=slug)
+            .order_by('order', 'created_at', 'id')
+            .first()
+        )
+        if not obj:
+            raise Http404
+        return obj

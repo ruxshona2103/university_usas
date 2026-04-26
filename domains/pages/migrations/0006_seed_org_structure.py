@@ -63,6 +63,8 @@ NODES = [
 
 def seed(apps, schema_editor):
     OrgNode = apps.get_model('pages', 'OrgNode')
+    if OrgNode.objects.exists():
+        return
     created = {}
     for key, parent_key, node_type, name_uz, is_starred, is_double_starred, is_highlighted, order in NODES:
         parent = created.get(parent_key) if parent_key else None

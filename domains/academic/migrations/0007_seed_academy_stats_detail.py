@@ -39,22 +39,25 @@ def seed(apps, schema_editor):
     AcademyStat = apps.get_model('academic', 'AcademyStat')
     AcademyDetailPage = apps.get_model('academic', 'AcademyDetailPage')
 
+    existing_orders = set(AcademyStat.objects.values_list('order', flat=True))
     for label_uz, value_uz, order in STATS:
-        AcademyStat.objects.create(
-            label_uz=label_uz,
-            value_uz=value_uz,
-            order=order,
-            is_active=True,
-        )
+        if order not in existing_orders:
+            AcademyStat.objects.create(
+                label_uz=label_uz,
+                value_uz=value_uz,
+                order=order,
+                is_active=True,
+            )
 
-    AcademyDetailPage.objects.create(
-        edu_direction_count='2 ta',
-        sport_type_count='14 ta',
-        masters_count='4 ta',
-        auditorium_count='22 ta',
-        resource_center_uz=RESOURCE_CENTER_UZ,
-        detail_uz=DETAIL_UZ,
-    )
+    if not AcademyDetailPage.objects.exists():
+        AcademyDetailPage.objects.create(
+            edu_direction_count='2 ta',
+            sport_type_count='14 ta',
+            masters_count='4 ta',
+            auditorium_count='22 ta',
+            resource_center_uz=RESOURCE_CENTER_UZ,
+            detail_uz=DETAIL_UZ,
+        )
 
 
 def unseed(apps, schema_editor):

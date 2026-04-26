@@ -5,6 +5,31 @@ from drf_spectacular.openapi import OpenApiTypes
 from domains.activities.models import ContractPrice, ServiceVehicle, IlmiyFaoliyat, IlmiyFaoliyatCategory
 
 
+def _safe_file_url(field, request=None):
+    """
+    Return a robust URL for FileField values.
+    - Accepts already-absolute names (legacy seeded data).
+    - Avoids crashing when storage backends fail to resolve malformed names.
+    """
+    if not field:
+        return None
+
+    name = (getattr(field, 'name', '') or '').strip()
+    if name.startswith(('http://', 'https://')):
+        return name
+
+    try:
+        url = field.url
+    except Exception:
+        if not name:
+            return None
+        return request.build_absolute_uri(name) if request else name
+
+    if request and not str(url).startswith(('http://', 'https://')):
+        return request.build_absolute_uri(url)
+    return url
+
+
 class ContractPriceSerializer(serializers.ModelSerializer):
     specialty_name = serializers.SerializerMethodField()
     education_type = serializers.CharField(source='get_education_type_display')
@@ -53,10 +78,7 @@ class IlmiyFaoliyatSerializer(serializers.ModelSerializer):
         return self.context.get('request')
 
     def _build_url(self, field):
-        if not field:
-            return None
-        req = self._req()
-        return req.build_absolute_uri(field.url) if req else field.url
+        return _safe_file_url(field, self._req())
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):
@@ -80,10 +102,7 @@ class IlmiyFaoliyatItemSerializer(serializers.ModelSerializer):
         return getattr(obj, f'title_{lang}') or obj.title_uz
 
     def get_url(self, obj):
-        if not obj.file:
-            return None
-        req = self.context.get('request')
-        return req.build_absolute_uri(obj.file.url) if req else obj.file.url
+        return _safe_file_url(obj.file, self.context.get('request'))
 
 
 class IlmiyFaoliyatSubCategorySerializer(serializers.ModelSerializer):
@@ -153,10 +172,7 @@ class IlmiyFaoliyatCategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'slug', 'title', 'description', 'order', 'blocks']
 
     def _item_url(self, item):
-        if not item.file:
-            return None
-        req = self.context.get('request')
-        return req.build_absolute_uri(item.file.url) if req else item.file.url
+        return _safe_file_url(item.file, self.context.get('request'))
 
     def _item_to_link(self, item):
         return {

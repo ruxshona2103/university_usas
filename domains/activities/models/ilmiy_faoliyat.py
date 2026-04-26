@@ -44,6 +44,7 @@ class IlmiyFaoliyat(TimeStampedModel):
     file = models.FileField(
         upload_to=ilmiy_file_upload,
         blank=True, null=True,
+        max_length=500,
         verbose_name="Fayl (PDF / DOC)",
         help_text="PDF, DOCX, DOC, PPTX formatlari qo'llab-quvvatlanadi",
     )

@@ -21,6 +21,7 @@ urlpatterns = [
     path('api/', include('domains.contact.urls')),
     path('api/', include('domains.international.urls')),
     path('api/', include('domains.activities.urls')),
+    path('api/', include('domains.axborot.urls')),
 ]
 
 if settings.DEBUG:

@@ -171,7 +171,7 @@ class NavbarSubItemAdmin(admin.ModelAdmin):
     list_editable = ('order', 'is_active')
     list_filter = ('is_active', 'page_type', 'category')
     search_fields = ('name_uz', 'name_ru', 'name_en')
-    readonly_fields = ('slug', 'created_at', 'updated_at')
+    readonly_fields = ('created_at', 'updated_at')
 
     @admin.display(description='Tur', ordering='page_type')
     def page_type_badge(self, obj):

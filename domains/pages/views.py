@@ -277,7 +277,10 @@ class OrgStructureAPIView(APIView):
                 .order_by('order', 'title_uz')
             )
             ctx = {'lang': lang, 'request': request}
-            data = OrgNodeSerializer(roots, many=True, context=ctx).data
+            root = roots.first()
+            if root is None:
+                return Response({})
+            data = OrgNodeSerializer(root, context=ctx).data
             return Response(data)
         except Exception as e:
             return Response({'error': str(e), 'trace': traceback.format_exc()}, status=500)

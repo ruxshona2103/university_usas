@@ -133,11 +133,11 @@ class NavbarCategoryAdmin(admin.ModelAdmin):
             'fields': ('direct_url',),
         }),
         ("Tartib va holat", {
-            'fields': ('order', 'is_active')
+            'fields': ('order', 'is_active','slug',)
         }),
         ('Texnik', {
             'classes': ('collapse',),
-            'fields': ('slug', 'created_at', 'updated_at')
+            'fields': ('created_at', 'updated_at')
         }),
     )
 

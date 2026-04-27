@@ -110,7 +110,7 @@ class NavbarSubItemInline(admin.TabularInline):
     """Bo'lim sahifasida subitemlarni to'g'ridan-to'g'ri ko'rish/tahrirlash"""
     model = NavbarSubItem
     extra = 1
-    fields = ('name_uz', 'name_ru', 'name_en', 'page_type', 'order', 'is_active')
+    fields = ('name_uz', 'name_ru', 'name_en', 'page_type', 'direct_url', 'redirect_url', 'order', 'is_active')
     ordering = ('order',)
     show_change_link = True
 

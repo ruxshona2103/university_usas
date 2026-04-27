@@ -197,6 +197,15 @@ NODES = [
         "Ta'lim yo'nalishlari, kafedralar va fakultet hayoti.",
         False, False, False, 4,
     ),
+    (
+        'raqamli_transform', 'xalq_mash', 'department', 'raqamli-transformatsiya-markazi',
+        'talim-bloki', 6,
+        "Raqamli transformatsiya markazi",
+        "Центр цифровой трансформации",
+        "Digital Transformation Centre",
+        "Jarayonlarni raqamlashtirish, avtomatlashtirish va ma'lumotlar tahlili.",
+        False, False, False, 5,
+    ),
 
     # ══════════════════════════════════════════════════════════════
     # REKTOR
@@ -343,6 +352,15 @@ NODES = [
         "Amaliyotlar, hamkor tashkilotlar va targ'ibot.",
         False, False, True, 5,
     ),
+    (
+        'it_bolim', 'reja_moliya', 'department', 'it-bolim',
+        'moliya-xojalik', 7,
+        "IT bo'lim",
+        "IT-отдел",
+        "IT Department",
+        "Server, tarmoq, kiberhavfsizlik va tizimlarni texnik qo'llab-quvvatlash.",
+        False, False, False, 6,
+    ),
 
     # Kafedralar guruhi (to'g'ridan-to'g'ri rektorda)
     (
@@ -458,6 +476,24 @@ NODES = [
         "Birinchi bo'lim", "Первый отдел", "First Department",
         "Maxfiy ish yuritish va tartib-qoidalar.",
         False, False, False, 8,
+    ),
+    (
+        'crm', 'rektor_yord', 'department', 'talabalar-crm-tizimi',
+        'nazorat-xizmatlar', 9,
+        "Talabalar bilan ishlash CRM tizimi",
+        "CRM-система работы со студентами",
+        "Student Relationship Management System",
+        "Qabuldan bitirgunga qadar talaba yo'li, murojaatlar va alumni bazasi.",
+        False, False, False, 9,
+    ),
+    (
+        'smm', 'rektor_yord', 'department', 'marketing-smm-bolimi',
+        'nazorat-xizmatlar', 10,
+        "Marketing va SMM bo'limi",
+        "Отдел маркетинга и SMM",
+        "Marketing and SMM Department",
+        "Ijtimoiy tarmoqlar, brending, qabul kampaniyalari va kontent ishlab chiqish.",
+        False, False, False, 10,
     ),
 ]
 

@@ -11,7 +11,7 @@ from domains.pages.models import (
     ContactConfig, PresidentQuote, SocialLink,
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     AboutSocial, AboutSocialSection, AboutSocialExtraTask,
-    OrgNode, Rekvizit,
+    OrgNode, OrgSection, Rekvizit,
 )
 from .serializers import (
     ContactConfigSerializer,
@@ -21,6 +21,7 @@ from .serializers import (
     PartnerSerializer,
     HeroVideoSerializer,
     OrgNodeSerializer,
+    OrgSectionSerializer,
     RekvizitSerializer,
 )
 
@@ -284,3 +285,28 @@ class OrgStructureAPIView(APIView):
             return Response(data)
         except Exception as e:
             return Response({'error': str(e), 'trace': traceback.format_exc()}, status=500)
+
+
+@extend_schema(
+    tags=['pages'],
+    summary="Tashkiliy tuzilma — sektsiyalar (frontend karta ko'rinishi)",
+)
+class OrgSectionListAPIView(APIView):
+    """
+    /api/org-structure/sections/
+    Frontend uchun: har bir sektsiya o'z card-larini qaytaradi.
+    ?lang=uz|ru|en
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        lang = _lang(request)
+        sections = (
+            OrgSection.objects
+            .filter(is_active=True)
+            .prefetch_related('nodes')
+            .order_by('order')
+        )
+        ctx = {'lang': lang, 'request': request}
+        data = OrgSectionSerializer(sections, many=True, context=ctx).data
+        return Response(data)

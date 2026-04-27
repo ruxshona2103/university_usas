@@ -8,7 +8,7 @@ from .models import (
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     ContentBlock, LinkBlock,
     AboutSocial, AboutSocialSection, AboutSocialSectionItem, AboutSocialExtraTask,
-    OrgNode, Rekvizit,
+    OrgNode, OrgSection, Rekvizit,
 )
 
 
@@ -571,3 +571,15 @@ class OrgNodeAdmin(admin.ModelAdmin):
         elif obj.is_double_starred:
             mark = ' <sup style="color:#888;">**</sup>'
         return format_html('{}{}{}', indent, obj.title_uz, mark)
+
+
+@admin.register(OrgSection)
+class OrgSectionAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'slug', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('title_uz',)
+    fieldsets = (
+        ("Sarlavha", {'fields': ('title_uz', 'title_ru', 'title_en')}),
+        ("Tavsif",   {'fields': ('description_uz', 'description_ru', 'description_en')}),
+        ("Meta",     {'fields': ('slug', 'order', 'is_active')}),
+    )

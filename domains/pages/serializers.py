@@ -7,7 +7,7 @@ from domains.pages.models import (
     ContactConfig, PresidentQuote, SocialLink,
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     ContentBlock, LinkBlock,
-    OrgNode, Rekvizit,
+    OrgNode, OrgSection, Rekvizit,
 )
 
 
@@ -322,3 +322,55 @@ class OrgNodeSerializer(serializers.ModelSerializer):
     def get_structure(self, obj):
         qs = obj.children.filter(is_active=True).order_by('order', 'title_uz')
         return OrgNodeSerializer(qs, many=True, context=self.context).data
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Org Sections (frontend card view)
+# ──────────────────────────────────────────────────────────────────────────────
+
+class OrgNodeCardSerializer(serializers.ModelSerializer):
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = OrgNode
+        fields = [
+            'id', 'slug', 'node_type', 'title', 'description',
+            'is_starred', 'is_double_starred', 'is_highlighted',
+            'section_order',
+        ]
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_title(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_description(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'description_{lang}') or obj.description_uz
+
+
+class OrgSectionSerializer(serializers.ModelSerializer):
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    nodes       = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = OrgSection
+        fields = ['id', 'slug', 'title', 'description', 'order', 'nodes']
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_title(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_description(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'description_{lang}') or obj.description_uz
+
+    @extend_schema_field(OrgNodeCardSerializer(many=True))
+    def get_nodes(self, obj):
+        qs = obj.nodes.filter(is_active=True).order_by('section_order')
+        return OrgNodeCardSerializer(qs, many=True, context=self.context).data

@@ -119,10 +119,10 @@ class NavbarSubItemInline(admin.TabularInline):
 class NavbarCategoryAdmin(admin.ModelAdmin):
     list_display = ('order', 'name_uz', 'name_ru', 'name_en', 'slug', 'items_count', 'direct_url_display', 'is_active')
     list_display_links = ('name_uz',)
-    list_editable = ('order', 'is_active')
+    list_editable = ('order', 'is_active','slug',)
     list_filter = ('is_active',)
     search_fields = ('name_uz', 'name_ru', 'name_en')
-    readonly_fields = ('slug', 'created_at', 'updated_at')
+    readonly_fields = ( 'created_at', 'updated_at')
     inlines = [NavbarSubItemInline]
 
     fieldsets = (

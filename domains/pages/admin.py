@@ -519,7 +519,7 @@ class OrgNodeChildInline(admin.TabularInline):
     model          = OrgNode
     fk_name        = 'parent'
     extra          = 0
-    fields         = ('name_uz', 'node_type', 'order', 'is_starred', 'is_double_starred', 'is_highlighted', 'is_active')
+    fields         = ('title_uz', 'node_type', 'order', 'is_starred', 'is_double_starred', 'is_highlighted', 'is_active')
     ordering       = ('order',)
     show_change_link = True
 
@@ -529,14 +529,14 @@ class OrgNodeAdmin(admin.ModelAdmin):
     list_display  = ('indented_name', 'node_type', 'parent', 'order', 'is_highlighted', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('node_type', 'is_active', 'is_highlighted')
-    search_fields = ('name_uz', 'name_ru')
+    search_fields = ('title_uz', 'title_ru')
     list_select_related = ('parent',)
     inlines       = [OrgNodeChildInline]
     readonly_fields = ('created_at', 'updated_at')
 
     fieldsets = (
         ("Nomi", {
-            'fields': ('name_uz', 'name_ru', 'name_en'),
+            'fields': ('title_uz', 'title_ru', 'title_en'),
         }),
         ("Joylashuv va tur", {
             'fields': ('parent', 'node_type', 'order'),
@@ -555,7 +555,7 @@ class OrgNodeAdmin(admin.ModelAdmin):
         }),
     )
 
-    @admin.display(description='Nomi', ordering='name_uz')
+    @admin.display(description='Nomi', ordering='title_uz')
     def indented_name(self, obj):
         depth = 0
         p = obj.parent
@@ -570,4 +570,4 @@ class OrgNodeAdmin(admin.ModelAdmin):
             mark = ' <sup style="color:#888;">*</sup>'
         elif obj.is_double_starred:
             mark = ' <sup style="color:#888;">**</sup>'
-        return format_html('{}{}{}', indent, obj.name_uz, mark)
+        return format_html('{}{}{}', indent, obj.title_uz, mark)

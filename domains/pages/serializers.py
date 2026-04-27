@@ -302,23 +302,23 @@ class NavbarPageSerializer(serializers.ModelSerializer):
 # ──────────────────────────────────────────────────────────────────────────────
 
 class OrgNodeSerializer(serializers.ModelSerializer):
-    name     = serializers.SerializerMethodField()
-    children = serializers.SerializerMethodField()
+    title     = serializers.SerializerMethodField()
+    structure = serializers.SerializerMethodField()
 
     class Meta:
         model  = OrgNode
         fields = [
-            'id', 'slug', 'node_type', 'name',
+            'id', 'slug', 'node_type', 'title',
             'is_starred', 'is_double_starred', 'is_highlighted',
-            'order', 'children',
+            'order', 'structure',
         ]
 
     @extend_schema_field(OpenApiTypes.STR)
-    def get_name(self, obj):
+    def get_title(self, obj):
         lang = self.context.get('lang', 'uz')
-        return getattr(obj, f'name_{lang}') or obj.name_uz
+        return getattr(obj, f'title_{lang}') or obj.title_uz
 
     @extend_schema_field(serializers.ListField())
-    def get_children(self, obj):
-        qs = obj.children.filter(is_active=True).order_by('order', 'name_uz')
+    def get_structure(self, obj):
+        qs = obj.children.filter(is_active=True).order_by('order', 'title_uz')
         return OrgNodeSerializer(qs, many=True, context=self.context).data

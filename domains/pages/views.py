@@ -274,7 +274,7 @@ class OrgStructureAPIView(APIView):
                 .prefetch_related(
                     'children__children__children__children',
                 )
-                .order_by('order', 'name_uz')
+                .order_by('order', 'title_uz')
             )
             ctx = {'lang': lang, 'request': request}
             data = OrgNodeSerializer(roots, many=True, context=ctx).data

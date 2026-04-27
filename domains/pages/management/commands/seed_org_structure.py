@@ -338,15 +338,15 @@ class Command(BaseCommand):
 
         created_map = {}
         for row in NODES:
-            (key, parent_key, node_type, name_uz, name_ru, name_en,
+            (key, parent_key, node_type, title_uz, title_ru, title_en,
              is_starred, is_double_starred, is_highlighted, order) = row
 
             parent = created_map.get(parent_key) if parent_key else None
             node = OrgNode.objects.create(
                 node_type         = node_type,
-                name_uz           = name_uz,
-                name_ru           = name_ru,
-                name_en           = name_en,
+                title_uz          = title_uz,
+                title_ru          = title_ru,
+                title_en          = title_en,
                 is_starred        = is_starred,
                 is_double_starred = is_double_starred,
                 is_highlighted    = is_highlighted,

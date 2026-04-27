@@ -32,9 +32,9 @@ class OrgNode(TimeStampedModel):
         default=NodeType.DEPARTMENT,
         verbose_name='Tur',
     )
-    name_uz = models.CharField(max_length=400, verbose_name='Nomi (Uz)')
-    name_ru = models.CharField(max_length=400, blank=True, verbose_name='Nomi (Ru)')
-    name_en = models.CharField(max_length=400, blank=True, verbose_name='Nomi (En)')
+    title_uz = models.CharField(max_length=400, verbose_name='Nomi (Uz)')
+    title_ru = models.CharField(max_length=400, blank=True, verbose_name='Nomi (Ru)')
+    title_en = models.CharField(max_length=400, blank=True, verbose_name='Nomi (En)')
     slug    = models.SlugField(max_length=220, unique=True, blank=True, verbose_name='Slug')
 
     is_starred        = models.BooleanField(default=False, verbose_name='* (bir yulduz)')
@@ -45,13 +45,13 @@ class OrgNode(TimeStampedModel):
 
     class Meta:
         db_table            = 'pages_org_node'
-        ordering            = ['order', 'name_uz']
+        ordering            = ['order', 'title_uz']
         verbose_name        = 'Tashkiliy tugun'
         verbose_name_plural = 'Tashkiliy tuzilma'
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            base = slugify(self.name_uz) or str(self.id)[:8]
+            base = slugify(self.title_uz) or str(self.id)[:8]
             slug = base
             n = 1
             while OrgNode.objects.filter(slug=slug).exclude(pk=self.pk).exists():
@@ -62,4 +62,4 @@ class OrgNode(TimeStampedModel):
 
     def __str__(self):
         mark = ' *' if self.is_starred else (' **' if self.is_double_starred else '')
-        return f'{self.name_uz}{mark}'
+        return f'{self.title_uz}{mark}'

@@ -2,6 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics, filters
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 
 from common.pagination import CustomDashboardPagination
 from .models import Person, PersonCategory, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, Stipendiya
@@ -168,6 +169,17 @@ class StudentInfoCategoryDetailAPIView(generics.RetrieveAPIView):
 
     def get_queryset(self):
         return StudentInfoCategory.objects.prefetch_related('items')
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        data = serializer.data
+        if instance.slug == 'stipendiyalar':
+            stipendiya_qs = Stipendiya.objects.filter(is_active=True).order_by('order')
+            data['stipendiya_table'] = StipendiyaSerializer(
+                stipendiya_qs, many=True, context=self.get_serializer_context()
+            ).data
+        return Response(data)
 
 
 @extend_schema(

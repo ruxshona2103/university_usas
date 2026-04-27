@@ -117,8 +117,9 @@ class NewsAdmin(ArticleAdminBase):
 # TADBIRLAR
 @admin.register(Event)
 class EventAdmin(ArticleAdminBase):
-    list_display  = ('title_uz', 'date', 'start_time', 'location_uz', 'is_published', 'views_badge')
-    list_editable = ('is_published',)
+    list_display  = ('title_uz', 'date', 'start_time', 'location_uz', 'event_status', 'is_published', 'views_badge')
+    list_editable = ('event_status', 'is_published',)
+    list_filter   = ('is_published', 'event_status', 'date')
     inlines       = [ArticleImageInline]
 
     fieldsets = (
@@ -137,7 +138,7 @@ class EventAdmin(ArticleAdminBase):
             'fields': ('location_uz', 'location_ru', 'location_en'),
         }),
         ("Vaqt va holat", {
-            'fields': ('date', 'start_time', 'categories', 'keywords', 'is_published'),
+            'fields': ('date', 'start_time', 'event_status', 'categories', 'keywords', 'is_published'),
         }),
         ("Texnik (avtomatik)", {
             'classes': ('collapse',),

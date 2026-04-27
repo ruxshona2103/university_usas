@@ -127,6 +127,7 @@ class EventSerializer(PublishableMixin, serializers.ModelSerializer):
             'id', 'image', 'images',
             'title', 'description', 'tavsif', 'location',
             'date', 'start_time', 'slug',
+            'event_status',
             'badgeCategory', 'categories',
             'views', 'likes', 'comments',
         ]

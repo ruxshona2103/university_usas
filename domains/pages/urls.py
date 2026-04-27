@@ -9,10 +9,12 @@ from .views import (
     HeroVideoListAPIView,
     AboutSocialAPIView,
     OrgStructureAPIView,
+    RekvizitAPIView,
 )
 
 urlpatterns = [
     path('contact-info/',     ContactConfigAPIView.as_view(),     name='contact-info'),
+    path('rekvizit/',         RekvizitAPIView.as_view(),          name='rekvizit'),
     path('president-quotes/', PresidentQuoteListAPIView.as_view(), name='president-quotes'),
     path('social-links/',     SocialLinkListAPIView.as_view(),     name='social-links'),
     path('partners/',         PartnerListAPIView.as_view(),        name='partner-list'),

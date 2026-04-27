@@ -5,6 +5,7 @@ from .hero_video import HeroVideo
 from .content_block import ContentBlock, LinkBlock
 from .about_social import AboutSocial, AboutSocialSection, AboutSocialSectionItem, AboutSocialExtraTask
 from .org_structure import OrgNode
+from .rekvizit import Rekvizit
 
 __all__ = [
     'ContactConfig',
@@ -22,4 +23,5 @@ __all__ = [
     'AboutSocialSectionItem',
     'AboutSocialExtraTask',
     'OrgNode',
+    'Rekvizit',
 ]

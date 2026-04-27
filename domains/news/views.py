@@ -91,7 +91,14 @@ class NewsListAPIView(BaseContentListAPIView):
         return qs
 
 
-@extend_schema(tags=['news'], summary="Tadbirlar ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM])
+_STATUS_PARAM = OpenApiParameter(
+    name='status', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
+    description="Holat bo'yicha filter: upcoming (kutilayotgan) | completed (tugallangan)",
+    required=False,
+    enum=['upcoming', 'completed'],
+)
+
+@extend_schema(tags=['news'], summary="Tadbirlar ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM, _STATUS_PARAM])
 class EventListAPIView(BaseContentListAPIView):
     serializer_class = EventSerializer
 
@@ -100,6 +107,9 @@ class EventListAPIView(BaseContentListAPIView):
         cat = self.request.query_params.get('category')
         if cat:
             qs = qs.filter(categories__slug=cat)
+        status = self.request.query_params.get('status')
+        if status in ('upcoming', 'completed'):
+            qs = qs.filter(event_status=status)
         return qs
 
 

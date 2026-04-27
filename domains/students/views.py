@@ -4,11 +4,11 @@ from rest_framework import generics, filters
 from rest_framework.permissions import AllowAny
 
 from common.pagination import CustomDashboardPagination
-from .models import Person, PersonCategory, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup
+from .models import Person, PersonCategory, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, Stipendiya
 from .serializers import (
     PersonSerializer, PersonCategorySerializer, StudentInfoSerializer,
     PersonCategoryWithPersonsSerializer, StudentInfoCategorySerializer,
-    OlimpiyaChempionSerializer, MagistrGroupSerializer,
+    OlimpiyaChempionSerializer, MagistrGroupSerializer, StipendiyaSerializer,
 )
 
 
@@ -194,6 +194,25 @@ class MagistrGroupListAPIView(generics.ListAPIView):
         if specialty_code:
             qs = qs.filter(specialty_code=specialty_code)
         return qs.order_by('year', 'order')
+
+
+@extend_schema(
+    tags=['people'],
+    summary="Stipendiyalar miqdori jadvali",
+    description="Akademiyada tayinlanadigan stipendiyalar ro'yxati. ?lang=uz|ru|en",
+)
+class StipendiyaListAPIView(generics.ListAPIView):
+    serializer_class   = StipendiyaSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        return Stipendiya.objects.filter(is_active=True).order_by('order')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
 
 
 @extend_schema(tags=['people'], summary="Olimpiya chempionlari ro'yxati")

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'domains.contact',
     'domains.activities',
     'domains.axborot',
+    'domains.infra',
 
 ]
 

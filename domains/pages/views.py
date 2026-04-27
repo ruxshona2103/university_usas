@@ -11,7 +11,7 @@ from domains.pages.models import (
     ContactConfig, PresidentQuote, SocialLink,
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     AboutSocial, AboutSocialSection, AboutSocialExtraTask,
-    OrgNode,
+    OrgNode, Rekvizit,
 )
 from .serializers import (
     ContactConfigSerializer,
@@ -21,6 +21,7 @@ from .serializers import (
     PartnerSerializer,
     HeroVideoSerializer,
     OrgNodeSerializer,
+    RekvizitSerializer,
 )
 
 
@@ -41,6 +42,16 @@ class ContactConfigAPIView(generics.RetrieveAPIView):
 
     def get_object(self):
         return ContactConfig.get_solo()
+
+
+@extend_schema(tags=['pages'], summary="Tashkilot rekvizitlari")
+class RekvizitAPIView(generics.RetrieveAPIView):
+    """Tashkilot to'liq nomi, qisqartma, email, telefon, manzil (singleton)."""
+    serializer_class   = RekvizitSerializer
+    permission_classes = [AllowAny]
+
+    def get_object(self):
+        return Rekvizit.get_solo()
 
 
 @extend_schema(tags=['pages'], summary="Prezident iqtiboSlari")

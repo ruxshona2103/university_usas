@@ -52,6 +52,11 @@ class ArticleType(models.TextChoices):
 
 
 
+class EventStatus(models.TextChoices):
+    UPCOMING  = 'upcoming',  'Kutilayotgan'
+    COMPLETED = 'completed', 'Tugallangan'
+
+
 class Article(PublishableContent):
     """
     Yangilik, Tadbir, Blog — bitta DB jadval (news_article).
@@ -61,6 +66,16 @@ class Article(PublishableContent):
         max_length=10,
         choices=ArticleType.choices,
         verbose_name='Tur',
+        db_index=True,
+    )
+
+    # Faqat Tadbir (event) uchun ishlatiladi
+    event_status = models.CharField(
+        max_length=10,
+        choices=EventStatus.choices,
+        default=EventStatus.UPCOMING,
+        blank=True,
+        verbose_name='Tadbir holati',
         db_index=True,
     )
 

@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.urls import path
 from django.utils.html import format_html
 
-from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent
+from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent, Stipendiya
 
 
 class AutoTranslateMixin:
@@ -219,6 +219,23 @@ class MagistrStudentAdmin(AutoTranslateMixin, admin.ModelAdmin):
         ("Ilmiy rahbar", {'fields': ('supervisor_name', 'supervisor_info_uz')}),
         ("Ilmiy daraja (Ru / En)", {'classes': ('collapse',), 'fields': ('supervisor_info_ru', 'supervisor_info_en')}),
     )
+
+
+@admin.register(Stipendiya)
+class StipendiyaAdmin(admin.ModelAdmin):
+    list_display  = ('status_uz', 'amount_display', 'note_uz', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    ordering      = ('order',)
+
+    fieldsets = (
+        ("Status", {'fields': ('status_uz', 'status_ru', 'status_en')}),
+        ("Miqdor va izoh", {'fields': ('amount', 'note_uz', 'note_ru', 'note_en')}),
+        ("Tartib va holat", {'fields': ('order', 'is_active')}),
+    )
+
+    @admin.display(description="Miqdor (so'm)")
+    def amount_display(self, obj):
+        return f"{obj.amount:,}"
 
 
 @admin.register(OlimpiyaChempion)

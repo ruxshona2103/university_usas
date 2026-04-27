@@ -7,7 +7,7 @@ from domains.pages.models import (
     ContactConfig, PresidentQuote, SocialLink,
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     ContentBlock, LinkBlock,
-    OrgNode,
+    OrgNode, Rekvizit,
 )
 
 
@@ -34,6 +34,36 @@ class ContactConfigSerializer(serializers.ModelSerializer):
     class Meta:
         model  = ContactConfig
         fields = ['email', 'phone', 'address_uz', 'address_ru', 'address_en']
+
+
+class RekvizitSerializer(serializers.ModelSerializer):
+    org_name = serializers.SerializerMethodField()
+    address  = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = Rekvizit
+        fields = [
+            'org_name', 'org_short_name',
+            'email_1', 'email_2',
+            'phone_1', 'phone_2',
+            'postal_code', 'address',
+        ]
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_org_name(self, obj):
+        return {
+            'uz': obj.org_name_uz,
+            'ru': obj.org_name_ru or obj.org_name_uz,
+            'en': obj.org_name_en or obj.org_name_uz,
+        }
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_address(self, obj):
+        return {
+            'uz': obj.address_uz,
+            'ru': obj.address_ru or obj.address_uz,
+            'en': obj.address_en or obj.address_uz,
+        }
 
 
 class PresidentQuoteSerializer(serializers.ModelSerializer):

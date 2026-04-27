@@ -8,7 +8,7 @@ from .models import (
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     ContentBlock, LinkBlock,
     AboutSocial, AboutSocialSection, AboutSocialSectionItem, AboutSocialExtraTask,
-    OrgNode,
+    OrgNode, Rekvizit,
 )
 
 
@@ -32,6 +32,32 @@ class ContactConfigAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return not ContactConfig.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(Rekvizit)
+class RekvizitAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ("Tashkilot nomi", {
+            'fields': ('org_name_uz', 'org_name_ru', 'org_name_en', 'org_short_name'),
+        }),
+        ("Aloqa", {
+            'fields': ('email_1', 'email_2', 'phone_1', 'phone_2'),
+        }),
+        ("Manzil", {
+            'fields': ('postal_code', 'address_uz', 'address_ru', 'address_en'),
+        }),
+        ("Texnik", {
+            'classes': ('collapse',),
+            'fields': ('created_at', 'updated_at'),
+        }),
+    )
+    readonly_fields = ('created_at', 'updated_at')
+
+    def has_add_permission(self, request):
+        return not Rekvizit.objects.exists()
 
     def has_delete_permission(self, request, obj=None):
         return False

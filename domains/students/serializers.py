@@ -2,7 +2,7 @@ from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.openapi import OpenApiTypes
 
-from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent
+from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent, Stipendiya
 
 
 def _abs_url(request, field):
@@ -205,6 +205,23 @@ class StudentInfoCategorySerializer(serializers.ModelSerializer):
     def get_items(self, obj):
         qs = obj.items.filter(is_active=True).order_by('order')
         return StudentInfoSerializer(qs, many=True, context=self.context).data
+
+
+class StipendiyaSerializer(serializers.ModelSerializer):
+    status = serializers.SerializerMethodField()
+    note   = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = Stipendiya
+        fields = ['id', 'status', 'amount', 'note', 'order']
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_status(self, obj):
+        return {'uz': obj.status_uz, 'ru': obj.status_ru or obj.status_uz, 'en': obj.status_en or obj.status_uz}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_note(self, obj):
+        return {'uz': obj.note_uz, 'ru': obj.note_ru or obj.note_uz, 'en': obj.note_en or obj.note_uz}
 
 
 class OlimpiyaChempionSerializer(serializers.ModelSerializer):

@@ -320,8 +320,12 @@ class OrgNodeSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(serializers.ListField())
     def get_structure(self, obj):
+        depth = self.context.get('_depth', 0)
+        if depth >= 3:
+            return []
         qs = obj.children.filter(is_active=True).order_by('order', 'title_uz')
-        return OrgNodeSerializer(qs, many=True, context=self.context).data
+        ctx = {**self.context, '_depth': depth + 1}
+        return OrgNodeSerializer(qs, many=True, context=ctx).data
 
 
 # ──────────────────────────────────────────────────────────────────────────────

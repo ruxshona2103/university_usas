@@ -272,9 +272,7 @@ class OrgStructureAPIView(APIView):
             roots = (
                 OrgNode.objects
                 .filter(parent=None, is_active=True)
-                .prefetch_related(
-                    'children__children__children__children',
-                )
+                .prefetch_related('children__children__children')
                 .order_by('order', 'title_uz')
             )
             ctx = {'lang': lang, 'request': request}

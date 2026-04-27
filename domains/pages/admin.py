@@ -190,6 +190,10 @@ class NavbarSubItemAdmin(admin.ModelAdmin):
                 "Yo'naltirish tanlasangiz — faqat URL kiriting."
             )
         }),
+        ("Maxsus URL (ixtiyoriy)", {
+            'fields': ('direct_url',),
+            'description': "Bo'sh qolsa /page/{slug} ishlatiladi. Frontendga aynan shu URL yuboriladi.",
+        }),
         ("Sahifa matni (Statik uchun)", {
             'classes': ('collapse',),
             'fields': ('content_uz', 'content_ru', 'content_en')

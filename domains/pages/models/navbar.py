@@ -84,6 +84,13 @@ class NavbarSubItem(TimeStampedModel):
         help_text="Masalan: /api/news/ yoki https://hemis.uz"
     )
 
+    direct_url = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name="Maxsus URL (ixtiyoriy)",
+        help_text="Bo'sh qolsa /page/{slug} ishlatiladi. Masalan: /news yoki https://hemis.uz"
+    )
+
     order = models.PositiveIntegerField(default=0, verbose_name="Tartib raqami")
     is_active = models.BooleanField(default=True, verbose_name="Ko'rsatilsinmi?")
 

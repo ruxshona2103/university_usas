@@ -1,0 +1,99 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<div id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></div>
+{% if user.is_anonymous %}
+  {% include "admin/color_theme_toggle.html" %}
+{% endif %}
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+  .auto-translate-btn {
+    display: inline-block;
+    margin: 6px 0 12px;
+    padding: 5px 13px;
+    background: #417690;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .auto-translate-btn:hover    { background: #2b5372; }
+  .auto-translate-btn:disabled { background: #888; cursor: not-allowed; }
+</style>
+<script>
+(function () {
+  'use strict';
+
+  var TRANSLATE_URL = "{% url 'admin_translate' %}";
+
+  function getCsrf() {
+    var el = document.querySelector('[name=csrfmiddlewaretoken]');
+    return el ? el.value : '';
+  }
+
+  function addBtn(uzField) {
+    /* Skip if this field already has a translate button right after it */
+    var next = uzField.nextElementSibling;
+    if (next && (
+      next.classList.contains('auto-translate-btn') ||
+      next.classList.contains('translate-btn')
+    )) return;
+
+    var base = uzField.id.replace(/_uz$/, '');
+    var ruField = document.getElementById(base + '_ru');
+    var enField = document.getElementById(base + '_en');
+    if (!ruField && !enField) return;
+
+    var rawLabel = base.replace(/^id_/, '').replace(/_/g, ' ');
+    var label = rawLabel.charAt(0).toUpperCase() + rawLabel.slice(1);
+
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'auto-translate-btn';
+    btn.textContent = '🌐 ' + label + ' — UZ → RU, EN';
+    uzField.parentNode.insertBefore(btn, uzField.nextSibling);
+
+    btn.addEventListener('click', function () {
+      var text = uzField.value.trim();
+      if (!text) { alert("Avval UZ maydoni toʻldirilsin!"); return; }
+      btn.disabled = true;
+      btn.textContent = 'Tarjima qilinmoqda…';
+
+      fetch(TRANSLATE_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCsrf(),
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: JSON.stringify({ text: text }),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (d.error) { alert('Xato: ' + d.error); return; }
+          if (ruField && d.ru) ruField.value = d.ru;
+          if (enField && d.en) enField.value = d.en;
+        })
+        .catch(function (e) { alert('Tarjima amalga oshmadi: ' + e); })
+        .finally(function () {
+          btn.disabled = false;
+          btn.textContent = '🌐 ' + label + ' — UZ → RU, EN';
+        });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('input[id$="_uz"], textarea[id$="_uz"]').forEach(addBtn);
+  });
+})();
+</script>
+{% endblock %}

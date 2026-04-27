@@ -3,8 +3,10 @@ from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from django.conf import settings
 from django.conf.urls.static import static
+from common.translate_view import translate_view
 
 urlpatterns = [
+    path('admin/translate/', admin.site.admin_view(translate_view), name='admin_translate'),
     path('admin/', admin.site.urls),
 
     path('api/schema/', SpectacularAPIView.as_view(),                          name='schema'),

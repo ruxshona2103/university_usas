@@ -120,7 +120,7 @@ class NavbarListAPIView(APIView):
                         'id':           str(item.id),
                         'name':         getattr(item, f'name_{lang}') or item.name_uz,
                         'slug':         item.slug,
-                        'url':          f'/page/{item.slug}',
+                        'url':          item.direct_url or f'/page/{item.slug}',
                         'page_type':    item.page_type,
                         'redirect_url': item.redirect_url or None,
                         'order':        item.order,

@@ -133,6 +133,13 @@ class OquvFaoliyatAdmin(admin.ModelAdmin):
             'classes': ('collapse',),
             'fields': ('title_ru', 'title_en'),
         }),
+        ("Tavsif (Uz)", {
+            'fields': ('description_uz',),
+        }),
+        ("Tavsif (Ru / En)", {
+            'classes': ('collapse',),
+            'fields': ('description_ru', 'description_en'),
+        }),
         ("Media va holat", {
             'fields': ('image', 'file', 'order', 'is_active'),
         }),

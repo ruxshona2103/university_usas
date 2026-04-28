@@ -67,41 +67,57 @@ class ServiceVehicleSerializer(serializers.ModelSerializer):
 
 
 class IlmiyFaoliyatSerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField()
-    url   = serializers.SerializerMethodField()
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    image_url   = serializers.SerializerMethodField()
+    file_url    = serializers.SerializerMethodField()
 
     class Meta:
         model  = IlmiyFaoliyat
-        fields = ['id', 'title', 'url', 'order']
+        fields = ['id', 'title', 'description', 'image_url', 'file_url', 'order', 'is_active']
 
     def _req(self):
         return self.context.get('request')
-
-    def _build_url(self, field):
-        return _safe_file_url(field, self._req())
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):
         return {'uz': obj.title_uz or '', 'ru': obj.title_ru or '', 'en': obj.title_en or ''}
 
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_description(self, obj):
+        return {'uz': obj.description_uz or '', 'ru': obj.description_ru or '', 'en': obj.description_en or ''}
+
     @extend_schema_field(OpenApiTypes.URI)
-    def get_url(self, obj):
-        return self._build_url(obj.file)
+    def get_image_url(self, obj):
+        return _safe_file_url(obj.image, self._req())
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_file_url(self, obj):
+        return _safe_file_url(obj.file, self._req())
 
 
 class IlmiyFaoliyatItemSerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField()
-    url   = serializers.SerializerMethodField()
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    image_url   = serializers.SerializerMethodField()
+    file_url    = serializers.SerializerMethodField()
 
     class Meta:
         model  = IlmiyFaoliyat
-        fields = ['id', 'title', 'url', 'order']
+        fields = ['id', 'title', 'description', 'image_url', 'file_url', 'order', 'is_active']
 
     def get_title(self, obj):
         lang = self.context.get('lang', 'uz')
         return getattr(obj, f'title_{lang}') or obj.title_uz
 
-    def get_url(self, obj):
+    def get_description(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'description_{lang}') or obj.description_uz or ''
+
+    def get_image_url(self, obj):
+        return _safe_file_url(obj.image, self.context.get('request'))
+
+    def get_file_url(self, obj):
         return _safe_file_url(obj.file, self.context.get('request'))
 
 
@@ -203,10 +219,14 @@ class IlmiyFaoliyatCategorySerializer(serializers.ModelSerializer):
         return _safe_file_url(item.file, self.context.get('request'))
 
     def _item_to_link(self, item):
+        req = self.context.get('request')
         return {
-            'label': {'uz': item.title_uz or '', 'ru': item.title_ru or '', 'en': item.title_en or ''},
-            'url': self._item_url(item),
-            'order': item.order,
+            'id':          str(item.id),
+            'label':       {'uz': item.title_uz or '', 'ru': item.title_ru or '', 'en': item.title_en or ''},
+            'description': {'uz': item.description_uz or '', 'ru': item.description_ru or '', 'en': item.description_en or ''},
+            'image_url':   _safe_file_url(item.image, req),
+            'file_url':    _safe_file_url(item.file, req),
+            'order':       item.order,
         }
 
     @extend_schema_field(OpenApiTypes.OBJECT)

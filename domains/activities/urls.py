@@ -9,6 +9,7 @@ from .views import (
     IlmiyFaoliyatCategoryFullListAPIView,
     IlmiyFaoliyatListAPIView,
     IlmiyFaoliyatDetailAPIView,
+    FaoliyatSubcategoryDetailAPIView,
 )
 
 urlpatterns = [
@@ -27,6 +28,9 @@ urlpatterns = [
     # API 3 — kategoriya fayllari (leaf items)
     path('activities/faoliyat/categories/<slug:slug>/items/',    IlmiyFaoliyatCategoryItemsAPIView.as_view(),    name='faoliyat-category-items'),
 
-    path('activities/faoliyat/',                                 IlmiyFaoliyatListAPIView.as_view(),          name='faoliyat-list'),
-    path('activities/faoliyat/<uuid:pk>/',                       IlmiyFaoliyatDetailAPIView.as_view(),        name='faoliyat-detail'),
+    path('activities/faoliyat/',                                 IlmiyFaoliyatListAPIView.as_view(),             name='faoliyat-list'),
+    path('activities/faoliyat/<uuid:pk>/',                       IlmiyFaoliyatDetailAPIView.as_view(),           name='faoliyat-detail'),
+
+    # Sub-kategoriya tahrirlash / o'chirish (PUT, PATCH, DELETE, GET by uuid)
+    path('activities/faoliyat/subcategories/<uuid:pk>/',         FaoliyatSubcategoryDetailAPIView.as_view(),     name='faoliyat-subcategory-detail'),
 ]

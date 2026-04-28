@@ -13,6 +13,8 @@ from .serializers import (
     IlmiyFaoliyatCategorySimpleSerializer,
     IlmiyFaoliyatCategorySerializer,
     IlmiyFaoliyatCategoryTreeSerializer,
+    FaoliyatSubcategoryWriteSerializer,
+    IlmiyFaoliyatWriteSerializer,
 )
 
 
@@ -90,18 +92,29 @@ class IlmiyFaoliyatCategoryListAPIView(generics.ListAPIView):
 
 @extend_schema(
     tags=['activities'],
-    summary="API 2 — Kategoriya bolalari (sub-kategoriyalar)",
-    description="Berilgan slug bo'yicha to'g'ridan-to'g'ri bolalar. Sahifa: /page/<slug>  ?lang=uz|ru|en",
+    summary="API 2 — Kategoriya bolalari (sub-kategoriyalar) | Yangi sub-kategoriya qo'shish",
+    description=(
+        "GET: berilgan slug bo'yicha sub-kategoriyalar ro'yxati. ?lang=uz|ru|en\n"
+        "POST: yangi sub-kategoriya yaratish (title_uz, icon, order, description_uz majburiy/ixtiyoriy)"
+    ),
     responses={200: IlmiyFaoliyatCategorySimpleSerializer(many=True)},
 )
-class IlmiyFaoliyatCategoryChildrenAPIView(generics.ListAPIView):
-    serializer_class   = IlmiyFaoliyatCategorySimpleSerializer
+class IlmiyFaoliyatCategoryChildrenAPIView(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     pagination_class   = None
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return FaoliyatSubcategoryWriteSerializer
+        return IlmiyFaoliyatCategorySimpleSerializer
 
     def get_queryset(self):
         parent = get_object_or_404(IlmiyFaoliyatCategory, slug=self.kwargs['slug'])
         return IlmiyFaoliyatCategory.objects.filter(parent=parent).order_by('order')
+
+    def perform_create(self, serializer):
+        parent = get_object_or_404(IlmiyFaoliyatCategory, slug=self.kwargs['slug'])
+        serializer.save(parent=parent)
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()
@@ -162,16 +175,23 @@ class IlmiyFaoliyatCategoryFullListAPIView(generics.ListAPIView):
 
 @extend_schema(
     tags=['activities'],
-    summary="Faoliyat ro'yxati",
-    description="?lang=uz|ru|en  &  ?category=<kategoriya-slug>",
+    summary="Faoliyat ro'yxati | Yangi item qo'shish",
+    description=(
+        "GET: ?lang=uz|ru|en & ?category=<kategoriya-slug>\n"
+        "POST: yangi faoliyat item yaratish (category, title_uz, file maydonlari)"
+    ),
 )
-class IlmiyFaoliyatListAPIView(generics.ListAPIView):
-    serializer_class   = IlmiyFaoliyatSerializer
+class IlmiyFaoliyatListAPIView(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     pagination_class   = None
 
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return IlmiyFaoliyatWriteSerializer
+        return IlmiyFaoliyatSerializer
+
     def get_queryset(self):
-        qs = IlmiyFaoliyat.objects.all()
+        qs = IlmiyFaoliyat.objects.filter(is_active=True)
         category_slug = self.request.query_params.get('category')
         if category_slug:
             qs = qs.filter(category__slug=category_slug)
@@ -183,12 +203,36 @@ class IlmiyFaoliyatListAPIView(generics.ListAPIView):
         return ctx
 
 
-@extend_schema(tags=['activities'], summary="Faoliyat — bitta yozuv")
-class IlmiyFaoliyatDetailAPIView(generics.RetrieveAPIView):
+@extend_schema(tags=['activities'], summary="Faoliyat — bitta yozuv (o'qish / yangilash / o'chirish)")
+class IlmiyFaoliyatDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     """?lang=uz|ru|en"""
-    serializer_class   = IlmiyFaoliyatSerializer
     permission_classes = [AllowAny]
     queryset           = IlmiyFaoliyat.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return IlmiyFaoliyatSerializer
+        return IlmiyFaoliyatWriteSerializer
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(
+    tags=['activities'],
+    summary="Sub-kategoriya — yangilash / o'chirish",
+    description="PUT / PATCH / DELETE — sub-kategoriyani uuid bo'yicha tahrirlash yoki o'chirish",
+)
+class FaoliyatSubcategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [AllowAny]
+    queryset           = IlmiyFaoliyatCategory.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return IlmiyFaoliyatCategorySimpleSerializer
+        return FaoliyatSubcategoryWriteSerializer
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

@@ -151,7 +151,7 @@ class IlmiyFaoliyatCategorySimpleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = IlmiyFaoliyatCategory
-        fields = ['id', 'slug', 'title', 'description', 'order']
+        fields = ['id', 'slug', 'title', 'description', 'icon', 'order']
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):
@@ -160,6 +160,34 @@ class IlmiyFaoliyatCategorySimpleSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_description(self, obj):
         return {'uz': obj.description_uz or '', 'ru': obj.description_ru or '', 'en': obj.description_en or ''}
+
+
+class FaoliyatSubcategoryWriteSerializer(serializers.ModelSerializer):
+    """Subcategory yaratish/yangilash uchun."""
+
+    class Meta:
+        model  = IlmiyFaoliyatCategory
+        fields = [
+            'id', 'parent',
+            'title_uz', 'title_ru', 'title_en',
+            'description_uz', 'description_ru', 'description_en',
+            'icon', 'order',
+        ]
+        read_only_fields = ['id']
+
+
+class IlmiyFaoliyatWriteSerializer(serializers.ModelSerializer):
+    """IlmiyFaoliyat item yaratish/yangilash uchun."""
+
+    class Meta:
+        model  = IlmiyFaoliyat
+        fields = [
+            'id', 'category',
+            'title_uz', 'title_ru', 'title_en',
+            'description_uz', 'description_ru', 'description_en',
+            'image', 'file', 'order', 'is_active',
+        ]
+        read_only_fields = ['id']
 
 
 class IlmiyFaoliyatCategorySerializer(serializers.ModelSerializer):

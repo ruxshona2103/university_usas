@@ -20,6 +20,7 @@ class IlmiyFaoliyatCategory(TimeStampedModel):
     description_ru = models.TextField(blank=True, null=True, verbose_name="Tavsif (Ru)")
     description_en = models.TextField(blank=True, null=True, verbose_name="Tavsif (En)")
     slug           = models.SlugField(max_length=220, unique=True, blank=True)
+    icon           = models.CharField(max_length=100, blank=True, default='', verbose_name="Icon nomi")
     order          = models.PositiveIntegerField(default=0, verbose_name="Tartib")
 
     class Meta:

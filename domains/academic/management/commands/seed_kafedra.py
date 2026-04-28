@@ -278,6 +278,100 @@ DATA = [
         'master_subjects_ru': "",
         'master_subjects_en': "",
     },
+
+    # ── TASHKILOTLAR ──────────────────────────────────────────────────────────
+    {
+        'slug':    'xotin-qizlar-qomitasi',
+        'type':    FakultetKafedra.TASHKILOT,
+        'order':   1,
+        'name_uz': "Xotin-qizlar masalalari bo'yicha maslahat kengashi",
+        'name_ru': "Консультативный совет по вопросам женщин",
+        'name_en': "Women's Advisory Council",
+        'description_uz': (
+            "Akademiya xotin-qizlar kengashi raisiga O'zbekiston Respublikasi Oliy va o'rta "
+            "maxsus ta'lim vazirining 2020-yil 17-iyun № 326 buyrug'iga asosan xotin-qizlar "
+            "masalalari bo'yicha rektor maslahatchisi maqomi berilgan.\n\n"
+            "O'zbekiston davlat sport akademiyasi jamoasida 1023 ga yaqin ayollar faoliyat "
+            "ko'rsatmoqdalar. Ulardan: 501 ta professor o'qituvchilar bo'lib, 522 xodimlar. "
+            "Talaba qizlarimiz soni 11714 tani, shundan 2150 tasi oilali qizlarni tashkil qiladi.\n\n"
+            "Akademiya xotin-qizlar kengashining nizomi mavjud bo'lib, ushbu nizom bo'yicha "
+            "faoliyat olib boradi. Xotin-qizlar kengashi jamoat tashkiloti sifatida o'z faoliyatini "
+            "O'zbekiston Respublikasi Konstitutsiyasi, \"Nodavlat notijorat tashkilotlari to'g'risida\"gi "
+            "va \"O'zbekiston Respublikasida jamoat birlashmalari to'g'risida\"gi Qonunlarga muvofiq "
+            "olib boradi.\n\n"
+            "Akademiya xotin-qizlar kengashi professor–o'qituvchi, xodimlar hamda talaba qizlarning "
+            "jamiyatda siyosiy, ijtimoiy, iqtisodiy sohalaridagi vazifalarni hal qilishdagi faolligini "
+            "kuchaytirish, xotin-qizlarni har tomonlama qo'llab-quvvatlash, ijtimoiy-iqtisodiy ahvolini "
+            "yaxshilash, ularning huquq va manfaatlarini himoya qilish va ta'minlash, kasbiy mahoratini "
+            "oshirish, milliy va ma'naviy qadriyatlarimizga asoslangan holda oila munosabatlarini "
+            "mustahkamlash maqsadida ish olib boradi.\n\n"
+            "Oilada sog'lom turmush tarzini shakllantirish, reproduktiv salomatlikni yaxshilash, "
+            "onalik va bolalikni muhofaza qilish bo'yicha tadbirlarni universitet \"Sog'lom avlod\" "
+            "markazi hamda \"Ibn Sino\" markazi bilan hamkorlikda amalga oshiradi."
+        ),
+        'description_ru': (
+            "Председателю женского совета академии присвоен статус советника ректора по вопросам женщин "
+            "на основании приказа № 326 министра высшего и среднего специального образования "
+            "Республики Узбекистан от 17 июня 2020 года.\n\n"
+            "В коллективе Государственной академии спорта Узбекистана работают около 1023 женщин. "
+            "Из них 501 — преподаватели, 522 — сотрудники. Число студенток составляет 11 714, "
+            "из которых 2150 — замужние.\n\n"
+            "Женский совет академии действует на основании своего устава в соответствии с Конституцией "
+            "Республики Узбекистан и соответствующими законами о некоммерческих и общественных "
+            "организациях."
+        ),
+        'description_en': (
+            "The chairperson of the Academy's Women's Council was granted the status of Rector's "
+            "Adviser on Women's Issues under Order No. 326 of the Minister of Higher and Secondary "
+            "Specialised Education of the Republic of Uzbekistan dated 17 June 2020.\n\n"
+            "Approximately 1,023 women work at the Uzbekistan State Sports Academy: 501 teaching "
+            "staff and 522 administrative staff. The number of female students is 11,714, "
+            "of whom 2,150 are married.\n\n"
+            "The Women's Council operates under its own charter in accordance with the Constitution "
+            "of the Republic of Uzbekistan and relevant laws on non-commercial and public organisations."
+        ),
+        'about_uz': (
+            "Xotin-qizlarni qo'llab-quvvatlash, gender tenglikni ta'minlash va oila institutini "
+            "mustahkamlash maqsadida kengash quyidagilarni asosiy yo'nalishlar etib belgilaydi:\n\n"
+            "1. Xotin-qizlarni qo'llab-quvvatlashga doir davlat siyosatining samarali amalga "
+            "oshirilishini ta'minlash, ularning huquqlari, erkinliklari va qonuniy manfaatlarini "
+            "himoya qilish, universitetning ijtimoiy-siyosiy, ilmiy va ma'naviy hayotidagi faolligi "
+            "hamda liderlik salohiyatini oshirish.\n\n"
+            "2. Universitetdagi xotin-qizlarning muammolarini o'z vaqtida aniqlash, ijtimoiy himoyaga "
+            "muhtoj, og'ir turmush sharoitiga tushib qolgan, nogironligi bo'lgan hamda yordamga "
+            "ehtiyoji mavjud xotin-qizlarning manzilli ro'yxatini shakllantirish, ularga "
+            "ijtimoiy-huquqiy, psixologik, ma'naviy va moddiy ko'mak ko'rsatish.\n\n"
+            "3. Universitetdagi xotin-qizlar uchun munosib mehnat va ta'lim sharoitlarini yaratish, "
+            "ularning bandligini ta'minlash, tadbirkorlik tashabbuslarini qo'llab-quvvatlash, "
+            "kasb-hunar va zamonaviy ko'nikmalarni egallashiga ko'maklashish.\n\n"
+            "4. Talaba-qizlarning, ayniqsa talabalar turar joyida va ijarada yashayotgan qizlarning "
+            "bo'sh vaqtlarini mazmunli tashkil etish, sport, madaniyat, san'at, ilm-fan va innovatsion "
+            "loyihalarga keng jalb etish orqali ularning ijtimoiy faolligini oshirish.\n\n"
+            "5. Universitetdagi xotin-qizlar o'rtasida huquqbuzarliklar, zo'ravonlik, tazyiq va salbiy "
+            "holatlarning oldini olish, muammoli guruhlar bilan yakka tartibda ishlash hamda sog'lom "
+            "ma'naviy-axloqiy muhitni mustahkamlash.\n\n"
+            "6. Oilaviy qadriyatlarni mustahkamlash, sog'lom oila muhitini shakllantirish, yoshlarni "
+            "oilaviy hayotga tayyorlash, farzand tarbiyasi va ma'naviy barkamollik masalalarida "
+            "targ'ibot ishlarini kuchaytirish.\n\n"
+            "7. Gender tenglik tamoyillarini keng joriy etish, xotin-qizlarning boshqaruv, ta'lim, "
+            "sport va ilmiy faoliyatdagi ulushini oshirish, ularning tashabbus va iqtidorlarini "
+            "ro'yobga chiqarishga ko'maklashish."
+        ),
+        'about_ru': "",
+        'about_en': "",
+        'decree_info': "O'zMTSTV №326 buyruq, 2020-yil 17-iyun",
+        'phone':   "95 080 7001",
+        'email':   "xudayberdiyeva89@mail.ru",
+        'sport_types_uz': "",
+        'sport_types_ru': "",
+        'sport_types_en': "",
+        'bachelor_subjects_uz': "",
+        'bachelor_subjects_ru': "",
+        'bachelor_subjects_en': "",
+        'master_subjects_uz': "",
+        'master_subjects_ru': "",
+        'master_subjects_en': "",
+    },
 ]
 
 

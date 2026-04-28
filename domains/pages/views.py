@@ -11,6 +11,7 @@ from domains.pages.models import (
     ContactConfig, PresidentQuote, SocialLink,
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     AboutSocial, AboutSocialSection, AboutSocialExtraTask,
+    AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram,
     OrgNode, OrgSection, Rekvizit,
 )
 from .serializers import (
@@ -23,6 +24,7 @@ from .serializers import (
     OrgNodeSerializer,
     OrgSectionSerializer,
     RekvizitSerializer,
+    AboutAcademyProgramSerializer,
 )
 
 
@@ -237,6 +239,69 @@ class AboutSocialAPIView(APIView):
             getattr(task, f'text_{lang}') or task.text_uz
             for task in extra_tasks
         ]
+        return Response(result)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# About Academy — Akademiya haqida
+# ──────────────────────────────────────────────────────────────────────────────
+
+@extend_schema(
+    tags=['pages'],
+    summary="Akademiya haqida",
+    parameters=[
+        OpenApiParameter(
+            name='lang', type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            description="Til: uz | ru | en (default: uz)",
+            required=False,
+        )
+    ],
+)
+class AboutAcademyAPIView(APIView):
+    """
+    /api/about-academy/
+    Akademiya haqida to'liq ma'lumot:
+    tavsif, bo'limlar (maqsad, vazifalar, tizim, ...), ta'lim dasturlari.
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        lang = _lang(request)
+        solo = AboutAcademy.get_solo()
+
+        sections = (
+            AboutAcademySection.objects
+            .filter(about=solo)
+            .prefetch_related('items')
+        )
+        programs = AboutAcademyProgram.objects.filter(about=solo)
+
+        result = {
+            'description': getattr(solo, f'description_{lang}') or solo.description_uz,
+            'sections': {},
+        }
+
+        for section in sections:
+            items = [
+                getattr(item, f'text_{lang}') or item.text_uz
+                for item in section.items.all()
+            ]
+            result['sections'][section.key] = {
+                'title': getattr(section, f'title_{lang}') or section.title_uz,
+                'items': items,
+            }
+
+        ctx = {'lang': lang, 'request': request}
+        result['programs'] = {
+            'bachelor': AboutAcademyProgramSerializer(
+                programs.filter(program_type='bachelor'), many=True, context=ctx
+            ).data,
+            'master': AboutAcademyProgramSerializer(
+                programs.filter(program_type='master'), many=True, context=ctx
+            ).data,
+        }
+
         return Response(result)
 
 

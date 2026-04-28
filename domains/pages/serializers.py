@@ -8,6 +8,7 @@ from domains.pages.models import (
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     ContentBlock, LinkBlock,
     OrgNode, OrgSection, Rekvizit,
+    AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram,
 )
 
 
@@ -295,6 +296,29 @@ class NavbarPageSerializer(serializers.ModelSerializer):
             'link':     obj.link,
             'document': _abs_url(self.context.get('request'), obj.document_file),
         }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# About Academy
+# ──────────────────────────────────────────────────────────────────────────────
+
+class AboutAcademyProgramSerializer(serializers.ModelSerializer):
+    direction  = serializers.SerializerMethodField()
+    profession = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = AboutAcademyProgram
+        fields = ['id', 'program_type', 'direction', 'profession', 'order']
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_direction(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'direction_{lang}') or obj.direction_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_profession(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'profession_{lang}') or obj.profession_uz
 
 
 # ──────────────────────────────────────────────────────────────────────────────

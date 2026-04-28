@@ -8,6 +8,7 @@ from .models import (
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     ContentBlock, LinkBlock,
     AboutSocial, AboutSocialSection, AboutSocialSectionItem, AboutSocialExtraTask,
+    AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram,
     OrgNode, OrgSection, Rekvizit,
 )
 
@@ -503,6 +504,99 @@ class AboutSocialSectionAdmin(admin.ModelAdmin):
         }),
         ("Sarlavha", {
             'fields': ('title_uz', 'title_ru', 'title_en'),
+        }),
+        ('Texnik', {
+            'classes': ('collapse',),
+            'fields': ('created_at', 'updated_at'),
+        }),
+    )
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# AKADEMIYA HAQIDA (AboutAcademy)
+# ──────────────────────────────────────────────────────────────────────────────
+
+class AboutAcademySectionItemInline(admin.TabularInline):
+    model   = AboutAcademySectionItem
+    extra   = 1
+    fields  = ('text_uz', 'text_ru', 'text_en', 'order')
+    ordering = ('order',)
+
+
+class AboutAcademySectionInline(admin.StackedInline):
+    model            = AboutAcademySection
+    extra            = 0
+    fields           = ('key', 'title_uz', 'title_ru', 'title_en', 'order')
+    ordering         = ('order',)
+    show_change_link = True
+
+
+class AboutAcademyProgramInline(admin.TabularInline):
+    model   = AboutAcademyProgram
+    extra   = 1
+    fields  = ('program_type', 'direction_uz', 'direction_ru', 'direction_en',
+               'profession_uz', 'profession_ru', 'profession_en', 'order')
+    ordering = ('program_type', 'order')
+
+
+@admin.register(AboutAcademy)
+class AboutAcademyAdmin(admin.ModelAdmin):
+    inlines         = [AboutAcademySectionInline, AboutAcademyProgramInline]
+    readonly_fields = ('created_at', 'updated_at')
+    fieldsets = (
+        ("Akademiya tavsifi", {
+            'fields': ('description_uz', 'description_ru', 'description_en'),
+        }),
+        ('Texnik', {
+            'classes': ('collapse',),
+            'fields': ('created_at', 'updated_at'),
+        }),
+    )
+
+    def has_add_permission(self, request):
+        return not AboutAcademy.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(AboutAcademySection)
+class AboutAcademySectionAdmin(admin.ModelAdmin):
+    list_display    = ('key', 'title_uz', 'order')
+    list_editable   = ('order',)
+    search_fields   = ('title_uz', 'key')
+    inlines         = [AboutAcademySectionItemInline]
+    readonly_fields = ('created_at', 'updated_at')
+    fieldsets = (
+        ("Bo'lim", {
+            'fields': ('about', 'key', 'order'),
+        }),
+        ("Sarlavha", {
+            'fields': ('title_uz', 'title_ru', 'title_en'),
+        }),
+        ('Texnik', {
+            'classes': ('collapse',),
+            'fields': ('created_at', 'updated_at'),
+        }),
+    )
+
+
+@admin.register(AboutAcademyProgram)
+class AboutAcademyProgramAdmin(admin.ModelAdmin):
+    list_display  = ('program_type', 'direction_uz', 'profession_uz', 'order')
+    list_editable = ('order',)
+    list_filter   = ('program_type',)
+    search_fields = ('direction_uz', 'profession_uz')
+    readonly_fields = ('created_at', 'updated_at')
+    fieldsets = (
+        ("Dastur turi", {
+            'fields': ('about', 'program_type', 'order'),
+        }),
+        ("Yo'nalish", {
+            'fields': ('direction_uz', 'direction_ru', 'direction_en'),
+        }),
+        ("Mutaxassislik", {
+            'fields': ('profession_uz', 'profession_ru', 'profession_en'),
         }),
         ('Texnik', {
             'classes': ('collapse',),

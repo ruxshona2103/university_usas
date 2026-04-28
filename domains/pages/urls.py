@@ -8,6 +8,7 @@ from .views import (
     NavbarPageDetailAPIView,
     HeroVideoListAPIView,
     AboutSocialAPIView,
+    AboutAcademyAPIView,
     OrgStructureAPIView,
     OrgSectionListAPIView,
     RekvizitAPIView,
@@ -21,6 +22,7 @@ urlpatterns = [
     path('partners/',         PartnerListAPIView.as_view(),        name='partner-list'),
     path('hero-video/',       HeroVideoListAPIView.as_view(),       name='hero-video-list'),
     path('aboutsocial/',      AboutSocialAPIView.as_view(),         name='about-social'),
+    path('about-academy/',    AboutAcademyAPIView.as_view(),        name='about-academy'),
     path('org-structure/',          OrgStructureAPIView.as_view(),     name='org-structure'),
     path('org-structure/sections/', OrgSectionListAPIView.as_view(),   name='org-section-list'),
 

@@ -74,23 +74,42 @@ class KafedraRasmSerializer(serializers.ModelSerializer):
 
 
 class KafedraXodimSerializer(serializers.ModelSerializer):
+    full_name = serializers.SerializerMethodField()
     position  = serializers.SerializerMethodField()
+    email     = serializers.SerializerMethodField()
+    phone     = serializers.SerializerMethodField()
     photo_url = serializers.SerializerMethodField()
 
     class Meta:
         model  = KafedraXodim
-        fields = ['id', 'full_name', 'position', 'email', 'photo_url', 'order']
+        fields = ['id', 'full_name', 'position', 'email', 'phone', 'photo_url', 'order']
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_full_name(self, obj):
+        return obj.person.full_name_uz
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_position(self, obj):
-        return {'uz': obj.position_uz or '', 'ru': obj.position_ru or '', 'en': obj.position_en or ''}
+        return {
+            'uz': obj.person.title_uz or '',
+            'ru': obj.person.title_ru or '',
+            'en': obj.person.title_en or '',
+        }
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_email(self, obj):
+        return obj.person.email or ''
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_phone(self, obj):
+        return obj.person.phone or ''
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_photo_url(self, obj):
         request = self.context.get('request')
-        if obj.photo:
+        if obj.person.image:
             try:
-                return request.build_absolute_uri(obj.photo.url) if request else obj.photo.url
+                return request.build_absolute_uri(obj.person.image.url) if request else obj.person.image.url
             except Exception:
                 return None
         return None
@@ -134,6 +153,7 @@ class FakultetKafedraListSerializer(serializers.ModelSerializer):
 class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
     name               = serializers.SerializerMethodField()
     description        = serializers.SerializerMethodField()
+    about              = serializers.SerializerMethodField()
     sport_types        = serializers.SerializerMethodField()
     bachelor_subjects  = serializers.SerializerMethodField()
     master_subjects    = serializers.SerializerMethodField()
@@ -145,7 +165,7 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
         model  = FakultetKafedra
         fields = [
             'id', 'slug', 'type',
-            'name', 'description',
+            'name', 'description', 'about',
             'decree_info', 'phone', 'email', 'link',
             'sport_types', 'bachelor_subjects', 'master_subjects',
             'publications', 'xodimlar', 'rasmlar',
@@ -159,6 +179,10 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_description(self, obj):
         return {'uz': obj.description_uz or '', 'ru': obj.description_ru or '', 'en': obj.description_en or ''}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_about(self, obj):
+        return {'uz': obj.about_uz or '', 'ru': obj.about_ru or '', 'en': obj.about_en or ''}
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_sport_types(self, obj):

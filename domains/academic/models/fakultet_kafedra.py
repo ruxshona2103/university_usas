@@ -40,6 +40,9 @@ class FakultetKafedra(TimeStampedModel):
     master_subjects_en = models.TextField(blank=True, verbose_name="Magistratura fanlari (En)")
 
     decree_info = models.CharField(max_length=300, blank=True, verbose_name="Asos hujjat (farmon/qaror)")
+    about_uz    = models.TextField(blank=True, verbose_name="Qo'shimcha ma'lumot (Uz)")
+    about_ru    = models.TextField(blank=True, verbose_name="Qo'shimcha ma'lumot (Ru)")
+    about_en    = models.TextField(blank=True, verbose_name="Qo'shimcha ma'lumot (En)")
     phone       = models.CharField(max_length=50, blank=True, verbose_name="Telefon")
     email       = models.CharField(max_length=200, blank=True, verbose_name="E-mail")
 

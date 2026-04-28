@@ -41,10 +41,11 @@ class KafedraRasmInline(admin.TabularInline):
 
 
 class KafedraXodimInline(admin.TabularInline):
-    model   = KafedraXodim
-    extra   = 1
-    fields  = ('full_name', 'position_uz', 'email', 'photo', 'order', 'is_active')
-    ordering = ('order',)
+    model               = KafedraXodim
+    extra               = 1
+    fields              = ('person', 'order')
+    ordering            = ('order',)
+    autocomplete_fields = ['person']
 
 
 class KafedraPublicationInline(admin.TabularInline):
@@ -72,6 +73,10 @@ class FakultetKafedraAdmin(admin.ModelAdmin):
         ("Nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('name_ru', 'name_en')}),
         ("Tavsif (Uz)", {'fields': ('description_uz',)}),
         ("Tavsif (Ru / En)", {'classes': ('collapse',), 'fields': ('description_ru', 'description_en')}),
+        ("Qo'shimcha ma'lumot (ixtiyoriy)", {
+            'fields': ('about_uz', 'about_ru', 'about_en'),
+            'classes': ('collapse',),
+        }),
         ("Sport turlari", {
             'fields': ('sport_types_uz', 'sport_types_ru', 'sport_types_en'),
             'classes': ('collapse',),
@@ -101,11 +106,12 @@ class KafedraRasmAdmin(admin.ModelAdmin):
 
 @admin.register(KafedraXodim)
 class KafedraXodimAdmin(admin.ModelAdmin):
-    list_display  = ('full_name', 'position_uz', 'kafedra', 'order', 'is_active')
-    list_editable = ('order', 'is_active')
-    list_filter   = ('kafedra', 'is_active')
-    search_fields = ('full_name', 'email')
-    list_per_page = 30
+    list_display        = ('person', 'kafedra', 'order')
+    list_editable       = ('order',)
+    list_filter         = ('kafedra',)
+    search_fields       = ('person__full_name_uz',)
+    autocomplete_fields = ['person']
+    list_per_page       = 30
 
 
 @admin.register(KafedraPublication)

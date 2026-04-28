@@ -3,129 +3,7 @@ python manage.py seed_kafedra           # yaratadi / yangilaydi
 python manage.py seed_kafedra --clear   # o'chirib qaytadan yozadi
 """
 from django.core.management.base import BaseCommand
-from domains.academic.models import FakultetKafedra, KafedraXodim
-
-XODIMLAR = {
-    'sport-va-parasport-turlari-fakulteti': [
-        {
-            'full_name':   "Kaipov Jaxanger Abdikadirovich",
-            'position_uz': "Fakultet dekani",
-            'position_ru': "Декан факультета",
-            'position_en': "Dean of the Faculty",
-            'email': "jahanger_kr@mail.ru",
-            'order': 1,
-        },
-        {
-            'full_name':   "Ortiqov Ma'rufjon Mashrabjon o'g'li",
-            'position_uz': "Yoshlar bilan ishlash bo'yicha dekan o'rinbosari",
-            'position_ru': "Заместитель декана по работе с молодёжью",
-            'position_en': "Vice-Dean for Youth Affairs",
-            'email': "ortiqovmaruf394@gmail.com",
-            'order': 2,
-        },
-    ],
-    'yakkakurash-va-suv-sport-turlari-kafedrasi': [
-        {
-            'full_name':   "Qodirov Sirojiddin Erkinboyevich",
-            'position_uz': "Kafedra mudiri, p.f.b.f.d. (PhD), professor",
-            'position_ru': "Заведующий кафедрой, к.п.н. (PhD), профессор",
-            'position_en': "Head of Department, PhD, Professor",
-            'email': "qodirov.sirojiddin@list.ru",
-            'order': 1,
-        },
-        {
-            'full_name':   "Nuritdinov Abrorjon Ahrorjon o'g'li",
-            'position_uz': "Dotsent, XTSU 3-Dan qora belbog' sohibi",
-            'position_ru': "Доцент, обладатель чёрного пояса 3-Дан ВТФ",
-            'position_en': "Associate Professor, WTF 3rd Dan Black Belt",
-            'email': "abror.nuritdinov.1994@gmail.com",
-            'order': 2,
-        },
-        {
-            'full_name':   "Kubitdinov Jamshed Abduraxmonovich",
-            'position_uz': "p.f.b.f.d. (PhD), Dotsent",
-            'position_ru': "к.п.н. (PhD), Доцент",
-            'position_en': "PhD, Associate Professor",
-            'email': "jamshedkubitdinov@gmail.com",
-            'order': 3,
-        },
-        {
-            'full_name':   "Toirov Fazliddin Raximjon o'g'li",
-            'position_uz': "Dotsent, Yengil atletika bo'yicha sport ustasi",
-            'position_ru': "Доцент, Мастер спорта по лёгкой атлетике",
-            'position_en': "Associate Professor, Master of Sports in Athletics",
-            'email': "fazliddintoirov89@gmail.com",
-            'order': 4,
-        },
-        {
-            'full_name':   "Suleymanov Muhammad Amin Erkin o'g'li",
-            'position_uz': "p.f.b.f.d. (PhD), Dotsent",
-            'position_ru': "к.п.н. (PhD), Доцент",
-            'position_en': "PhD, Associate Professor",
-            'email': "sulejmanovmuhic@gmail.com",
-            'order': 5,
-        },
-    ],
-    'parasport-va-umumkasbiy-fanlar-kafedrasi': [
-        {
-            'full_name':   "Sobirova Laylo Baxromovna",
-            'position_uz': "Kafedra mudiri, p.f.d. (DSc), dotsent",
-            'position_ru': "Заведующая кафедрой, д.п.н. (DSc), доцент",
-            'position_en': "Head of Department, DSc, Associate Professor",
-            'email': "sobirovalaylo90@gmail.com",
-            'order': 1,
-        },
-        {
-            'full_name':   "Xudayberdiyeva Nodira Abduyakubovna",
-            'position_uz': "Kafedra professori",
-            'position_ru': "Профессор кафедры",
-            'position_en': "Professor",
-            'email': "xudayberdiyeva89@mail.ru",
-            'order': 2,
-        },
-        {
-            'full_name':   "Atajanov San'atjon Faraxatovich",
-            'position_uz': "Kafedra dotsenti",
-            'position_ru': "Доцент кафедры",
-            'position_en': "Associate Professor",
-            'email': "mr.sanatjon@gmail.com",
-            'order': 3,
-        },
-        {
-            'full_name':   "Valiyeva Nilufar Yusufjon qizi",
-            'position_uz': "Dotsent v.b.",
-            'position_ru': "И.о. доцента",
-            'position_en': "Acting Associate Professor",
-            'email': "nilufarvaliyeva9@gmail.com",
-            'order': 4,
-        },
-        {
-            'full_name':   "Yusupxanova Feruza Alimovna",
-            'position_uz': "Dotsent v.b.",
-            'position_ru': "И.о. доцента",
-            'position_en': "Acting Associate Professor",
-            'email': "yusupxanovaf68@gmail.com",
-            'order': 5,
-        },
-        {
-            'full_name':   "Shaydullayeva Zilola Shapulatovna",
-            'position_uz': "Katta o'qituvchi",
-            'position_ru': "Старший преподаватель",
-            'position_en': "Senior Lecturer",
-            'email': "zilola.sh1309@gmail.com",
-            'order': 6,
-        },
-        {
-            'full_name':   "Muxammadiyev Sardor Rustam o'g'li",
-            'position_uz': "O'qituvchi",
-            'position_ru': "Преподаватель",
-            'position_en': "Lecturer",
-            'email': "",
-            'order': 7,
-        },
-    ],
-}
-
+from domains.academic.models import FakultetKafedra
 
 DATA = [
     # ── FAKULTET ──────────────────────────────────────────────────────────────
@@ -429,15 +307,6 @@ class Command(BaseCommand):
                 updated += 1
             label = '[+]' if is_new else '[~]'
             self.stdout.write(f"  {label} {obj.name_uz}")
-
-            for xodim_data in XODIMLAR.get(slug, []):
-                xodim, x_new = KafedraXodim.objects.update_or_create(
-                    kafedra=obj,
-                    full_name=xodim_data['full_name'],
-                    defaults={k: v for k, v in xodim_data.items() if k != 'full_name'},
-                )
-                x_label = '[+]' if x_new else '[~]'
-                self.stdout.write(f"      {x_label} {xodim.full_name}")
 
         self.stdout.write(self.style.SUCCESS(
             f"\nNatija: {created} yangi, {updated} yangilandi. Jami {len(DATA)} ta."

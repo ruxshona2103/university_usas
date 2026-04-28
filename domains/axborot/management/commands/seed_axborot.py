@@ -367,6 +367,23 @@ PERSONS = [
         "reception": "Dushanba–Juma, 9:00–18:00",
         "address": "Toshkent shahri, Olimpiya shaharchasi",
     },
+    {
+        "order": 4,
+        "is_head": False,
+        "full_name_uz": "Mexrangiz Raximova Behzod qizi",
+        "full_name_ru": "Мехрангиз Рахимова Бехзодовна",
+        "full_name_en": "Mehrangiz Behzod qizi Rahimova",
+        "title_uz": "Axborot xizmati kontent muharriri",
+        "title_ru": "Контент-редактор информационной службы",
+        "title_en": "Content Editor of the Information Service",
+        "position_uz": "",
+        "position_ru": "",
+        "position_en": "",
+        "phone": "+998 71 200 00 04",
+        "email": "mexrangiz@usas.uz",
+        "reception": "Dushanba–Juma, 9:00–18:00",
+        "address": "Toshkent shahri, Olimpiya shaharchasi",
+    },
 ]
 
 

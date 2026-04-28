@@ -2,7 +2,7 @@ from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.openapi import OpenApiTypes
 
-from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication
+from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication, KafedraXodim
 
 
 class AcademyStatSerializer(serializers.ModelSerializer):
@@ -50,6 +50,29 @@ def _split_lines(text):
     return [line.strip() for line in text.splitlines() if line.strip()]
 
 
+class KafedraXodimSerializer(serializers.ModelSerializer):
+    position  = serializers.SerializerMethodField()
+    photo_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = KafedraXodim
+        fields = ['id', 'full_name', 'position', 'email', 'photo_url', 'order']
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_position(self, obj):
+        return {'uz': obj.position_uz or '', 'ru': obj.position_ru or '', 'en': obj.position_en or ''}
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_photo_url(self, obj):
+        request = self.context.get('request')
+        if obj.photo:
+            try:
+                return request.build_absolute_uri(obj.photo.url) if request else obj.photo.url
+            except Exception:
+                return None
+        return None
+
+
 class KafedraPublicationSerializer(serializers.ModelSerializer):
     title    = serializers.SerializerMethodField()
     cover_url = serializers.SerializerMethodField()
@@ -92,6 +115,7 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
     bachelor_subjects  = serializers.SerializerMethodField()
     master_subjects    = serializers.SerializerMethodField()
     publications       = KafedraPublicationSerializer(many=True, read_only=True)
+    xodimlar           = KafedraXodimSerializer(many=True, read_only=True)
 
     class Meta:
         model  = FakultetKafedra
@@ -100,7 +124,7 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
             'name', 'description',
             'decree_info', 'phone', 'email', 'link',
             'sport_types', 'bachelor_subjects', 'master_subjects',
-            'publications',
+            'publications', 'xodimlar',
             'order',
         ]
 

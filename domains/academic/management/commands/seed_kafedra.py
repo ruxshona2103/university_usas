@@ -3,37 +3,242 @@ python manage.py seed_kafedra           # yaratadi / yangilaydi
 python manage.py seed_kafedra --clear   # o'chirib qaytadan yozadi
 """
 from django.core.management.base import BaseCommand
-from domains.academic.models import FakultetKafedra
+from domains.academic.models import FakultetKafedra, KafedraXodim
 
-KAFEDRAS = [
+XODIMLAR = {
+    'sport-va-parasport-turlari-fakulteti': [
+        {
+            'full_name':   "Kaipov Jaxanger Abdikadirovich",
+            'position_uz': "Fakultet dekani",
+            'position_ru': "Декан факультета",
+            'position_en': "Dean of the Faculty",
+            'email': "jahanger_kr@mail.ru",
+            'order': 1,
+        },
+        {
+            'full_name':   "Ortiqov Ma'rufjon Mashrabjon o'g'li",
+            'position_uz': "Yoshlar bilan ishlash bo'yicha dekan o'rinbosari",
+            'position_ru': "Заместитель декана по работе с молодёжью",
+            'position_en': "Vice-Dean for Youth Affairs",
+            'email': "ortiqovmaruf394@gmail.com",
+            'order': 2,
+        },
+    ],
+    'yakkakurash-va-suv-sport-turlari-kafedrasi': [
+        {
+            'full_name':   "Qodirov Sirojiddin Erkinboyevich",
+            'position_uz': "Kafedra mudiri, p.f.b.f.d. (PhD), professor",
+            'position_ru': "Заведующий кафедрой, к.п.н. (PhD), профессор",
+            'position_en': "Head of Department, PhD, Professor",
+            'email': "qodirov.sirojiddin@list.ru",
+            'order': 1,
+        },
+        {
+            'full_name':   "Nuritdinov Abrorjon Ahrorjon o'g'li",
+            'position_uz': "Dotsent, XTSU 3-Dan qora belbog' sohibi",
+            'position_ru': "Доцент, обладатель чёрного пояса 3-Дан ВТФ",
+            'position_en': "Associate Professor, WTF 3rd Dan Black Belt",
+            'email': "abror.nuritdinov.1994@gmail.com",
+            'order': 2,
+        },
+        {
+            'full_name':   "Kubitdinov Jamshed Abduraxmonovich",
+            'position_uz': "p.f.b.f.d. (PhD), Dotsent",
+            'position_ru': "к.п.н. (PhD), Доцент",
+            'position_en': "PhD, Associate Professor",
+            'email': "jamshedkubitdinov@gmail.com",
+            'order': 3,
+        },
+        {
+            'full_name':   "Toirov Fazliddin Raximjon o'g'li",
+            'position_uz': "Dotsent, Yengil atletika bo'yicha sport ustasi",
+            'position_ru': "Доцент, Мастер спорта по лёгкой атлетике",
+            'position_en': "Associate Professor, Master of Sports in Athletics",
+            'email': "fazliddintoirov89@gmail.com",
+            'order': 4,
+        },
+        {
+            'full_name':   "Suleymanov Muhammad Amin Erkin o'g'li",
+            'position_uz': "p.f.b.f.d. (PhD), Dotsent",
+            'position_ru': "к.п.н. (PhD), Доцент",
+            'position_en': "PhD, Associate Professor",
+            'email': "sulejmanovmuhic@gmail.com",
+            'order': 5,
+        },
+    ],
+    'parasport-va-umumkasbiy-fanlar-kafedrasi': [
+        {
+            'full_name':   "Sobirova Laylo Baxromovna",
+            'position_uz': "Kafedra mudiri, p.f.d. (DSc), dotsent",
+            'position_ru': "Заведующая кафедрой, д.п.н. (DSc), доцент",
+            'position_en': "Head of Department, DSc, Associate Professor",
+            'email': "sobirovalaylo90@gmail.com",
+            'order': 1,
+        },
+        {
+            'full_name':   "Xudayberdiyeva Nodira Abduyakubovna",
+            'position_uz': "Kafedra professori",
+            'position_ru': "Профессор кафедры",
+            'position_en': "Professor",
+            'email': "xudayberdiyeva89@mail.ru",
+            'order': 2,
+        },
+        {
+            'full_name':   "Atajanov San'atjon Faraxatovich",
+            'position_uz': "Kafedra dotsenti",
+            'position_ru': "Доцент кафедры",
+            'position_en': "Associate Professor",
+            'email': "mr.sanatjon@gmail.com",
+            'order': 3,
+        },
+        {
+            'full_name':   "Valiyeva Nilufar Yusufjon qizi",
+            'position_uz': "Dotsent v.b.",
+            'position_ru': "И.о. доцента",
+            'position_en': "Acting Associate Professor",
+            'email': "nilufarvaliyeva9@gmail.com",
+            'order': 4,
+        },
+        {
+            'full_name':   "Yusupxanova Feruza Alimovna",
+            'position_uz': "Dotsent v.b.",
+            'position_ru': "И.о. доцента",
+            'position_en': "Acting Associate Professor",
+            'email': "yusupxanovaf68@gmail.com",
+            'order': 5,
+        },
+        {
+            'full_name':   "Shaydullayeva Zilola Shapulatovna",
+            'position_uz': "Katta o'qituvchi",
+            'position_ru': "Старший преподаватель",
+            'position_en': "Senior Lecturer",
+            'email': "zilola.sh1309@gmail.com",
+            'order': 6,
+        },
+        {
+            'full_name':   "Muxammadiyev Sardor Rustam o'g'li",
+            'position_uz': "O'qituvchi",
+            'position_ru': "Преподаватель",
+            'position_en': "Lecturer",
+            'email': "",
+            'order': 7,
+        },
+    ],
+}
+
+
+DATA = [
+    # ── FAKULTET ──────────────────────────────────────────────────────────────
     {
-        'slug': 'yakkakurash-va-suv-sport-turlari-kafedrasi',
-        'type': FakultetKafedra.KAFEDRA,
-        'order': 1,
+        'slug':    'sport-va-parasport-turlari-fakulteti',
+        'type':    FakultetKafedra.FAKULTET,
+        'order':   1,
+        'name_uz': "Sport va parasport turlari fakulteti",
+        'name_ru': "Факультет видов спорта и параспорта",
+        'name_en': "Faculty of Sports and Parasports",
+        'description_uz': (
+            "Sport va parasport turlari fakulteti 2025-yilda tashkil topgan. "
+            "Fakultetda bakalavriat va magistratura ta'lim yo'nalishlari bo'yicha "
+            "yuqori malakali mutaxassislar tayyorlanadi. Fakultet manzili: Olimpiya shaharchasi."
+        ),
+        'description_ru': (
+            "Факультет видов спорта и параспорта основан в 2025 году. "
+            "На факультете ведётся подготовка высококвалифицированных специалистов "
+            "по направлениям бакалавриата и магистратуры."
+        ),
+        'description_en': (
+            "The Faculty of Sports and Parasports was established in 2025. "
+            "The faculty trains highly qualified specialists in bachelor's and master's programmes."
+        ),
+        'decree_info': "",
+        'phone':   "996828208",
+        'email':   "jahanger_kr@mail.ru",
+        # bachelor_subjects maydoni → bakalavriat yo'nalishlari
+        'bachelor_subjects_uz': (
+            "61010200 — Sport faoliyati\n"
+            "61010300 — Adaptiv jismoniy tarbiya va sport (parasport)"
+        ),
+        'bachelor_subjects_ru': (
+            "61010200 — Спортивная деятельность\n"
+            "61010300 — Адаптивная физическая культура и спорт (параспорт)"
+        ),
+        'bachelor_subjects_en': (
+            "61010200 — Sports Activity\n"
+            "61010300 — Adaptive Physical Education and Sports (Parasport)"
+        ),
+        # master_subjects maydoni → magistratura yo'nalishlari
+        'master_subjects_uz': (
+            "71010301 — Adaptiv jismoniy tarbiya va sport\n"
+            "70310301 — Psixologiya\n"
+            "71010201 — Sport faoliyati\n"
+            "70410801 — Menejment\n"
+            "70411201 — Marketing"
+        ),
+        'master_subjects_ru': (
+            "71010301 — Адаптивная физическая культура и спорт\n"
+            "70310301 — Психология\n"
+            "71010201 — Спортивная деятельность\n"
+            "70410801 — Менеджмент\n"
+            "70411201 — Маркетинг"
+        ),
+        'master_subjects_en': (
+            "71010301 — Adaptive Physical Education and Sports\n"
+            "70310301 — Psychology\n"
+            "71010201 — Sports Activity\n"
+            "70410801 — Management\n"
+            "70411201 — Marketing"
+        ),
+        'sport_types_uz': "",
+        'sport_types_ru': "",
+        'sport_types_en': "",
+    },
+
+    # ── KAFEDRALAR ────────────────────────────────────────────────────────────
+    {
+        'slug':    'yakkakurash-va-suv-sport-turlari-kafedrasi',
+        'type':    FakultetKafedra.KAFEDRA,
+        'order':   2,
         'name_uz': "Yakkakurash va suv sport turlari kafedrasi",
         'name_ru': "Кафедра единоборств и водных видов спорта",
         'name_en': "Department of Combat Sports and Aquatics",
         'description_uz': (
-            "Yakkakurash va suv sport turlari kafedrasi O'zbekiston Respublikasi Prezidentining "
-            "PQ-197-son, 2024-yil 28-may qaroriga asosan tashkil etilgan. Kafedra jismoniy "
-            "tarbiya va sport sohasida yuqori malakali mutaxassislar tayyorlash, sport turlari "
-            "bo'yicha ilmiy-uslubiy ta'minot va amaliy mashg'ulotlar olib borish maqsadida "
-            "faoliyat yuritadi."
+            "O'zbekiston Respublikasi Prezidentining 2024-yil 28-maydagi PQ-197-son qarori bilan "
+            "O'zbekiston davlat sport akademiyasi tashkil qilindi. Akademiyaning \"Yakkakurash va "
+            "suv sport turlari\" kafedrasida 2025-yil 2-sentabrdan boshlab Dzyudo, Taekvondo WT, "
+            "Boks, Eshkak eshish, Yengil atletika, O'g'ir atletika, Yunon-rim kurash, Erkin kurash, "
+            "Suzish, Velosport, Gimnastika, Komondan otish, Qilichbozlik, O'q otish sport turlari "
+            "kafedra tarkibiga kiritildi."
+        ),
+        'description_ru': (
+            "На основании Постановления Президента Республики Узбекистан № ПП-197 от 28 мая 2024 года "
+            "была создана Академия государственного спорта Узбекистана. С 2 сентября 2025 года в состав "
+            "кафедры единоборств и водных видов спорта включены: дзюдо, тхэквондо ВТ, бокс, академическая "
+            "гребля, лёгкая атлетика, тяжёлая атлетика, греко-римская борьба, вольная борьба, плавание, "
+            "велоспорт, гимнастика, стрельба из лука, фехтование, стрельба."
+        ),
+        'description_en': (
+            "By Decree No. PQ-197 of the President of the Republic of Uzbekistan dated May 28, 2024, "
+            "the Uzbekistan State Sports Academy was established. From September 2, 2025, the Department "
+            "of Combat Sports and Aquatics includes: Judo, Taekwondo WT, Boxing, Rowing, Athletics, "
+            "Weightlifting, Greco-Roman Wrestling, Freestyle Wrestling, Swimming, Cycling, Gymnastics, "
+            "Archery, Fencing, Shooting."
         ),
         'decree_info': "PQ-197-son, 2024-yil 28-may",
+        'phone':   "",
+        'email':   "qodirov.sirojiddin@list.ru",
         'sport_types_uz': (
             "Dzyudo\n"
             "Taekvondo WT\n"
             "Boks\n"
             "Eshkak eshish\n"
             "Yengil atletika\n"
-            "Og'ir atletika\n"
+            "O'g'ir atletika\n"
             "Yunon-rim kurash\n"
             "Erkin kurash\n"
             "Suzish\n"
             "Velosport\n"
             "Gimnastika\n"
-            "Kamondan otish\n"
+            "Komondan otish\n"
             "Qilichbozlik\n"
             "O'q otish"
         ),
@@ -41,7 +246,7 @@ KAFEDRAS = [
             "Дзюдо\n"
             "Тхэквондо ВТ\n"
             "Бокс\n"
-            "Гребля\n"
+            "Академическая гребля\n"
             "Лёгкая атлетика\n"
             "Тяжёлая атлетика\n"
             "Греко-римская борьба\n"
@@ -53,136 +258,187 @@ KAFEDRAS = [
             "Фехтование\n"
             "Стрельба"
         ),
+        'sport_types_en': (
+            "Judo\n"
+            "Taekwondo WT\n"
+            "Boxing\n"
+            "Rowing\n"
+            "Athletics\n"
+            "Weightlifting\n"
+            "Greco-Roman Wrestling\n"
+            "Freestyle Wrestling\n"
+            "Swimming\n"
+            "Cycling\n"
+            "Gymnastics\n"
+            "Archery\n"
+            "Fencing\n"
+            "Shooting"
+        ),
         'bachelor_subjects_uz': (
             "Tayanch sport turlarini o'rgatish metodikasi (Suzish)\n"
-            "Tayanch sport turlarini o'rgatish metodikasi (Dzyudo)\n"
-            "Tayanch sport turlarini o'rgatish metodikasi (Taekvondo WT)\n"
-            "Tayanch sport turlarini o'rgatish metodikasi (Boks)\n"
-            "Tayanch sport turlarini o'rgatish metodikasi (Eshkak eshish)\n"
+            "Tayanch sport turlarini o'rgatish metodikasi (Sport va xarakatli o'yinlar)\n"
             "Tayanch sport turlarini o'rgatish metodikasi (Yengil atletika)\n"
-            "Tayanch sport turlarini o'rgatish metodikasi (Og'ir atletika)\n"
-            "Tayanch sport turlarini o'rgatish metodikasi (Yunon-rim kurash)\n"
-            "Tayanch sport turlarini o'rgatish metodikasi (Erkin kurash)\n"
-            "Tayanch sport turlarini o'rgatish metodikasi (Velosport)\n"
             "Tayanch sport turlarini o'rgatish metodikasi (Gimnastika)\n"
-            "Tayanch sport turlarini o'rgatish metodikasi (Kamondan otish)\n"
-            "Tayanch sport turlarini o'rgatish metodikasi (Qilichbozlik)\n"
-            "Tayanch sport turlarini o'rgatish metodikasi (O'q otish)\n"
-            "Sport fiziologiyasi\n"
-            "Sport pedagogikasi\n"
-            "Sport psixologiyasi\n"
-            "Jismoniy tarbiya nazariyasi va metodikasi"
+            "Taekvondo nazariyasi va uslubiyati\n"
+            "Dzyudo nazariyasi va uslubiyati\n"
+            "Boks nazariyasi va uslubiyati\n"
+            "Eshkak eshish nazariyasi va uslubiyati\n"
+            "Yengil atletika nazariyasi va uslubiyati\n"
+            "O'g'ir atletika nazariyasi va uslubiyati\n"
+            "Yunon-rim kurash nazariyasi va uslubiyati\n"
+            "Erkin kurash nazariyasi va uslubiyati\n"
+            "Suzish nazariyasi va uslubiyati\n"
+            "Velosport nazariyasi va uslubiyati\n"
+            "Gimnastika nazariyasi va uslubiyati\n"
+            "Komondan otish nazariyasi va uslubiyati\n"
+            "Qilichbozlik nazariyasi va uslubiyati\n"
+            "O'q otish nazariyasi va uslubiyati"
         ),
+        'bachelor_subjects_ru': "",
+        'bachelor_subjects_en': "",
         'master_subjects_uz': (
             "Sportda ilmiy tadqiqotlar\n"
-            "Zamonaviy sport trenirovkasi nazariyasi\n"
-            "Sport menejment\n"
-            "Yuqori mahorat sporti\n"
-            "Olimpiya harakati tarixi va falsafasi\n"
-            "Sport pedagogikasi (magistratura)"
+            "Sportda saralash, modellashtirish va bashorat qilish\n"
+            "Taekvondoda sportchilarni tayyorlashning ilmiy-uslubiy asoslari\n"
+            "Boksda sportchilarni tayyorlashning ilmiy-uslubiy asoslari\n"
+            "Dzyudo-da sportchilarni tayyorlashning ilmiy-uslubiy asoslari\n"
+            "Eshkak eshishda sportchilarni tayyorlashning ilmiy-uslubiy asoslari"
         ),
-        'phone': '',
-        'email': '',
+        'master_subjects_ru': "",
+        'master_subjects_en': "",
     },
     {
-        'slug': 'parasport-va-umumkasbiy-fanlar-kafedrasi',
-        'type': FakultetKafedra.KAFEDRA,
-        'order': 2,
+        'slug':    'parasport-va-umumkasbiy-fanlar-kafedrasi',
+        'type':    FakultetKafedra.KAFEDRA,
+        'order':   3,
         'name_uz': "Parasport va umumkasbiy fanlar kafedrasi",
         'name_ru': "Кафедра параспорта и общепрофессиональных дисциплин",
         'name_en': "Department of Parasport and General Professional Disciplines",
         'description_uz': (
-            "Parasport va umumkasbiy fanlar kafedrasi nogironligi bo'lgan shaxslar o'rtasida "
-            "sport madaniyatini rivojlantirish, paraolimpiya harakati g'oyalarini targ'ib qilish "
-            "hamda sport sohasida umumkasbiy bilim va ko'nikmalarni shakllantirishga qaratilgan "
-            "ta'lim faoliyatini olib boradi. Kafedra bakalavriat va magistratura dasturlari "
-            "bo'yicha dars beradi, ilmiy-tadqiqot ishlarini amalga oshiradi."
+            "O'zbekiston Respublikasi Prezidentining 2022-yil 18-fevraldagi PQ-197-sonli "
+            "\"O'zbekiston davlat sport akademiyasini tashkil etish to'g'risida\"gi Qaroriga muvofiq "
+            "mamlaktimizda jismoniy tarbiya va sport sohasida yuqori malakali mutaxassislar "
+            "tayyorlashning zamonaviy tizimi yo'lga qo'yildi. Kafedra parasport yo'nalishida "
+            "mutaxassislar tayyorlash, nogironligi bo'lgan shaxslar bilan ishlash metodikasini "
+            "rivojlantirish, shuningdek, talabalarni umumkasbiy fanlar bo'yicha nazariy va amaliy "
+            "bilimlar bilan ta'minlashga ixtisoslashgan."
         ),
-        'decree_info': "",
+        'description_ru': (
+            "В соответствии с Постановлением Президента Республики Узбекистан № ПП-197 от 18 февраля "
+            "2022 года в стране была создана современная система подготовки высококвалифицированных "
+            "специалистов в области физической культуры и спорта. Кафедра специализируется на "
+            "подготовке специалистов по параспорту, развитии методики работы с лицами с ограниченными "
+            "возможностями здоровья, а также обеспечении студентов теоретическими и практическими "
+            "знаниями по общепрофессиональным дисциплинам."
+        ),
+        'description_en': (
+            "In accordance with the Decree of the President of the Republic of Uzbekistan No. PQ-197 "
+            "dated February 18, 2022, a modern system for training highly qualified specialists in "
+            "physical culture and sports was established. The department specialises in training "
+            "parasport specialists, developing methodologies for working with persons with disabilities, "
+            "and providing students with theoretical and practical knowledge in general professional disciplines."
+        ),
+        'decree_info': "PQ-197-son, 2022-yil 18-fevral",
+        'phone':   "",
+        'email':   "sobirovalaylo90@gmail.com",
         'sport_types_uz': "",
+        'sport_types_ru': "",
+        'sport_types_en': "",
         'bachelor_subjects_uz': (
             "Sportda xorijiy til\n"
             "Rus tili\n"
             "O'zbekistonning eng yangi tarixi\n"
-            "Huquqshunoslik\n"
-            "Iqtisodiyot nazariyasi\n"
+            "Jismoniy tarbiya va olimpiya harakati tarixi\n"
+            "Bioximiya va sport bioximiyasi\n"
+            "Anatomiya\n"
+            "Sportda axborot-kommunikasiya texnologiyalari\n"
+            "Dinshunoslik\n"
+            "Adaptiv jismoniy tarbiya va paralimpiya harakati\n"
+            "Para sport turlarini o'rgatish metodikasi (siklik, asiklik, sport o'yinlari, yakkakurash)\n"
+            "Adaptiv jismoniy tarbiya va sport nazariyasi va uslubiyati (7 ta qism)\n"
             "Falsafa\n"
-            "Sotsiologiya\n"
-            "Siyosatshunoslik\n"
-            "Ekologiya va tabiatni muhofaza qilish\n"
-            "Ma'naviyat asoslari\n"
-            "Axborot texnologiyalari\n"
-            "Statistika\n"
-            "Menejment\n"
-            "Marketing\n"
-            "Moliya\n"
-            "Buxgalteriya hisobi\n"
-            "Parasport asoslari\n"
-            "Paraolimpiya harakati tarixi\n"
-            "Adaptiv jismoniy tarbiya\n"
-            "Nogironligi bo'lgan shaxslar bilan ishlash metodikasi"
+            "Sport pedagogikasi\n"
+            "Sport biomexanikasi\n"
+            "Fiziologiya va sport fiziologiyasi (1, 2-qism)\n"
+            "Sport psixologiyasi\n"
+            "Jismoniy tarbiya va sport nazariyasi (1-qism)\n"
+            "Para sport turlarini o'rgatish metodikasi (sport o'yinlari)\n"
+            "Para sport turlarini o'rgatish metodikasi (yakkakurash)\n"
+            "Tanlov fanlar"
         ),
+        'bachelor_subjects_ru': "",
+        'bachelor_subjects_en': "",
         'master_subjects_uz': (
             "Ilmiy tadqiqot metodologiyasi\n"
             "Sport morfologiyasi\n"
-            "Sport biomexanikasi\n"
-            "Sport fiziologiyasi (magistratura)\n"
-            "Sport psixologiyasi (magistratura)\n"
-            "Sport pedagogikasi (magistratura)\n"
-            "Sport menejment (magistratura)\n"
-            "Sport iqtisodiyoti\n"
-            "Sport huquqi\n"
-            "Xalqaro sport tashkilotlari\n"
-            "Olimpiya va paraolimpiya harakati\n"
-            "Adaptiv sport nazariyasi va metodikasi\n"
-            "Nogironligi bo'lgan sportchilar bilan ishlash\n"
-            "Sport tibbiyoti\n"
-            "Reabilitatsiya va sport\n"
-            "Doping nazorati\n"
-            "Sport ovqatlanishi\n"
-            "Zamonaviy trenirovka texnologiyalari\n"
-            "Yuqori mahoratli sportchilarni tayyorlash\n"
-            "Sport musobaqalarini tashkil etish\n"
-            "Sport infratuzilmasi va inshootlari\n"
-            "Ta'limda innovatsion texnologiyalar\n"
-            "Xorijiy til (magistratura)\n"
-            "Axborot-kommunikatsiya texnologiyalari (magistratura)\n"
-            "Ilmiy maqola yozish metodikasi\n"
-            "Magistrlik dissertatsiyasi yozish asoslari\n"
-            "Pedagogik amaliyot"
+            "Sportda matematik-statistik tahlil (1 va 2-qism)\n"
+            "Tanlangan sport turining fiziologik tasnifi\n"
+            "Sport faoliyatining huquqiy ta'minlanishi\n"
+            "Adaptiv sog'lomlashtirish jismoniy tarbiya texnologiyalari\n"
+            "Adaptiv jismoniy tarbiyada nazorat turlari va sport klassifikatsiyasi (1 va 2-qism)\n"
+            "Adaptiv jismoniy tarbiya va parasportning tibbiy-biologik asoslari\n"
+            "Adaptiv jismoniy tarbiya va sportni boshqarish\n"
+            "Psixologiyada tadqiqotlarni rejalashtirish\n"
+            "Sportda psixotexnologiyalar (1 va 2-qism)\n"
+            "Paralimpiya sportida psixologik tayyorgarlik\n"
+            "Sport kauchingi texnologiyalari\n"
+            "Sport psixologiyasi metodologiyasi\n"
+            "Sportda marketing kommunikasiyasi\n"
+            "Sport sohasida raqamli iqtisodiyot\n"
+            "Sport inshootlari marketing\n"
+            "Sport marketingi (1 va 2-qism)\n"
+            "Xalqaro sport huquqi\n"
+            "Sportda matematik modellashtirish\n"
+            "Sportda tadbirkorlik\n"
+            "Sport iqtisodiyoti va menejmenti\n"
+            "Menejmentda zamonaviy kommunikasiyalar\n"
+            "Sport inshootlarini boshqarish\n"
+            "Sport menejmenti (1 va 2-qism)\n"
+            "Korporativ menejment\n"
+            "Event-menejmenti"
         ),
-        'phone': '',
-        'email': 'sobirovalaylo90@gmail.com',
+        'master_subjects_ru': "",
+        'master_subjects_en': "",
     },
 ]
 
 
 class Command(BaseCommand):
-    help = "Kafedra ma'lumotlarini to'ldiradi (idempotent)"
+    help = "Fakultet va kafedra ma'lumotlarini to'ldiradi (idempotent)"
 
     def add_arguments(self, parser):
         parser.add_argument('--clear', action='store_true', help="Avval o'chirib, qaytadan yozadi")
 
     def handle(self, *args, **options):
         if options['clear']:
-            slugs = [k['slug'] for k in KAFEDRAS]
+            slugs = [d['slug'] for d in DATA]
             n = FakultetKafedra.objects.filter(slug__in=slugs).delete()[0]
             self.stdout.write(self.style.WARNING(f"O'chirildi: {n} ta yozuv"))
 
         created = updated = 0
-        for data in KAFEDRAS:
+        for data in DATA:
             slug = data.pop('slug')
             obj, is_new = FakultetKafedra.objects.update_or_create(
                 slug=slug,
                 defaults=data,
             )
-            data['slug'] = slug  # restore for idempotency
+            data['slug'] = slug
             if is_new:
                 created += 1
             else:
                 updated += 1
-            self.stdout.write(f"  {'[+]' if is_new else '[~]'} {obj.name_uz}")
+            label = '[+]' if is_new else '[~]'
+            self.stdout.write(f"  {label} {obj.name_uz}")
+
+            for xodim_data in XODIMLAR.get(slug, []):
+                xodim, x_new = KafedraXodim.objects.update_or_create(
+                    kafedra=obj,
+                    full_name=xodim_data['full_name'],
+                    defaults={k: v for k, v in xodim_data.items() if k != 'full_name'},
+                )
+                x_label = '[+]' if x_new else '[~]'
+                self.stdout.write(f"      {x_label} {xodim.full_name}")
 
         self.stdout.write(self.style.SUCCESS(
-            f"\nNatija: {created} yangi, {updated} yangilandi. Jami {len(KAFEDRAS)} ta kafedra."
+            f"\nNatija: {created} yangi, {updated} yangilandi. Jami {len(DATA)} ta."
         ))

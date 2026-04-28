@@ -2,7 +2,7 @@ from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.openapi import OpenApiTypes
 
-from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication, KafedraXodim
+from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication, KafedraXodim, KafedraRasm
 
 
 class AcademyStatSerializer(serializers.ModelSerializer):
@@ -48,6 +48,29 @@ def _split_lines(text):
     if not text:
         return []
     return [line.strip() for line in text.splitlines() if line.strip()]
+
+
+class KafedraRasmSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
+    caption   = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = KafedraRasm
+        fields = ['id', 'image_url', 'caption', 'order']
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_image_url(self, obj):
+        request = self.context.get('request')
+        if obj.image:
+            try:
+                return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+            except Exception:
+                return None
+        return None
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_caption(self, obj):
+        return {'uz': obj.caption_uz or '', 'ru': obj.caption_ru or '', 'en': obj.caption_en or ''}
 
 
 class KafedraXodimSerializer(serializers.ModelSerializer):
@@ -116,6 +139,7 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
     master_subjects    = serializers.SerializerMethodField()
     publications       = KafedraPublicationSerializer(many=True, read_only=True)
     xodimlar           = KafedraXodimSerializer(many=True, read_only=True)
+    rasmlar            = KafedraRasmSerializer(many=True, read_only=True)
 
     class Meta:
         model  = FakultetKafedra
@@ -124,7 +148,7 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
             'name', 'description',
             'decree_info', 'phone', 'email', 'link',
             'sport_types', 'bachelor_subjects', 'master_subjects',
-            'publications', 'xodimlar',
+            'publications', 'xodimlar', 'rasmlar',
             'order',
         ]
 

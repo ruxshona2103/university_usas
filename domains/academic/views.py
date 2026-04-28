@@ -81,7 +81,7 @@ class FakultetKafedraListAPIView(generics.ListAPIView):
 class FakultetKafedraDetailAPIView(generics.RetrieveAPIView):
     serializer_class   = FakultetKafedraDetailSerializer
     permission_classes = [AllowAny]
-    queryset           = FakultetKafedra.objects.filter(is_active=True).prefetch_related('publications', 'xodimlar')
+    queryset           = FakultetKafedra.objects.filter(is_active=True).prefetch_related('publications', 'xodimlar', 'rasmlar')
     lookup_field       = 'slug'
 
     def get_object(self):

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication, KafedraXodim
+from .models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication, KafedraXodim, KafedraRasm
 
 
 @admin.register(AcademyStat)
@@ -33,6 +33,13 @@ class AcademyDetailPageAdmin(admin.ModelAdmin):
     )
 
 
+class KafedraRasmInline(admin.TabularInline):
+    model   = KafedraRasm
+    extra   = 1
+    fields  = ('image', 'caption_uz', 'order', 'is_active')
+    ordering = ('order',)
+
+
 class KafedraXodimInline(admin.TabularInline):
     model   = KafedraXodim
     extra   = 1
@@ -55,7 +62,7 @@ class FakultetKafedraAdmin(admin.ModelAdmin):
     search_fields = ('name_uz', 'name_ru', 'name_en')
     readonly_fields = ('slug',)
     list_per_page = 30
-    inlines = [KafedraXodimInline, KafedraPublicationInline]
+    inlines = [KafedraXodimInline, KafedraRasmInline, KafedraPublicationInline]
 
     fieldsets = (
         ("Asosiy", {
@@ -82,6 +89,14 @@ class FakultetKafedraAdmin(admin.ModelAdmin):
             'classes': ('collapse',),
         }),
     )
+
+
+@admin.register(KafedraRasm)
+class KafedraRasmAdmin(admin.ModelAdmin):
+    list_display  = ('kafedra', 'caption_uz', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter   = ('kafedra', 'is_active')
+    list_per_page = 30
 
 
 @admin.register(KafedraXodim)

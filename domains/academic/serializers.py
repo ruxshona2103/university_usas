@@ -150,6 +150,15 @@ class FakultetKafedraListSerializer(serializers.ModelSerializer):
         return {'uz': obj.name_uz or '', 'ru': obj.name_ru or '', 'en': obj.name_en or ''}
 
 
+def _photo_url(request, field):
+    if not field:
+        return None
+    try:
+        return request.build_absolute_uri(field.url) if request else field.url
+    except Exception:
+        return None
+
+
 class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
     name               = serializers.SerializerMethodField()
     description        = serializers.SerializerMethodField()
@@ -157,6 +166,9 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
     sport_types        = serializers.SerializerMethodField()
     bachelor_subjects  = serializers.SerializerMethodField()
     master_subjects    = serializers.SerializerMethodField()
+    dean               = serializers.SerializerMethodField()
+    vice_dean          = serializers.SerializerMethodField()
+    mudiri             = serializers.SerializerMethodField()
     publications       = KafedraPublicationSerializer(many=True, read_only=True)
     xodimlar           = KafedraXodimSerializer(many=True, read_only=True)
     rasmlar            = KafedraRasmSerializer(many=True, read_only=True)
@@ -168,6 +180,7 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
             'name', 'description', 'about',
             'decree_info', 'phone', 'email', 'link',
             'sport_types', 'bachelor_subjects', 'master_subjects',
+            'dean', 'vice_dean', 'mudiri',
             'publications', 'xodimlar', 'rasmlar',
             'order',
         ]
@@ -206,4 +219,35 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
             'uz': _split_lines(obj.master_subjects_uz),
             'ru': _split_lines(obj.master_subjects_ru),
             'en': _split_lines(obj.master_subjects_en),
+        }
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_dean(self, obj):
+        req = self.context.get('request')
+        return {
+            'name':      {'uz': obj.dean_name_uz or '', 'ru': obj.dean_name_ru or '', 'en': obj.dean_name_en or ''},
+            'photo_url': _photo_url(req, obj.dean_photo),
+            'phone':     obj.dean_phone or '',
+            'email':     obj.dean_email or '',
+        }
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_vice_dean(self, obj):
+        req = self.context.get('request')
+        return {
+            'name':      {'uz': obj.vice_dean_name_uz or '', 'ru': obj.vice_dean_name_ru or '', 'en': obj.vice_dean_name_en or ''},
+            'photo_url': _photo_url(req, obj.vice_dean_photo),
+            'phone':     obj.vice_dean_phone or '',
+            'email':     obj.vice_dean_email or '',
+        }
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_mudiri(self, obj):
+        req = self.context.get('request')
+        return {
+            'name':      {'uz': obj.mudiri_name_uz or '', 'ru': obj.mudiri_name_ru or '', 'en': obj.mudiri_name_en or ''},
+            'photo_url': _photo_url(req, obj.mudiri_photo),
+            'phone':     obj.mudiri_phone or '',
+            'email':     obj.mudiri_email or '',
+            'degree':    {'uz': obj.mudiri_degree_uz or '', 'ru': obj.mudiri_degree_ru or '', 'en': obj.mudiri_degree_en or ''},
         }

@@ -93,6 +93,18 @@ class FakultetKafedraAdmin(admin.ModelAdmin):
             'fields': ('phone', 'email', 'link'),
             'classes': ('collapse',),
         }),
+        ("Dekan (fakultet uchun)", {
+            'fields': ('dean_name_uz', 'dean_name_ru', 'dean_name_en', 'dean_photo', 'dean_phone', 'dean_email'),
+            'classes': ('collapse',),
+        }),
+        ("O'rinbosar (fakultet uchun)", {
+            'fields': ('vice_dean_name_uz', 'vice_dean_name_ru', 'vice_dean_name_en', 'vice_dean_photo', 'vice_dean_phone', 'vice_dean_email'),
+            'classes': ('collapse',),
+        }),
+        ("Mudiri (kafedra uchun)", {
+            'fields': ('mudiri_name_uz', 'mudiri_name_ru', 'mudiri_name_en', 'mudiri_photo', 'mudiri_phone', 'mudiri_email', 'mudiri_degree_uz', 'mudiri_degree_ru', 'mudiri_degree_en'),
+            'classes': ('collapse',),
+        }),
     )
 
 

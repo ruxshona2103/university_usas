@@ -31,6 +31,18 @@ DATA = [
         'decree_info': "",
         'phone':   "996828208",
         'email':   "jahanger_kr@mail.ru",
+        # Dekan
+        'dean_name_uz': "Kaipov Jaxanger Askarovich",
+        'dean_name_ru': "Каипов Яхангер Аскарович",
+        'dean_name_en': "Kaipov Jakhanger Askarovich",
+        'dean_phone':   "996828208",
+        'dean_email':   "jahanger_kr@mail.ru",
+        # O'rinbosar
+        'vice_dean_name_uz': "Ortiqov Ma'rufjon Abdullayevich",
+        'vice_dean_name_ru': "Ортиков Маруфжон Абдуллаевич",
+        'vice_dean_name_en': "Ortiqov Marufjon Abdullayevich",
+        'vice_dean_phone':   "",
+        'vice_dean_email':   "",
         # bachelor_subjects maydoni → bakalavriat yo'nalishlari
         'bachelor_subjects_uz': (
             "61010200 — Sport faoliyati\n"
@@ -104,6 +116,15 @@ DATA = [
         'decree_info': "PQ-197-son, 2024-yil 28-may",
         'phone':   "",
         'email':   "qodirov.sirojiddin@list.ru",
+        # Mudiri
+        'mudiri_name_uz':   "Qodirov Sirojiddin Erkinboyevich",
+        'mudiri_name_ru':   "Кодиров Сирожиддин Эркинбоевич",
+        'mudiri_name_en':   "Qodirov Sirojiddin Erkinboyevich",
+        'mudiri_phone':     "",
+        'mudiri_email':     "qodirov.sirojiddin@list.ru",
+        'mudiri_degree_uz': "Jismoniy tarbiya va sport fanlari nomzodi, dotsent",
+        'mudiri_degree_ru': "Кандидат наук по физической культуре и спорту, доцент",
+        'mudiri_degree_en': "Candidate of Sciences in Physical Education and Sports, Associate Professor",
         'sport_types_uz': (
             "Dzyudo\n"
             "Taekvondo WT\n"
@@ -219,6 +240,15 @@ DATA = [
         'decree_info': "PQ-197-son, 2022-yil 18-fevral",
         'phone':   "",
         'email':   "sobirovalaylo90@gmail.com",
+        # Mudiri
+        'mudiri_name_uz':   "Sobirova Laylo Baxromovna",
+        'mudiri_name_ru':   "Собирова Лайло Бахромовна",
+        'mudiri_name_en':   "Sobirova Laylo Baxromovna",
+        'mudiri_phone':     "",
+        'mudiri_email':     "sobirovalaylo90@gmail.com",
+        'mudiri_degree_uz': "Pedagogika fanlari nomzodi, dotsent",
+        'mudiri_degree_ru': "Кандидат педагогических наук, доцент",
+        'mudiri_degree_en': "Candidate of Pedagogical Sciences, Associate Professor",
         'sport_types_uz': "",
         'sport_types_ru': "",
         'sport_types_en': "",

@@ -10,6 +10,8 @@ from domains.activities.models import (
     SportStat,
     SportYonalish,
     SportTadbir,
+    AxborotVazifa,
+    AxborotXodim,
 )
 
 
@@ -358,5 +360,59 @@ class SportTadbirWriteSerializer(serializers.ModelSerializer):
             'description_uz', 'description_ru', 'description_en',
             'location_uz', 'location_ru', 'location_en',
             'event_date', 'order', 'is_active',
+        ]
+        read_only_fields = ['id']
+
+
+# ──────────────────────────── Axborot xizmati ────────────────────────────
+
+class AxborotVazifaSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = AxborotVazifa
+        fields = ['id', 'title', 'order']
+
+    def get_title(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+
+class AxborotVazifaWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = AxborotVazifa
+        fields = ['id', 'title_uz', 'title_ru', 'title_en', 'order', 'is_active']
+        read_only_fields = ['id']
+
+
+class AxborotXodimSerializer(serializers.ModelSerializer):
+    full_name = serializers.SerializerMethodField()
+    position  = serializers.SerializerMethodField()
+    photo_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = AxborotXodim
+        fields = ['id', 'full_name', 'position', 'phone', 'email', 'photo_url', 'order']
+
+    def get_full_name(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'full_name_{lang}') or obj.full_name_uz
+
+    def get_position(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'position_{lang}') or obj.position_uz
+
+    def get_photo_url(self, obj):
+        return _safe_file_url(obj.photo, self.context.get('request'))
+
+
+class AxborotXodimWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = AxborotXodim
+        fields = [
+            'id',
+            'full_name_uz', 'full_name_ru', 'full_name_en',
+            'position_uz', 'position_ru', 'position_en',
+            'phone', 'email', 'photo', 'order', 'is_active',
         ]
         read_only_fields = ['id']

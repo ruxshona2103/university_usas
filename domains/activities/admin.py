@@ -12,6 +12,8 @@ from .models import (
     SportStat,
     SportYonalish,
     SportTadbir,
+    AxborotVazifa,
+    AxborotXodim,
 )
 
 
@@ -245,4 +247,31 @@ class SportTadbirAdmin(admin.ModelAdmin):
         ("Sarlavha (Uz)", {'fields': ('title_uz', 'description_uz', 'location_uz')}),
         ("Ru / En", {'classes': ('collapse',), 'fields': ('title_ru', 'title_en', 'description_ru', 'description_en', 'location_ru', 'location_en')}),
         ("Meta", {'fields': ('event_date', 'order', 'is_active')}),
+    )
+
+
+@admin.register(AxborotVazifa)
+class AxborotVazifaAdmin(admin.ModelAdmin):
+    list_display  = ('__str__', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('title_uz', 'title_ru')
+
+    fieldsets = (
+        ("Vazifa (Uz)", {'fields': ('title_uz',)}),
+        ("Ru / En",     {'classes': ('collapse',), 'fields': ('title_ru', 'title_en')}),
+        ("Meta",        {'fields': ('order', 'is_active')}),
+    )
+
+
+@admin.register(AxborotXodim)
+class AxborotXodimAdmin(admin.ModelAdmin):
+    list_display  = ('full_name_uz', 'position_uz', 'phone', 'email', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('full_name_uz', 'full_name_ru', 'email')
+
+    fieldsets = (
+        ("Xodim (Uz)", {'fields': ('full_name_uz', 'position_uz')}),
+        ("Ru / En",    {'classes': ('collapse',), 'fields': ('full_name_ru', 'full_name_en', 'position_ru', 'position_en')}),
+        ("Kontakt",    {'fields': ('phone', 'email', 'photo')}),
+        ("Meta",       {'fields': ('order', 'is_active')}),
     )

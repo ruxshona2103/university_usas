@@ -5,6 +5,7 @@ from .ilmiy_faoliyat           import IlmiyFaoliyat
 from .sport_stat               import SportStat
 from .sport_yonalish           import SportYonalish
 from .sport_tadbir             import SportTadbir
+from .axborot_xizmati          import AxborotVazifa, AxborotXodim
 
 __all__ = [
     'ContractPrice',
@@ -14,4 +15,6 @@ __all__ = [
     'SportStat',
     'SportYonalish',
     'SportTadbir',
+    'AxborotVazifa',
+    'AxborotXodim',
 ]

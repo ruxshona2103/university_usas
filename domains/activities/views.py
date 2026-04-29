@@ -14,6 +14,8 @@ from domains.activities.models import (
     SportStat,
     SportYonalish,
     SportTadbir,
+    AxborotVazifa,
+    AxborotXodim,
 )
 from .serializers import (
     ContractPriceSerializer, ServiceVehicleSerializer,
@@ -26,6 +28,8 @@ from .serializers import (
     SportStatSerializer, SportStatWriteSerializer,
     SportYonalishSerializer, SportYonalishWriteSerializer,
     SportTadbirSerializer, SportTadbirWriteSerializer,
+    AxborotVazifaSerializer, AxborotVazifaWriteSerializer,
+    AxborotXodimSerializer, AxborotXodimWriteSerializer,
 )
 
 
@@ -396,6 +400,70 @@ class SportTadbirDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_serializer_class(self):
         return SportTadbirSerializer if self.request.method == 'GET' else SportTadbirWriteSerializer
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+# ──────────────────────────── Axborot xizmati ────────────────────────────
+
+@extend_schema(tags=['axborot-xizmati'], summary="Axborot xizmati vazifalari ro'yxati")
+class AxborotVazifaListCreateAPIView(generics.ListCreateAPIView):
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_serializer_class(self):
+        return AxborotVazifaWriteSerializer if self.request.method == 'POST' else AxborotVazifaSerializer
+
+    def get_queryset(self):
+        return AxborotVazifa.objects.filter(is_active=True).order_by('order')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['axborot-xizmati'], summary="Axborot vazifasi — yangilash / o'chirish")
+class AxborotVazifaDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [AllowAny]
+    queryset           = AxborotVazifa.objects.all()
+
+    def get_serializer_class(self):
+        return AxborotVazifaSerializer if self.request.method == 'GET' else AxborotVazifaWriteSerializer
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['axborot-xizmati'], summary="Axborot xizmati xodimlari ro'yxati")
+class AxborotXodimListCreateAPIView(generics.ListCreateAPIView):
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_serializer_class(self):
+        return AxborotXodimWriteSerializer if self.request.method == 'POST' else AxborotXodimSerializer
+
+    def get_queryset(self):
+        return AxborotXodim.objects.filter(is_active=True).order_by('order')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['axborot-xizmati'], summary="Axborot xizmati xodimi — yangilash / o'chirish")
+class AxborotXodimDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [AllowAny]
+    queryset           = AxborotXodim.objects.all()
+
+    def get_serializer_class(self):
+        return AxborotXodimSerializer if self.request.method == 'GET' else AxborotXodimWriteSerializer
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

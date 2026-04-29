@@ -16,6 +16,10 @@ from .views import (
     SportYonalishDetailAPIView,
     SportTadbirListCreateAPIView,
     SportTadbirDetailAPIView,
+    AxborotVazifaListCreateAPIView,
+    AxborotVazifaDetailAPIView,
+    AxborotXodimListCreateAPIView,
+    AxborotXodimDetailAPIView,
 )
 
 urlpatterns = [
@@ -29,6 +33,12 @@ urlpatterns = [
     path('activities/sport/yonalishlar/<uuid:pk>/',    SportYonalishDetailAPIView.as_view(),     name='sport-yonalish-detail'),
     path('activities/sport/tadbirlar/',                SportTadbirListCreateAPIView.as_view(),   name='sport-tadbirlar'),
     path('activities/sport/tadbirlar/<uuid:pk>/',      SportTadbirDetailAPIView.as_view(),       name='sport-tadbir-detail'),
+
+    # ── Axborot xizmati ─────────────────────────────────────────────────────
+    path('activities/axborot/vazifalar/',           AxborotVazifaListCreateAPIView.as_view(),  name='axborot-vazifalar'),
+    path('activities/axborot/vazifalar/<uuid:pk>/', AxborotVazifaDetailAPIView.as_view(),      name='axborot-vazifa-detail'),
+    path('activities/axborot/xodimlar/',            AxborotXodimListCreateAPIView.as_view(),   name='axborot-xodimlar'),
+    path('activities/axborot/xodimlar/<uuid:pk>/',  AxborotXodimDetailAPIView.as_view(),       name='axborot-xodim-detail'),
 
     # ── Faoliyat kategoriyalar ───────────────────────────────────────────────
     path('activities/faoliyat/categories/',                      IlmiyFaoliyatCategoryListAPIView.as_view(),     name='faoliyat-categories'),

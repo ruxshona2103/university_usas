@@ -5,6 +5,7 @@ from .views import (
     NewsListAPIView, NewsDetailAPIView, NewsDetailByIdAPIView,
     EventListAPIView, EventDetailAPIView, EventDetailByIdAPIView,
     BlogListAPIView, BlogDetailAPIView, BlogDetailByIdAPIView,
+    KorrupsiyaListAPIView, KorrupsiyaDetailAPIView, KorrupsiyaDetailByIdAPIView,
     InformationContentListAPIView,
 )
 
@@ -20,5 +21,8 @@ urlpatterns = [
     path('blogs/<uuid:pk>/',            BlogDetailByIdAPIView.as_view(),      name='blog-detail-id'),
     path('blogs/<slug:slug>/',          BlogDetailAPIView.as_view(),          name='blog-detail'),
     path('blogs/',                      BlogListAPIView.as_view(),            name='blogs-list'),
+    path('korrupsiya/<uuid:pk>/',       KorrupsiyaDetailByIdAPIView.as_view(), name='korrupsiya-detail-id'),
+    path('korrupsiya/<slug:slug>/',     KorrupsiyaDetailAPIView.as_view(),    name='korrupsiya-detail'),
+    path('korrupsiya/',                 KorrupsiyaListAPIView.as_view(),      name='korrupsiya-list'),
     path('information/',                InformationContentListAPIView.as_view(), name='information-list'),
 ]

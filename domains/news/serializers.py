@@ -3,7 +3,7 @@ from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.openapi import OpenApiTypes
 
 from common.models import ContentImage
-from domains.news.models import Article, News, Event, Blog, InformationContent, InformationImage, NewsCategory
+from domains.news.models import Article, News, Event, Blog, Korrupsiya, InformationContent, InformationImage, NewsCategory
 
 
 
@@ -164,6 +164,27 @@ class BlogSerializer(PublishableMixin, serializers.ModelSerializer):
         if obj.author:
             return obj.author.get_full_name() or obj.author.username
         return None
+
+
+class KorrupsiyaSerializer(PublishableMixin, serializers.ModelSerializer):
+    title         = serializers.SerializerMethodField()
+    description   = serializers.SerializerMethodField()
+    tavsif        = serializers.SerializerMethodField()
+    image         = serializers.SerializerMethodField()
+    date          = serializers.SerializerMethodField()
+    images        = serializers.SerializerMethodField()
+    badgeCategory = serializers.SerializerMethodField()
+    categories    = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = Korrupsiya
+        fields = [
+            'id', 'image', 'images',
+            'title', 'description', 'tavsif',
+            'date', 'slug',
+            'badgeCategory', 'categories',
+            'views', 'likes', 'comments',
+        ]
 
 
 class InformationImageSerializer(serializers.ModelSerializer):

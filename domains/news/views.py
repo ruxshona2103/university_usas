@@ -6,9 +6,9 @@ from drf_spectacular.openapi import OpenApiTypes
 
 from common.pagination import CustomDashboardPagination
 from rest_framework.generics import get_object_or_404
-from domains.news.models import News, Event, Blog, InformationContent, NewsCategory
+from domains.news.models import News, Event, Blog, Korrupsiya, InformationContent, NewsCategory
 from .serializers import (
-    NewsSerializer, EventSerializer, BlogSerializer,
+    NewsSerializer, EventSerializer, BlogSerializer, KorrupsiyaSerializer,
     InformationContentSerializer, NewsCategorySerializer,
 )
 
@@ -123,6 +123,43 @@ class BlogListAPIView(BaseContentListAPIView):
         if cat:
             qs = qs.filter(categories__slug=cat)
         return qs
+
+
+@extend_schema(tags=['korrupsiya'], summary="Korrupsiyaga qarshi kurash — ro'yxat")
+class KorrupsiyaListAPIView(BaseContentListAPIView):
+    serializer_class = KorrupsiyaSerializer
+
+    def get_queryset(self):
+        qs = Korrupsiya.objects.filter(is_published=True).prefetch_related('images', 'categories')
+        cat = self.request.query_params.get('category')
+        if cat:
+            qs = qs.filter(categories__slug=cat)
+        return qs
+
+
+@extend_schema(tags=['korrupsiya'], summary="Korrupsiyaga qarshi kurash — slug bo'yicha")
+class KorrupsiyaDetailAPIView(generics.RetrieveAPIView):
+    serializer_class   = KorrupsiyaSerializer
+    permission_classes = [AllowAny]
+    queryset           = Korrupsiya.objects.filter(is_published=True).prefetch_related('images', 'categories')
+    lookup_field       = 'slug'
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['korrupsiya'], summary="Korrupsiyaga qarshi kurash — ID bo'yicha")
+class KorrupsiyaDetailByIdAPIView(generics.RetrieveAPIView):
+    serializer_class   = KorrupsiyaSerializer
+    permission_classes = [AllowAny]
+    queryset           = Korrupsiya.objects.filter(is_published=True).prefetch_related('images', 'categories')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
 
 
 @extend_schema(tags=['news'], summary="Yangilik kategoriyasi — slug bo'yicha")

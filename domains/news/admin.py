@@ -5,7 +5,7 @@ from django.utils.html import format_html
 from common.models import ContentImage
 from .models import (
     Article, ArticleType,
-    News, Event, Blog, NewsCategory,
+    News, Event, Blog, Korrupsiya, NewsCategory,
     InformationContent, InformationImage,
     RectorActivity, Briefing, Contest, PressService, PhotoGallery, VideoGallery,
 )
@@ -200,7 +200,43 @@ class BlogAdmin(ArticleAdminBase):
 
 
 
-# AXBOROT XIZMATI 
+@admin.register(Korrupsiya)
+class KorrupsiyaAdmin(ArticleAdminBase):
+    list_display  = ('title_uz', 'date', 'is_published', 'views_badge', 'image_preview')
+    list_editable = ('is_published',)
+    list_filter   = ('is_published', 'date')
+    inlines       = [ArticleImageInline]
+
+    fieldsets = (
+        ("O'zbek tili (majburiy)", {
+            'fields': ('image', 'image_preview', 'title_uz', 'description_uz'),
+        }),
+        ("Rus tili", {
+            'classes': ('collapse',),
+            'fields': ('title_ru', 'description_ru'),
+        }),
+        ("Ingliz tili", {
+            'classes': ('collapse',),
+            'fields': ('title_en', 'description_en'),
+        }),
+        ("Holat", {
+            'fields': ('date', 'categories', 'keywords', 'is_published'),
+        }),
+        ("Texnik (avtomatik)", {
+            'classes': ('collapse',),
+            'fields': ('slug', 'views', 'likes', 'comments', 'created_at', 'updated_at'),
+        }),
+    )
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(article_type=ArticleType.KORRUPSIYA)
+
+    def save_model(self, request, obj, form, change):
+        obj.article_type = ArticleType.KORRUPSIYA
+        super().save_model(request, obj, form, change)
+
+
+# AXBOROT XIZMATI
 class InformationImageInline(admin.TabularInline):
     model   = InformationImage
     extra   = 1

@@ -46,9 +46,10 @@ class NewsCategory(TimeStampedModel):
 
 # Article — bitta jadval, uch turdagi kontent
 class ArticleType(models.TextChoices):
-    NEWS  = 'news',  'Yangilik'
-    EVENT = 'event', 'Tadbir'
-    BLOG  = 'blog',  'Blog'
+    NEWS       = 'news',       'Yangilik'
+    EVENT      = 'event',      'Tadbir'
+    BLOG       = 'blog',       'Blog'
+    KORRUPSIYA = 'korrupsiya', 'Korrupsiyaga qarshi kurash'
 
 
 
@@ -181,6 +182,23 @@ class Blog(Article):
         self.article_type = ArticleType.BLOG
         super().save(*args, **kwargs)
 
+
+class KorrupsiyaManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(article_type=ArticleType.KORRUPSIYA)
+
+
+class Korrupsiya(Article):
+    objects = KorrupsiyaManager()
+
+    class Meta:
+        proxy               = True
+        verbose_name        = "Korrupsiyaga qarshi kurash"
+        verbose_name_plural = "Korrupsiyaga qarshi kurash"
+
+    def save(self, *args, **kwargs):
+        self.article_type = ArticleType.KORRUPSIYA
+        super().save(*args, **kwargs)
 
 
 # InformationContent — Axborot xizmati (o'zgarishsiz)

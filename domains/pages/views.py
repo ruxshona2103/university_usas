@@ -33,6 +33,15 @@ def _lang(request):
     return lang if lang in ('uz', 'ru', 'en') else 'uz'
 
 
+def _abs_url(request, field):
+    if not field:
+        return None
+    try:
+        return request.build_absolute_uri(field.url) if request else field.url
+    except Exception:
+        return None
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Site-wide endpoints
 # ──────────────────────────────────────────────────────────────────────────────
@@ -278,6 +287,8 @@ class AboutAcademyAPIView(APIView):
         programs = AboutAcademyProgram.objects.filter(about=solo)
 
         result = {
+            'logo_url':   _abs_url(request, solo.logo),
+            'image_url':  _abs_url(request, solo.image),
             'description': getattr(solo, f'description_{lang}') or solo.description_uz,
             'sections': {},
         }

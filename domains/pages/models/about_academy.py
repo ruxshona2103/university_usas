@@ -10,6 +10,9 @@ class AboutAcademy(TimeStampedModel):
 
     SINGLETON_PK = uuid.UUID('30000000-0000-0000-0000-000000000001')
 
+    logo  = models.ImageField(upload_to='about_academy/', blank=True, null=True, verbose_name="Logo")
+    image = models.ImageField(upload_to='about_academy/', blank=True, null=True, verbose_name="Asosiy rasm")
+
     description_uz = models.TextField(verbose_name="Tavsif (Uz)")
     description_ru = models.TextField(blank=True, verbose_name="Tavsif (Ru)")
     description_en = models.TextField(blank=True, verbose_name="Tavsif (En)")

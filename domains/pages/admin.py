@@ -544,6 +544,9 @@ class AboutAcademyAdmin(admin.ModelAdmin):
     inlines         = [AboutAcademySectionInline, AboutAcademyProgramInline]
     readonly_fields = ('created_at', 'updated_at')
     fieldsets = (
+        ("Media", {
+            'fields': ('logo', 'image'),
+        }),
         ("Akademiya tavsifi", {
             'fields': ('description_uz', 'description_ru', 'description_en'),
         }),

@@ -6,7 +6,7 @@ from drf_spectacular.openapi import OpenApiTypes
 
 from common.pagination import CustomDashboardPagination
 from rest_framework.generics import get_object_or_404
-from domains.news.models import News, Event, Blog, Korrupsiya, InformationContent, NewsCategory
+from domains.news.models import News, Event, Blog, Korrupsiya, InformationContent, Elon, NewsCategory
 from .serializers import (
     NewsSerializer, EventSerializer, BlogSerializer, KorrupsiyaSerializer,
     InformationContentSerializer, NewsCategorySerializer,
@@ -262,6 +262,42 @@ class BlogDetailByIdAPIView(generics.RetrieveAPIView):
 
     def get_queryset(self):
         return Blog.objects.filter(is_published=True).select_related('author').prefetch_related('images', 'categories')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['elon'], summary="E'lonlar ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM, _DATE_FROM_PARAM, _DATE_TO_PARAM])
+class ElonListAPIView(BaseContentListAPIView):
+    """?lang=uz|ru|en  ?date_from=YYYY-MM-DD  ?date_to=YYYY-MM-DD"""
+    serializer_class = InformationContentSerializer
+
+    def get_queryset(self):
+        qs = (
+            InformationContent.objects
+            .filter(is_published=True, content_type='elon')
+            .prefetch_related('images')
+            .order_by('-date', '-created_at')
+        )
+        date_from = self.request.query_params.get('date_from')
+        date_to   = self.request.query_params.get('date_to')
+        if date_from:
+            qs = qs.filter(date__date__gte=date_from)
+        if date_to:
+            qs = qs.filter(date__date__lte=date_to)
+        return qs
+
+
+@extend_schema(tags=['elon'], summary="E'lon — ID bo'yicha")
+class ElonDetailAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = InformationContentSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return InformationContent.objects.filter(is_published=True, content_type='elon').prefetch_related('images')
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

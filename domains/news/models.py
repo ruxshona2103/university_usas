@@ -207,6 +207,7 @@ class InformationContentType(models.TextChoices):
     RECTOR   = 'rector',   'Rektor tadbirlari va nutqlari'
     BRIEFING = 'briefing', 'Brifinglar'
     CONTEST  = 'contest',  'Tanlovlar'
+    ELON     = 'elon',     "E'lonlar"
     PRESS    = 'press',    'Matbuot xizmati'
     PHOTO    = 'photo',    'Fotogalereya'
     VIDEO    = 'video',    'Videogalereya'
@@ -270,6 +271,13 @@ class Contest(InformationContent):
         proxy               = True
         verbose_name        = "Tanlov"
         verbose_name_plural = "Tanlovlar"
+
+
+class Elon(InformationContent):
+    class Meta:
+        proxy               = True
+        verbose_name        = "E'lon"
+        verbose_name_plural = "E'lonlar"
 
 
 class PressService(InformationContent):

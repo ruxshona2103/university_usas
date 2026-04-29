@@ -6,6 +6,7 @@ from .views import (
     EventListAPIView, EventDetailAPIView, EventDetailByIdAPIView,
     BlogListAPIView, BlogDetailAPIView, BlogDetailByIdAPIView,
     KorrupsiyaListAPIView, KorrupsiyaDetailAPIView, KorrupsiyaDetailByIdAPIView,
+    ElonListAPIView, ElonDetailAPIView,
     InformationContentListAPIView,
 )
 
@@ -24,5 +25,7 @@ urlpatterns = [
     path('korrupsiya/<uuid:pk>/',       KorrupsiyaDetailByIdAPIView.as_view(), name='korrupsiya-detail-id'),
     path('korrupsiya/<slug:slug>/',     KorrupsiyaDetailAPIView.as_view(),    name='korrupsiya-detail'),
     path('korrupsiya/',                 KorrupsiyaListAPIView.as_view(),      name='korrupsiya-list'),
+    path('elon/<uuid:pk>/',             ElonDetailAPIView.as_view(),          name='elon-detail'),
+    path('elon/',                       ElonListAPIView.as_view(),            name='elon-list'),
     path('information/',                InformationContentListAPIView.as_view(), name='information-list'),
 ]

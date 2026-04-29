@@ -7,7 +7,7 @@ from .models import (
     Article, ArticleType,
     News, Event, Blog, Korrupsiya, NewsCategory,
     InformationContent, InformationImage,
-    RectorActivity, Briefing, Contest, PressService, PhotoGallery, VideoGallery,
+    RectorActivity, Briefing, Contest, Elon, PressService, PhotoGallery, VideoGallery,
 )
 
 
@@ -319,6 +319,24 @@ class TanlovAdmin(InformationContentAdminBase):
 
     def save_model(self, request, obj, form, change):
         obj.content_type = 'contest'
+        super().save_model(request, obj, form, change)
+
+    def get_fieldsets(self, request, obj=None):
+        return [
+            (name, {**opts, 'fields': [f for f in opts['fields'] if f != 'content_type']})
+            for name, opts in super().get_fieldsets(request, obj)
+        ]
+
+
+@admin.register(Elon)
+class ElonAdmin(InformationContentAdminBase):
+    INFO_GUIDE_TEXT = "Navbar sahifasi → 'Axborot xizmati → E'lonlar' ni tanlang."
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(content_type='elon')
+
+    def save_model(self, request, obj, form, change):
+        obj.content_type = 'elon'
         super().save_model(request, obj, form, change)
 
     def get_fieldsets(self, request, obj=None):

@@ -6,7 +6,15 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 
-from domains.activities.models import ContractPrice, ServiceVehicle, IlmiyFaoliyat, IlmiyFaoliyatCategory
+from domains.activities.models import (
+    ContractPrice,
+    ServiceVehicle,
+    IlmiyFaoliyat,
+    IlmiyFaoliyatCategory,
+    SportStat,
+    SportYonalish,
+    SportTadbir,
+)
 from .serializers import (
     ContractPriceSerializer, ServiceVehicleSerializer,
     IlmiyFaoliyatSerializer,
@@ -15,6 +23,9 @@ from .serializers import (
     IlmiyFaoliyatCategoryTreeSerializer,
     FaoliyatSubcategoryWriteSerializer,
     IlmiyFaoliyatWriteSerializer,
+    SportStatSerializer, SportStatWriteSerializer,
+    SportYonalishSerializer, SportYonalishWriteSerializer,
+    SportTadbirSerializer, SportTadbirWriteSerializer,
 )
 
 
@@ -67,27 +78,84 @@ class ServiceVehicleListAPIView(generics.ListAPIView):
         return ctx
 
 
-@extend_schema(
-    tags=['activities'],
-    summary="API 1 — Asosiy kategoriyalar ro'yxati",
-    description="Faqat ildiz (parent=null) kategoriyalar. Sahifa: /faoliyat/oquv  ?lang=uz|ru|en",
-)
-class IlmiyFaoliyatCategoryListAPIView(generics.ListAPIView):
-    serializer_class   = IlmiyFaoliyatCategorySimpleSerializer
+@extend_schema(tags=['activities'], summary="Sport statistika")
+class SportStatListAPIView(generics.ListAPIView):
+    serializer_class = SportStatSerializer
     permission_classes = [AllowAny]
-    pagination_class   = None
+    pagination_class = None
 
     def get_queryset(self):
-        return (
-            IlmiyFaoliyatCategory.objects
-            .filter(parent=None)
-            .order_by('order')
-        )
+        return SportStat.objects.filter(is_active=True).order_by('order')
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()
         ctx['lang'] = _lang(self.request)
         return ctx
+
+
+@extend_schema(tags=['activities'], summary="Sport yo'nalishlari")
+class SportYonalishListAPIView(generics.ListAPIView):
+    serializer_class = SportYonalishSerializer
+    permission_classes = [AllowAny]
+    pagination_class = None
+
+    def get_queryset(self):
+        return SportYonalish.objects.filter(is_active=True).order_by('order')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['activities'], summary="Yillik sport tadbirlari")
+class SportTadbirListAPIView(generics.ListAPIView):
+    serializer_class = SportTadbirSerializer
+    permission_classes = [AllowAny]
+    pagination_class = None
+
+    def get_queryset(self):
+        return SportTadbir.objects.filter(is_active=True).order_by('order', 'event_date')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(
+    tags=['activities'],
+    summary="API 1 — Asosiy kategoriyalar ro'yxati",
+    description="Faqat ildiz (parent=null) kategoriyalar. Sahifa: /faoliyat/oquv  ?lang=uz|ru|en",
+)
+class IlmiyFaoliyatCategoryListAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        lang = _lang(request)
+        context = {'request': request, 'lang': lang}
+
+        stats = SportStatSerializer(
+            SportStat.objects.filter(is_active=True).order_by('order'),
+            many=True,
+            context=context,
+        ).data
+        yonalishlar = SportYonalishSerializer(
+            SportYonalish.objects.filter(is_active=True).order_by('order'),
+            many=True,
+            context=context,
+        ).data
+        tadbirlar = SportTadbirSerializer(
+            SportTadbir.objects.filter(is_active=True).order_by('order', 'event_date'),
+            many=True,
+            context=context,
+        ).data
+
+        return Response({
+            'stats': stats,
+            'yonalishlar': yonalishlar,
+            'tadbirlar': tadbirlar,
+        })
 
 
 @extend_schema(
@@ -233,6 +301,101 @@ class FaoliyatSubcategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
         if self.request.method == 'GET':
             return IlmiyFaoliyatCategorySimpleSerializer
         return FaoliyatSubcategoryWriteSerializer
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+# ──────────────────── Sport Faoliyat sahifasi viewlari ────────────────────────
+
+@extend_schema(tags=['sport-faoliyat'], summary="Statistika kartochkalari (15+, 500+, 50+)")
+class SportStatListCreateAPIView(generics.ListCreateAPIView):
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_serializer_class(self):
+        return SportStatWriteSerializer if self.request.method == 'POST' else SportStatSerializer
+
+    def get_queryset(self):
+        return SportStat.objects.filter(is_active=True).order_by('order')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['sport-faoliyat'], summary="Statistika — yangilash / o'chirish")
+class SportStatDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [AllowAny]
+    queryset           = SportStat.objects.all()
+
+    def get_serializer_class(self):
+        return SportStatSerializer if self.request.method == 'GET' else SportStatWriteSerializer
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['sport-faoliyat'], summary="Sport yo'nalishlari (Kurash, Suzish, Atletika…)")
+class SportYonalishListCreateAPIView(generics.ListCreateAPIView):
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_serializer_class(self):
+        return SportYonalishWriteSerializer if self.request.method == 'POST' else SportYonalishSerializer
+
+    def get_queryset(self):
+        return SportYonalish.objects.filter(is_active=True).order_by('order')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['sport-faoliyat'], summary="Sport yo'nalishi — yangilash / o'chirish")
+class SportYonalishDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [AllowAny]
+    queryset           = SportYonalish.objects.all()
+
+    def get_serializer_class(self):
+        return SportYonalishSerializer if self.request.method == 'GET' else SportYonalishWriteSerializer
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['sport-faoliyat'], summary="Yillik tadbirlar ro'yxati")
+class SportTadbirListCreateAPIView(generics.ListCreateAPIView):
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_serializer_class(self):
+        return SportTadbirWriteSerializer if self.request.method == 'POST' else SportTadbirSerializer
+
+    def get_queryset(self):
+        return SportTadbir.objects.filter(is_active=True).order_by('order', 'event_date')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['sport-faoliyat'], summary="Tadbir — yangilash / o'chirish")
+class SportTadbirDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [AllowAny]
+    queryset           = SportTadbir.objects.all()
+
+    def get_serializer_class(self):
+        return SportTadbirSerializer if self.request.method == 'GET' else SportTadbirWriteSerializer
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

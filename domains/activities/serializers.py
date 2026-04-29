@@ -2,7 +2,15 @@ from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.openapi import OpenApiTypes
 
-from domains.activities.models import ContractPrice, ServiceVehicle, IlmiyFaoliyat, IlmiyFaoliyatCategory
+from domains.activities.models import (
+    ContractPrice,
+    ServiceVehicle,
+    IlmiyFaoliyat,
+    IlmiyFaoliyatCategory,
+    SportStat,
+    SportYonalish,
+    SportTadbir,
+)
 
 
 def _safe_file_url(field, request=None):
@@ -267,3 +275,88 @@ class IlmiyFaoliyatCategorySerializer(serializers.ModelSerializer):
             result.append({'type': 'structure-links', 'data': group})
 
         return result
+
+
+# ──────────────────────────── Sport Faoliyat sahifasi ────────────────────────────
+
+class SportStatSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = SportStat
+        fields = ['id', 'value', 'suffix', 'title', 'color', 'order']
+
+    def get_title(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+
+class SportStatWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = SportStat
+        fields = ['id', 'title_uz', 'title_ru', 'title_en', 'value', 'suffix', 'color', 'order', 'is_active']
+        read_only_fields = ['id']
+
+
+class SportYonalishSerializer(serializers.ModelSerializer):
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = SportYonalish
+        fields = ['id', 'icon', 'title', 'description', 'order']
+
+    def get_title(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    def get_description(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'description_{lang}') or obj.description_uz or ''
+
+
+class SportYonalishWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = SportYonalish
+        fields = [
+            'id', 'icon',
+            'title_uz', 'title_ru', 'title_en',
+            'description_uz', 'description_ru', 'description_en',
+            'order', 'is_active',
+        ]
+        read_only_fields = ['id']
+
+
+class SportTadbirSerializer(serializers.ModelSerializer):
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    location    = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = SportTadbir
+        fields = ['id', 'title', 'description', 'location', 'event_date', 'order']
+
+    def get_title(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    def get_description(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'description_{lang}') or obj.description_uz or ''
+
+    def get_location(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'location_{lang}') or obj.location_uz or ''
+
+
+class SportTadbirWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = SportTadbir
+        fields = [
+            'id',
+            'title_uz', 'title_ru', 'title_en',
+            'description_uz', 'description_ru', 'description_en',
+            'location_uz', 'location_ru', 'location_en',
+            'event_date', 'order', 'is_active',
+        ]
+        read_only_fields = ['id']

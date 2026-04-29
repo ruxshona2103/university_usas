@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'domains.activities',
     'domains.axborot',
     'domains.infra',
-
 ]
 
 MIDDLEWARE = [

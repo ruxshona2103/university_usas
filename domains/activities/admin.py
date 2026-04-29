@@ -4,7 +4,15 @@ from django.http import JsonResponse
 from django.urls import path
 from django.utils.html import format_html
 
-from .models import ContractPrice, ServiceVehicle, IlmiyFaoliyatCategory, IlmiyFaoliyat
+from .models import (
+    ContractPrice,
+    ServiceVehicle,
+    IlmiyFaoliyatCategory,
+    IlmiyFaoliyat,
+    SportStat,
+    SportYonalish,
+    SportTadbir,
+)
 
 
 class OquvFaoliyatAdminForm(forms.ModelForm):
@@ -199,3 +207,42 @@ class OquvFaoliyatAdmin(admin.ModelAdmin):
         return "—"
  
  
+
+@admin.register(SportStat)
+class SportStatAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'value', 'suffix', 'color', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('title_uz', 'title_ru')
+
+    fieldsets = (
+        ("Qiymat", {'fields': ('value', 'suffix', 'color')}),
+        ("Tavsif (Uz)", {'fields': ('title_uz',)}),
+        ("Tavsif (Ru / En)", {'classes': ('collapse',), 'fields': ('title_ru', 'title_en')}),
+        ("Meta", {'fields': ('order', 'is_active')}),
+    )
+
+
+@admin.register(SportYonalish)
+class SportYonalishAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'icon', 'description_uz', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('title_uz', 'title_ru')
+
+    fieldsets = (
+        ("Asosiy", {'fields': ('icon', 'title_uz', 'description_uz')}),
+        ("Ru / En", {'classes': ('collapse',), 'fields': ('title_ru', 'title_en', 'description_ru', 'description_en')}),
+        ("Meta", {'fields': ('order', 'is_active')}),
+    )
+
+
+@admin.register(SportTadbir)
+class SportTadbirAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'event_date', 'location_uz', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('title_uz', 'title_ru')
+
+    fieldsets = (
+        ("Sarlavha (Uz)", {'fields': ('title_uz', 'description_uz', 'location_uz')}),
+        ("Ru / En", {'classes': ('collapse',), 'fields': ('title_ru', 'title_en', 'description_ru', 'description_en', 'location_ru', 'location_en')}),
+        ("Meta", {'fields': ('event_date', 'order', 'is_active')}),
+    )

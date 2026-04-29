@@ -10,27 +10,34 @@ from .views import (
     IlmiyFaoliyatListAPIView,
     IlmiyFaoliyatDetailAPIView,
     FaoliyatSubcategoryDetailAPIView,
+    SportStatListCreateAPIView,
+    SportStatDetailAPIView,
+    SportYonalishListCreateAPIView,
+    SportYonalishDetailAPIView,
+    SportTadbirListCreateAPIView,
+    SportTadbirDetailAPIView,
 )
 
 urlpatterns = [
-    path('activities/contract-prices/',                          ContractPriceListAPIView.as_view(),          name='contract-prices'),
-    path('activities/vehicles/',                                 ServiceVehicleListAPIView.as_view(),         name='service-vehicles'),
+    path('activities/contract-prices/',  ContractPriceListAPIView.as_view(),  name='contract-prices'),
+    path('activities/vehicles/',         ServiceVehicleListAPIView.as_view(), name='service-vehicles'),
 
-    # API 1 — asosiy kategoriyalar (parent=null)
+    # ── Sport faoliyat sahifasi ──────────────────────────────────────────────
+    path('activities/sport/stats/',                    SportStatListCreateAPIView.as_view(),    name='sport-stats'),
+    path('activities/sport/stats/<uuid:pk>/',          SportStatDetailAPIView.as_view(),        name='sport-stat-detail'),
+    path('activities/sport/yonalishlar/',              SportYonalishListCreateAPIView.as_view(), name='sport-yonalishlar'),
+    path('activities/sport/yonalishlar/<uuid:pk>/',    SportYonalishDetailAPIView.as_view(),     name='sport-yonalish-detail'),
+    path('activities/sport/tadbirlar/',                SportTadbirListCreateAPIView.as_view(),   name='sport-tadbirlar'),
+    path('activities/sport/tadbirlar/<uuid:pk>/',      SportTadbirDetailAPIView.as_view(),       name='sport-tadbir-detail'),
+
+    # ── Faoliyat kategoriyalar ───────────────────────────────────────────────
     path('activities/faoliyat/categories/',                      IlmiyFaoliyatCategoryListAPIView.as_view(),     name='faoliyat-categories'),
-
-    # API 4 — barcha kategoriyalar + sub-kategoriyalar + fayllar (bir so'rovda)
     path('activities/faoliyat/categories/full/',                 IlmiyFaoliyatCategoryFullListAPIView.as_view(), name='faoliyat-categories-full'),
-
-    # API 2 — kategoriya bolalari (sub-kategoriyalar)
     path('activities/faoliyat/categories/<slug:slug>/children/', IlmiyFaoliyatCategoryChildrenAPIView.as_view(), name='faoliyat-category-children'),
-
-    # API 3 — kategoriya fayllari (leaf items)
     path('activities/faoliyat/categories/<slug:slug>/items/',    IlmiyFaoliyatCategoryItemsAPIView.as_view(),    name='faoliyat-category-items'),
 
-    path('activities/faoliyat/',                                 IlmiyFaoliyatListAPIView.as_view(),             name='faoliyat-list'),
-    path('activities/faoliyat/<uuid:pk>/',                       IlmiyFaoliyatDetailAPIView.as_view(),           name='faoliyat-detail'),
-
-    # Sub-kategoriya tahrirlash / o'chirish (PUT, PATCH, DELETE, GET by uuid)
-    path('activities/faoliyat/subcategories/<uuid:pk>/',         FaoliyatSubcategoryDetailAPIView.as_view(),     name='faoliyat-subcategory-detail'),
+    # ── Faoliyat itemlar ─────────────────────────────────────────────────────
+    path('activities/faoliyat/',             IlmiyFaoliyatListAPIView.as_view(),         name='faoliyat-list'),
+    path('activities/faoliyat/<uuid:pk>/',   IlmiyFaoliyatDetailAPIView.as_view(),       name='faoliyat-detail'),
+    path('activities/faoliyat/subcategories/<uuid:pk>/', FaoliyatSubcategoryDetailAPIView.as_view(), name='faoliyat-subcategory-detail'),
 ]

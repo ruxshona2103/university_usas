@@ -74,35 +74,26 @@ class KafedraRasmSerializer(serializers.ModelSerializer):
 
 
 class KafedraXodimSerializer(serializers.ModelSerializer):
+    """Professor-o'qituvchilar tarkibi — faqat rasm, ism, lavozim."""
     full_name = serializers.SerializerMethodField()
-    position  = serializers.SerializerMethodField()
-    email     = serializers.SerializerMethodField()
-    phone     = serializers.SerializerMethodField()
+    lavozim   = serializers.SerializerMethodField()
     photo_url = serializers.SerializerMethodField()
 
     class Meta:
         model  = KafedraXodim
-        fields = ['id', 'full_name', 'position', 'email', 'phone', 'photo_url', 'order']
+        fields = ['id', 'full_name', 'lavozim', 'photo_url', 'order']
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_full_name(self, obj):
         return obj.person.full_name_uz
 
     @extend_schema_field(OpenApiTypes.OBJECT)
-    def get_position(self, obj):
+    def get_lavozim(self, obj):
         return {
             'uz': obj.person.title_uz or '',
             'ru': obj.person.title_ru or '',
             'en': obj.person.title_en or '',
         }
-
-    @extend_schema_field(OpenApiTypes.STR)
-    def get_email(self, obj):
-        return obj.person.email or ''
-
-    @extend_schema_field(OpenApiTypes.STR)
-    def get_phone(self, obj):
-        return obj.person.phone or ''
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_photo_url(self, obj):
@@ -116,16 +107,11 @@ class KafedraXodimSerializer(serializers.ModelSerializer):
 
 
 class KafedraPublicationSerializer(serializers.ModelSerializer):
-    title    = serializers.SerializerMethodField()
     cover_url = serializers.SerializerMethodField()
 
     class Meta:
         model  = KafedraPublication
-        fields = ['id', 'title', 'author', 'pub_type', 'cover_url', 'order']
-
-    @extend_schema_field(OpenApiTypes.OBJECT)
-    def get_title(self, obj):
-        return {'uz': obj.title_uz or '', 'ru': obj.title_ru or '', 'en': obj.title_en or ''}
+        fields = ['id', 'cover_url', 'order']
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_cover_url(self, obj):
@@ -170,7 +156,7 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
     vice_dean          = serializers.SerializerMethodField()
     mudiri             = serializers.SerializerMethodField()
     publications       = KafedraPublicationSerializer(many=True, read_only=True)
-    xodimlar           = KafedraXodimSerializer(many=True, read_only=True)
+    professor_tarkibi  = serializers.SerializerMethodField()
     rasmlar            = KafedraRasmSerializer(many=True, read_only=True)
 
     class Meta:
@@ -181,7 +167,7 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
             'decree_info', 'phone', 'email', 'link',
             'sport_types', 'bachelor_subjects', 'master_subjects',
             'dean', 'vice_dean', 'mudiri',
-            'publications', 'xodimlar', 'rasmlar',
+            'publications', 'professor_tarkibi', 'rasmlar',
             'order',
         ]
 
@@ -251,3 +237,11 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
             'email':     obj.mudiri_email or '',
             'degree':    {'uz': obj.mudiri_degree_uz or '', 'ru': obj.mudiri_degree_ru or '', 'en': obj.mudiri_degree_en or ''},
         }
+
+    @extend_schema_field(serializers.ListField())
+    def get_professor_tarkibi(self, obj):
+        return KafedraXodimSerializer(
+            obj.xodimlar.order_by('order').select_related('person'),
+            many=True,
+            context=self.context,
+        ).data

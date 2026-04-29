@@ -10,6 +10,38 @@ _UTC = dt_timezone.utc
 
 DATA = [
     {
+        "slug": "akademiyada-korrupsiyaga-qarshi-targʻibot-tadbiri-2025",
+        "date": datetime(2025, 4, 29, 10, 0, 0, tzinfo=_UTC),
+        "title_uz": "Akademiyada korrupsiyaga qarshi kurashish siyosati bo'yicha targ'ibot tadbiri o'tkazildi",
+        "title_ru": "В Академии прошло просветительское мероприятие по антикоррупционной политике",
+        "title_en": "Awareness event on anti-corruption policy held at the Academy",
+        "tavsif_uz": "O'zbekiston davlat sport akademiyasida \"Sport akademiyasida korrupsiyaga qarshi kurashish\" siyosati mavzusida taqdimot tadbiri tashkil etildi.",
+        "tavsif_ru": "В Государственной академии спорта Узбекистана состоялось презентационное мероприятие на тему политики «Борьба с коррупцией в спортивной академии».",
+        "tavsif_en": "A presentation event on the topic of \"Anti-Corruption Policy in the Sports Academy\" was organised at the Uzbekistan State Sports Academy.",
+        "description_uz": """O'zbekiston davlat sport akademiyasida "Sport akademiyasida korrupsiyaga qarshi kurashish" siyosati mavzusida taqdimot tadbiri tashkil etildi.
+
+Tadbir davomida Sport vazirligining korrupsiyaga qarshi kurashish siyosatining mazmun-mohiyati Akademiya professor-o'qituvchilari hamda xodimlariga batafsil tanishtirildi. Shuningdek, mazkur yo'nalishda amalga oshirilayotgan tizimli chora-tadbirlar, yaratilgan huquqiy va tashkiliy mexanizmlar haqida atroflicha ma'lumot berildi.
+
+Ta'kidlanganidek, respublikamizda korrupsiyaga qarshi kurashish borasida qabul qilingan qonunchilik hujjatlari va qonunosti me'yoriy hujjatlar mazmuni xodimlarga yetkazildi. Ayniqsa, ta'lim jarayonini sifatli tashkil etish, mavjud imkoniyatlardan samarali foydalanish, xizmat vazifalarini vijdonan va mas'uliyat bilan bajarish har bir pedagog va xodimning ustuvor burchi ekani alohida qayd etildi.
+
+Tadbir yakunida davlatimiz tomonidan yaratilayotgan keng imkoniyat va sharoitlarga munosib hissa qo'shish, korrupsiyaga nisbatan murosasiz munosabatni shakllantirish va uni oldini olishda barcha xodimlarning faol ishtiroki muhim ekani ta'kidlandi.""",
+        "description_ru": """В Государственной академии спорта Узбекистана состоялось презентационное мероприятие на тему «Политика борьбы с коррупцией в спортивной академии».
+
+В ходе мероприятия профессорско-преподавательскому составу и сотрудникам Академии была подробно представлена суть антикоррупционной политики Министерства спорта. Также была предоставлена исчерпывающая информация о системных мерах, реализуемых в данном направлении, и созданных правовых и организационных механизмах.
+
+Как было отмечено, сотрудникам были доведены положения законодательных и подзаконных нормативных актов, принятых в Республике по борьбе с коррупцией. В частности, было особо подчёркнуто, что качественная организация учебного процесса, эффективное использование имеющихся возможностей, добросовестное и ответственное выполнение служебных обязанностей является приоритетным долгом каждого педагога и сотрудника.
+
+По итогам мероприятия была подчёркнута важность достойного вклада в создаваемые государством широкие возможности и условия, формирования нетерпимого отношения к коррупции и активного участия всех сотрудников в её предотвращении.""",
+        "description_en": """A presentation event on the topic of "Anti-Corruption Policy in the Sports Academy" was organised at the Uzbekistan State Sports Academy.
+
+During the event, the essence of the Ministry of Sports' anti-corruption policy was presented in detail to the Academy's faculty and staff. Comprehensive information was also provided about the systematic measures being implemented in this area and the legal and organisational mechanisms that have been established.
+
+As noted, staff were informed about the content of legislative and regulatory documents adopted in the Republic on anti-corruption. In particular, it was especially emphasised that the quality organisation of the educational process, effective use of available resources, and conscientious and responsible performance of official duties are the priority obligations of every teacher and employee.
+
+At the conclusion of the event, the importance of making a worthy contribution to the wide opportunities and conditions being created by the state, forming an intolerant attitude towards corruption and the active participation of all employees in preventing it was emphasised.""",
+        "is_published": True,
+    },
+    {
         "slug": "korrupsiyaga-qarshi-kurash-davlat-siyosati-2025",
         "date": datetime(2025, 3, 15, 10, 0, 0, tzinfo=_UTC),
         "title_uz": "Korrupsiyaga qarshi kurash — davlat siyosatining ustuvor yo'nalishi",

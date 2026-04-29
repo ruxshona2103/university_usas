@@ -8,6 +8,7 @@ from .about_academy import AboutAcademy, AboutAcademySection, AboutAcademySectio
 from .org_structure import OrgNode, OrgSection
 from .rekvizit import Rekvizit
 from .interaktiv_xizmat import InteraktivXizmat
+from .markaz import Markaz, MarkazSubBolim
 
 __all__ = [
     'ContactConfig',
@@ -33,4 +34,6 @@ __all__ = [
     'OrgSection',
     'Rekvizit',
     'InteraktivXizmat',
+    'Markaz',
+    'MarkazSubBolim',
 ]

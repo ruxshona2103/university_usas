@@ -13,6 +13,7 @@ from domains.pages.models import (
     AboutSocial, AboutSocialSection, AboutSocialExtraTask,
     AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram, AboutAcademyImage,
     OrgNode, OrgSection, Rekvizit, InteraktivXizmat,
+    Markaz,
 )
 from .serializers import (
     ContactConfigSerializer,
@@ -26,7 +27,11 @@ from .serializers import (
     RekvizitSerializer,
     AboutAcademyProgramSerializer,
     InteraktivXizmatSerializer,
+    MarkazListSerializer,
+    MarkazDetailSerializer,
 )
+from domains.tracker.mixins import ViewsCountMixin
+from domains.tracker.views import RecordViewAPIView
 
 
 def _lang(request):
@@ -406,3 +411,64 @@ class InteraktivXizmatListAPIView(generics.ListAPIView):
         lang = self.request.query_params.get('lang', 'uz')
         ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
         return ctx
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Markazlar
+# ──────────────────────────────────────────────────────────────────────────────
+
+@extend_schema(
+    tags=['pages'],
+    summary="Markazlar ro'yxati",
+    parameters=[
+        OpenApiParameter('lang', OpenApiTypes.STR, OpenApiParameter.QUERY,
+                         description='Til: uz | ru | en', required=False),
+    ],
+)
+class MarkazListAPIView(ViewsCountMixin, generics.ListAPIView):
+    """?lang=uz|ru|en — barcha markazlar (sub-bo'limlarsiz)."""
+    serializer_class   = MarkazListSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        return Markaz.objects.filter(is_active=True).prefetch_related('sub_bolimlar')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+@extend_schema(
+    tags=['pages'],
+    summary="Markaz detali (slug bo'yicha)",
+    parameters=[
+        OpenApiParameter('lang', OpenApiTypes.STR, OpenApiParameter.QUERY,
+                         description='Til: uz | ru | en', required=False),
+    ],
+)
+class MarkazDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
+    """Markaz + sub-bo'limlari bilan. ?lang=uz|ru|en"""
+    serializer_class   = MarkazDetailSerializer
+    permission_classes = [AllowAny]
+    lookup_field       = 'slug'
+
+    def get_queryset(self):
+        return Markaz.objects.filter(is_active=True).prefetch_related('sub_bolimlar')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+class MarkazRecordViewAPIView(RecordViewAPIView):
+    model_class  = Markaz
+    pk_url_kwarg = 'slug'
+
+    def get_target_object(self):
+        slug = self.kwargs.get('slug')
+        return Markaz.objects.get(slug=slug, is_active=True)

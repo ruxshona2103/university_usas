@@ -9,6 +9,7 @@ from domains.pages.models import (
     ContentBlock, LinkBlock,
     OrgNode, OrgSection, Rekvizit,
     AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram,
+    Markaz, MarkazSubBolim,
 )
 
 
@@ -426,3 +427,67 @@ class InteraktivXizmatSerializer(serializers.ModelSerializer):
     def get_description(self, obj):
         lang = self.context.get('lang', 'uz')
         return getattr(obj, f'description_{lang}') or obj.description_uz
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Markazlar
+# ──────────────────────────────────────────────────────────────────────────────
+
+class MarkazSubBolimSerializer(serializers.ModelSerializer):
+    name        = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = MarkazSubBolim
+        fields = ['id', 'name', 'description', 'order']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_name(self, obj):
+        return getattr(obj, f'name_{self._lang()}') or obj.name_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_description(self, obj):
+        return getattr(obj, f'description_{self._lang()}') or obj.description_uz
+
+
+class MarkazListSerializer(serializers.ModelSerializer):
+    """List uchun — sub_bolimlar yo'q (yengil)."""
+    name        = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    image_url   = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = Markaz
+        fields = ['id', 'slug', 'name', 'description', 'image_url', 'order']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_name(self, obj):
+        return getattr(obj, f'name_{self._lang()}') or obj.name_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_description(self, obj):
+        return getattr(obj, f'description_{self._lang()}') or obj.description_uz
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image_url(self, obj):
+        return _abs_url(self.context.get('request'), obj.image)
+
+
+class MarkazDetailSerializer(MarkazListSerializer):
+    """Detail uchun — sub_bolimlar bilan."""
+    sub_bolimlar = serializers.SerializerMethodField()
+
+    class Meta(MarkazListSerializer.Meta):
+        fields = MarkazListSerializer.Meta.fields + ['sub_bolimlar']
+
+    @extend_schema_field(MarkazSubBolimSerializer(many=True))
+    def get_sub_bolimlar(self, obj):
+        return MarkazSubBolimSerializer(
+            obj.sub_bolimlar.all(), many=True, context=self.context
+        ).data

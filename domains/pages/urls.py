@@ -13,6 +13,9 @@ from .views import (
     OrgSectionListAPIView,
     RekvizitAPIView,
     InteraktivXizmatListAPIView,
+    MarkazListAPIView,
+    MarkazDetailAPIView,
+    MarkazRecordViewAPIView,
 )
 
 urlpatterns = [
@@ -33,6 +36,10 @@ urlpatterns = [
          name='navbar-list'),
 
     path('interaktiv-xizmatlar/',    InteraktivXizmatListAPIView.as_view(),  name='interaktiv-xizmat-list'),
+
+    path('markazlar/<slug:slug>/view/', MarkazRecordViewAPIView.as_view(), name='markaz-record-view'),
+    path('markazlar/<slug:slug>/',      MarkazDetailAPIView.as_view(),     name='markaz-detail'),
+    path('markazlar/',                  MarkazListAPIView.as_view(),       name='markaz-list'),
 
     path('pages/<slug:page_slug>/',
          NavbarPageDetailAPIView.as_view(),

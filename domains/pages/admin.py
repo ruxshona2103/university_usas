@@ -10,6 +10,7 @@ from .models import (
     AboutSocial, AboutSocialSection, AboutSocialSectionItem, AboutSocialExtraTask,
     AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram, AboutAcademyImage,
     OrgNode, OrgSection, Rekvizit, InteraktivXizmat,
+    Markaz, MarkazSubBolim,
 )
 
 
@@ -700,4 +701,30 @@ class InteraktivXizmatAdmin(admin.ModelAdmin):
         ("Rus tili",   {'classes': ('collapse',), 'fields': ('title_ru', 'description_ru')}),
         ("Ingliz tili", {'classes': ('collapse',), 'fields': ('title_en', 'description_en')}),
         ("Sozlamalar", {'fields': ('icon_class', 'link', 'order', 'is_active')}),
+    )
+
+
+# ── Markazlar ─────────────────────────────────────────────────────────────────
+
+class MarkazSubBolimInline(admin.TabularInline):
+    model   = MarkazSubBolim
+    extra   = 1
+    fields  = ('name_uz', 'name_ru', 'name_en', 'description_uz', 'order')
+    ordering = ('order',)
+
+
+@admin.register(Markaz)
+class MarkazAdmin(admin.ModelAdmin):
+    list_display  = ('name_uz', 'slug', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('name_uz', 'name_ru', 'name_en')
+    readonly_fields = ('slug',)
+    list_per_page = 20
+    inlines = [MarkazSubBolimInline]
+    fieldsets = (
+        ("Rasm", {'fields': ('image',)}),
+        ("O'zbek tili (majburiy)", {'fields': ('name_uz', 'description_uz')}),
+        ("Rus tili",   {'classes': ('collapse',), 'fields': ('name_ru', 'description_ru')}),
+        ("Ingliz tili", {'classes': ('collapse',), 'fields': ('name_en', 'description_en')}),
+        ("Sozlamalar", {'fields': ('order', 'is_active', 'slug')}),
     )

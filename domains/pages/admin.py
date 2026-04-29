@@ -8,7 +8,7 @@ from .models import (
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     ContentBlock, LinkBlock,
     AboutSocial, AboutSocialSection, AboutSocialSectionItem, AboutSocialExtraTask,
-    AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram,
+    AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram, AboutAcademyImage,
     OrgNode, OrgSection, Rekvizit,
 )
 
@@ -539,9 +539,16 @@ class AboutAcademyProgramInline(admin.TabularInline):
     ordering = ('program_type', 'order')
 
 
+class AboutAcademyImageInline(admin.TabularInline):
+    model   = AboutAcademyImage
+    extra   = 1
+    fields  = ('image', 'caption_uz', 'order', 'is_active')
+    ordering = ('order',)
+
+
 @admin.register(AboutAcademy)
 class AboutAcademyAdmin(admin.ModelAdmin):
-    inlines         = [AboutAcademySectionInline, AboutAcademyProgramInline]
+    inlines         = [AboutAcademySectionInline, AboutAcademyProgramInline, AboutAcademyImageInline]
     readonly_fields = ('created_at', 'updated_at')
     fieldsets = (
         ("Media", {

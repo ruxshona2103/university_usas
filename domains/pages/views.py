@@ -11,7 +11,7 @@ from domains.pages.models import (
     ContactConfig, PresidentQuote, SocialLink,
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     AboutSocial, AboutSocialSection, AboutSocialExtraTask,
-    AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram,
+    AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram, AboutAcademyImage,
     OrgNode, OrgSection, Rekvizit,
 )
 from .serializers import (
@@ -312,6 +312,17 @@ class AboutAcademyAPIView(APIView):
                 programs.filter(program_type='master'), many=True, context=ctx
             ).data,
         }
+
+        gallery = AboutAcademyImage.objects.filter(about=solo, is_active=True)
+        result['images'] = [
+            {
+                'id':         str(img.pk),
+                'image_url':  _abs_url(request, img.image),
+                'caption':    getattr(img, f'caption_{lang}') or img.caption_uz,
+                'order':      img.order,
+            }
+            for img in gallery
+        ]
 
         return Response(result)
 

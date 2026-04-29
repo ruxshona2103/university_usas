@@ -4,7 +4,7 @@ from .partner import Partner
 from .hero_video import HeroVideo
 from .content_block import ContentBlock, LinkBlock
 from .about_social import AboutSocial, AboutSocialSection, AboutSocialSectionItem, AboutSocialExtraTask
-from .about_academy import AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram
+from .about_academy import AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram, AboutAcademyImage
 from .org_structure import OrgNode, OrgSection
 from .rekvizit import Rekvizit
 
@@ -27,6 +27,7 @@ __all__ = [
     'AboutAcademySection',
     'AboutAcademySectionItem',
     'AboutAcademyProgram',
+    'AboutAcademyImage',
     'OrgNode',
     'OrgSection',
     'Rekvizit',

@@ -1,8 +1,14 @@
+import os
 import uuid
 
 from django.db import models
 
 from common.base_models import TimeStampedModel
+
+
+def about_academy_gallery_upload(instance, filename):
+    ext = os.path.splitext(filename)[1].lower()
+    return f'about_academy/gallery/{uuid.uuid4().hex}{ext}'
 
 
 class AboutAcademy(TimeStampedModel):
@@ -123,3 +129,29 @@ class AboutAcademyProgram(TimeStampedModel):
 
     def __str__(self):
         return f"[{self.get_program_type_display()}] {self.direction_uz}"
+
+
+class AboutAcademyImage(TimeStampedModel):
+    """Akademiya haqida sahifasi uchun gallery rasmlari."""
+
+    about     = models.ForeignKey(
+        AboutAcademy,
+        on_delete=models.CASCADE,
+        related_name='images',
+        verbose_name="Akademiya haqida",
+    )
+    image     = models.ImageField(upload_to=about_academy_gallery_upload, verbose_name="Rasm")
+    caption_uz = models.CharField(max_length=300, blank=True, verbose_name="Izoh (Uz)")
+    caption_ru = models.CharField(max_length=300, blank=True, verbose_name="Izoh (Ru)")
+    caption_en = models.CharField(max_length=300, blank=True, verbose_name="Izoh (En)")
+    order      = models.PositiveIntegerField(default=0, verbose_name="Tartib")
+    is_active  = models.BooleanField(default=True, verbose_name="Faolmi?")
+
+    class Meta:
+        db_table            = 'pages_about_academy_image'
+        ordering            = ['order']
+        verbose_name        = "Gallery rasmi"
+        verbose_name_plural = "Gallery rasmlari"
+
+    def __str__(self):
+        return f"Rasm #{self.order}"

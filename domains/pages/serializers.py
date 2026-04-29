@@ -402,3 +402,27 @@ class OrgSectionSerializer(serializers.ModelSerializer):
     def get_nodes(self, obj):
         qs = obj.nodes.filter(is_active=True).order_by('section_order')
         return OrgNodeCardSerializer(qs, many=True, context=self.context).data
+
+
+class InteraktivXizmatSerializer(serializers.ModelSerializer):
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = None  # set below
+        fields = ['id', 'icon_class', 'title', 'description', 'link', 'order']
+
+    def __init__(self, *args, **kwargs):
+        from domains.pages.models import InteraktivXizmat
+        self.Meta.model = InteraktivXizmat
+        super().__init__(*args, **kwargs)
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_title(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_description(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'description_{lang}') or obj.description_uz

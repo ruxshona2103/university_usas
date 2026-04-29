@@ -12,7 +12,7 @@ from domains.pages.models import (
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     AboutSocial, AboutSocialSection, AboutSocialExtraTask,
     AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram, AboutAcademyImage,
-    OrgNode, OrgSection, Rekvizit,
+    OrgNode, OrgSection, Rekvizit, InteraktivXizmat,
 )
 from .serializers import (
     ContactConfigSerializer,
@@ -25,6 +25,7 @@ from .serializers import (
     OrgSectionSerializer,
     RekvizitSerializer,
     AboutAcademyProgramSerializer,
+    InteraktivXizmatSerializer,
 )
 
 
@@ -395,3 +396,20 @@ class OrgSectionListAPIView(APIView):
         ctx = {'lang': lang, 'request': request}
         data = OrgSectionSerializer(sections, many=True, context=ctx).data
         return Response(data)
+
+
+@extend_schema(tags=['pages'], summary="Interaktiv xizmatlar ro'yxati")
+class InteraktivXizmatListAPIView(generics.ListAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = InteraktivXizmatSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        return InteraktivXizmat.objects.filter(is_active=True)
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx

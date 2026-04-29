@@ -7,6 +7,7 @@ from .about_social import AboutSocial, AboutSocialSection, AboutSocialSectionIte
 from .about_academy import AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram, AboutAcademyImage
 from .org_structure import OrgNode, OrgSection
 from .rekvizit import Rekvizit
+from .interaktiv_xizmat import InteraktivXizmat
 
 __all__ = [
     'ContactConfig',
@@ -31,4 +32,5 @@ __all__ = [
     'OrgNode',
     'OrgSection',
     'Rekvizit',
+    'InteraktivXizmat',
 ]

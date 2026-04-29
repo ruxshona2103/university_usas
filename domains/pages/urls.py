@@ -12,6 +12,7 @@ from .views import (
     OrgStructureAPIView,
     OrgSectionListAPIView,
     RekvizitAPIView,
+    InteraktivXizmatListAPIView,
 )
 
 urlpatterns = [
@@ -30,6 +31,8 @@ urlpatterns = [
     path('navbar/',
          NavbarListAPIView.as_view(),
          name='navbar-list'),
+
+    path('interaktiv-xizmatlar/',    InteraktivXizmatListAPIView.as_view(),  name='interaktiv-xizmat-list'),
 
     path('pages/<slug:page_slug>/',
          NavbarPageDetailAPIView.as_view(),

@@ -9,7 +9,7 @@ from .models import (
     ContentBlock, LinkBlock,
     AboutSocial, AboutSocialSection, AboutSocialSectionItem, AboutSocialExtraTask,
     AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram, AboutAcademyImage,
-    OrgNode, OrgSection, Rekvizit,
+    OrgNode, OrgSection, Rekvizit, InteraktivXizmat,
 )
 
 
@@ -686,4 +686,18 @@ class OrgSectionAdmin(admin.ModelAdmin):
         ("Sarlavha", {'fields': ('title_uz', 'title_ru', 'title_en')}),
         ("Tavsif",   {'fields': ('description_uz', 'description_ru', 'description_en')}),
         ("Meta",     {'fields': ('slug', 'order', 'is_active')}),
+    )
+
+
+@admin.register(InteraktivXizmat)
+class InteraktivXizmatAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'icon_class', 'link', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('title_uz', 'title_ru')
+    list_per_page = 20
+    fieldsets = (
+        ("O'zbek tili (majburiy)", {'fields': ('title_uz', 'description_uz')}),
+        ("Rus tili",   {'classes': ('collapse',), 'fields': ('title_ru', 'description_ru')}),
+        ("Ingliz tili", {'classes': ('collapse',), 'fields': ('title_en', 'description_en')}),
+        ("Sozlamalar", {'fields': ('icon_class', 'link', 'order', 'is_active')}),
     )

@@ -7,10 +7,12 @@ from django.http import Http404
 from django.db.models import F, Window, Case, When, IntegerField
 from django.db.models.functions import RowNumber
 
-from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra
+from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra, HuzuridagiTashkilot
+
 from .serializers import (
     AcademyStatSerializer, AcademyDetailPageSerializer,
     FakultetKafedraListSerializer, FakultetKafedraDetailSerializer,
+    HuzuridagiTashkilotSerializer,
 )
 
 
@@ -95,3 +97,20 @@ class FakultetKafedraDetailAPIView(generics.RetrieveAPIView):
         if not obj:
             raise Http404
         return obj
+
+
+@extend_schema(tags=['academic'], summary="Akademiya huzuridagi tashkilotlar ro'yxati")
+class HuzuridagiTashkilotListAPIView(generics.ListAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = HuzuridagiTashkilotSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        return HuzuridagiTashkilot.objects.filter(is_active=True)
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx

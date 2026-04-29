@@ -2,7 +2,7 @@ from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.openapi import OpenApiTypes
 
-from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication, KafedraXodim, KafedraRasm
+from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication, KafedraXodim, KafedraRasm, HuzuridagiTashkilot
 
 
 class AcademyStatSerializer(serializers.ModelSerializer):
@@ -245,3 +245,30 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
             many=True,
             context=self.context,
         ).data
+
+
+class HuzuridagiTashkilotSerializer(serializers.ModelSerializer):
+    name        = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    address     = serializers.SerializerMethodField()
+    image_url   = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = HuzuridagiTashkilot
+        fields = ['id', 'name', 'description', 'image_url', 'website', 'phone', 'email', 'address', 'order']
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_name(self, obj):
+        return {'uz': obj.name_uz, 'ru': obj.name_ru or obj.name_uz, 'en': obj.name_en or obj.name_uz}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_description(self, obj):
+        return {'uz': obj.description_uz, 'ru': obj.description_ru or obj.description_uz, 'en': obj.description_en or obj.description_uz}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_address(self, obj):
+        return {'uz': obj.address_uz, 'ru': obj.address_ru or obj.address_uz, 'en': obj.address_en or obj.address_uz}
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image_url(self, obj):
+        return _photo_url(self.context.get('request'), obj.image)

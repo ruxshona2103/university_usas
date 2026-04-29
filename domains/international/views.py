@@ -35,12 +35,21 @@ class ForeignProfessorReviewListAPIView(generics.ListAPIView):
 @extend_schema(tags=['international'], summary="Xalqaro hamkor tashkilotlar")
 class PartnerOrganizationListAPIView(generics.ListAPIView):
     """
-    ?type=foreign|domestic
+    ?category=xalqaro|mahalliy  (yoki ?type=foreign|domestic)
     ?lang=uz|ru|en
+    Filter qilinmasa — ikkala kategoriya guruhlanib qaytadi
     """
     serializer_class   = PartnerOrganizationSerializer
     permission_classes = [AllowAny]
     pagination_class   = None
+
+    # category param → partner_type mapping
+    _CATEGORY_MAP = {
+        'xalqaro':  'foreign',
+        'mahalliy': 'domestic',
+        'foreign':  'foreign',
+        'domestic': 'domestic',
+    }
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()
@@ -48,21 +57,48 @@ class PartnerOrganizationListAPIView(generics.ListAPIView):
         ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
         return ctx
 
+    def _resolve_type(self):
+        raw = (
+            self.request.query_params.get('category') or
+            self.request.query_params.get('type')
+        )
+        return self._CATEGORY_MAP.get(raw) if raw else None
+
     def get_queryset(self):
         qs = PartnerOrganization.objects.filter(is_active=True)
-        partner_type = self.request.query_params.get('type')
+        partner_type = self._resolve_type()
         if partner_type:
             qs = qs.filter(partner_type=partner_type)
         return qs
 
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        ctx      = self.get_serializer_context()
-        config   = PartnerPageConfig.load()
+        ctx          = self.get_serializer_context()
+        config       = PartnerPageConfig.load()
+        partner_type = self._resolve_type()
+        base_qs      = PartnerOrganization.objects.filter(is_active=True)
+
+        if partner_type:
+            # Bitta kategoriya so'raldi — tekis list qaytariladi
+            items = PartnerOrganizationSerializer(
+                base_qs.filter(partner_type=partner_type), many=True, context=ctx
+            ).data
+            return Response({
+                'title':       PartnerPageConfigSerializer(config, context=ctx).data['title'],
+                'description': PartnerPageConfigSerializer(config, context=ctx).data['description'],
+                'category':    partner_type,
+                'items':       items,
+            })
+
+        # Filter yo'q — ikkala guruh alohida qaytariladi
         return Response({
             'title':       PartnerPageConfigSerializer(config, context=ctx).data['title'],
             'description': PartnerPageConfigSerializer(config, context=ctx).data['description'],
-            'items':       PartnerOrganizationSerializer(queryset, many=True, context=ctx).data,
+            'xalqaro': PartnerOrganizationSerializer(
+                base_qs.filter(partner_type='foreign'), many=True, context=ctx
+            ).data,
+            'mahalliy': PartnerOrganizationSerializer(
+                base_qs.filter(partner_type='domestic'), many=True, context=ctx
+            ).data,
         })
 
 

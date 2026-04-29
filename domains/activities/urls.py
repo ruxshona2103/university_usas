@@ -20,6 +20,9 @@ from .views import (
     AxborotVazifaDetailAPIView,
     AxborotXodimListCreateAPIView,
     AxborotXodimDetailAPIView,
+    IlmiyFaoliyatRecordViewAPIView,
+    SportTadbirRecordViewAPIView,
+    SportYonalishRecordViewAPIView,
 )
 
 urlpatterns = [
@@ -29,8 +32,10 @@ urlpatterns = [
     # ── Sport faoliyat sahifasi ──────────────────────────────────────────────
     path('activities/sport/stats/',                    SportStatListCreateAPIView.as_view(),    name='sport-stats'),
     path('activities/sport/stats/<uuid:pk>/',          SportStatDetailAPIView.as_view(),        name='sport-stat-detail'),
+    path('activities/sport/yonalishlar/<uuid:pk>/view/', SportYonalishRecordViewAPIView.as_view(), name='sport-yonalish-record-view'),
     path('activities/sport/yonalishlar/',              SportYonalishListCreateAPIView.as_view(), name='sport-yonalishlar'),
     path('activities/sport/yonalishlar/<uuid:pk>/',    SportYonalishDetailAPIView.as_view(),     name='sport-yonalish-detail'),
+    path('activities/sport/tadbirlar/<uuid:pk>/view/', SportTadbirRecordViewAPIView.as_view(),   name='sport-tadbir-record-view'),
     path('activities/sport/tadbirlar/',                SportTadbirListCreateAPIView.as_view(),   name='sport-tadbirlar'),
     path('activities/sport/tadbirlar/<uuid:pk>/',      SportTadbirDetailAPIView.as_view(),       name='sport-tadbir-detail'),
 
@@ -47,7 +52,8 @@ urlpatterns = [
     path('activities/faoliyat/categories/<slug:slug>/items/',    IlmiyFaoliyatCategoryItemsAPIView.as_view(),    name='faoliyat-category-items'),
 
     # ── Faoliyat itemlar ─────────────────────────────────────────────────────
-    path('activities/faoliyat/',             IlmiyFaoliyatListAPIView.as_view(),         name='faoliyat-list'),
-    path('activities/faoliyat/<uuid:pk>/',   IlmiyFaoliyatDetailAPIView.as_view(),       name='faoliyat-detail'),
+    path('activities/faoliyat/<uuid:pk>/view/',    IlmiyFaoliyatRecordViewAPIView.as_view(),    name='faoliyat-record-view'),
+    path('activities/faoliyat/',                   IlmiyFaoliyatListAPIView.as_view(),          name='faoliyat-list'),
+    path('activities/faoliyat/<uuid:pk>/',         IlmiyFaoliyatDetailAPIView.as_view(),        name='faoliyat-detail'),
     path('activities/faoliyat/subcategories/<uuid:pk>/', FaoliyatSubcategoryDetailAPIView.as_view(), name='faoliyat-subcategory-detail'),
 ]

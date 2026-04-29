@@ -3,6 +3,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema
 
+from domains.tracker.mixins import ViewsCountMixin
+from domains.tracker.views import RecordViewAPIView
 from .models import SportMajmua, Sharoit
 from .serializers import SportMajmuaSerializer, SportMajmuaListSerializer, SharoitSerializer
 
@@ -17,7 +19,7 @@ def _lang(request):
     summary="Sport majmualari ro'yxati",
     description="?lang=uz|ru|en",
 )
-class SportMajmuaListAPIView(generics.ListAPIView):
+class SportMajmuaListAPIView(ViewsCountMixin, generics.ListAPIView):
     serializer_class   = SportMajmuaListSerializer
     permission_classes = [AllowAny]
     pagination_class   = None
@@ -36,7 +38,7 @@ class SportMajmuaListAPIView(generics.ListAPIView):
     summary="Sport majmuasi pasporti (slug bo'yicha)",
     description="Barcha texnik ko'rsatkichlar, sport turlari va tadbirlar. ?lang=uz|ru|en",
 )
-class SportMajmuaDetailAPIView(generics.RetrieveAPIView):
+class SportMajmuaDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     serializer_class   = SportMajmuaSerializer
     permission_classes = [AllowAny]
     lookup_field       = 'slug'
@@ -101,3 +103,14 @@ class SharoitListAPIView(generics.ListAPIView):
                 base_qs.filter(category='talim'), many=True, context=ctx
             ).data,
         })
+
+
+# ── RecordView endpoints ───────────────────────────────────────────────────────
+
+class SportMajmuaRecordViewAPIView(RecordViewAPIView):
+    model_class  = SportMajmua
+    pk_url_kwarg = 'slug'
+
+    def get_target_object(self):
+        slug = self.kwargs.get('slug')
+        return SportMajmua.objects.get(slug=slug)

@@ -3,6 +3,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema
 
+from domains.tracker.mixins import ViewsCountMixin
+from domains.tracker.views import RecordViewAPIView
 from domains.international.models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
     InternationalPost, InternationalRating,
@@ -103,7 +105,7 @@ class PartnerOrganizationListAPIView(generics.ListAPIView):
 
 
 @extend_schema(tags=['international'], summary="Xalqaro reytinglar ro'yxati")
-class InternationalRatingListAPIView(generics.ListAPIView):
+class InternationalRatingListAPIView(ViewsCountMixin, generics.ListAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = InternationalRatingSerializer
     permission_classes = [AllowAny]
@@ -120,7 +122,7 @@ class InternationalRatingListAPIView(generics.ListAPIView):
 
 
 @extend_schema(tags=['international'], summary="Xalqaro reyting — slug bo'yicha")
-class InternationalRatingDetailAPIView(generics.RetrieveAPIView):
+class InternationalRatingDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = InternationalRatingSerializer
     permission_classes = [AllowAny]
@@ -168,7 +170,7 @@ class MemorandumStatListAPIView(generics.ListAPIView):
 
 
 @extend_schema(tags=['international'], summary="Xalqaro bo'lim xabarlari (e'lon, yangilik, malaka oshirish)")
-class InternationalPostListAPIView(generics.ListAPIView):
+class InternationalPostListAPIView(ViewsCountMixin, generics.ListAPIView):
     """
     ?type=announcement|news|training
     ?lang=uz|ru|en
@@ -189,3 +191,28 @@ class InternationalPostListAPIView(generics.ListAPIView):
         if post_type:
             qs = qs.filter(post_type=post_type)
         return qs
+
+
+@extend_schema(tags=['international'], summary="Xalqaro bo'lim xabari — ID bo'yicha")
+class InternationalPostDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = InternationalPostSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return InternationalPost.objects.filter(is_active=True).prefetch_related('images')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+# ── RecordView endpoints ───────────────────────────────────────────────────────
+
+class InternationalPostRecordViewAPIView(RecordViewAPIView):
+    model_class = InternationalPost
+
+class InternationalRatingRecordViewAPIView(RecordViewAPIView):
+    model_class = InternationalRating

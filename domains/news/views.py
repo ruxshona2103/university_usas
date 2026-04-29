@@ -11,6 +11,8 @@ from .serializers import (
     NewsSerializer, EventSerializer, BlogSerializer, KorrupsiyaSerializer,
     InformationContentSerializer, NewsCategorySerializer,
 )
+from domains.tracker.mixins import ViewsCountMixin
+from domains.tracker.views import RecordViewAPIView
 
 
 def _lang(request):
@@ -74,7 +76,7 @@ _DATE_TO_PARAM = OpenApiParameter(
 
 
 @extend_schema(tags=['news'], summary="Yangiliklar ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM, _DATE_FROM_PARAM, _DATE_TO_PARAM])
-class NewsListAPIView(BaseContentListAPIView):
+class NewsListAPIView(ViewsCountMixin, BaseContentListAPIView):
     serializer_class = NewsSerializer
 
     def get_queryset(self):
@@ -99,7 +101,7 @@ _STATUS_PARAM = OpenApiParameter(
 )
 
 @extend_schema(tags=['news'], summary="Tadbirlar ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM, _STATUS_PARAM])
-class EventListAPIView(BaseContentListAPIView):
+class EventListAPIView(ViewsCountMixin, BaseContentListAPIView):
     serializer_class = EventSerializer
 
     def get_queryset(self):
@@ -114,7 +116,7 @@ class EventListAPIView(BaseContentListAPIView):
 
 
 @extend_schema(tags=['news'], summary="Blog ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM])
-class BlogListAPIView(BaseContentListAPIView):
+class BlogListAPIView(ViewsCountMixin, BaseContentListAPIView):
     serializer_class = BlogSerializer
 
     def get_queryset(self):
@@ -126,7 +128,7 @@ class BlogListAPIView(BaseContentListAPIView):
 
 
 @extend_schema(tags=['korrupsiya'], summary="Korrupsiyaga qarshi kurash — ro'yxat")
-class KorrupsiyaListAPIView(BaseContentListAPIView):
+class KorrupsiyaListAPIView(ViewsCountMixin, BaseContentListAPIView):
     serializer_class = KorrupsiyaSerializer
 
     def get_queryset(self):
@@ -138,7 +140,7 @@ class KorrupsiyaListAPIView(BaseContentListAPIView):
 
 
 @extend_schema(tags=['korrupsiya'], summary="Korrupsiyaga qarshi kurash — slug bo'yicha")
-class KorrupsiyaDetailAPIView(generics.RetrieveAPIView):
+class KorrupsiyaDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     serializer_class   = KorrupsiyaSerializer
     permission_classes = [AllowAny]
     queryset           = Korrupsiya.objects.filter(is_published=True).prefetch_related('images', 'categories')
@@ -151,7 +153,7 @@ class KorrupsiyaDetailAPIView(generics.RetrieveAPIView):
 
 
 @extend_schema(tags=['korrupsiya'], summary="Korrupsiyaga qarshi kurash — ID bo'yicha")
-class KorrupsiyaDetailByIdAPIView(generics.RetrieveAPIView):
+class KorrupsiyaDetailByIdAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     serializer_class   = KorrupsiyaSerializer
     permission_classes = [AllowAny]
     queryset           = Korrupsiya.objects.filter(is_published=True).prefetch_related('images', 'categories')
@@ -177,7 +179,7 @@ class NewsCategoryDetailAPIView(generics.RetrieveAPIView):
 
 
 @extend_schema(tags=['news'], summary="Bitta yangilik — slug bo'yicha")
-class NewsDetailAPIView(generics.RetrieveAPIView):
+class NewsDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = NewsSerializer
     permission_classes = [AllowAny]
@@ -193,7 +195,7 @@ class NewsDetailAPIView(generics.RetrieveAPIView):
 
 
 @extend_schema(tags=['news'], summary="Bitta yangilik — ID bo'yicha")
-class NewsDetailByIdAPIView(generics.RetrieveAPIView):
+class NewsDetailByIdAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = NewsSerializer
     permission_classes = [AllowAny]
@@ -208,7 +210,7 @@ class NewsDetailByIdAPIView(generics.RetrieveAPIView):
 
 
 @extend_schema(tags=['news'], summary="Bitta tadbir — slug bo'yicha")
-class EventDetailAPIView(generics.RetrieveAPIView):
+class EventDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = EventSerializer
     permission_classes = [AllowAny]
@@ -224,7 +226,7 @@ class EventDetailAPIView(generics.RetrieveAPIView):
 
 
 @extend_schema(tags=['news'], summary="Bitta tadbir — ID bo'yicha")
-class EventDetailByIdAPIView(generics.RetrieveAPIView):
+class EventDetailByIdAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = EventSerializer
     permission_classes = [AllowAny]
@@ -239,7 +241,7 @@ class EventDetailByIdAPIView(generics.RetrieveAPIView):
 
 
 @extend_schema(tags=['news'], summary="Bitta blog — slug bo'yicha")
-class BlogDetailAPIView(generics.RetrieveAPIView):
+class BlogDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = BlogSerializer
     permission_classes = [AllowAny]
@@ -255,7 +257,7 @@ class BlogDetailAPIView(generics.RetrieveAPIView):
 
 
 @extend_schema(tags=['news'], summary="Bitta blog — ID bo'yicha")
-class BlogDetailByIdAPIView(generics.RetrieveAPIView):
+class BlogDetailByIdAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = BlogSerializer
     permission_classes = [AllowAny]
@@ -270,7 +272,7 @@ class BlogDetailByIdAPIView(generics.RetrieveAPIView):
 
 
 @extend_schema(tags=['elon'], summary="E'lonlar ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM, _DATE_FROM_PARAM, _DATE_TO_PARAM])
-class ElonListAPIView(BaseContentListAPIView):
+class ElonListAPIView(ViewsCountMixin, BaseContentListAPIView):
     """?lang=uz|ru|en  ?date_from=YYYY-MM-DD  ?date_to=YYYY-MM-DD"""
     serializer_class = InformationContentSerializer
 
@@ -291,7 +293,7 @@ class ElonListAPIView(BaseContentListAPIView):
 
 
 @extend_schema(tags=['elon'], summary="E'lon — ID bo'yicha")
-class ElonDetailAPIView(generics.RetrieveAPIView):
+class ElonDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = InformationContentSerializer
     permission_classes = [AllowAny]
@@ -306,7 +308,7 @@ class ElonDetailAPIView(generics.RetrieveAPIView):
 
 
 @extend_schema(tags=['news'], summary="Axborot xizmati kontenti")
-class InformationContentListAPIView(generics.ListAPIView):
+class InformationContentListAPIView(ViewsCountMixin, generics.ListAPIView):
     """
     ?type=rector|briefing|contest|press|photo|video
     ?lang=uz|ru|en
@@ -333,3 +335,21 @@ class InformationContentListAPIView(generics.ListAPIView):
         if content_type:
             qs = qs.filter(content_type=content_type)
         return qs
+
+
+# ── RecordView endpoints ───────────────────────────────────────────────────────
+
+class NewsRecordViewAPIView(RecordViewAPIView):
+    model_class = News
+
+class EventRecordViewAPIView(RecordViewAPIView):
+    model_class = Event
+
+class BlogRecordViewAPIView(RecordViewAPIView):
+    model_class = Blog
+
+class KorrupsiyaRecordViewAPIView(RecordViewAPIView):
+    model_class = Korrupsiya
+
+class ElonRecordViewAPIView(RecordViewAPIView):
+    model_class = InformationContent

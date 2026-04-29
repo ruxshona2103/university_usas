@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 
+from domains.tracker.mixins import ViewsCountMixin
+from domains.tracker.views import RecordViewAPIView
 from domains.activities.models import (
     ContractPrice,
     ServiceVehicle,
@@ -113,7 +115,7 @@ class SportYonalishListAPIView(generics.ListAPIView):
 
 
 @extend_schema(tags=['activities'], summary="Yillik sport tadbirlari")
-class SportTadbirListAPIView(generics.ListAPIView):
+class SportTadbirListAPIView(ViewsCountMixin, generics.ListAPIView):
     serializer_class = SportTadbirSerializer
     permission_classes = [AllowAny]
     pagination_class = None
@@ -253,7 +255,7 @@ class IlmiyFaoliyatCategoryFullListAPIView(generics.ListAPIView):
         "POST: yangi faoliyat item yaratish (category, title_uz, file maydonlari)"
     ),
 )
-class IlmiyFaoliyatListAPIView(generics.ListCreateAPIView):
+class IlmiyFaoliyatListAPIView(ViewsCountMixin, generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     pagination_class   = None
 
@@ -276,7 +278,7 @@ class IlmiyFaoliyatListAPIView(generics.ListCreateAPIView):
 
 
 @extend_schema(tags=['activities'], summary="Faoliyat — bitta yozuv (o'qish / yangilash / o'chirish)")
-class IlmiyFaoliyatDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+class IlmiyFaoliyatDetailAPIView(ViewsCountMixin, generics.RetrieveUpdateDestroyAPIView):
     """?lang=uz|ru|en"""
     permission_classes = [AllowAny]
     queryset           = IlmiyFaoliyat.objects.all()
@@ -469,3 +471,15 @@ class AxborotXodimDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
         ctx = super().get_serializer_context()
         ctx['lang'] = _lang(self.request)
         return ctx
+
+
+# ── RecordView endpoints ───────────────────────────────────────────────────────
+
+class IlmiyFaoliyatRecordViewAPIView(RecordViewAPIView):
+    model_class = IlmiyFaoliyat
+
+class SportTadbirRecordViewAPIView(RecordViewAPIView):
+    model_class = SportTadbir
+
+class SportYonalishRecordViewAPIView(RecordViewAPIView):
+    model_class = SportYonalish

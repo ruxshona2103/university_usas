@@ -5,10 +5,12 @@ from drf_spectacular.utils import extend_schema
 from common.pagination import CustomDashboardPagination
 from domains.tenders.models import TenderAnnouncement
 from .serializers import TenderAnnouncementSerializer
+from domains.tracker.mixins import ViewsCountMixin
+from domains.tracker.views import RecordViewAPIView
 
 
 @extend_schema(tags=['tenders'], summary="Tenderlar va e'lonlar")
-class TenderAnnouncementListAPIView(generics.ListAPIView):
+class TenderAnnouncementListAPIView(ViewsCountMixin, generics.ListAPIView):
     """
     ?search= — sarlavha bo'yicha qidiruv
     ?lang=uz|ru|en
@@ -32,3 +34,22 @@ class TenderAnnouncementListAPIView(generics.ListAPIView):
             .prefetch_related('images')
             .order_by('-date')
         )
+
+
+@extend_schema(tags=['tenders'], summary="Tender — ID bo'yicha")
+class TenderAnnouncementDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
+    serializer_class   = TenderAnnouncementSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return TenderAnnouncement.objects.filter(is_published=True).prefetch_related('images')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+class TenderRecordViewAPIView(RecordViewAPIView):
+    model_class = TenderAnnouncement

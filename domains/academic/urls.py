@@ -4,12 +4,14 @@ from .views import (
     AcademyStatListAPIView, AcademyDetailPageAPIView,
     FakultetKafedraListAPIView, FakultetKafedraDetailAPIView,
     HuzuridagiTashkilotListAPIView,
+    FakultetKafedraRecordViewAPIView,
 )
 
 urlpatterns = [
-    path('academic/stats/',                           AcademyStatListAPIView.as_view(),          name='academy-stats'),
-    path('academic/detail/',                          AcademyDetailPageAPIView.as_view(),         name='academy-detail'),
-    path('academic/fakultet-kafedralar/',             FakultetKafedraListAPIView.as_view(),       name='fakultet-kafedra-list'),
-    path('academic/fakultet-kafedralar/<slug:slug>/', FakultetKafedraDetailAPIView.as_view(),     name='fakultet-kafedra-detail'),
-    path('academic/huzuridagi-tashkilotlar/',         HuzuridagiTashkilotListAPIView.as_view(),   name='huzuridagi-tashkilot-list'),
+    path('academic/stats/',                                    AcademyStatListAPIView.as_view(),          name='academy-stats'),
+    path('academic/detail/',                                   AcademyDetailPageAPIView.as_view(),         name='academy-detail'),
+    path('academic/fakultet-kafedralar/',                      FakultetKafedraListAPIView.as_view(),       name='fakultet-kafedra-list'),
+    path('academic/fakultet-kafedralar/<slug:slug>/view/',     FakultetKafedraRecordViewAPIView.as_view(), name='fakultet-kafedra-record-view'),
+    path('academic/fakultet-kafedralar/<slug:slug>/',          FakultetKafedraDetailAPIView.as_view(),     name='fakultet-kafedra-detail'),
+    path('academic/huzuridagi-tashkilotlar/',                  HuzuridagiTashkilotListAPIView.as_view(),   name='huzuridagi-tashkilot-list'),
 ]

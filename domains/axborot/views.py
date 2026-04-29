@@ -8,6 +8,7 @@ from .models import AxborotSection
 from .serializers import AxborotSectionSerializer
 from domains.students.models import Person
 from domains.students.serializers import PersonSerializer
+from domains.tracker.mixins import ViewsCountMixin
 
 
 def _lang(request):
@@ -20,7 +21,7 @@ def _lang(request):
     summary="Axborot xizmati vazifalari — barcha bo'limlar",
     description="Har bir bo'lim o'z vazifalar ro'yxati bilan qaytariladi. ?lang=uz|ru|en",
 )
-class AxborotSectionListAPIView(generics.ListAPIView):
+class AxborotSectionListAPIView(ViewsCountMixin, generics.ListAPIView):
     serializer_class   = AxborotSectionSerializer
     permission_classes = [AllowAny]
     pagination_class   = None
@@ -44,7 +45,7 @@ class AxborotSectionListAPIView(generics.ListAPIView):
     summary="Axborot xizmati xodimlari",
     description="Axborot xizmati bo'limiga tegishli xodimlar. ?lang=uz|ru|en",
 )
-class AxborotPersonListAPIView(generics.ListAPIView):
+class AxborotPersonListAPIView(ViewsCountMixin, generics.ListAPIView):
     serializer_class   = PersonSerializer
     permission_classes = [AllowAny]
     pagination_class   = None

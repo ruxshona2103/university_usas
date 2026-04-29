@@ -10,7 +10,11 @@ from .views import (
     StudentInfoCategoryDetailAPIView,
     OlimpiyaChempionListAPIView,
     MagistrGroupListAPIView,
+    MagistrTalabaListAPIView,
+    MagistrTalabaDetailAPIView,
+    MagistrTalabaRecordViewAPIView,
     StipendiyaListAPIView,
+    PersonRecordViewAPIView,
 )
 
 urlpatterns = [
@@ -21,6 +25,7 @@ urlpatterns = [
     # ── Shaxslar ───────────────────────────────────────────────────────────
     path('persons/',                         PersonListAPIView.as_view(),            name='person-list'),
     path('persons/grouped/',                 PersonGroupedAPIView.as_view(),         name='person-grouped'),
+    path('persons/<uuid:pk>/view/',          PersonRecordViewAPIView.as_view(),      name='person-record-view'),
     path('persons/<uuid:pk>/',               PersonDetailAPIView.as_view(),          name='person-detail'),
 
     # ── Talaba ma'lumotlari ────────────────────────────────────────────────
@@ -30,10 +35,14 @@ urlpatterns = [
     # ── Olimpiya chempionlari ──────────────────────────────────────────────
     path('olimpiya/',                        OlimpiyaChempionListAPIView.as_view(), name='olimpiya-chempion-list'),
 
-    # ── Magistratura talabalari ────────────────────────────────────────────
+    # ── Magistratura guruhlari (eski) ──────────────────────────────────────
     path('magistr-students/',               MagistrGroupListAPIView.as_view(),    name='magistr-students'),
+
+    # ── Magistratura talabalari (yangi — Person FK bilan) ──────────────────
+    path('magistr-talabalar/<uuid:pk>/view/', MagistrTalabaRecordViewAPIView.as_view(), name='magistr-talaba-record-view'),
+    path('magistr-talabalar/<uuid:pk>/',      MagistrTalabaDetailAPIView.as_view(),     name='magistr-talaba-detail'),
+    path('magistr-talabalar/',                MagistrTalabaListAPIView.as_view(),       name='magistr-talaba-list'),
 
     # ── Stipendiyalar ──────────────────────────────────────────────────────────
     path('stipendiya/',                     StipendiyaListAPIView.as_view(),      name='stipendiya-list'),
 ]
-

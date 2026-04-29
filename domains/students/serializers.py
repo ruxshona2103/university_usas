@@ -2,7 +2,7 @@ from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.openapi import OpenApiTypes
 
-from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent, Stipendiya
+from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent, MagistrTalaba, Stipendiya
 
 
 def _abs_url(request, field):
@@ -234,6 +234,64 @@ class OlimpiyaChempionSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.URI)
     def get_image_url(self, obj):
         return _abs_url(self.context.get('request'), obj.image)
+
+
+class MagistrTalabaSerializer(serializers.ModelSerializer):
+    person           = serializers.SerializerMethodField()
+    display_name     = serializers.SerializerMethodField()
+    specialty_name   = serializers.SerializerMethodField()
+    dissertation_topic = serializers.SerializerMethodField()
+    supervisor_info  = serializers.SerializerMethodField()
+    education_form   = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = MagistrTalaba
+        fields = [
+            'id', 'person', 'display_name',
+            'specialty_code', 'specialty_name',
+            'dissertation_topic',
+            'supervisor_name', 'supervisor_info',
+            'education_form', 'year', 'order',
+        ]
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_person(self, obj):
+        if not obj.person_id:
+            return None
+        p = obj.person
+        req = self.context.get('request')
+        return {
+            'id':       str(p.pk),
+            'full_name': getattr(p, f'full_name_{self._lang()}') or p.full_name_uz,
+            'image':    _abs_url(req, p.image),
+            'position': getattr(p, f'position_{self._lang()}') or p.position_uz or '',
+        }
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_display_name(self, obj):
+        lang = self._lang()
+        if obj.person_id:
+            return getattr(obj.person, f'full_name_{lang}') or obj.person.full_name_uz
+        return obj.full_name
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_specialty_name(self, obj):
+        return getattr(obj, f'specialty_name_{self._lang()}') or obj.specialty_name_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_dissertation_topic(self, obj):
+        return getattr(obj, f'dissertation_topic_{self._lang()}') or obj.dissertation_topic_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_supervisor_info(self, obj):
+        return getattr(obj, f'supervisor_info_{self._lang()}') or obj.supervisor_info_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_education_form(self, obj):
+        return getattr(obj, f'education_form_{self._lang()}') or obj.education_form_uz
 
 
 class MagistrStudentSerializer(serializers.ModelSerializer):

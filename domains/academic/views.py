@@ -7,6 +7,8 @@ from django.http import Http404
 from django.db.models import F, Window, Case, When, IntegerField
 from django.db.models.functions import RowNumber
 
+from domains.tracker.mixins import ViewsCountMixin
+from domains.tracker.views import RecordViewAPIView
 from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra, HuzuridagiTashkilot
 
 from .serializers import (
@@ -80,7 +82,7 @@ class FakultetKafedraListAPIView(generics.ListAPIView):
 
 
 @extend_schema(tags=['academic'], summary="Fakultet/Kafedra batafsil ma'lumoti")
-class FakultetKafedraDetailAPIView(generics.RetrieveAPIView):
+class FakultetKafedraDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     serializer_class   = FakultetKafedraDetailSerializer
     permission_classes = [AllowAny]
     queryset           = FakultetKafedra.objects.filter(is_active=True).prefetch_related('publications', 'xodimlar__person', 'rasmlar')
@@ -100,7 +102,7 @@ class FakultetKafedraDetailAPIView(generics.RetrieveAPIView):
 
 
 @extend_schema(tags=['academic'], summary="Akademiya huzuridagi tashkilotlar ro'yxati")
-class HuzuridagiTashkilotListAPIView(generics.ListAPIView):
+class HuzuridagiTashkilotListAPIView(ViewsCountMixin, generics.ListAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = HuzuridagiTashkilotSerializer
     permission_classes = [AllowAny]
@@ -114,3 +116,17 @@ class HuzuridagiTashkilotListAPIView(generics.ListAPIView):
         lang = self.request.query_params.get('lang', 'uz')
         ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
         return ctx
+
+
+# ── RecordView endpoints ───────────────────────────────────────────────────────
+
+class FakultetKafedraRecordViewAPIView(RecordViewAPIView):
+    model_class  = FakultetKafedra
+    pk_url_kwarg = 'slug'
+
+    def get_target_object(self):
+        slug = self.kwargs.get('slug')
+        obj = FakultetKafedra.objects.filter(slug=slug, is_active=True).order_by('order', 'created_at').first()
+        if not obj:
+            raise FakultetKafedra.DoesNotExist
+        return obj

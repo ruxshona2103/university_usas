@@ -5,12 +5,14 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from common.pagination import CustomDashboardPagination
-from .models import Person, PersonCategory, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, Stipendiya
+from .models import Person, PersonCategory, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrTalaba, Stipendiya
 from .serializers import (
     PersonSerializer, PersonCategorySerializer, StudentInfoSerializer,
     PersonCategoryWithPersonsSerializer, StudentInfoCategorySerializer,
-    OlimpiyaChempionSerializer, MagistrGroupSerializer, StipendiyaSerializer,
+    OlimpiyaChempionSerializer, MagistrGroupSerializer, MagistrTalabaSerializer, StipendiyaSerializer,
 )
+from domains.tracker.mixins import ViewsCountMixin
+from domains.tracker.views import RecordViewAPIView
 
 
 def _lang(request):
@@ -34,7 +36,7 @@ class PersonCategoryListAPIView(generics.ListAPIView):
 
 
 @extend_schema(tags=['people'], summary="Shaxslar ro'yxati")
-class PersonListAPIView(generics.ListAPIView):
+class PersonListAPIView(ViewsCountMixin, generics.ListAPIView):
     """
     ?category=rektorat  ?is_head=1  ?search=  ?lang=uz|ru|en
     """
@@ -68,7 +70,7 @@ class PersonListAPIView(generics.ListAPIView):
 
 
 @extend_schema(tags=['people'], summary="Shaxs detali")
-class PersonDetailAPIView(generics.RetrieveAPIView):
+class PersonDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     """Bitta shaxsning to'liq ma'lumoti (tablar, rasmlar bilan)."""
     serializer_class = PersonSerializer
 
@@ -227,8 +229,62 @@ class StipendiyaListAPIView(generics.ListAPIView):
         return ctx
 
 
+class PersonRecordViewAPIView(RecordViewAPIView):
+    model_class = Person
+
+
+@extend_schema(
+    tags=['magistr'],
+    summary="Magistratura ta'lim bosqichi talabalari",
+    description=(
+        "?year=2024-2025  ?specialty_code=71010301  ?education_form=Kunduzgi  ?lang=uz|ru|en\n"
+        "Har bir talaba Person modeliga bog'langan (photo, bio) + o'z matn maydonlariga ega."
+    ),
+)
+class MagistrTalabaListAPIView(ViewsCountMixin, generics.ListAPIView):
+    serializer_class   = MagistrTalabaSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+    def get_queryset(self):
+        qs = MagistrTalaba.objects.filter(is_active=True).select_related('person')
+        year           = self.request.query_params.get('year')
+        specialty_code = self.request.query_params.get('specialty_code')
+        education_form = self.request.query_params.get('education_form')
+        if year:
+            qs = qs.filter(year=year)
+        if specialty_code:
+            qs = qs.filter(specialty_code=specialty_code)
+        if education_form:
+            qs = qs.filter(education_form_uz__icontains=education_form)
+        return qs.order_by('year', 'order')
+
+
+@extend_schema(tags=['magistr'], summary="Magistratura talabasi — ID bo'yicha")
+class MagistrTalabaDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
+    serializer_class   = MagistrTalabaSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return MagistrTalaba.objects.filter(is_active=True).select_related('person')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+class MagistrTalabaRecordViewAPIView(RecordViewAPIView):
+    model_class = MagistrTalaba
+
+
 @extend_schema(tags=['people'], summary="Olimpiya chempionlari ro'yxati")
-class OlimpiyaChempionListAPIView(generics.ListAPIView):
+class OlimpiyaChempionListAPIView(ViewsCountMixin, generics.ListAPIView):
     """
     ?yonalish=<sport>   — sport turi bo'yicha filter
     ?guruh=<guruh>      — guruh bo'yicha filter

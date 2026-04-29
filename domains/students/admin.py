@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.urls import path
 from django.utils.html import format_html
 
-from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent, Stipendiya
+from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent, MagistrTalaba, Stipendiya
 
 
 class AutoTranslateMixin:
@@ -236,6 +236,25 @@ class StipendiyaAdmin(admin.ModelAdmin):
     @admin.display(description="Miqdor (so'm)")
     def amount_display(self, obj):
         return f"{obj.amount:,}"
+
+
+@admin.register(MagistrTalaba)
+class MagistrTalabaAdmin(admin.ModelAdmin):
+    list_display  = ('__str__', 'specialty_code', 'year', 'education_form_uz', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter   = ('year', 'is_active')
+    search_fields = ('full_name', 'specialty_code', 'specialty_name_uz', 'dissertation_topic_uz')
+    autocomplete_fields = ('person',)
+
+    fieldsets = (
+        ("Shaxs (Person bilan bog'lash)", {'fields': ('person',)}),
+        ("F.I.Sh. (Person bo'lmasa to'ldiring)", {'fields': ('full_name',)}),
+        ("Mutaxassislik", {'fields': ('specialty_code', 'specialty_name_uz', 'specialty_name_ru', 'specialty_name_en')}),
+        ("Dissertatsiya", {'fields': ('dissertation_topic_uz', 'dissertation_topic_ru', 'dissertation_topic_en')}),
+        ("Ilmiy rahbar", {'fields': ('supervisor_name', 'supervisor_info_uz', 'supervisor_info_ru', 'supervisor_info_en')}),
+        ("Ta'lim", {'fields': ('education_form_uz', 'education_form_ru', 'education_form_en', 'year')}),
+        ("Tartib va holat", {'fields': ('order', 'is_active')}),
+    )
 
 
 @admin.register(OlimpiyaChempion)

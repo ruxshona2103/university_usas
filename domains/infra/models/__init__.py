@@ -5,6 +5,7 @@ from .sport_majmua import (
     SportMajmuaSportTuri,
     SportMajmuaTadbir,
 )
+from .sharoit import Sharoit
 
 __all__ = [
     'SportMajmua',
@@ -12,4 +13,5 @@ __all__ = [
     'SportMajmuaStat',
     'SportMajmuaSportTuri',
     'SportMajmuaTadbir',
+    'Sharoit',
 ]

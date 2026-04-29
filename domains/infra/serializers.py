@@ -5,6 +5,7 @@ from drf_spectacular.openapi import OpenApiTypes
 from .models import (
     SportMajmua, SportMajmuaImage,
     SportMajmuaStat, SportMajmuaSportTuri, SportMajmuaTadbir,
+    Sharoit,
 )
 
 
@@ -130,3 +131,25 @@ class SportMajmuaListSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_location(self, obj):
         return {'uz': obj.location_uz, 'ru': obj.location_ru or obj.location_uz, 'en': obj.location_en or obj.location_uz}
+
+
+class SharoitSerializer(serializers.ModelSerializer):
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    image_url   = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = Sharoit
+        fields = ['id', 'category', 'title', 'description', 'image_url', 'icon', 'order']
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_title(self, obj):
+        return {'uz': obj.title_uz, 'ru': obj.title_ru or obj.title_uz, 'en': obj.title_en or obj.title_uz}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_description(self, obj):
+        return {'uz': obj.description_uz, 'ru': obj.description_ru or obj.description_uz, 'en': obj.description_en or obj.description_uz}
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image_url(self, obj):
+        return _abs_url(self.context.get('request'), obj.image)

@@ -1,9 +1,10 @@
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema
 
-from .models import SportMajmua
-from .serializers import SportMajmuaSerializer, SportMajmuaListSerializer
+from .models import SportMajmua, Sharoit
+from .serializers import SportMajmuaSerializer, SportMajmuaListSerializer, SharoitSerializer
 
 
 def _lang(request):
@@ -49,3 +50,54 @@ class SportMajmuaDetailAPIView(generics.RetrieveAPIView):
         ctx = super().get_serializer_context()
         ctx['lang'] = _lang(self.request)
         return ctx
+
+
+_CATEGORY_MAP = {
+    'sport':  'sport',
+    'talim':  'talim',
+    "ta'lim": 'talim',
+}
+
+
+@extend_schema(
+    tags=['infra'],
+    summary="Yaratilgan sharoit va imkoniyatlar",
+    description="?category=sport|talim  Filtrsiz — ikkala bo'lim alohida qaytadi. ?lang=uz|ru|en",
+)
+class SharoitListAPIView(generics.ListAPIView):
+    serializer_class   = SharoitSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        qs = Sharoit.objects.filter(is_active=True)
+        cat = self.request.query_params.get('category')
+        if cat:
+            qs = qs.filter(category=_CATEGORY_MAP.get(cat.lower(), cat))
+        return qs
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+    def list(self, request, *args, **kwargs):
+        ctx       = self.get_serializer_context()
+        cat_param = request.query_params.get('category')
+        resolved  = _CATEGORY_MAP.get(cat_param.lower(), cat_param) if cat_param else None
+        base_qs   = Sharoit.objects.filter(is_active=True)
+
+        if resolved:
+            items = SharoitSerializer(
+                base_qs.filter(category=resolved), many=True, context=ctx
+            ).data
+            return Response({'category': resolved, 'items': items})
+
+        return Response({
+            'sport': SharoitSerializer(
+                base_qs.filter(category='sport'), many=True, context=ctx
+            ).data,
+            'talim': SharoitSerializer(
+                base_qs.filter(category='talim'), many=True, context=ctx
+            ).data,
+        })

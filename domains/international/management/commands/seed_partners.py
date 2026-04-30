@@ -4,23 +4,73 @@ python manage.py seed_partners --clear  # o'chirib qaytadan yozadi
 python manage.py seed_partners --force-logos  # logolarni qayta yozadi
 """
 import os
+import base64
 from django.core.management.base import BaseCommand
-from django.core.files import File
-from django.conf import settings
+from django.core.files.base import ContentFile
 from domains.international.models import PartnerOrganization
 
-# Har bir tashkilot uchun yuklab olingan rasmiy logo fayli
-# PNG mavjud bo'lsa — PNG, aks holda SVG ishlatiladi
-LOGO_DIR = os.path.join(settings.MEDIA_ROOT, 'international', 'logos', '2026')
+
+def _svg(letter, bg, fg="#FFFFFF"):
+    """Oddiy SVG logo — harf + rang."""
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <rect width="200" height="200" rx="16" fill="{bg}"/>
+  <text x="100" y="135" text-anchor="middle" font-family="Arial Black,Arial,sans-serif"
+        font-size="{72 if len(letter)<=2 else 48}" font-weight="900" fill="{fg}">{letter}</text>
+</svg>'''.encode()
 
 
-def _logo_path(name):
-    """PNG ustuvor, SVG zaxira."""
-    for ext in ('png', 'svg', 'jpg', 'jpeg', 'webp'):
-        p = os.path.join(LOGO_DIR, f"{name}.{ext}")
+# ── Logolar: (filename, svg_bytes) ───────────────────────────────────────────
+LOGOS = {
+    # Xorijiy universitetlar — mamlakat kodi + rang
+    "lesgaft_ru":       ("lesgaft_ru.svg",       _svg("RU",  "#003580")),
+    "enu_kz":           ("enu_kz.svg",            _svg("KZ",  "#00AFCA")),
+    "dshs_de":          ("dshs_de.svg",           _svg("DE",  "#DD0000")),
+    "unitn_it":         ("unitn_it.svg",          _svg("IT",  "#009246")),
+    "gtsolifk_ru":      ("gtsolifk_ru.svg",       _svg("RU",  "#B22222")),
+    "bgufk_by":         ("bgufk_by.svg",          _svg("BY",  "#CF101A")),
+    "bsu_cn":           ("bsu_cn.svg",            _svg("CN",  "#DE2910")),
+    "ksoc_kr":          ("ksoc_kr.svg",           _svg("KR",  "#003478")),
+    "tnoc_tr":          ("tnoc_tr.svg",           _svg("TR",  "#E30A17")),
+    "jsa_jp":           ("jsa_jp.svg",            _svg("JP",  "#BC002D")),
+    "noc_az":           ("noc_az.svg",            _svg("AZ",  "#0092BC")),
+    # Mahalliy tashkilotlar
+    "noc_uz":           ("noc_uz.svg",            _svg("NOC", "#003DA5")),
+    "sport_ministry":   ("sport_ministry.svg",    _svg("SM",  "#1A237E")),
+    "para_uz":          ("para_uz.svg",           _svg("PAR", "#6A1B9A")),
+    "rep_center":       ("rep_center.svg",        _svg("RC",  "#0057A8")),
+    "jizzax_center":    ("jizzax_center.svg",     _svg("JZ",  "#2E7D32")),
+    "chirchiq_center":  ("chirchiq_center.svg",   _svg("CH",  "#1565C0")),
+    "fed_judo":         ("fed_judo.svg",          _svg("JUD", "#1B3A6B")),
+    "fed_boxing":       ("fed_boxing.svg",        _svg("BOX", "#B71C1C")),
+    "fed_kurash":       ("fed_kurash.svg",        _svg("KUR", "#4E342E")),
+    "fed_taekwondo":    ("fed_taekwondo.svg",     _svg("TKD", "#0D47A1")),
+    "fed_athletics":    ("fed_athletics.svg",     _svg("ATH", "#F57F17")),
+    "fed_swimming":     ("fed_swimming.svg",      _svg("SWM", "#0288D1")),
+    "fed_gymnastics":   ("fed_gymnastics.svg",    _svg("GYM", "#AD1457")),
+    "fed_weightlift":   ("fed_weightlift.svg",    _svg("WLT", "#37474F")),
+}
+
+# Serverda real logo fayllari bo'lsa ularni ishlatadi, yo'q bo'lsa SVG fallback
+def _logo_path(key):
+    from django.conf import settings
+    for ext in ('png', 'jpg', 'jpeg', 'webp', 'svg'):
+        p = os.path.join(settings.MEDIA_ROOT, 'international', 'logos', '2026', f"{key}.{ext}")
         if os.path.isfile(p):
             return p
     return None
+
+
+def _get_logo_content(key):
+    """Real fayl bo'lsa o'sha, yo'q bo'lsa SVG inline qaytaradi."""
+    path = _logo_path(key)
+    if path:
+        ext = os.path.splitext(path)[1]
+        with open(path, 'rb') as f:
+            return f"{key}{ext}", f.read()
+    if key in LOGOS:
+        fname, content = LOGOS[key]
+        return fname, content
+    return None, None
 
 
 FOREIGN = [
@@ -116,7 +166,7 @@ DOMESTIC = [
         "title_ru": "Республиканский центр подготовки по олимпийским и паралимпийским видам спорта",
         "title_en": "Republican Centre for Training in Olympic and Paralympic Sports",
         "country_uz": "O'zbekiston", "country_ru": "Узбекистан", "country_en": "Uzbekistan",
-        "website": "", "order": 2, "_logo_key": "rep_olympic_center",
+        "website": "", "order": 2, "_logo_key": "rep_center",
     },
     {
         "title_uz": "Jizzax olimpiya va paralimpiya sport turlariga tayyorlash markazi",
@@ -200,7 +250,7 @@ DOMESTIC = [
         "title_ru": "Федерация тяжёлой атлетики Узбекистана",
         "title_en": "Uzbekistan Weightlifting Federation",
         "country_uz": "O'zbekiston", "country_ru": "Узбекистан", "country_en": "Uzbekistan",
-        "website": "", "order": 14, "_logo_key": "fed_weightlifting",
+        "website": "", "order": 14, "_logo_key": "fed_weightlift",
     },
 ]
 
@@ -208,16 +258,11 @@ DOMESTIC = [
 def _attach_logo(obj, logo_key, force=False):
     if obj.logo and not force:
         return False
-    path = _logo_path(logo_key)
-    if not path:
+    fname, content = _get_logo_content(logo_key)
+    if not content:
         return False
-    ext = os.path.splitext(path)[1]
-    fname = f"{logo_key}{ext}"
-    # logo va image ikkisini ham bir faylga saqlaylik
-    with open(path, 'rb') as f:
-        content = f.read()
-    from django.core.files.base import ContentFile
-    obj.logo.save(fname, ContentFile(content), save=False)
+    cf = ContentFile(content)
+    obj.logo.save(fname, cf, save=False)
     obj.image.save(fname, ContentFile(content), save=True)
     return True
 
@@ -238,14 +283,14 @@ def _seed_list(stdout, records, partner_type, force=False):
         logo_saved = _attach_logo(obj, logo_key, force=force) if logo_key else False
         if logo_saved:
             logos += 1
-        mark = (" [logo+]" if logo_saved else (" [logo]" if obj.logo else " [no logo]"))
+        mark = " [logo+]" if logo_saved else (" [logo]" if obj.logo else " [no logo]")
         name_safe = obj.title_uz[:58].encode('ascii', 'replace').decode()
         stdout.write(f"  [{'+'if is_new else '~'}] {name_safe}{mark}")
     return created, updated, logos
 
 
 class Command(BaseCommand):
-    help = "Hamkor tashkilotlar ma'lumotlari va rasmiy logolarini qo'shadi"
+    help = "Hamkor tashkilotlar ma'lumotlari va logolarini qo'shadi"
 
     def add_arguments(self, parser):
         parser.add_argument('--clear', action='store_true', help="Avval o'chirib qaytadan yozadi")

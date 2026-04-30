@@ -7,6 +7,7 @@ from domains.academic.models import HuzuridagiTashkilot
 
 DATA = [
     {
+        "slug": "yoshlar-ittifoqi",
         "name_uz": "Yoshlar ittifoqi",
         "name_ru": "Союз молодёжи",
         "name_en": "Youth Union",
@@ -21,6 +22,7 @@ DATA = [
         "order": 1,
     },
     {
+        "slug": "kasaba-uyushmasi",
         "name_uz": "Kasaba uyushmasi",
         "name_ru": "Профсоюз",
         "name_en": "Trade Union",
@@ -35,6 +37,7 @@ DATA = [
         "order": 2,
     },
     {
+        "slug": "xotin-qizlar-qomitasi",
         "name_uz": "Xotin-qizlar masalalari bo'yicha maslahat kengashi",
         "name_ru": "Консультативный совет по вопросам женщин",
         "name_en": "Women's Advisory Council",

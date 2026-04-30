@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = [
     host.strip()
@@ -22,7 +22,7 @@ if database_url:
     DATABASES = {
         'default': dj_database_url.parse(
             database_url,
-            conn_max_age=0,
+            conn_max_age=600,   # 10 daqiqa connection pool
             ssl_require=True,
         )
     }
@@ -70,3 +70,36 @@ else:
             "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
         },
     }
+
+# ── Cache ─────────────────────────────────────────────────────────────────────
+redis_url = os.getenv('REDIS_URL', '')
+if redis_url:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'LOCATION': redis_url,
+            'TIMEOUT': 300,  # 5 daqiqa
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            },
+        }
+    }
+else:
+    CACHES = {
+        'default': {
+            'BACKEND':  'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'usas-api-cache',
+            'TIMEOUT':  300,
+        }
+    }
+
+# ── DRF — pagination default o'chirish (list viewlar uchun) ──────────────────
+REST_FRAMEWORK['DEFAULT_PAGINATION_CLASS'] = None
+
+# ── Session engine — DB o'rniga cache ────────────────────────────────────────
+if redis_url:
+    SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+    SESSION_CACHE_ALIAS = 'default'
+
+# ── GZip compression ─────────────────────────────────────────────────────────
+MIDDLEWARE.insert(0, 'django.middleware.gzip.GZipMiddleware')

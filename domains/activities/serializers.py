@@ -17,25 +17,31 @@ from domains.activities.models import (
 
 def _safe_file_url(field, request=None):
     """
-    Return a robust URL for FileField values.
-    - Accepts already-absolute names (legacy seeded data).
-    - Avoids crashing when storage backends fail to resolve malformed names.
+    Return a robust absolute URL for FileField values.
+    - Already-absolute URLs (ImageKit CDN) → as-is
+    - Relative /media/... paths → prepend scheme+host via request
     """
     if not field:
         return None
 
     name = (getattr(field, 'name', '') or '').strip()
+    if not name:
+        return None
+
+    # Already absolute (ImageKit, S3, etc.)
     if name.startswith(('http://', 'https://')):
         return name
 
     try:
         url = field.url
     except Exception:
-        if not name:
-            return None
-        return request.build_absolute_uri(name) if request else name
+        url = name
 
+    # url is relative like /media/... — build absolute from root, not current path
     if request and not str(url).startswith(('http://', 'https://')):
+        # build_absolute_uri('/media/...') always works correctly with leading slash
+        if not url.startswith('/'):
+            url = '/' + url
         return request.build_absolute_uri(url)
     return url
 

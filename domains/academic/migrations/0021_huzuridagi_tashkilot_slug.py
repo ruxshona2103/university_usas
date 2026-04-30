@@ -17,6 +17,22 @@ def fill_slugs(apps, schema_editor):
         obj.save(update_fields=['slug'])
 
 
+def ensure_unique_index(apps, schema_editor):
+    """Create the unique index only if it doesn't already exist (idempotent)."""
+    db = schema_editor.connection.vendor
+    if db == 'postgresql':
+        schema_editor.execute(
+            "CREATE UNIQUE INDEX IF NOT EXISTS "
+            "academic_huzuridagi_tashkilot_slug_c6166a8e_like "
+            "ON academic_huzuridagi_tashkilot (slug varchar_pattern_ops);"
+        )
+        schema_editor.execute(
+            "CREATE UNIQUE INDEX IF NOT EXISTS "
+            "academic_huzuridagi_tashkilot_slug_key "
+            "ON academic_huzuridagi_tashkilot (slug);"
+        )
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -24,16 +40,26 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        # Step 1: add column without unique constraint
         migrations.AddField(
             model_name='huzuridagitashkilot',
             name='slug',
             field=models.SlugField(blank=True, max_length=200, unique=False, verbose_name='Slug', default=''),
             preserve_default=False,
         ),
+        # Step 2: fill slugs for existing rows
         migrations.RunPython(fill_slugs, migrations.RunPython.noop),
-        migrations.AlterField(
-            model_name='huzuridagitashkilot',
-            name='slug',
-            field=models.SlugField(blank=True, max_length=200, unique=True, verbose_name='Slug'),
+        # Step 3: mark field as unique in Django state
+        migrations.SeparateDatabaseAndState(
+            database_operations=[
+                migrations.RunPython(ensure_unique_index, migrations.RunPython.noop),
+            ],
+            state_operations=[
+                migrations.AlterField(
+                    model_name='huzuridagitashkilot',
+                    name='slug',
+                    field=models.SlugField(blank=True, max_length=200, unique=True, verbose_name='Slug'),
+                ),
+            ],
         ),
     ]

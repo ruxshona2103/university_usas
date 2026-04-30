@@ -212,8 +212,13 @@ def _attach_logo(obj, logo_key, force=False):
     if not path:
         return False
     ext = os.path.splitext(path)[1]
+    fname = f"{logo_key}{ext}"
+    # logo va image ikkisini ham bir faylga saqlaylik
     with open(path, 'rb') as f:
-        obj.logo.save(f"{logo_key}{ext}", File(f), save=True)
+        content = f.read()
+    from django.core.files.base import ContentFile
+    obj.logo.save(fname, ContentFile(content), save=False)
+    obj.image.save(fname, ContentFile(content), save=True)
     return True
 
 

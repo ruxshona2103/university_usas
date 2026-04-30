@@ -13,7 +13,19 @@ def tashkilot_image_upload(instance, filename):
 class HuzuridagiTashkilot(TimeStampedModel):
     """
     Akademiya huzuridagi tashkilotlar.
+    org_type: 'akademiya' — akademiya huzuridagi, 'jamoat' — jamoat tashkilotlari
     """
+    ORG_AKADEMIYA = 'akademiya'
+    ORG_JAMOAT    = 'jamoat'
+    ORG_TYPE_CHOICES = [
+        (ORG_AKADEMIYA, 'Akademiya huzuridagi'),
+        (ORG_JAMOAT,    'Jamoat tashkiloti'),
+    ]
+
+    org_type       = models.CharField(
+        max_length=20, choices=ORG_TYPE_CHOICES,
+        default=ORG_AKADEMIYA, verbose_name="Tashkilot turi",
+    )
     name_uz        = models.CharField(max_length=400, verbose_name="Nomi (Uz)")
     name_ru        = models.CharField(max_length=400, blank=True, verbose_name="Nomi (Ru)")
     name_en        = models.CharField(max_length=400, blank=True, verbose_name="Nomi (En)")
@@ -24,6 +36,9 @@ class HuzuridagiTashkilot(TimeStampedModel):
     website        = models.URLField(blank=True, verbose_name="Veb-sayt")
     phone          = models.CharField(max_length=50, blank=True, verbose_name="Telefon")
     email          = models.CharField(max_length=200, blank=True, verbose_name="Email")
+    about_uz       = models.TextField(blank=True, verbose_name="Qo'shimcha ma'lumot (Uz)")
+    about_ru       = models.TextField(blank=True, verbose_name="Qo'shimcha ma'lumot (Ru)")
+    about_en       = models.TextField(blank=True, verbose_name="Qo'shimcha ma'lumot (En)")
     address_uz     = models.CharField(max_length=400, blank=True, verbose_name="Manzil (Uz)")
     address_ru     = models.CharField(max_length=400, blank=True, verbose_name="Manzil (Ru)")
     address_en     = models.CharField(max_length=400, blank=True, verbose_name="Manzil (En)")

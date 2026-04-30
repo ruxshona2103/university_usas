@@ -272,3 +272,30 @@ class HuzuridagiTashkilotSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.URI)
     def get_image_url(self, obj):
         return _photo_url(self.context.get('request'), obj.image)
+
+
+class JamoatTashkilotSerializer(serializers.ModelSerializer):
+    name        = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    about       = serializers.SerializerMethodField()
+    image_url   = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = HuzuridagiTashkilot
+        fields = ['id', 'name', 'description', 'about', 'image_url', 'website', 'phone', 'email', 'order']
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_name(self, obj):
+        return {'uz': obj.name_uz, 'ru': obj.name_ru or obj.name_uz, 'en': obj.name_en or obj.name_uz}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_description(self, obj):
+        return {'uz': obj.description_uz, 'ru': obj.description_ru or obj.description_uz, 'en': obj.description_en or obj.description_uz}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_about(self, obj):
+        return {'uz': obj.about_uz or '', 'ru': obj.about_ru or '', 'en': obj.about_en or ''}
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image_url(self, obj):
+        return _photo_url(self.context.get('request'), obj.image)

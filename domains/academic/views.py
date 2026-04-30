@@ -14,7 +14,7 @@ from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafe
 from .serializers import (
     AcademyStatSerializer, AcademyDetailPageSerializer,
     FakultetKafedraListSerializer, FakultetKafedraDetailSerializer,
-    HuzuridagiTashkilotSerializer,
+    HuzuridagiTashkilotSerializer, JamoatTashkilotSerializer,
 )
 
 
@@ -109,7 +109,24 @@ class HuzuridagiTashkilotListAPIView(ViewsCountMixin, generics.ListAPIView):
     pagination_class   = None
 
     def get_queryset(self):
-        return HuzuridagiTashkilot.objects.filter(is_active=True)
+        return HuzuridagiTashkilot.objects.filter(is_active=True, org_type='akademiya')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+@extend_schema(tags=['academic'], summary="Jamoat tashkilotlari ro'yxati")
+class JamoatTashkilotlarListAPIView(ViewsCountMixin, generics.ListAPIView):
+    """?lang=uz|ru|en — Yoshlar ittifoqi, Kasaba uyushmasi, Xotin-qizlar kengashi"""
+    serializer_class   = JamoatTashkilotSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        return HuzuridagiTashkilot.objects.filter(is_active=True, org_type='jamoat').order_by('order')
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

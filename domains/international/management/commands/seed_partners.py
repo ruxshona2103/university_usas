@@ -261,9 +261,15 @@ def _attach_logo(obj, logo_key, force=False):
     fname, content = _get_logo_content(logo_key)
     if not content:
         return False
-    cf = ContentFile(content)
-    obj.logo.save(fname, cf, save=False)
-    obj.image.save(fname, ContentFile(content), save=True)
+    # logo va image ni alohida save — imagekit uchun oddiy nom
+    try:
+        obj.logo.save(fname, ContentFile(content), save=False)
+        obj.image.save(fname, ContentFile(content), save=True)
+    except Exception as e:
+        # ImageKit yoki boshqa storage xatosi — skip
+        import sys
+        print(f"    [WARN] logo save failed for {logo_key}: {e}", file=sys.stderr)
+        return False
     return True
 
 

@@ -234,10 +234,16 @@ class IlmiyFaoliyatCategoryFullListAPIView(generics.ListAPIView):
     pagination_class   = None
 
     def get_queryset(self):
+        from django.db.models import Prefetch
+        active_items = IlmiyFaoliyat.objects.filter(is_active=True).order_by('order')
         return (
             IlmiyFaoliyatCategory.objects
             .filter(parent=None)
-            .prefetch_related('children__items', 'items')
+            .prefetch_related(
+                Prefetch('items', queryset=active_items),
+                Prefetch('children', queryset=IlmiyFaoliyatCategory.objects.order_by('order')),
+                Prefetch('children__items', queryset=active_items),
+            )
             .order_by('order')
         )
 

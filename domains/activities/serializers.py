@@ -144,7 +144,8 @@ class IlmiyFaoliyatSubCategorySerializer(serializers.ModelSerializer):
         return getattr(obj, f'title_{lang}') or obj.title_uz
 
     def get_items(self, obj):
-        qs = obj.items.filter(is_active=True).order_by('order')
+        # prefetch_related cache dan oladi — .filter() ishlatmaymiz
+        qs = obj.items.all()
         return IlmiyFaoliyatItemSerializer(qs, many=True, context=self.context).data
 
 
@@ -162,13 +163,12 @@ class IlmiyFaoliyatCategoryTreeSerializer(serializers.ModelSerializer):
         return getattr(obj, f'title_{lang}') or obj.title_uz
 
     def get_subcategories(self, obj):
-        qs = obj.children.order_by('order')
-        return IlmiyFaoliyatSubCategorySerializer(qs, many=True, context=self.context).data
+        # prefetch cache dan oladi
+        return IlmiyFaoliyatSubCategorySerializer(obj.children.all(), many=True, context=self.context).data
 
     def get_items(self, obj):
-        # Faqat to'g'ridan-to'g'ri bog'liq itemlar (sub-kategoriyasiz)
-        qs = obj.items.filter(is_active=True).order_by('order')
-        return IlmiyFaoliyatItemSerializer(qs, many=True, context=self.context).data
+        # prefetch cache dan oladi
+        return IlmiyFaoliyatItemSerializer(obj.items.all(), many=True, context=self.context).data
 
 
 class IlmiyFaoliyatCategorySimpleSerializer(serializers.ModelSerializer):
@@ -251,9 +251,9 @@ class IlmiyFaoliyatCategorySerializer(serializers.ModelSerializer):
     def get_blocks(self, obj):
         result = []
 
-        # Sub-kategoriyalar → har biri structure-links blok
-        for cat in obj.children.order_by('order'):
-            links = [self._item_to_link(item) for item in cat.items.order_by('order')]
+        # Sub-kategoriyalar → har biri structure-links blok (prefetch cache)
+        for cat in obj.children.all():
+            links = [self._item_to_link(item) for item in cat.items.all()]
             result.append({
                 'type': 'structure-links',
                 'data': {
@@ -264,7 +264,7 @@ class IlmiyFaoliyatCategorySerializer(serializers.ModelSerializer):
 
         # To'g'ridan-to'g'ri itemlar → title bo'yicha guruhlash → har bir guruh bitta blok
         groups: dict = {}
-        for item in obj.items.order_by('order'):
+        for item in obj.items.all():
             key = (item.title_uz or '', item.title_ru or '', item.title_en or '')
             if key not in groups:
                 groups[key] = {

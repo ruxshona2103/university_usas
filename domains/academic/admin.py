@@ -136,14 +136,18 @@ class KafedraPublicationAdmin(admin.ModelAdmin):
 
 @admin.register(HuzuridagiTashkilot)
 class HuzuridagiTashkilotAdmin(admin.ModelAdmin):
-    list_display  = ('name_uz', 'phone', 'website', 'order', 'is_active')
+    list_display  = ('name_uz', 'org_type', 'phone', 'order', 'is_active')
     list_editable = ('order', 'is_active')
+    list_filter   = ('org_type', 'is_active')
     search_fields = ('name_uz', 'name_ru')
     list_per_page = 20
+    autocomplete_fields = ['person']
     fieldsets = (
-        ("O'zbek tili (majburiy)", {'fields': ('name_uz', 'description_uz', 'address_uz')}),
-        ("Rus tili", {'classes': ('collapse',), 'fields': ('name_ru', 'description_ru', 'address_ru')}),
-        ("Ingliz tili", {'classes': ('collapse',), 'fields': ('name_en', 'description_en', 'address_en')}),
+        ("Tur va tartib", {'fields': ('org_type', 'slug', 'order', 'is_active')}),
+        ("Rahbar (Person)", {'fields': ('person',)}),
+        ("O'zbek tili (majburiy)", {'fields': ('name_uz', 'description_uz', 'about_uz', 'address_uz')}),
+        ("Rus tili", {'classes': ('collapse',), 'fields': ('name_ru', 'description_ru', 'about_ru', 'address_ru')}),
+        ("Ingliz tili", {'classes': ('collapse',), 'fields': ('name_en', 'description_en', 'about_en', 'address_en')}),
         ("Aloqa", {'fields': ('phone', 'email', 'website')}),
-        ("Rasm va tartib", {'fields': ('image', 'order', 'is_active')}),
+        ("Rasm", {'fields': ('image',)}),
     )

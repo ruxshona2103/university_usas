@@ -14,7 +14,7 @@ from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafe
 from .serializers import (
     AcademyStatSerializer, AcademyDetailPageSerializer,
     FakultetKafedraListSerializer, FakultetKafedraDetailSerializer,
-    HuzuridagiTashkilotSerializer, JamoatTashkilotSerializer,
+    HuzuridagiTashkilotSerializer, JamoatTashkilotSerializer, JamoatTashkilotDetailSerializer,
 )
 
 
@@ -127,6 +127,20 @@ class JamoatTashkilotlarListAPIView(ViewsCountMixin, generics.ListAPIView):
 
     def get_queryset(self):
         return HuzuridagiTashkilot.objects.filter(is_active=True, org_type='jamoat').order_by('order')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+@extend_schema(tags=['academic'], summary="Jamoat tashkiloti batafsil ma'lumoti")
+class JamoatTashkilotDetailAPIView(generics.RetrieveAPIView):
+    serializer_class   = JamoatTashkilotDetailSerializer
+    permission_classes = [AllowAny]
+    queryset           = HuzuridagiTashkilot.objects.filter(is_active=True, org_type='jamoat').select_related('person')
+    lookup_field       = 'slug'
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

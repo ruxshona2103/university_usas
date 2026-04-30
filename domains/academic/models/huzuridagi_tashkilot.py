@@ -2,6 +2,7 @@ import os
 import uuid
 
 from django.db import models
+from django.utils.text import slugify
 from common.base_models import TimeStampedModel
 
 
@@ -22,6 +23,13 @@ class HuzuridagiTashkilot(TimeStampedModel):
         (ORG_JAMOAT,    'Jamoat tashkiloti'),
     ]
 
+    person         = models.ForeignKey(
+        'students.Person',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='jamoat_tashkilot_links',
+        verbose_name="Rahbar (Person)",
+    )
     org_type       = models.CharField(
         max_length=20, choices=ORG_TYPE_CHOICES,
         default=ORG_AKADEMIYA, verbose_name="Tashkilot turi",
@@ -42,6 +50,7 @@ class HuzuridagiTashkilot(TimeStampedModel):
     address_uz     = models.CharField(max_length=400, blank=True, verbose_name="Manzil (Uz)")
     address_ru     = models.CharField(max_length=400, blank=True, verbose_name="Manzil (Ru)")
     address_en     = models.CharField(max_length=400, blank=True, verbose_name="Manzil (En)")
+    slug           = models.SlugField(max_length=200, unique=True, blank=True, verbose_name="Slug")
     order          = models.PositiveIntegerField(default=0, verbose_name="Tartib")
     is_active      = models.BooleanField(default=True, verbose_name="Faolmi?")
 
@@ -50,6 +59,18 @@ class HuzuridagiTashkilot(TimeStampedModel):
         ordering            = ['order']
         verbose_name        = "Huzuridagi tashkilot"
         verbose_name_plural = "Akademiya huzuridagi tashkilotlar"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base = slugify(self.name_uz)
+            if not base:
+                base = uuid.uuid4().hex[:12]
+            slug, counter = base, 1
+            while HuzuridagiTashkilot.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f'{base}-{counter}'
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name_uz

@@ -277,12 +277,55 @@ class HuzuridagiTashkilotSerializer(serializers.ModelSerializer):
 class JamoatTashkilotSerializer(serializers.ModelSerializer):
     name        = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
-    about       = serializers.SerializerMethodField()
     image_url   = serializers.SerializerMethodField()
 
     class Meta:
         model  = HuzuridagiTashkilot
-        fields = ['id', 'name', 'description', 'about', 'image_url', 'website', 'phone', 'email', 'order']
+        fields = ['id', 'slug', 'name', 'description', 'image_url', 'website', 'phone', 'email', 'order']
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_name(self, obj):
+        return {'uz': obj.name_uz, 'ru': obj.name_ru or obj.name_uz, 'en': obj.name_en or obj.name_uz}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_description(self, obj):
+        return {'uz': obj.description_uz, 'ru': obj.description_ru or obj.description_uz, 'en': obj.description_en or obj.description_uz}
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image_url(self, obj):
+        return _photo_url(self.context.get('request'), obj.image)
+
+
+class JamoatTashkilotPersonSerializer(serializers.Serializer):
+    id        = serializers.IntegerField(source='person.id')
+    full_name = serializers.SerializerMethodField()
+    title     = serializers.SerializerMethodField()
+    photo_url = serializers.SerializerMethodField()
+    phone     = serializers.CharField(source='person.phone', default='')
+    email     = serializers.EmailField(source='person.email', default='')
+
+    def get_full_name(self, obj):
+        p = obj.person
+        return {'uz': p.full_name_uz, 'ru': p.full_name_ru or p.full_name_uz, 'en': p.full_name_en or p.full_name_uz}
+
+    def get_title(self, obj):
+        p = obj.person
+        return {'uz': p.title_uz or '', 'ru': p.title_ru or '', 'en': p.title_en or ''}
+
+    def get_photo_url(self, obj):
+        return _photo_url(self.context.get('request'), obj.person.image)
+
+
+class JamoatTashkilotDetailSerializer(serializers.ModelSerializer):
+    name        = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    about       = serializers.SerializerMethodField()
+    image_url   = serializers.SerializerMethodField()
+    person      = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = HuzuridagiTashkilot
+        fields = ['id', 'slug', 'name', 'description', 'about', 'image_url', 'website', 'phone', 'email', 'person', 'order']
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_name(self, obj):
@@ -299,3 +342,17 @@ class JamoatTashkilotSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.URI)
     def get_image_url(self, obj):
         return _photo_url(self.context.get('request'), obj.image)
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_person(self, obj):
+        if not obj.person_id:
+            return None
+        p = obj.person
+        return {
+            'id':        p.id,
+            'full_name': {'uz': p.full_name_uz, 'ru': p.full_name_ru or p.full_name_uz, 'en': p.full_name_en or p.full_name_uz},
+            'title':     {'uz': p.title_uz or '', 'ru': p.title_ru or '', 'en': p.title_en or ''},
+            'photo_url': _photo_url(self.context.get('request'), p.image),
+            'phone':     p.phone or '',
+            'email':     str(p.email) if p.email else '',
+        }

@@ -222,7 +222,7 @@ def _attach_logo(obj, logo_key, force=False):
     return True
 
 
-def _seed_list(stdout, records, partner_type):
+def _seed_list(stdout, records, partner_type, force=False):
     created = updated = logos = 0
     for d in records:
         logo_key = d.pop('_logo_key', None)
@@ -235,7 +235,7 @@ def _seed_list(stdout, records, partner_type):
             created += 1
         else:
             updated += 1
-        logo_saved = _attach_logo(obj, logo_key) if logo_key else False
+        logo_saved = _attach_logo(obj, logo_key, force=force) if logo_key else False
         if logo_saved:
             logos += 1
         mark = (" [logo+]" if logo_saved else (" [logo]" if obj.logo else " [no logo]"))
@@ -259,15 +259,10 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING(f"O'chirildi: {n} ta yozuv"))
 
         self.stdout.write("\n--- XALQARO HAMKORLAR ---")
-        fc, fu, fl = _seed_list(self.stdout, FOREIGN, 'foreign')
+        fc, fu, fl = _seed_list(self.stdout, FOREIGN, 'foreign', force=force)
 
         self.stdout.write("\n--- MAHALLIY HAMKORLAR ---")
-        dc, du, dl = _seed_list(self.stdout, DOMESTIC, 'domestic')
-
-        if force:
-            # force mode: re-attach all logos
-            for d in PartnerOrganization.objects.all():
-                pass  # already handled above via --clear + re-create
+        dc, du, dl = _seed_list(self.stdout, DOMESTIC, 'domestic', force=force)
 
         self.stdout.write(self.style.SUCCESS(
             f"\nNatija: Xalqaro — {fc} yangi, {fu} yangilandi, {fl} logo | "

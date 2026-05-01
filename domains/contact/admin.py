@@ -37,3 +37,15 @@ class RectorAppealAdmin(admin.ModelAdmin):
         ("Holat", {'fields': ('status',)}),
         ('Texnik', {'classes': ('collapse',), 'fields': ('created_at', 'updated_at')}),
     )
+
+from .models import QabulRaqami
+
+@admin.register(QabulRaqami)
+class QabulRaqamiAdmin(admin.ModelAdmin):
+    list_display  = ('label_uz', 'number', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('label_uz', 'number')
+    fieldsets = (
+        ("Nomi", {'fields': ('label_uz', 'label_ru', 'label_en')}),
+        ("Raqam va tartib", {'fields': ('number', 'order', 'is_active')}),
+    )

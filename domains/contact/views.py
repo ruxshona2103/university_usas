@@ -5,8 +5,8 @@ from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 
 from common.pagination import CustomDashboardPagination
-from domains.contact.models import FAQ, RectorAppeal
-from .serializers import FAQSerializer, FAQCreateSerializer, RectorAppealSerializer
+from domains.contact.models import FAQ, RectorAppeal, QabulRaqami
+from .serializers import FAQSerializer, FAQCreateSerializer, RectorAppealSerializer, QabulRaqamiSerializer
 
 
 def _lang(request):
@@ -55,3 +55,20 @@ class FAQVoteAPIView(APIView):
 class RectorAppealCreateAPIView(generics.CreateAPIView):
     serializer_class   = RectorAppealSerializer
     permission_classes = [AllowAny]
+
+
+@extend_schema(tags=['contact'], summary="Qabul raqamlari ro'yxati")
+class QabulRaqamiListAPIView(generics.ListAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = QabulRaqamiSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        return QabulRaqami.objects.filter(is_active=True).order_by('order')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx

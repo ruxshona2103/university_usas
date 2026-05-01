@@ -50,12 +50,6 @@ from domains.contact.models import QabulRaqami
 
 
 class QabulRaqamiSerializer(serializers.ModelSerializer):
-    label = serializers.SerializerMethodField()
-
     class Meta:
         model  = QabulRaqami
-        fields = ['id', 'label', 'number', 'order']
-
-    @extend_schema_field(OpenApiTypes.OBJECT)
-    def get_label(self, obj):
-        return {'uz': obj.label_uz, 'ru': obj.label_ru or obj.label_uz, 'en': obj.label_en or obj.label_uz}
+        fields = ['id', 'number']

@@ -7,7 +7,7 @@ from .views import (
     BlogListAPIView, BlogDetailAPIView, BlogDetailByIdAPIView,
     KorrupsiyaListAPIView, KorrupsiyaDetailAPIView, KorrupsiyaDetailByIdAPIView,
     ElonListAPIView, ElonDetailAPIView,
-    InformationContentListAPIView,
+    InformationContentListAPIView, InformationContentDetailAPIView,
     PhotoGalleryListAPIView, PhotoGalleryDetailAPIView,
     VideoGalleryListAPIView, VideoGalleryDetailAPIView,
     NewsRecordViewAPIView, EventRecordViewAPIView, BlogRecordViewAPIView,
@@ -36,6 +36,7 @@ urlpatterns = [
     path('elon/<uuid:pk>/view/',        ElonRecordViewAPIView.as_view(),      name='elon-record-view'),
     path('elon/<uuid:pk>/',             ElonDetailAPIView.as_view(),          name='elon-detail'),
     path('elon/',                       ElonListAPIView.as_view(),            name='elon-list'),
+    path('information/<uuid:pk>/',      InformationContentDetailAPIView.as_view(), name='information-detail'),
     path('information/',                InformationContentListAPIView.as_view(),  name='information-list'),
 
     path('gallery/photo/<uuid:pk>/',    PhotoGalleryDetailAPIView.as_view(),      name='photo-gallery-detail'),

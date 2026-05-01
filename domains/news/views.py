@@ -415,6 +415,20 @@ class InformationContentListAPIView(ViewsCountMixin, generics.ListAPIView):
         return qs
 
 
+class InformationContentDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = InformationContentSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return InformationContent.objects.filter(is_published=True).prefetch_related('images')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
 # ── RecordView endpoints ───────────────────────────────────────────────────────
 
 class NewsRecordViewAPIView(RecordViewAPIView):

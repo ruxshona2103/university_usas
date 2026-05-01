@@ -60,9 +60,8 @@ class PersonContentForm(forms.ModelForm):
 
 class PersonContentInline(admin.StackedInline):
     model            = PersonContent
-    form             = PersonContentForm
     extra            = 1
-    fields           = ('tags', 'content_uz', 'content_ru', 'content_en', 'order')
+    fields           = ('tags', 'order')
     ordering         = ('order',)
     show_change_link = True
 

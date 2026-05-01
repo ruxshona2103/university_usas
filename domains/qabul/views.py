@@ -2,6 +2,8 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 
+from common.cache_mixin import cached_list
+
 from .models import (
     QabulBolim, QabulKomissiyaTarkibi, QabulKuni,
     CallCenter, QabulYangilik, QabulNarx, QabulHujjat,
@@ -28,6 +30,7 @@ def _ctx(request):
 
 # ─────────────── Qabul Bo'limlari ───────────────
 
+@cached_list(120)
 @extend_schema(
     tags=['qabul'],
     summary="Qabul bo'limlari ro'yxati (items bilan)",
@@ -69,6 +72,7 @@ class QabulBolimDetailAPIView(generics.RetrieveAPIView):
 
 # ─────────────── Komissiya Tarkibi ───────────────
 
+@cached_list(300)
 @extend_schema(
     tags=['qabul'],
     summary="Qabul komissiyasi tarkibi",
@@ -85,6 +89,7 @@ class QabulKomissiyaTarkibiListAPIView(generics.ListAPIView):
 
 # ─────────────── Qabul Kunlari ───────────────
 
+@cached_list(120)
 @extend_schema(
     tags=['qabul'],
     summary="Qabul kunlari jadvali",
@@ -111,6 +116,7 @@ class QabulKuniListAPIView(generics.ListAPIView):
 
 # ─────────────── Call Center ───────────────
 
+@cached_list(300)
 @extend_schema(
     tags=['qabul'],
     summary="Call-center raqamlari",
@@ -127,6 +133,7 @@ class CallCenterListAPIView(generics.ListAPIView):
 
 # ─────────────── Yangiliklar ───────────────
 
+@cached_list(60)
 @extend_schema(
     tags=['qabul'],
     summary="Qabul yangiliklari ro'yxati",
@@ -163,6 +170,7 @@ class QabulYangilikDetailAPIView(generics.RetrieveAPIView):
 
 # ─────────────── Kontrakt Narxlari ───────────────
 
+@cached_list(300)
 @extend_schema(
     tags=['qabul'],
     summary="Kontrakt narxlari",
@@ -193,6 +201,7 @@ class QabulNarxListAPIView(generics.ListAPIView):
 
 # ─────────────── Hujjatlar ───────────────
 
+@cached_list(120)
 @extend_schema(
     tags=['qabul'],
     summary="Qabul hujjatlari ro'yxati",
@@ -219,6 +228,7 @@ class QabulHujjatListAPIView(generics.ListAPIView):
 
 # ─────────────── Qabul Navbar ───────────────
 
+@cached_list(300)
 @extend_schema(
     tags=['qabul'],
     summary="Qabul navbar (kategoriyalar va submenu itemlar)",

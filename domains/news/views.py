@@ -4,6 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from drf_spectacular.openapi import OpenApiTypes
 
+from common.cache_mixin import cached_list
 from common.pagination import CustomDashboardPagination
 from rest_framework.generics import get_object_or_404
 from domains.news.models import News, Event, Blog, Korrupsiya, InformationContent, Elon, NewsCategory
@@ -75,6 +76,7 @@ _DATE_TO_PARAM = OpenApiParameter(
 )
 
 
+@cached_list(60)
 @extend_schema(tags=['news'], summary="Yangiliklar ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM, _DATE_FROM_PARAM, _DATE_TO_PARAM])
 class NewsListAPIView(ViewsCountMixin, BaseContentListAPIView):
     serializer_class = NewsSerializer
@@ -100,6 +102,7 @@ _STATUS_PARAM = OpenApiParameter(
     enum=['upcoming', 'completed'],
 )
 
+@cached_list(60)
 @extend_schema(tags=['news'], summary="Tadbirlar ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM, _STATUS_PARAM])
 class EventListAPIView(ViewsCountMixin, BaseContentListAPIView):
     serializer_class = EventSerializer
@@ -115,6 +118,7 @@ class EventListAPIView(ViewsCountMixin, BaseContentListAPIView):
         return qs
 
 
+@cached_list(60)
 @extend_schema(tags=['news'], summary="Blog ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM])
 class BlogListAPIView(ViewsCountMixin, BaseContentListAPIView):
     serializer_class = BlogSerializer
@@ -127,6 +131,7 @@ class BlogListAPIView(ViewsCountMixin, BaseContentListAPIView):
         return qs
 
 
+@cached_list(120)
 @extend_schema(tags=['korrupsiya'], summary="Korrupsiyaga qarshi kurash — ro'yxat")
 class KorrupsiyaListAPIView(ViewsCountMixin, BaseContentListAPIView):
     serializer_class = KorrupsiyaSerializer
@@ -271,6 +276,7 @@ class BlogDetailByIdAPIView(ViewsCountMixin, generics.RetrieveAPIView):
         return ctx
 
 
+@cached_list(60)
 @extend_schema(tags=['elon'], summary="E'lonlar ro'yxati", parameters=[_CATEGORY_PARAM, _LANG_PARAM, _DATE_FROM_PARAM, _DATE_TO_PARAM])
 class ElonListAPIView(ViewsCountMixin, BaseContentListAPIView):
     """?lang=uz|ru|en  ?date_from=YYYY-MM-DD  ?date_to=YYYY-MM-DD"""

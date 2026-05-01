@@ -3,7 +3,9 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import generics, filters
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from common.cache_mixin import cached_list
 from common.pagination import CustomDashboardPagination
 from .models import Person, PersonCategory, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrTalaba, Stipendiya
 from .serializers import (
@@ -20,6 +22,7 @@ def _lang(request):
     return lang if lang in ('uz', 'ru', 'en') else 'uz'
 
 
+@cached_list(300)
 @extend_schema(tags=['people'], summary="Shaxslar kategoriyalari ro'yxati (ierarxik)")
 class PersonCategoryListAPIView(generics.ListAPIView):
     """Faqat ildiz kategoriyalar; har birida children[] ichida bola kategoriyalar."""
@@ -35,6 +38,7 @@ class PersonCategoryListAPIView(generics.ListAPIView):
         )
 
 
+@cached_list(120)
 @extend_schema(tags=['people'], summary="Shaxslar ro'yxati")
 class PersonListAPIView(ViewsCountMixin, generics.ListAPIView):
     """
@@ -88,6 +92,7 @@ class PersonDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
         )
 
 
+@cached_list(120)
 @extend_schema(tags=['people'], summary="Shaxslar kategoriya bo'yicha guruhlangan (ierarxik)")
 class PersonGroupedAPIView(generics.ListAPIView):
     """
@@ -132,6 +137,7 @@ class PersonCategoryDetailAPIView(generics.RetrieveAPIView):
         )
 
 
+@cached_list(120)
 @extend_schema(tags=['students'], summary="Talaba ma'lumotlari kategoriya bo'yicha guruhlangan (ierarxik)")
 class StudentInfoGroupedAPIView(generics.ListAPIView):
     """
@@ -184,6 +190,7 @@ class StudentInfoCategoryDetailAPIView(generics.RetrieveAPIView):
         return Response(data)
 
 
+@cached_list(300)
 @extend_schema(
     tags=['students'],
     summary="Magistratura talabalari ro'yxati (guruh + dissertatsiya + rahbar)",
@@ -210,6 +217,7 @@ class MagistrGroupListAPIView(generics.ListAPIView):
         return qs.order_by('year', 'order')
 
 
+@cached_list(300)
 @extend_schema(
     tags=['people'],
     summary="Stipendiyalar miqdori jadvali",
@@ -233,6 +241,7 @@ class PersonRecordViewAPIView(RecordViewAPIView):
     model_class = Person
 
 
+@cached_list(120)
 @extend_schema(
     tags=['magistr'],
     summary="Magistratura ta'lim bosqichi talabalari",
@@ -283,6 +292,63 @@ class MagistrTalabaRecordViewAPIView(RecordViewAPIView):
     model_class = MagistrTalaba
 
 
+@extend_schema(
+    tags=['magistr'],
+    summary="Magistratura ta'lim bosqichi sahifasi",
+    description=(
+        "Sahifa uchun to'liq ma'lumot: sarlavha, tavsif va talabalar ro'yxati bitta so'rovda. "
+        "?year=2025-2026  ?lang=uz|ru|en"
+    ),
+)
+class MagistrPageAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    PAGE_CONTENT = {
+        'uz': {
+            'title': "Magistratura ta'lim bosqichi talabalari",
+            'description': (
+                "Akademiyaning magistratura mutaxassisliklariga qabul qilingan talabalar uchun "
+                "o'quv mashg'ulot jarayonlarini sifatli tashkil qilish va "
+                "monitoringini olib borishga mas'ul."
+            ),
+        },
+        'ru': {
+            'title': "Студенты магистратуры",
+            'description': (
+                "Ответственные за качественную организацию и мониторинг учебного процесса "
+                "для студентов, зачисленных на магистерские специальности академии."
+            ),
+        },
+        'en': {
+            'title': "Master's Degree Students",
+            'description': (
+                "Responsible for the quality organization and monitoring of the educational process "
+                "for students admitted to the academy's master's degree programs."
+            ),
+        },
+    }
+
+    def get(self, request):
+        lang = request.query_params.get('lang', 'uz')
+        if lang not in ('uz', 'ru', 'en'):
+            lang = 'uz'
+        ctx = {'request': request, 'lang': lang}
+
+        qs = MagistrTalaba.objects.filter(is_active=True).select_related('person')
+        year = request.query_params.get('year')
+        if year:
+            qs = qs.filter(year=year)
+        qs = qs.order_by('order')
+
+        page_content = self.PAGE_CONTENT.get(lang, self.PAGE_CONTENT['uz'])
+        return Response({
+            'title':       page_content['title'],
+            'description': page_content['description'],
+            'students':    MagistrTalabaSerializer(qs, many=True, context=ctx).data,
+        })
+
+
+@cached_list(300)
 @extend_schema(tags=['people'], summary="Olimpiya chempionlari ro'yxati")
 class OlimpiyaChempionListAPIView(ViewsCountMixin, generics.ListAPIView):
     """

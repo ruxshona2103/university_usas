@@ -153,8 +153,8 @@ class PersonCategoryWithPersonsSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(PersonSerializer(many=True))
     def get_persons(self, obj):
-        qs = obj.persons.filter(is_active=True).prefetch_related('images', 'tabs__tags').order_by('order', '-id')
-        return PersonSerializer(qs, many=True, context=self.context).data
+        persons = sorted([p for p in obj.persons.all() if p.is_active], key=lambda p: (p.order, -p.id))
+        return PersonSerializer(persons, many=True, context=self.context).data
 
 
 class StudentInfoSerializer(serializers.ModelSerializer):
@@ -204,8 +204,8 @@ class StudentInfoCategorySerializer(serializers.ModelSerializer):
 
     @extend_schema_field(StudentInfoSerializer(many=True))
     def get_items(self, obj):
-        qs = obj.items.filter(is_active=True).order_by('order')
-        return StudentInfoSerializer(qs, many=True, context=self.context).data
+        items = sorted([i for i in obj.items.all() if i.is_active], key=lambda i: i.order)
+        return StudentInfoSerializer(items, many=True, context=self.context).data
 
 
 class StipendiyaSerializer(serializers.ModelSerializer):
@@ -240,6 +240,8 @@ class OlimpiyaChempionSerializer(serializers.ModelSerializer):
 class MagistrTalabaSerializer(serializers.ModelSerializer):
     person           = serializers.SerializerMethodField()
     display_name     = serializers.SerializerMethodField()
+    image_url        = serializers.SerializerMethodField()
+    bio              = serializers.SerializerMethodField()
     specialty_name   = serializers.SerializerMethodField()
     dissertation_topic = serializers.SerializerMethodField()
     supervisor_info  = serializers.SerializerMethodField()
@@ -248,7 +250,7 @@ class MagistrTalabaSerializer(serializers.ModelSerializer):
     class Meta:
         model  = MagistrTalaba
         fields = [
-            'id', 'person', 'display_name',
+            'id', 'person', 'display_name', 'image_url', 'bio',
             'specialty_code', 'specialty_name',
             'dissertation_topic',
             'supervisor_name', 'supervisor_info',
@@ -277,6 +279,20 @@ class MagistrTalabaSerializer(serializers.ModelSerializer):
         if obj.person_id:
             return getattr(obj.person, f'full_name_{lang}') or obj.person.full_name_uz
         return obj.full_name
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image_url(self, obj):
+        req = self.context.get('request')
+        if obj.image:
+            return _abs_url(req, obj.image)
+        if obj.person_id and obj.person.image:
+            return _abs_url(req, obj.person.image)
+        return None
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_bio(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'bio_{lang}') or obj.bio_uz or ''
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_specialty_name(self, obj):

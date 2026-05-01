@@ -13,6 +13,7 @@ from .views import (
     MagistrTalabaListAPIView,
     MagistrTalabaDetailAPIView,
     MagistrTalabaRecordViewAPIView,
+    MagistrPageAPIView,
     StipendiyaListAPIView,
     PersonRecordViewAPIView,
 )
@@ -39,6 +40,7 @@ urlpatterns = [
     path('magistr-students/',               MagistrGroupListAPIView.as_view(),    name='magistr-students'),
 
     # ── Magistratura talabalari (yangi — Person FK bilan) ──────────────────
+    path('magistr-talabalar/page/',            MagistrPageAPIView.as_view(),             name='magistr-page'),
     path('magistr-talabalar/<uuid:pk>/view/', MagistrTalabaRecordViewAPIView.as_view(), name='magistr-talaba-record-view'),
     path('magistr-talabalar/<uuid:pk>/',      MagistrTalabaDetailAPIView.as_view(),     name='magistr-talaba-detail'),
     path('magistr-talabalar/',                MagistrTalabaListAPIView.as_view(),       name='magistr-talaba-list'),

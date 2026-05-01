@@ -3,6 +3,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema
 
+from common.cache_mixin import cached_list
 from domains.tracker.mixins import ViewsCountMixin
 from domains.tracker.views import RecordViewAPIView
 from .models import SportMajmua, Sharoit
@@ -14,6 +15,7 @@ def _lang(request):
     return lang if lang in ('uz', 'ru', 'en') else 'uz'
 
 
+@cached_list(300)
 @extend_schema(
     tags=['infra'],
     summary="Sport majmualari ro'yxati",
@@ -61,6 +63,7 @@ _CATEGORY_MAP = {
 }
 
 
+@cached_list(300)
 @extend_schema(
     tags=['infra'],
     summary="Yaratilgan sharoit va imkoniyatlar",

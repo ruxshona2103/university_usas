@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 
+from common.cache_mixin import cached_list
 from .models import AxborotSection
 from .serializers import AxborotSectionSerializer
 from domains.students.models import Person
@@ -16,6 +17,7 @@ def _lang(request):
     return lang if lang in ('uz', 'ru', 'en') else 'uz'
 
 
+@cached_list(120)
 @extend_schema(
     tags=['axborot'],
     summary="Axborot xizmati vazifalari — barcha bo'limlar",
@@ -40,6 +42,7 @@ class AxborotSectionListAPIView(ViewsCountMixin, generics.ListAPIView):
         return ctx
 
 
+@cached_list(120)
 @extend_schema(
     tags=['axborot'],
     summary="Axborot xizmati xodimlari",

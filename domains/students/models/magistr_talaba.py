@@ -34,6 +34,11 @@ class MagistrTalaba(TimeStampedModel):
     education_form_ru = models.CharField(max_length=100, blank=True, verbose_name="Ta'lim shakli (Ru)")
     education_form_en = models.CharField(max_length=100, blank=True, verbose_name="Ta'lim shakli (En)")
 
+    image   = models.ImageField(upload_to='magistr_talabalar/%Y/%m/', blank=True, null=True, verbose_name="Rasm")
+    bio_uz  = models.TextField(blank=True, verbose_name="Bio/Tavsif (Uz)")
+    bio_ru  = models.TextField(blank=True, verbose_name="Bio/Tavsif (Ru)")
+    bio_en  = models.TextField(blank=True, verbose_name="Bio/Tavsif (En)")
+
     year    = models.CharField(max_length=20, blank=True, verbose_name="O'quv yili", help_text="2024-2025")
     order   = models.PositiveIntegerField(default=0, verbose_name="Tartib")
     is_active = models.BooleanField(default=True, verbose_name="Faolmi?")

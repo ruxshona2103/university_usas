@@ -3,6 +3,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema
 
+from common.cache_mixin import cached_list
 from domains.tracker.mixins import ViewsCountMixin
 from domains.tracker.views import RecordViewAPIView
 from domains.international.models import (
@@ -20,6 +21,7 @@ from .serializers import (
 )
 
 
+@cached_list(300)
 @extend_schema(tags=['international'], summary="Xorijlik professorlar fikrlari")
 class ForeignProfessorReviewListAPIView(generics.ListAPIView):
     """?lang=uz|ru|en"""
@@ -107,6 +109,7 @@ class PartnerOrganizationListAPIView(generics.ListAPIView):
         })
 
 
+@cached_list(120)
 @extend_schema(tags=['international'], summary="Xalqaro reytinglar ro'yxati")
 class InternationalRatingListAPIView(ViewsCountMixin, generics.ListAPIView):
     """?lang=uz|ru|en"""
@@ -172,6 +175,7 @@ class MemorandumStatListAPIView(generics.ListAPIView):
         return ctx
 
 
+@cached_list(60)
 @extend_schema(tags=['international'], summary="Xalqaro bo'lim xabarlari (e'lon, yangilik, malaka oshirish)")
 class InternationalPostListAPIView(ViewsCountMixin, generics.ListAPIView):
     """
@@ -221,6 +225,7 @@ class InternationalRatingRecordViewAPIView(RecordViewAPIView):
     model_class = InternationalRating
 
 
+@cached_list(300)
 @extend_schema(tags=['international'], summary="Akademik almashinuv — bo'limlar va rasmlar")
 class AkademikAlmashinuvListAPIView(generics.ListAPIView):
     """?lang=uz|ru|en"""
@@ -277,6 +282,7 @@ class XalqaroReytingBolimListAPIView(generics.ListAPIView):
 
 from drf_spectacular.utils import extend_schema
 
+@cached_list(300)
 @extend_schema(tags=['international'], summary="Xorijlik professor-o'qituvchilar ro'yxati")
 class XorijlikProfessorListAPIView(generics.ListAPIView):
     """?lang=uz|ru|en"""

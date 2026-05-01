@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from drf_spectacular.openapi import OpenApiTypes
 
+from common.cache_mixin import cached_list
 from domains.pages.models import (
     ContactConfig, PresidentQuote, SocialLink,
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
@@ -72,6 +73,7 @@ class RekvizitAPIView(generics.RetrieveAPIView):
         return Rekvizit.get_solo()
 
 
+@cached_list(300)
 @extend_schema(tags=['pages'], summary="Prezident iqtiboSlari")
 class PresidentQuoteListAPIView(generics.ListAPIView):
     """Faol prezident iqtiboslari ro'yxati."""
@@ -83,6 +85,7 @@ class PresidentQuoteListAPIView(generics.ListAPIView):
         return PresidentQuote.objects.filter(is_active=True)
 
 
+@cached_list(300)
 @extend_schema(tags=['pages'], summary="Ijtimoiy tarmoq havolalari")
 class SocialLinkListAPIView(generics.ListAPIView):
     """Faol ijtimoiy tarmoq havolalari."""
@@ -94,6 +97,7 @@ class SocialLinkListAPIView(generics.ListAPIView):
         return SocialLink.objects.filter(is_active=True)
 
 
+@cached_list(300)
 @extend_schema(tags=['pages'], summary="Hamkorlar")
 class PartnerListAPIView(generics.ListAPIView):
     """Faol hamkorlar ro'yxati."""
@@ -105,6 +109,7 @@ class PartnerListAPIView(generics.ListAPIView):
         return Partner.objects.filter(is_active=True)
 
 
+@cached_list(300)
 @extend_schema(tags=['pages'], summary="Hero videolar")
 class HeroVideoListAPIView(generics.ListAPIView):
     """Bosh sahifa hero video ro'yxati."""
@@ -396,6 +401,7 @@ class OrgSectionListAPIView(APIView):
         return Response(data)
 
 
+@cached_list(300)
 @extend_schema(tags=['pages'], summary="Interaktiv xizmatlar ro'yxati")
 class InteraktivXizmatListAPIView(generics.ListAPIView):
     """?lang=uz|ru|en"""
@@ -417,6 +423,7 @@ class InteraktivXizmatListAPIView(generics.ListAPIView):
 # Markazlar
 # ──────────────────────────────────────────────────────────────────────────────
 
+@cached_list(120)
 @extend_schema(
     tags=['pages'],
     summary="Markazlar ro'yxati",

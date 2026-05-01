@@ -281,21 +281,29 @@ class StipendiyaAdmin(admin.ModelAdmin):
 
 @admin.register(MagistrTalaba)
 class MagistrTalabaAdmin(admin.ModelAdmin):
-    list_display  = ('__str__', 'specialty_code', 'year', 'education_form_uz', 'order', 'is_active')
+    list_display  = ('__str__', 'image_preview', 'specialty_code', 'year', 'education_form_uz', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('year', 'is_active')
     search_fields = ('full_name', 'specialty_code', 'specialty_name_uz', 'dissertation_topic_uz')
     autocomplete_fields = ('person',)
+    readonly_fields = ('image_preview',)
 
     fieldsets = (
         ("Shaxs (Person bilan bog'lash)", {'fields': ('person',)}),
-        ("F.I.Sh. (Person bo'lmasa to'ldiring)", {'fields': ('full_name',)}),
+        ("F.I.Sh. va Rasm", {'fields': ('full_name', 'image', 'image_preview')}),
+        ("Bio / Tavsif", {'fields': ('bio_uz', 'bio_ru', 'bio_en')}),
         ("Mutaxassislik", {'fields': ('specialty_code', 'specialty_name_uz', 'specialty_name_ru', 'specialty_name_en')}),
         ("Dissertatsiya", {'fields': ('dissertation_topic_uz', 'dissertation_topic_ru', 'dissertation_topic_en')}),
         ("Ilmiy rahbar", {'fields': ('supervisor_name', 'supervisor_info_uz', 'supervisor_info_ru', 'supervisor_info_en')}),
         ("Ta'lim", {'fields': ('education_form_uz', 'education_form_ru', 'education_form_en', 'year')}),
         ("Tartib va holat", {'fields': ('order', 'is_active')}),
     )
+
+    @admin.display(description="Rasm")
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="max-height:60px;border-radius:4px;">', obj.image.url)
+        return "—"
 
 
 @admin.register(OlimpiyaChempion)

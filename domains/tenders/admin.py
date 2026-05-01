@@ -12,16 +12,16 @@ class TenderImageInline(admin.TabularInline):
 
 @admin.register(TenderAnnouncement)
 class TenderAnnouncementAdmin(admin.ModelAdmin):
-    list_display  = ('title_uz', 'date', 'address', 'phone', 'is_published', 'views', 'likes', 'comments')
+    list_display  = ('title_uz', 'announcement_type', 'date', 'address', 'phone', 'is_published', 'views')
     list_editable = ('is_published',)
-    list_filter   = ('is_published',)
+    list_filter   = ('announcement_type', 'is_published')
     search_fields = ('title_uz', 'title_ru', 'title_en', 'address')
     readonly_fields = ('views', 'likes', 'comments', 'created_at', 'updated_at')
     inlines       = [TenderImageInline]
 
     fieldsets = (
+        ("Tur va holat", {'fields': ('announcement_type', 'is_published', 'date')}),
         ('Kontent', {'fields': ('title_uz', 'title_ru', 'title_en', 'description_uz', 'description_ru', 'description_en')}),
-        ("Aloqa va manzil", {'fields': ('date', 'address', 'email', 'phone')}),
-        ("Holat", {'fields': ('is_published',)}),
+        ("Aloqa va manzil", {'fields': ('address', 'email', 'phone')}),
         ('Texnik', {'classes': ('collapse',), 'fields': ('views', 'likes', 'comments', 'created_at', 'updated_at')}),
     )

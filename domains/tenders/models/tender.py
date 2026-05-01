@@ -5,6 +5,18 @@ from common.base_models import TimeStampedModel
 
 class TenderAnnouncement(TimeStampedModel):
     """Tenderlar va e'lonlar."""
+    TYPE_TENDER  = 'tender'
+    TYPE_TANLOV  = 'tanlov'
+    TYPE_CHOICES = [
+        (TYPE_TENDER, 'Tender'),
+        (TYPE_TANLOV, "Tanlov (e'lon)"),
+    ]
+
+    announcement_type = models.CharField(
+        max_length=20, choices=TYPE_CHOICES,
+        default=TYPE_TENDER, verbose_name="Turi",
+    )
+
     title_uz = models.CharField(max_length=500, verbose_name="Sarlavha (Uz)")
     title_ru = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (Ru)")
     title_en = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (En)")

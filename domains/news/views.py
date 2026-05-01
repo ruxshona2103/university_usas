@@ -308,6 +308,78 @@ class ElonDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
 
 
 @extend_schema(tags=['news'], summary="Axborot xizmati kontenti")
+@extend_schema(tags=['gallery'], summary="Fotogalereya ro'yxati", parameters=[_LANG_PARAM])
+class PhotoGalleryListAPIView(ViewsCountMixin, generics.ListAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = InformationContentSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = CustomDashboardPagination
+
+    def get_queryset(self):
+        return (
+            InformationContent.objects
+            .filter(is_published=True, content_type='photo')
+            .prefetch_related('images')
+            .order_by('-date', '-created_at')
+        )
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['gallery'], summary="Fotogalereya — detail")
+class PhotoGalleryDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = InformationContentSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return InformationContent.objects.filter(is_published=True, content_type='photo').prefetch_related('images')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['gallery'], summary="Videogalereya ro'yxati", parameters=[_LANG_PARAM])
+class VideoGalleryListAPIView(ViewsCountMixin, generics.ListAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = InformationContentSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = CustomDashboardPagination
+
+    def get_queryset(self):
+        return (
+            InformationContent.objects
+            .filter(is_published=True, content_type='video')
+            .prefetch_related('images')
+            .order_by('-date', '-created_at')
+        )
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['gallery'], summary="Videogalereya — detail")
+class VideoGalleryDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = InformationContentSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return InformationContent.objects.filter(is_published=True, content_type='video').prefetch_related('images')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
 class InformationContentListAPIView(ViewsCountMixin, generics.ListAPIView):
     """
     ?type=rector|briefing|contest|press|photo|video

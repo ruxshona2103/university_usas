@@ -8,6 +8,8 @@ from .views import (
     KorrupsiyaListAPIView, KorrupsiyaDetailAPIView, KorrupsiyaDetailByIdAPIView,
     ElonListAPIView, ElonDetailAPIView,
     InformationContentListAPIView,
+    PhotoGalleryListAPIView, PhotoGalleryDetailAPIView,
+    VideoGalleryListAPIView, VideoGalleryDetailAPIView,
     NewsRecordViewAPIView, EventRecordViewAPIView, BlogRecordViewAPIView,
     KorrupsiyaRecordViewAPIView, ElonRecordViewAPIView,
 )
@@ -34,5 +36,10 @@ urlpatterns = [
     path('elon/<uuid:pk>/view/',        ElonRecordViewAPIView.as_view(),      name='elon-record-view'),
     path('elon/<uuid:pk>/',             ElonDetailAPIView.as_view(),          name='elon-detail'),
     path('elon/',                       ElonListAPIView.as_view(),            name='elon-list'),
-    path('information/',                InformationContentListAPIView.as_view(), name='information-list'),
+    path('information/',                InformationContentListAPIView.as_view(),  name='information-list'),
+
+    path('gallery/photo/<uuid:pk>/',    PhotoGalleryDetailAPIView.as_view(),      name='photo-gallery-detail'),
+    path('gallery/photo/',              PhotoGalleryListAPIView.as_view(),         name='photo-gallery-list'),
+    path('gallery/video/<uuid:pk>/',    VideoGalleryDetailAPIView.as_view(),       name='video-gallery-detail'),
+    path('gallery/video/',              VideoGalleryListAPIView.as_view(),         name='video-gallery-list'),
 ]

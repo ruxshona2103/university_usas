@@ -181,7 +181,7 @@ class InternationalRatingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = InternationalRating
-        fields = ['id', 'slug', 'title', 'description', 'cover', 'images', 'date', 'order']
+        fields = ['id', 'slug', 'title', 'description', 'cover', 'images', 'date', 'order', 'created_at', 'updated_at']
 
     def _lang(self):
         return self.context.get('lang', 'uz')
@@ -213,7 +213,7 @@ class InternationalPostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = InternationalPost
-        fields = ['id', 'post_type', 'type_label', 'title', 'content', 'image', 'images', 'date', 'order']
+        fields = ['id', 'post_type', 'type_label', 'title', 'content', 'image', 'images', 'date', 'order', 'created_at', 'updated_at']
 
     def _lang(self):
         return self.context.get('lang', 'uz')
@@ -262,7 +262,7 @@ class AkademikAlmashinuvSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = AkademikAlmashinuv
-        fields = ['id', 'title', 'body', 'rasmlar', 'order']
+        fields = ['id', 'title', 'body', 'rasmlar', 'order', 'created_at', 'updated_at']
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):
@@ -286,7 +286,7 @@ class XalqaroReytingBolimSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = XalqaroReytingBolim
-        fields = ['id', 'bolim_type', 'title', 'description', 'image_url', 'link', 'order']
+        fields = ['id', 'bolim_type', 'title', 'description', 'image_url', 'link', 'order', 'created_at', 'updated_at']
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):

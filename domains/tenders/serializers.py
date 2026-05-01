@@ -39,6 +39,7 @@ class TenderAnnouncementSerializer(serializers.ModelSerializer):
             'date', 'address', 'email', 'phone',
             'views', 'likes', 'comments',
             'images',
+            'created_at', 'updated_at',
         ]
 
     def _lang(self):

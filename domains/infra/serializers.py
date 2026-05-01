@@ -82,7 +82,7 @@ class SportMajmuaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = SportMajmua
-        fields = ['id', 'slug', 'name', 'location', 'images', 'stats', 'sport_types', 'events']
+        fields = ['id', 'slug', 'name', 'location', 'images', 'stats', 'sport_types', 'events', 'created_at', 'updated_at']
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_name(self, obj):
@@ -140,7 +140,7 @@ class SharoitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = Sharoit
-        fields = ['id', 'category', 'title', 'description', 'image_url', 'icon', 'order']
+        fields = ['id', 'category', 'title', 'description', 'image_url', 'icon', 'order', 'created_at', 'updated_at']
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):

@@ -90,7 +90,7 @@ class IlmiyFaoliyatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = IlmiyFaoliyat
-        fields = ['id', 'title', 'description', 'image_url', 'file_url', 'order', 'is_active']
+        fields = ['id', 'title', 'description', 'image_url', 'file_url', 'order', 'is_active', 'created_at', 'updated_at']
 
     def _req(self):
         return self.context.get('request')
@@ -292,7 +292,7 @@ class SportStatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = SportStat
-        fields = ['id', 'value', 'suffix', 'title', 'color', 'order']
+        fields = ['id', 'value', 'suffix', 'title', 'color', 'order', 'created_at', 'updated_at']
 
     def get_title(self, obj):
         lang = self.context.get('lang', 'uz')
@@ -312,7 +312,7 @@ class SportYonalishSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = SportYonalish
-        fields = ['id', 'icon', 'title', 'description', 'order']
+        fields = ['id', 'icon', 'title', 'description', 'order', 'created_at', 'updated_at']
 
     def get_title(self, obj):
         lang = self.context.get('lang', 'uz')
@@ -342,7 +342,7 @@ class SportTadbirSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = SportTadbir
-        fields = ['id', 'title', 'description', 'location', 'event_date', 'order']
+        fields = ['id', 'title', 'description', 'location', 'event_date', 'order', 'created_at', 'updated_at']
 
     def get_title(self, obj):
         lang = self.context.get('lang', 'uz')
@@ -398,7 +398,7 @@ class AxborotXodimSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = AxborotXodim
-        fields = ['id', 'full_name', 'position', 'phone', 'email', 'photo_url', 'order']
+        fields = ['id', 'full_name', 'position', 'phone', 'email', 'photo_url', 'order', 'created_at', 'updated_at']
 
     def get_full_name(self, obj):
         lang = self.context.get('lang', 'uz')

@@ -23,7 +23,7 @@ class AxborotSectionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = AxborotSection
-        fields = ['id', 'number', 'title', 'order', 'items']
+        fields = ['id', 'number', 'title', 'order', 'items', 'created_at', 'updated_at']
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):

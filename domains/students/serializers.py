@@ -91,6 +91,7 @@ class PersonSerializer(serializers.ModelSerializer):
             'phone', 'fax', 'email', 'address', 'reception',
             'is_head', 'order',
             'tabs',
+            'created_at', 'updated_at',
         ]
 
     def _lang(self):

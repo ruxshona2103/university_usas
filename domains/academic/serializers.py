@@ -169,6 +169,7 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
             'dean', 'vice_dean', 'mudiri',
             'publications', 'professor_tarkibi', 'rasmlar',
             'order',
+            'created_at', 'updated_at',
         ]
 
     @extend_schema_field(OpenApiTypes.OBJECT)
@@ -255,7 +256,7 @@ class HuzuridagiTashkilotSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = HuzuridagiTashkilot
-        fields = ['id', 'name', 'description', 'image_url', 'website', 'phone', 'email', 'address', 'order']
+        fields = ['id', 'name', 'description', 'image_url', 'website', 'phone', 'email', 'address', 'order', 'created_at', 'updated_at']
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_name(self, obj):
@@ -281,7 +282,7 @@ class JamoatTashkilotSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = HuzuridagiTashkilot
-        fields = ['id', 'slug', 'name', 'description', 'image_url', 'website', 'phone', 'email', 'order']
+        fields = ['id', 'slug', 'name', 'description', 'image_url', 'website', 'phone', 'email', 'order', 'created_at', 'updated_at']
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_name(self, obj):
@@ -325,7 +326,7 @@ class JamoatTashkilotDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = HuzuridagiTashkilot
-        fields = ['id', 'slug', 'name', 'description', 'about', 'image_url', 'website', 'phone', 'email', 'person', 'order']
+        fields = ['id', 'slug', 'name', 'description', 'about', 'image_url', 'website', 'phone', 'email', 'person', 'order', 'created_at', 'updated_at']
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_name(self, obj):

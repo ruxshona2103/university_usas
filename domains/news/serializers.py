@@ -107,6 +107,7 @@ class NewsSerializer(PublishableMixin, serializers.ModelSerializer):
             'date', 'slug',
             'badgeCategory', 'categories',
             'views', 'likes', 'comments',
+            'created_at', 'updated_at',
         ]
 
 
@@ -130,6 +131,7 @@ class EventSerializer(PublishableMixin, serializers.ModelSerializer):
             'event_status',
             'badgeCategory', 'categories',
             'views', 'likes', 'comments',
+            'created_at', 'updated_at',
         ]
 
     @extend_schema_field(OpenApiTypes.OBJECT)
@@ -157,6 +159,7 @@ class BlogSerializer(PublishableMixin, serializers.ModelSerializer):
             'badgeCategory', 'categories',
             'author_name',
             'views', 'likes', 'comments',
+            'created_at', 'updated_at',
         ]
 
     @extend_schema_field(OpenApiTypes.STR)
@@ -184,6 +187,7 @@ class KorrupsiyaSerializer(PublishableMixin, serializers.ModelSerializer):
             'date', 'slug',
             'badgeCategory', 'categories',
             'views', 'likes', 'comments',
+            'created_at', 'updated_at',
         ]
 
 
@@ -213,6 +217,7 @@ class InformationContentSerializer(serializers.ModelSerializer):
             'date', 'video_url', 'external_url',
             'views', 'likes', 'comments',
             'images',
+            'created_at', 'updated_at',
         ]
 
     def _lang(self):

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'domains.axborot',
     'domains.infra',
     'domains.tracker',
+    'domains.qabul',
 ]
 
 MIDDLEWARE = [

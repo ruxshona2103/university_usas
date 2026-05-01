@@ -23,6 +23,7 @@ urlpatterns = [
     path('api/', include('domains.activities.urls')),
     path('api/', include('domains.axborot.urls')),
     path('api/', include('domains.infra.urls')),
+    path('api/', include('domains.qabul.urls')),
 ]
 
 if settings.DEBUG:

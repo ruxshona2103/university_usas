@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     ContactConfigAPIView,
+    ContactLocationListAPIView,
     PresidentQuoteListAPIView,
     SocialLinkListAPIView,
     PartnerListAPIView,
@@ -20,6 +21,7 @@ from .views import (
 
 urlpatterns = [
     path('contact-info/',     ContactConfigAPIView.as_view(),     name='contact-info'),
+    path('contact-locations/', ContactLocationListAPIView.as_view(), name='contact-locations'),
     path('rekvizit/',         RekvizitAPIView.as_view(),          name='rekvizit'),
     path('president-quotes/', PresidentQuoteListAPIView.as_view(), name='president-quotes'),
     path('social-links/',     SocialLinkListAPIView.as_view(),     name='social-links'),

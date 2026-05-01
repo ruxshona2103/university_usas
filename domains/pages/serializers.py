@@ -4,7 +4,7 @@ from drf_spectacular.openapi import OpenApiTypes
 
 from common.models import ContentImage
 from domains.pages.models import (
-    ContactConfig, PresidentQuote, SocialLink,
+    ContactConfig, ContactLocation, PresidentQuote, SocialLink,
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     ContentBlock, LinkBlock,
     OrgNode, OrgSection, Rekvizit,
@@ -36,6 +36,28 @@ class ContactConfigSerializer(serializers.ModelSerializer):
     class Meta:
         model  = ContactConfig
         fields = ['email', 'phone', 'address_uz', 'address_ru', 'address_en']
+
+
+class ContactLocationSerializer(serializers.ModelSerializer):
+    title   = serializers.SerializerMethodField()
+    address = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = ContactLocation
+        fields = ['id', 'title', 'address', 'phone', 'email', 'order']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_title(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_address(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'address_{lang}') or obj.address_uz
 
 
 class RekvizitSerializer(serializers.ModelSerializer):

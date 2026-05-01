@@ -9,7 +9,7 @@ from drf_spectacular.openapi import OpenApiTypes
 
 from common.cache_mixin import cached_list
 from domains.pages.models import (
-    ContactConfig, PresidentQuote, SocialLink,
+    ContactConfig, ContactLocation, PresidentQuote, SocialLink,
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     AboutSocial, AboutSocialSection, AboutSocialExtraTask,
     AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram, AboutAcademyImage,
@@ -18,6 +18,7 @@ from domains.pages.models import (
 )
 from .serializers import (
     ContactConfigSerializer,
+    ContactLocationSerializer,
     PresidentQuoteSerializer,
     SocialLinkSerializer,
     NavbarPageSerializer,
@@ -61,6 +62,26 @@ class ContactConfigAPIView(generics.RetrieveAPIView):
 
     def get_object(self):
         return ContactConfig.get_solo()
+
+
+@cached_list(300)
+@extend_schema(
+    tags=['pages'],
+    summary="Aloqa joylari ro'yxati (Bosh ofis, Qabul komissiyasi...)",
+    description="?lang=uz|ru|en",
+)
+class ContactLocationListAPIView(generics.ListAPIView):
+    serializer_class   = ContactLocationSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        return ContactLocation.objects.filter(is_active=True).order_by('order')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
 
 
 @extend_schema(tags=['pages'], summary="Tashkilot rekvizitlari")

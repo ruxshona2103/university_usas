@@ -6,7 +6,7 @@ from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidge
 
 from common.models import ContentImage
 from .models import (
-    ContactConfig, PresidentQuote, SocialLink,
+    ContactConfig, ContactLocation, PresidentQuote, SocialLink,
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
     ContentBlock, LinkBlock,
     AboutSocial, AboutSocialSection, AboutSocialSectionItem, AboutSocialExtraTask,
@@ -39,6 +39,21 @@ class ContactConfigAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+
+@admin.register(ContactLocation)
+class ContactLocationAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'phone', 'email', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('title_uz', 'phone', 'email')
+    ordering      = ('order',)
+
+    fieldsets = (
+        ("Sarlavha", {'fields': ('title_uz', 'title_ru', 'title_en')}),
+        ("Manzil",   {'fields': ('address_uz', 'address_ru', 'address_en')}),
+        ("Aloqa",    {'fields': ('phone', 'email')}),
+        ("Holat",    {'fields': ('order', 'is_active')}),
+    )
 
 
 @admin.register(Rekvizit)

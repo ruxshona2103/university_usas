@@ -1,4 +1,4 @@
-from .site_config import ContactConfig, PresidentQuote, SocialLink, SocialPlatformConfigs
+from .site_config import ContactConfig, ContactLocation, PresidentQuote, SocialLink, SocialPlatformConfigs
 from .navbar import NavbarCategory, NavbarSubItem
 from .partner import Partner
 from .hero_video import HeroVideo
@@ -12,6 +12,7 @@ from .markaz import Markaz, MarkazSubBolim
 
 __all__ = [
     'ContactConfig',
+    'ContactLocation',
     'PresidentQuote',
     'SocialLink',
     'SocialPlatformConfigs',

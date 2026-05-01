@@ -57,6 +57,31 @@ class PresidentQuote(TimeStampedModel):
         return f"{self.author}: {self.quote_uz[:40]}..."
 
 
+class ContactLocation(TimeStampedModel):
+    """Aloqa ma'lumotlari kartochkasi — Bosh ofis, Qabul komissiyasi va h.k."""
+    title_uz  = models.CharField(max_length=200, verbose_name="Sarlavha (Uz)")
+    title_ru  = models.CharField(max_length=200, blank=True, verbose_name="Sarlavha (Ru)")
+    title_en  = models.CharField(max_length=200, blank=True, verbose_name="Sarlavha (En)")
+
+    address_uz = models.TextField(verbose_name="Manzil (Uz)")
+    address_ru = models.TextField(blank=True, verbose_name="Manzil (Ru)")
+    address_en = models.TextField(blank=True, verbose_name="Manzil (En)")
+
+    phone  = models.CharField(max_length=50, blank=True, verbose_name="Telefon")
+    email  = models.EmailField(blank=True, verbose_name="Email")
+    order  = models.PositiveSmallIntegerField(default=0, verbose_name="Tartib")
+    is_active = models.BooleanField(default=True, verbose_name="Faolmi?")
+
+    class Meta:
+        db_table            = 'pages_contact_location'
+        ordering            = ['order']
+        verbose_name        = "Aloqa joyi"
+        verbose_name_plural = "Aloqa joylari"
+
+    def __str__(self):
+        return self.title_uz
+
+
 class SocialPlatformConfigs(models.TextChoices):
     TELEGRAM  = 'telegram',  'Telegram'
     INSTAGRAM = 'instagram', 'Instagram'

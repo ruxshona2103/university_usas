@@ -6,8 +6,12 @@ from drf_spectacular.utils import extend_schema
 
 from common.cache_mixin import cached_list
 from common.pagination import CustomDashboardPagination
-from domains.contact.models import FAQ, RectorAppeal, QabulRaqami, ContactMessage
-from .serializers import FAQSerializer, FAQCreateSerializer, RectorAppealSerializer, QabulRaqamiSerializer, ContactMessageSerializer
+from domains.contact.models import FAQ, RectorAppeal, RectorAppealExtraField, QabulRaqami, ContactMessage
+from .serializers import (
+    FAQSerializer, FAQCreateSerializer,
+    RectorAppealSerializer, RectorAppealExtraFieldSerializer,
+    QabulRaqamiSerializer, ContactMessageSerializer,
+)
 
 
 def _lang(request):
@@ -50,6 +54,22 @@ class FAQVoteAPIView(APIView):
         FAQ.objects.filter(pk=pk).update(vote_count=faq.vote_count + 1)
         new_count = faq.vote_count + 1
         return Response({'vote_count': new_count, 'likes': new_count})
+
+
+@extend_schema(tags=['contact'], summary="Rektorga murojaat — qo'shimcha maydonlar ro'yxati")
+class RectorAppealExtraFieldListAPIView(generics.ListAPIView):
+    """?lang=uz|ru|en — frontendga dinamik form fieldlarini qaytaradi"""
+    serializer_class   = RectorAppealExtraFieldSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        return RectorAppealExtraField.objects.filter(is_active=True)
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
 
 
 @extend_schema(tags=['contact'], summary="Rektorga murojaat yuborish")

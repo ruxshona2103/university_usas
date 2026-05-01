@@ -242,7 +242,7 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
     @extend_schema_field(serializers.ListField())
     def get_professor_tarkibi(self, obj):
         return KafedraXodimSerializer(
-            obj.xodimlar.order_by('order').select_related('person'),
+            sorted(obj.xodimlar.all(), key=lambda x: x.order),
             many=True,
             context=self.context,
         ).data

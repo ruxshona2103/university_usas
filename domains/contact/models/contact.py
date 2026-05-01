@@ -61,3 +61,33 @@ class RectorAppeal(TimeStampedModel):
 
     def __str__(self):
         return f'{self.full_name} — {self.created_at.date()}'
+
+
+class ContactMessage(TimeStampedModel):
+    """Aloqa formasidan keladigan xabarlar."""
+
+    class Status(models.TextChoices):
+        NEW       = 'new',       'Yangi'
+        IN_REVIEW = 'in_review', "Ko'rib chiqilmoqda"
+        ANSWERED  = 'answered',  'Javob berildi'
+
+    full_name = models.CharField(max_length=255, verbose_name="Ism-familiya")
+    email     = models.EmailField(verbose_name="Email")
+    phone     = models.CharField(max_length=25, blank=True, verbose_name="Telefon")
+    subject   = models.CharField(max_length=255, verbose_name="Mavzu")
+    message   = models.TextField(verbose_name="Murojaat matni")
+    status    = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.NEW,
+        verbose_name="Holati",
+    )
+
+    class Meta:
+        db_table            = 'contact_message'
+        ordering            = ['-created_at']
+        verbose_name        = 'Aloqa xabari'
+        verbose_name_plural = 'Aloqa xabarlari'
+
+    def __str__(self):
+        return f'{self.full_name} — {self.subject[:60]}'

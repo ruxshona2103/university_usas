@@ -2,6 +2,7 @@ from rest_framework import generics, filters
 from rest_framework.permissions import AllowAny
 from drf_spectacular.utils import extend_schema
 
+from common.cache_mixin import cached_list
 from common.pagination import CustomDashboardPagination
 from domains.tenders.models import TenderAnnouncement
 from .serializers import TenderAnnouncementSerializer
@@ -9,6 +10,7 @@ from domains.tracker.mixins import ViewsCountMixin
 from domains.tracker.views import RecordViewAPIView
 
 
+@cached_list(60)
 @extend_schema(tags=['tenders'], summary="Tenderlar va e'lonlar")
 class TenderAnnouncementListAPIView(ViewsCountMixin, generics.ListAPIView):
     """
@@ -51,6 +53,7 @@ class TenderAnnouncementDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView)
         return ctx
 
 
+@cached_list(60)
 @extend_schema(tags=['tenders'], summary="Tanlovlar (e'lonlar) ro'yxati")
 class TanlovListAPIView(ViewsCountMixin, generics.ListAPIView):
     """

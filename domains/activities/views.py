@@ -2,6 +2,8 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from drf_spectacular.utils import extend_schema
 
+from common.cache_mixin import cached_list
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
@@ -41,6 +43,7 @@ def _lang(request):
     return lang if lang in ('uz', 'ru', 'en') else 'uz'
 
 
+@cached_list(300)
 @extend_schema(tags=['activities'], summary="To'lov-kontrakt narxlari")
 class ContractPriceListAPIView(generics.ListAPIView):
     """
@@ -68,6 +71,7 @@ class ContractPriceListAPIView(generics.ListAPIView):
         return ctx
 
 
+@cached_list(300)
 @extend_schema(tags=['activities'], summary="Xizmat avtomototransport vositalari")
 class ServiceVehicleListAPIView(generics.ListAPIView):
     """?lang=uz|ru|en"""
@@ -84,6 +88,7 @@ class ServiceVehicleListAPIView(generics.ListAPIView):
         return ctx
 
 
+@cached_list(120)
 @extend_schema(tags=['activities'], summary="Sport statistika")
 class SportStatListAPIView(generics.ListAPIView):
     serializer_class = SportStatSerializer
@@ -99,6 +104,7 @@ class SportStatListAPIView(generics.ListAPIView):
         return ctx
 
 
+@cached_list(120)
 @extend_schema(tags=['activities'], summary="Sport yo'nalishlari")
 class SportYonalishListAPIView(generics.ListAPIView):
     serializer_class = SportYonalishSerializer
@@ -114,6 +120,7 @@ class SportYonalishListAPIView(generics.ListAPIView):
         return ctx
 
 
+@cached_list(60)
 @extend_schema(tags=['activities'], summary="Yillik sport tadbirlari")
 class SportTadbirListAPIView(ViewsCountMixin, generics.ListAPIView):
     serializer_class = SportTadbirSerializer
@@ -223,6 +230,7 @@ class IlmiyFaoliyatCategoryItemsAPIView(generics.ListAPIView):
         return ctx
 
 
+@cached_list(120)
 @extend_schema(
     tags=['activities'],
     summary="API 4 — Barcha kategoriyalar (sub-kategoriya + fayllar bilan)",
@@ -253,6 +261,7 @@ class IlmiyFaoliyatCategoryFullListAPIView(generics.ListAPIView):
         return ctx
 
 
+@cached_list(120)
 @extend_schema(
     tags=['activities'],
     summary="Faoliyat ro'yxati | Yangi item qo'shish",

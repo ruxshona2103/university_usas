@@ -2,7 +2,7 @@ from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.openapi import OpenApiTypes
 
-from domains.contact.models import FAQ, RectorAppeal
+from domains.contact.models import FAQ, RectorAppeal, ContactMessage
 
 
 class FAQSerializer(serializers.ModelSerializer):
@@ -44,6 +44,12 @@ class RectorAppealSerializer(serializers.ModelSerializer):
     class Meta:
         model  = RectorAppeal
         fields = ['full_name', 'email', 'phone', 'faculty', 'group', 'birth_date', 'message']
+
+
+class ContactMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = ContactMessage
+        fields = ['full_name', 'email', 'phone', 'subject', 'message']
 
 
 from domains.contact.models import QabulRaqami

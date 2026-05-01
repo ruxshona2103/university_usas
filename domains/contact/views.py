@@ -4,9 +4,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 
+from common.cache_mixin import cached_list
 from common.pagination import CustomDashboardPagination
-from domains.contact.models import FAQ, RectorAppeal, QabulRaqami
-from .serializers import FAQSerializer, FAQCreateSerializer, RectorAppealSerializer, QabulRaqamiSerializer
+from domains.contact.models import FAQ, RectorAppeal, QabulRaqami, ContactMessage
+from .serializers import FAQSerializer, FAQCreateSerializer, RectorAppealSerializer, QabulRaqamiSerializer, ContactMessageSerializer
 
 
 def _lang(request):
@@ -57,6 +58,17 @@ class RectorAppealCreateAPIView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
 
+@extend_schema(
+    tags=['contact'],
+    summary="Aloqa formasidan xabar yuborish",
+    description="Ism-familiya, email, telefon (ixtiyoriy), mavzu va murojaat matni yuboriladi.",
+)
+class ContactMessageCreateAPIView(generics.CreateAPIView):
+    serializer_class   = ContactMessageSerializer
+    permission_classes = [AllowAny]
+
+
+@cached_list(300)
 @extend_schema(tags=['contact'], summary="Qabul raqamlari ro'yxati")
 class QabulRaqamiListAPIView(generics.ListAPIView):
     """?lang=uz|ru|en"""

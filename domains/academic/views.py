@@ -7,6 +7,7 @@ from django.http import Http404
 from django.db.models import F, Window, Case, When, IntegerField
 from django.db.models.functions import RowNumber
 
+from common.cache_mixin import cached_list
 from domains.tracker.mixins import ViewsCountMixin
 from domains.tracker.views import RecordViewAPIView
 from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra, HuzuridagiTashkilot
@@ -18,6 +19,7 @@ from .serializers import (
 )
 
 
+@cached_list(300)
 @extend_schema(tags=['academic'], summary="Akademiya raqamlarda — statistikalar")
 class AcademyStatListAPIView(generics.ListAPIView):
     serializer_class   = AcademyStatSerializer
@@ -48,6 +50,7 @@ class AcademyDetailPageAPIView(APIView):
         return Response(AcademyDetailPageSerializer(obj, context={'lang': lang, 'request': request}).data)
 
 
+@cached_list(120)
 @extend_schema(tags=['academic'], summary="Fakultetlar va kafedralar ro'yxati")
 class FakultetKafedraListAPIView(generics.ListAPIView):
     serializer_class   = FakultetKafedraListSerializer
@@ -101,6 +104,7 @@ class FakultetKafedraDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
         return obj
 
 
+@cached_list(300)
 @extend_schema(tags=['academic'], summary="Akademiya huzuridagi tashkilotlar ro'yxati")
 class HuzuridagiTashkilotListAPIView(ViewsCountMixin, generics.ListAPIView):
     """?lang=uz|ru|en"""
@@ -118,6 +122,7 @@ class HuzuridagiTashkilotListAPIView(ViewsCountMixin, generics.ListAPIView):
         return ctx
 
 
+@cached_list(300)
 @extend_schema(tags=['academic'], summary="Jamoat tashkilotlari ro'yxati")
 class JamoatTashkilotlarListAPIView(ViewsCountMixin, generics.ListAPIView):
     """?lang=uz|ru|en — Yoshlar ittifoqi, Kasaba uyushmasi, Xotin-qizlar kengashi"""

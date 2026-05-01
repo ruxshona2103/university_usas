@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import FAQ, RectorAppeal
+from .models import FAQ, RectorAppeal, ContactMessage
 
 
 @admin.register(FAQ)
@@ -37,6 +37,22 @@ class RectorAppealAdmin(admin.ModelAdmin):
         ("Holat", {'fields': ('status',)}),
         ('Texnik', {'classes': ('collapse',), 'fields': ('created_at', 'updated_at')}),
     )
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display  = ('full_name', 'email', 'phone', 'subject', 'status', 'created_at')
+    list_filter   = ('status',)
+    list_editable = ('status',)
+    search_fields = ('full_name', 'email', 'subject', 'message')
+    readonly_fields = ('created_at', 'updated_at')
+
+    fieldsets = (
+        ("Murojaat egasi", {'fields': ('full_name', 'email', 'phone')}),
+        ("Xabar", {'fields': ('subject', 'message')}),
+        ("Holat", {'fields': ('status',)}),
+        ('Texnik', {'classes': ('collapse',), 'fields': ('created_at', 'updated_at')}),
+    )
+
 
 from .models import QabulRaqami
 

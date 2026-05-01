@@ -358,8 +358,9 @@ SPECTACULAR_SETTINGS = {
 }
 
 # ── Summernote ────────────────────────────────────────────────────────────────
-SUMMERNOTE_THEME = 'bs4'
+SUMMERNOTE_THEME = 'lite'
 SUMMERNOTE_CONFIG = {
+    'iframe': False,
     'summernote': {
         'width':  '100%',
         'height': '350px',
@@ -373,12 +374,8 @@ SUMMERNOTE_CONFIG = {
             ['view',    ['fullscreen', 'codeview']],
         ],
         'lang': 'uz-UZ',
-        'codemirror': {
-            'mode': 'htmlmixed',
-            'lineNumbers': True,
-        },
     },
     'attachment_upload_to': 'summernote/',
-    'attachment_filesize_limit': 5 * 1024 * 1024,  # 5MB
+    'attachment_filesize_limit': 5 * 1024 * 1024,
     'disable_attachment': False,
 }

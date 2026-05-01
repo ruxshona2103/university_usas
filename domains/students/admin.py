@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.http import JsonResponse
 from django.urls import path
 from django.utils.html import format_html
-from django_summernote.widgets import SummernoteWidget
+from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
 
 from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent, MagistrTalaba, Stipendiya
 

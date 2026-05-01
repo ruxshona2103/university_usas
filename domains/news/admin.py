@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.html import format_html
-from django_summernote.widgets import SummernoteWidget
+from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
 
 from common.models import ContentImage
 from .models import (

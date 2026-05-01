@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.text import slugify
-from django_summernote.widgets import SummernoteWidget
+from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
 from django import forms
 
 from .models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication, KafedraXodim, KafedraRasm, HuzuridagiTashkilot

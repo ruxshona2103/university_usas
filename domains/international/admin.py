@@ -3,7 +3,7 @@ from django import forms
 from django.contrib import admin
 from django.http import JsonResponse
 from django.urls import path
-from django_summernote.widgets import SummernoteWidget
+from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
 
 from .models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from django.conf import settings
 from django.conf.urls.static import static
@@ -24,6 +24,7 @@ urlpatterns = [
     path('api/', include('domains.axborot.urls')),
     path('api/', include('domains.infra.urls')),
     path('api/', include('domains.qabul.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
 
 if settings.DEBUG:

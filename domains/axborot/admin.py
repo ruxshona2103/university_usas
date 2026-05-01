@@ -1,10 +1,23 @@
+from django import forms
 from django.contrib import admin
+from ckeditor.widgets import CKEditorWidget
 
 from .models import AxborotSection, AxborotVazifa
 
 
+class AxborotVazifaForm(forms.ModelForm):
+    body_uz = forms.CharField(widget=CKEditorWidget(config_name='basic'), required=False, label="Matn (Uz)")
+    body_ru = forms.CharField(widget=CKEditorWidget(config_name='basic'), required=False, label="Matn (Ru)")
+    body_en = forms.CharField(widget=CKEditorWidget(config_name='basic'), required=False, label="Matn (En)")
+
+    class Meta:
+        model  = AxborotVazifa
+        fields = '__all__'
+
+
 class AxborotVazifaInline(admin.TabularInline):
     model         = AxborotVazifa
+    form          = AxborotVazifaForm
     extra         = 1
     fields        = ('body_uz', 'body_ru', 'body_en', 'order', 'is_active')
     ordering      = ('order',)
@@ -30,6 +43,7 @@ class AxborotSectionAdmin(admin.ModelAdmin):
 
 @admin.register(AxborotVazifa)
 class AxborotVazifaAdmin(admin.ModelAdmin):
+    form = AxborotVazifaForm
     list_display   = ('section', 'body_uz_short', 'order', 'is_active')
     list_editable  = ('order', 'is_active')
     list_filter    = ('section', 'is_active')

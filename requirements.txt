@@ -18,3 +18,4 @@ django-celery-beat
 django-imagekitio-storage==0.0.1
 imagekitio==4.2.0
 deep-translator
+django-ckeditor

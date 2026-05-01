@@ -1,4 +1,7 @@
 from django.contrib import admin
+from django.utils.text import slugify
+from ckeditor.widgets import CKEditorWidget
+from django import forms
 
 from .models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication, KafedraXodim, KafedraRasm, HuzuridagiTashkilot
 
@@ -47,6 +50,33 @@ class KafedraXodimInline(admin.TabularInline):
     ordering            = ('order',)
     autocomplete_fields = ['person']
 
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super().get_formset(request, obj, **kwargs)
+        if obj is not None:
+            from domains.students.models import Person, PersonCategory
+            # Kafedra nomiga mos PersonCategory slug qidirish
+            kafedra_slug = slugify(obj.name_uz)
+            qs = Person.objects.filter(is_active=True).order_by('full_name_uz')
+            try:
+                cat = PersonCategory.objects.filter(
+                    slug__icontains=kafedra_slug[:15]
+                ).first()
+                if not cat:
+                    # Kafedra so'zi bilan qidirish
+                    cat = PersonCategory.objects.filter(
+                        title_uz__icontains=obj.name_uz[:20]
+                    ).first()
+                if cat:
+                    qs = Person.objects.filter(
+                        category__in=cat.get_descendants_or_self()
+                        if hasattr(cat, 'get_descendants_or_self') else
+                        PersonCategory.objects.filter(pk=cat.pk)
+                    ).order_by('full_name_uz')
+            except Exception:
+                pass
+            formset.form.base_fields['person'].queryset = qs
+        return formset
+
 
 class KafedraPublicationInline(admin.TabularInline):
     model   = KafedraPublication
@@ -55,8 +85,22 @@ class KafedraPublicationInline(admin.TabularInline):
     ordering = ('order',)
 
 
+class FakultetKafedraForm(forms.ModelForm):
+    description_uz = forms.CharField(widget=CKEditorWidget(), required=False, label="Tavsif (Uz)")
+    description_ru = forms.CharField(widget=CKEditorWidget(), required=False, label="Tavsif (Ru)")
+    description_en = forms.CharField(widget=CKEditorWidget(), required=False, label="Tavsif (En)")
+    about_uz       = forms.CharField(widget=CKEditorWidget(), required=False, label="Qo'shimcha (Uz)")
+    about_ru       = forms.CharField(widget=CKEditorWidget(), required=False, label="Qo'shimcha (Ru)")
+    about_en       = forms.CharField(widget=CKEditorWidget(), required=False, label="Qo'shimcha (En)")
+
+    class Meta:
+        model  = FakultetKafedra
+        fields = '__all__'
+
+
 @admin.register(FakultetKafedra)
 class FakultetKafedraAdmin(admin.ModelAdmin):
+    form          = FakultetKafedraForm
     list_display  = ('name_uz', 'type', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('type', 'is_active')

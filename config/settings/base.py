@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'django_celery_results',
     'django_celery_beat',
     
+    'ckeditor',
+    'ckeditor_uploader',
     'common',
     'domains.pages',
     'domains.academic',
@@ -163,7 +165,13 @@ JAZZMIN_SETTINGS = {
     "copyright":         "O'zbekiston Davlat Sport Akademiyasi © 2025",
 
     # ── Qidiruv ──────────────────────────────────────────────────────────────
-    "search_model": ["auth.User", "auth.Group"],
+    "search_model": [
+        "auth.User",
+        "students.Person",
+        "news.News",
+        "academic.FakultetKafedra",
+        "pages.NavbarSubItem",
+    ],
 
     # ── Top menyusi ──────────────────────────────────────────────────────────
     "topmenu_links": [
@@ -192,6 +200,7 @@ JAZZMIN_SETTINGS = {
         "activities",
         "axborot",
         "tenders",
+        "qabul",
         "contact",
         "international",
         "infra",
@@ -249,8 +258,22 @@ JAZZMIN_SETTINGS = {
         "tenders":                          "fas fa-file-contract",
         # Contact
         "contact":                          "fas fa-envelope",
+        # Qabul
+        "qabul":                            "fas fa-door-open",
+        "qabul.QabulBolim":                 "fas fa-list-alt",
+        "qabul.QabulKomissiyaTarkibi":      "fas fa-users",
+        "qabul.QabulKuni":                  "fas fa-calendar-check",
+        "qabul.CallCenter":                 "fas fa-phone",
+        "qabul.QabulYangilik":              "fas fa-newspaper",
+        "qabul.QabulNarx":                  "fas fa-money-bill",
+        "qabul.QabulHujjat":                "fas fa-file-alt",
+        "qabul.QabulNavbar":                "fas fa-bars",
         # International
         "international":                    "fas fa-globe-europe",
+        "international.XorijlikProfessor":  "fas fa-chalkboard-teacher",
+        "international.AkademikAlmashinuv": "fas fa-exchange-alt",
+        "international.XalqaroReytingBolim":"fas fa-trophy",
+        "international.PartnerOrganization":"fas fa-handshake",
         # Infra
         "infra":                            "fas fa-building",
         # Common
@@ -331,4 +354,39 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     'COMPONENT_SPLIT_REQUEST': True,
     'SORT_OPERATIONS': False,
+}
+
+# ── CKEditor ──────────────────────────────────────────────────────────────────
+CKEDITOR_UPLOAD_PATH = 'uploads/ckeditor/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['Image', 'Table', 'HorizontalRule'],
+            ['Format', 'Font', 'FontSize'],
+            ['TextColor', 'BGColor'],
+            ['RemoveFormat', 'Source'],
+            ['Maximize'],
+        ],
+        'height': 300,
+        'width': '100%',
+        'extraPlugins': 'autogrow',
+        'autoGrow_onStartup': True,
+    },
+    'basic': {
+        'toolbar': 'Basic',
+        'toolbar_Basic': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat'],
+        ],
+        'height': 200,
+        'width': '100%',
+    },
 }

@@ -12,6 +12,8 @@ from .views import (
     InternationalRatingRecordViewAPIView,
     AkademikAlmashinuvListAPIView,
     XalqaroReytingBolimListAPIView,
+    XorijlikProfessorListAPIView,
+    XorijlikProfessorDetailAPIView,
 )
 
 urlpatterns = [
@@ -27,4 +29,6 @@ urlpatterns = [
     path('memorandum-stats/',                           MemorandumStatListAPIView.as_view(),          name='memorandum-stats'),
     path('akademik-almashinuv/',                        AkademikAlmashinuvListAPIView.as_view(),       name='akademik-almashinuv'),
     path('xalqaro-reyting-bolimlar/',                   XalqaroReytingBolimListAPIView.as_view(),      name='xalqaro-reyting-bolimlar'),
+    path('xorijlik-professorlar/',                      XorijlikProfessorListAPIView.as_view(),         name='xorijlik-professorlar-list'),
+    path('xorijlik-professorlar/<uuid:pk>/',            XorijlikProfessorDetailAPIView.as_view(),       name='xorijlik-professorlar-detail'),
 ]

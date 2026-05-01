@@ -200,7 +200,28 @@ class AkademikAlmashinuvAdmin(admin.ModelAdmin):
         ("Tartib va holat", {'fields': ('order', 'is_active')}),
     )
 
-from .models import XalqaroReytingBolim
+from .models import XalqaroReytingBolim, XorijlikProfessor
+
+
+@admin.register(XorijlikProfessor)
+class XorijlikProfessorAdmin(admin.ModelAdmin):
+    list_display  = ('full_name', 'country', 'from_year', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter   = ('is_active', 'country')
+    search_fields = ('full_name', 'country')
+    readonly_fields = ('created_at', 'updated_at')
+
+    fieldsets = (
+        ("Asosiy", {'fields': ('full_name', 'photo', 'country', 'from_year', 'order', 'is_active')}),
+        ("Bio / Tavsif (Uz)", {'fields': ('bio_uz',)}),
+        ("Bio / Tavsif (Ru/En)", {'classes': ('collapse',), 'fields': ('bio_ru', 'bio_en')}),
+        ("Ma'lumoti (Uz)", {'fields': ('education_uz',)}),
+        ("Ma'lumoti (Ru/En)", {'classes': ('collapse',), 'fields': ('education_ru', 'education_en')}),
+        ("Mutaxassislik", {'fields': ('specialty_uz', 'specialty_ru', 'specialty_en')}),
+        ("Ilmiy daraja", {'fields': ('academic_degree_uz', 'academic_degree_ru', 'academic_degree_en')}),
+        ("Ilmiy unvon", {'fields': ('academic_title_uz', 'academic_title_ru', 'academic_title_en')}),
+        ('Texnik', {'classes': ('collapse',), 'fields': ('created_at', 'updated_at')}),
+    )
 
 
 @admin.register(XalqaroReytingBolim)

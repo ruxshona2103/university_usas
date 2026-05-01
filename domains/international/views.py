@@ -9,13 +9,14 @@ from domains.international.models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
     InternationalPost, InternationalRating,
     InternationalDeptConfig, MemorandumStat, AkademikAlmashinuv,
-    XalqaroReytingBolim,
+    XalqaroReytingBolim, XorijlikProfessor,
 )
 from .serializers import (
     ForeignProfessorReviewSerializer, PartnerOrganizationSerializer, PartnerPageConfigSerializer,
     InternationalPostSerializer, InternationalRatingSerializer,
     InternationalDeptConfigSerializer, MemorandumStatSerializer,
     AkademikAlmashinuvSerializer, XalqaroReytingBolimSerializer,
+    XorijlikProfessorSerializer,
 )
 
 
@@ -272,3 +273,34 @@ class XalqaroReytingBolimListAPIView(generics.ListAPIView):
             'sport':     XalqaroReytingBolimSerializer(sport, many=True, context=ctx).data,
             'professor': XalqaroReytingBolimSerializer(professor, many=True, context=ctx).data,
         })
+
+
+from drf_spectacular.utils import extend_schema
+
+@extend_schema(tags=['international'], summary="Xorijlik professor-o'qituvchilar ro'yxati")
+class XorijlikProfessorListAPIView(generics.ListAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = XorijlikProfessorSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+    queryset           = XorijlikProfessor.objects.filter(is_active=True).order_by('order')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+@extend_schema(tags=['international'], summary="Xorijlik professor-o'qituvchi detail")
+class XorijlikProfessorDetailAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = XorijlikProfessorSerializer
+    permission_classes = [AllowAny]
+    queryset           = XorijlikProfessor.objects.filter(is_active=True)
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx

@@ -8,6 +8,7 @@ from .dept_config import InternationalDeptConfig
 from .memorandum_stat import MemorandumStat
 from .almashinuv import AkademikAlmashinuv, AkademikAlmashinuvRasm
 from .xalqaro_reyting import XalqaroReytingBolim
+from .xorijlik_professor import XorijlikProfessor
 
 __all__ = [
     'ForeignProfessorReview',
@@ -22,4 +23,5 @@ __all__ = [
     'AkademikAlmashinuv',
     'AkademikAlmashinuvRasm',
     'XalqaroReytingBolim',
+    'XorijlikProfessor',
 ]

@@ -9,6 +9,7 @@ from domains.international.models import (
     InternationalDeptConfig, MemorandumStat,
     AkademikAlmashinuv, AkademikAlmashinuvRasm,
     XalqaroReytingBolim,
+    XorijlikProfessor,
 )
 
 
@@ -299,3 +300,50 @@ class XalqaroReytingBolimSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.URI)
     def get_image_url(self, obj):
         return _abs_url(self.context.get('request'), obj.image)
+
+
+# ─────────────────────── Xorijlik Professor-o'qituvchilar ───────────────────────
+
+class XorijlikProfessorSerializer(serializers.ModelSerializer):
+    bio             = serializers.SerializerMethodField()
+    education       = serializers.SerializerMethodField()
+    specialty       = serializers.SerializerMethodField()
+    academic_degree = serializers.SerializerMethodField()
+    academic_title  = serializers.SerializerMethodField()
+    photo_url       = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = XorijlikProfessor
+        fields = [
+            'id', 'full_name', 'photo_url', 'country', 'from_year',
+            'bio', 'education', 'specialty',
+            'academic_degree', 'academic_title',
+            'order', 'created_at', 'updated_at',
+        ]
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_bio(self, obj):
+        return getattr(obj, f'bio_{self._lang()}') or obj.bio_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_education(self, obj):
+        return getattr(obj, f'education_{self._lang()}') or obj.education_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_specialty(self, obj):
+        return getattr(obj, f'specialty_{self._lang()}') or obj.specialty_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_academic_degree(self, obj):
+        return getattr(obj, f'academic_degree_{self._lang()}') or obj.academic_degree_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_academic_title(self, obj):
+        return getattr(obj, f'academic_title_{self._lang()}') or obj.academic_title_uz
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_photo_url(self, obj):
+        return _abs_url(self.context.get('request'), obj.photo)

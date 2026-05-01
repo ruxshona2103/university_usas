@@ -59,11 +59,12 @@ class PersonContentForm(forms.ModelForm):
 
 
 class PersonContentInline(admin.StackedInline):
-    model   = PersonContent
-    form    = PersonContentForm
-    extra   = 1
-    fields  = ('tags', 'content_uz', 'content_ru', 'content_en', 'order')
-    ordering = ('order',)
+    model            = PersonContent
+    form             = PersonContentForm
+    extra            = 1
+    fields           = ('tags', 'content_uz', 'content_ru', 'content_en', 'order')
+    ordering         = ('order',)
+    show_change_link = True
 
 
 # ── PersonCategory ────────────────────────────────────────────────────────────
@@ -151,6 +152,23 @@ class PersonAdmin(admin.ModelAdmin):
                 url,
             )
         return "—"
+
+
+@admin.register(PersonContent)
+class PersonContentAdmin(admin.ModelAdmin):
+    form          = PersonContentForm
+    list_display  = ('person', 'order')
+    list_filter   = ('person',)
+    search_fields = ('person__full_name_uz',)
+    list_per_page = 20
+    autocomplete_fields = ['person']
+
+    fieldsets = (
+        ("Shaxs va tartib", {'fields': ('person', 'tags', 'order')}),
+        ("Kontent (Uz)",    {'fields': ('content_uz',)}),
+        ("Kontent (Ru)",    {'classes': ('collapse',), 'fields': ('content_ru',)}),
+        ("Kontent (En)",    {'classes': ('collapse',), 'fields': ('content_en',)}),
+    )
 
 
 class StudentInfoInline(admin.TabularInline):

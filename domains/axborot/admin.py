@@ -1,14 +1,14 @@
 from django import forms
 from django.contrib import admin
-from ckeditor.widgets import CKEditorWidget
+from django_summernote.widgets import SummernoteWidget
 
 from .models import AxborotSection, AxborotVazifa
 
 
 class AxborotVazifaForm(forms.ModelForm):
-    body_uz = forms.CharField(widget=CKEditorWidget(config_name='basic'), required=False, label="Matn (Uz)")
-    body_ru = forms.CharField(widget=CKEditorWidget(config_name='basic'), required=False, label="Matn (Ru)")
-    body_en = forms.CharField(widget=CKEditorWidget(config_name='basic'), required=False, label="Matn (En)")
+    body_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Uz)")
+    body_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Ru)")
+    body_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (En)")
 
     class Meta:
         model  = AxborotVazifa

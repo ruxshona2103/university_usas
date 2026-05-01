@@ -1,7 +1,9 @@
 import json
+from django import forms
 from django.contrib import admin
 from django.http import JsonResponse
 from django.urls import path
+from django_summernote.widgets import SummernoteWidget
 
 from .models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
@@ -103,8 +105,19 @@ class InternationalRatingImageInline(admin.TabularInline):
     ordering = ('order',)
 
 
+class InternationalRatingForm(forms.ModelForm):
+    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
+    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
+    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
+
+    class Meta:
+        model  = InternationalRating
+        fields = '__all__'
+
+
 @admin.register(InternationalRating)
 class InternationalRatingAdmin(admin.ModelAdmin):
+    form           = InternationalRatingForm
     list_display   = ('title_uz', 'date', 'order', 'is_active')
     list_editable  = ('order', 'is_active')
     list_filter    = ('is_active',)
@@ -162,8 +175,19 @@ class MemorandumStatAdmin(AutoTranslateMixin, admin.ModelAdmin):
     )
 
 
+class InternationalPostForm(forms.ModelForm):
+    content_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Uz)")
+    content_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Ru)")
+    content_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (En)")
+
+    class Meta:
+        model  = InternationalPost
+        fields = '__all__'
+
+
 @admin.register(InternationalPost)
 class InternationalPostAdmin(admin.ModelAdmin):
+    form          = InternationalPostForm
     list_display  = ('title_uz', 'post_type', 'date', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('is_active', 'post_type')
@@ -188,8 +212,19 @@ class AkademikAlmashinuvRasmInline(admin.TabularInline):
     fields = ('image', 'caption_uz', 'caption_ru', 'caption_en', 'order')
 
 
+class AkademikAlmashinuvForm(forms.ModelForm):
+    body_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Uz)")
+    body_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Ru)")
+    body_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (En)")
+
+    class Meta:
+        model  = AkademikAlmashinuv
+        fields = '__all__'
+
+
 @admin.register(AkademikAlmashinuv)
 class AkademikAlmashinuvAdmin(admin.ModelAdmin):
+    form          = AkademikAlmashinuvForm
     list_display  = ('title_uz', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     search_fields = ('title_uz',)
@@ -203,8 +238,22 @@ class AkademikAlmashinuvAdmin(admin.ModelAdmin):
 from .models import XalqaroReytingBolim, XorijlikProfessor
 
 
+class XorijlikProfessorForm(forms.ModelForm):
+    bio_uz       = forms.CharField(widget=SummernoteWidget(), required=False, label="Bio (Uz)")
+    bio_ru       = forms.CharField(widget=SummernoteWidget(), required=False, label="Bio (Ru)")
+    bio_en       = forms.CharField(widget=SummernoteWidget(), required=False, label="Bio (En)")
+    education_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Ma'lumoti (Uz)")
+    education_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Ma'lumoti (Ru)")
+    education_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Ma'lumoti (En)")
+
+    class Meta:
+        model  = XorijlikProfessor
+        fields = '__all__'
+
+
 @admin.register(XorijlikProfessor)
 class XorijlikProfessorAdmin(admin.ModelAdmin):
+    form          = XorijlikProfessorForm
     list_display  = ('full_name', 'country', 'from_year', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('is_active', 'country')

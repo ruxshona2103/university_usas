@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.text import slugify
-from ckeditor.widgets import CKEditorWidget
+from django_summernote.widgets import SummernoteWidget
 from django import forms
 
 from .models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication, KafedraXodim, KafedraRasm, HuzuridagiTashkilot
@@ -86,12 +86,12 @@ class KafedraPublicationInline(admin.TabularInline):
 
 
 class FakultetKafedraForm(forms.ModelForm):
-    description_uz = forms.CharField(widget=CKEditorWidget(), required=False, label="Tavsif (Uz)")
-    description_ru = forms.CharField(widget=CKEditorWidget(), required=False, label="Tavsif (Ru)")
-    description_en = forms.CharField(widget=CKEditorWidget(), required=False, label="Tavsif (En)")
-    about_uz       = forms.CharField(widget=CKEditorWidget(), required=False, label="Qo'shimcha (Uz)")
-    about_ru       = forms.CharField(widget=CKEditorWidget(), required=False, label="Qo'shimcha (Ru)")
-    about_en       = forms.CharField(widget=CKEditorWidget(), required=False, label="Qo'shimcha (En)")
+    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
+    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
+    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
+    about_uz       = forms.CharField(widget=SummernoteWidget(), required=False, label="Qo'shimcha (Uz)")
+    about_ru       = forms.CharField(widget=SummernoteWidget(), required=False, label="Qo'shimcha (Ru)")
+    about_en       = forms.CharField(widget=SummernoteWidget(), required=False, label="Qo'shimcha (En)")
 
     class Meta:
         model  = FakultetKafedra

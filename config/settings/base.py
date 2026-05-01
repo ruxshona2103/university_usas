@@ -35,8 +35,7 @@ INSTALLED_APPS = [
     'django_celery_results',
     'django_celery_beat',
     
-    'ckeditor',
-    'ckeditor_uploader',
+    'django_summernote',
     'common',
     'domains.pages',
     'domains.academic',
@@ -356,37 +355,28 @@ SPECTACULAR_SETTINGS = {
     'SORT_OPERATIONS': False,
 }
 
-# ── CKEditor ──────────────────────────────────────────────────────────────────
-CKEDITOR_UPLOAD_PATH = 'uploads/ckeditor/'
-CKEDITOR_IMAGE_BACKEND = 'pillow'
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
-            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink'],
-            ['Image', 'Table', 'HorizontalRule'],
-            ['Format', 'Font', 'FontSize'],
-            ['TextColor', 'BGColor'],
-            ['RemoveFormat', 'Source'],
-            ['Maximize'],
+# ── Summernote ────────────────────────────────────────────────────────────────
+SUMMERNOTE_THEME = 'bs4'
+SUMMERNOTE_CONFIG = {
+    'summernote': {
+        'width':  '100%',
+        'height': '350px',
+        'toolbar': [
+            ['style',   ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+            ['font',    ['fontsize']],
+            ['color',   ['color']],
+            ['para',    ['ul', 'ol', 'paragraph']],
+            ['table',   ['table']],
+            ['insert',  ['link', 'picture', 'hr']],
+            ['view',    ['fullscreen', 'codeview']],
         ],
-        'height': 300,
-        'width': '100%',
-        'extraPlugins': 'autogrow',
-        'autoGrow_onStartup': True,
+        'lang': 'uz-UZ',
+        'codemirror': {
+            'mode': 'htmlmixed',
+            'lineNumbers': True,
+        },
     },
-    'basic': {
-        'toolbar': 'Basic',
-        'toolbar_Basic': [
-            ['Bold', 'Italic', 'Underline'],
-            ['NumberedList', 'BulletedList'],
-            ['Link', 'Unlink'],
-            ['RemoveFormat'],
-        ],
-        'height': 200,
-        'width': '100%',
-    },
+    'attachment_upload_to': 'summernote/',
+    'attachment_filesize_limit': 5 * 1024 * 1024,  # 5MB
+    'disable_attachment': False,
 }

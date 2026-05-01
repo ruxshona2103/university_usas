@@ -329,19 +329,30 @@ class AboutAcademyProgramSerializer(serializers.ModelSerializer):
 class OrgNodeSerializer(serializers.ModelSerializer):
     title     = serializers.SerializerMethodField()
     structure = serializers.SerializerMethodField()
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model  = OrgNode
         fields = [
             'id', 'slug', 'node_type', 'title',
             'is_starred', 'is_double_starred', 'is_highlighted',
-            'order', 'structure',
+            'image_url', 'order', 'structure',
         ]
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_title(self, obj):
         lang = self.context.get('lang', 'uz')
         return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_image_url(self, obj):
+        if obj.image:
+            request = self.context.get('request')
+            try:
+                return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+            except Exception:
+                return None
+        return None
 
     @extend_schema_field(serializers.ListField())
     def get_structure(self, obj):
@@ -360,13 +371,14 @@ class OrgNodeSerializer(serializers.ModelSerializer):
 class OrgNodeCardSerializer(serializers.ModelSerializer):
     title       = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
+    image_url   = serializers.SerializerMethodField()
 
     class Meta:
         model  = OrgNode
         fields = [
             'id', 'slug', 'node_type', 'title', 'description',
             'is_starred', 'is_double_starred', 'is_highlighted',
-            'section_order',
+            'image_url', 'section_order',
         ]
 
     @extend_schema_field(OpenApiTypes.STR)
@@ -378,6 +390,16 @@ class OrgNodeCardSerializer(serializers.ModelSerializer):
     def get_description(self, obj):
         lang = self.context.get('lang', 'uz')
         return getattr(obj, f'description_{lang}') or obj.description_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_image_url(self, obj):
+        if obj.image:
+            request = self.context.get('request')
+            try:
+                return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+            except Exception:
+                return None
+        return None
 
 
 class OrgSectionSerializer(serializers.ModelSerializer):

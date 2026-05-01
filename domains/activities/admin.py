@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.http import JsonResponse
 from django.urls import path
 from django.utils.html import format_html
+from django_summernote.widgets import SummernoteWidget
 
 from .models import (
     ContractPrice,
@@ -24,6 +25,9 @@ class OquvFaoliyatAdminForm(forms.ModelForm):
         label="Kategoriya",
         empty_label="---------",
     )
+    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
+    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
+    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
 
     class Meta:
         model  = IlmiyFaoliyat
@@ -237,8 +241,19 @@ class SportYonalishAdmin(admin.ModelAdmin):
     )
 
 
+class SportTadbirForm(forms.ModelForm):
+    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
+    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
+    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
+
+    class Meta:
+        model  = SportTadbir
+        fields = '__all__'
+
+
 @admin.register(SportTadbir)
 class SportTadbirAdmin(admin.ModelAdmin):
+    form          = SportTadbirForm
     list_display  = ('title_uz', 'event_date', 'location_uz', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     search_fields = ('title_uz', 'title_ru')

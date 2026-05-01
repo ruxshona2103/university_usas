@@ -1,8 +1,10 @@
 import json
+from django import forms
 from django.contrib import admin
 from django.http import JsonResponse
 from django.urls import path
 from django.utils.html import format_html
+from django_summernote.widgets import SummernoteWidget
 
 from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent, MagistrTalaba, Stipendiya
 
@@ -46,8 +48,19 @@ class PersonImageInline(admin.TabularInline):
 
 # ── PersonContent inline ──────────────────────────────────────────────────────
 
-class PersonContentInline(admin.TabularInline):
+class PersonContentForm(forms.ModelForm):
+    content_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (Uz)")
+    content_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (Ru)")
+    content_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (En)")
+
+    class Meta:
+        model  = PersonContent
+        fields = '__all__'
+
+
+class PersonContentInline(admin.StackedInline):
     model   = PersonContent
+    form    = PersonContentForm
     extra   = 1
     fields  = ('tags', 'content_uz', 'content_ru', 'content_en', 'order')
     ordering = ('order',)
@@ -162,8 +175,19 @@ class StudentInfoCategoryAdmin(admin.ModelAdmin):
     )
 
 
+class StudentInfoForm(forms.ModelForm):
+    content_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (Uz)")
+    content_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (Ru)")
+    content_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (En)")
+
+    class Meta:
+        model  = StudentInfo
+        fields = '__all__'
+
+
 @admin.register(StudentInfo)
 class StudentInfoAdmin(admin.ModelAdmin):
+    form          = StudentInfoForm
     list_display  = ('title_uz', 'category', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('category',)

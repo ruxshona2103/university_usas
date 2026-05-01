@@ -1,5 +1,7 @@
+from django import forms
 from django.contrib import admin
 from django.utils.html import format_html
+from django_summernote.widgets import SummernoteWidget
 
 from .models import (
     SportMajmua, SportMajmuaImage,
@@ -64,8 +66,19 @@ class SportMajmuaAdmin(admin.ModelAdmin):
     )
 
 
+class SharoitForm(forms.ModelForm):
+    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
+    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
+    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
+
+    class Meta:
+        model  = Sharoit
+        fields = '__all__'
+
+
 @admin.register(Sharoit)
 class SharoitAdmin(admin.ModelAdmin):
+    form          = SharoitForm
     list_display  = ('title_uz', 'category', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('category', 'is_active')

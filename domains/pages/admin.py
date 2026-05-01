@@ -1,6 +1,8 @@
+from django import forms
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.html import format_html
+from django_summernote.widgets import SummernoteWidget
 
 from common.models import ContentImage
 from .models import (
@@ -192,8 +194,19 @@ class NavbarCategoryAdmin(admin.ModelAdmin):
 
 
 # NAVBAR SAHIFALARI
+class NavbarSubItemForm(forms.ModelForm):
+    content_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (Uz)")
+    content_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (Ru)")
+    content_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (En)")
+
+    class Meta:
+        model  = NavbarSubItem
+        fields = '__all__'
+
+
 @admin.register(NavbarSubItem)
 class NavbarSubItemAdmin(admin.ModelAdmin):
+    form        = NavbarSubItemForm
     list_display = ('order', 'category', 'name_uz', 'page_type_badge', 'slug', 'is_active')
     list_display_links = ('name_uz',)
     list_editable = ('order', 'is_active')
@@ -336,8 +349,19 @@ class ContentImageInline(GenericTabularInline):
     fields = ('image', 'order')
 
 
+class ContentBlockForm(forms.ModelForm):
+    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
+    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
+    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
+
+    class Meta:
+        model  = ContentBlock
+        fields = '__all__'
+
+
 @admin.register(ContentBlock)
 class ContentBlockAdmin(admin.ModelAdmin):
+    form          = ContentBlockForm
     list_display  = ('block_type', 'title_uz', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('block_type', 'is_active', 'navbar_items__category')
@@ -547,8 +571,19 @@ class AboutAcademyImageInline(admin.TabularInline):
     ordering = ('order',)
 
 
+class AboutAcademyForm(forms.ModelForm):
+    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
+    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
+    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
+
+    class Meta:
+        model  = AboutAcademy
+        fields = '__all__'
+
+
 @admin.register(AboutAcademy)
 class AboutAcademyAdmin(admin.ModelAdmin):
+    form            = AboutAcademyForm
     inlines         = [AboutAcademySectionInline, AboutAcademyProgramInline, AboutAcademyImageInline]
     readonly_fields = ('created_at', 'updated_at')
     fieldsets = (
@@ -637,11 +672,14 @@ class OrgNodeAdmin(admin.ModelAdmin):
     search_fields = ('title_uz', 'title_ru')
     list_select_related = ('parent',)
     inlines       = [OrgNodeChildInline]
-    readonly_fields = ('created_at', 'updated_at')
+    readonly_fields = ('created_at', 'updated_at', 'image_preview')
 
     fieldsets = (
         ("Nomi", {
             'fields': ('title_uz', 'title_ru', 'title_en'),
+        }),
+        ("Rasm", {
+            'fields': ('image', 'image_preview'),
         }),
         ("Joylashuv va tur", {
             'fields': ('parent', 'node_type', 'order'),
@@ -659,6 +697,16 @@ class OrgNodeAdmin(admin.ModelAdmin):
             'fields': ('created_at', 'updated_at'),
         }),
     )
+
+    @admin.display(description='Rasm')
+    def image_preview(self, obj):
+        if obj.image:
+            try:
+                url = obj.image.url
+            except Exception:
+                return '—'
+            return format_html('<img src="{}" style="max-height:80px;border-radius:4px;"/>', url)
+        return '—'
 
     @admin.display(description='Nomi', ordering='title_uz')
     def indented_name(self, obj):

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.html import format_html
-from ckeditor.widgets import CKEditorWidget
+from django_summernote.widgets import SummernoteWidget
 
 from common.models import ContentImage
 from .models import (
@@ -38,9 +38,9 @@ class ArticleImageInline(GenericTabularInline):
 # Article admin (asosiy jadval — to'g'ridan-to'g'ri ro'yxatga olinmaydi)
 
 class ArticleForm(forms.ModelForm):
-    description_uz = forms.CharField(widget=CKEditorWidget(), required=False, label="Tavsif (Uz)")
-    description_ru = forms.CharField(widget=CKEditorWidget(), required=False, label="Tavsif (Ru)")
-    description_en = forms.CharField(widget=CKEditorWidget(), required=False, label="Tavsif (En)")
+    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
+    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
+    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
 
     class Meta:
         fields = '__all__'

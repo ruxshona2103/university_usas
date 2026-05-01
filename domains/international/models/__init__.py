@@ -6,6 +6,7 @@ from .post_image import InternationalPostImage
 from .rating import InternationalRating, InternationalRatingImage
 from .dept_config import InternationalDeptConfig
 from .memorandum_stat import MemorandumStat
+from .almashinuv import AkademikAlmashinuv, AkademikAlmashinuvRasm
 
 __all__ = [
     'ForeignProfessorReview',
@@ -17,4 +18,6 @@ __all__ = [
     'InternationalRatingImage',
     'InternationalDeptConfig',
     'MemorandumStat',
+    'AkademikAlmashinuv',
+    'AkademikAlmashinuvRasm',
 ]

@@ -8,12 +8,13 @@ from domains.tracker.views import RecordViewAPIView
 from domains.international.models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
     InternationalPost, InternationalRating,
-    InternationalDeptConfig, MemorandumStat,
+    InternationalDeptConfig, MemorandumStat, AkademikAlmashinuv,
 )
 from .serializers import (
     ForeignProfessorReviewSerializer, PartnerOrganizationSerializer, PartnerPageConfigSerializer,
     InternationalPostSerializer, InternationalRatingSerializer,
     InternationalDeptConfigSerializer, MemorandumStatSerializer,
+    AkademikAlmashinuvSerializer,
 )
 
 
@@ -216,3 +217,20 @@ class InternationalPostRecordViewAPIView(RecordViewAPIView):
 
 class InternationalRatingRecordViewAPIView(RecordViewAPIView):
     model_class = InternationalRating
+
+
+@extend_schema(tags=['international'], summary="Akademik almashinuv — bo'limlar va rasmlar")
+class AkademikAlmashinuvListAPIView(generics.ListAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = AkademikAlmashinuvSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        return AkademikAlmashinuv.objects.filter(is_active=True).prefetch_related('rasmlar').order_by('order')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx

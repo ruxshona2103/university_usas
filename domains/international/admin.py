@@ -178,3 +178,24 @@ class InternationalPostAdmin(admin.ModelAdmin):
         ("Asosiy rasm", {'fields': ('image',)}),
         ("Tartib va holat", {'fields': ('order', 'is_active')}),
     )
+
+from .models import AkademikAlmashinuv, AkademikAlmashinuvRasm
+
+
+class AkademikAlmashinuvRasmInline(admin.TabularInline):
+    model  = AkademikAlmashinuvRasm
+    extra  = 1
+    fields = ('image', 'caption_uz', 'caption_ru', 'caption_en', 'order')
+
+
+@admin.register(AkademikAlmashinuv)
+class AkademikAlmashinuvAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('title_uz',)
+    inlines       = [AkademikAlmashinuvRasmInline]
+    fieldsets = (
+        ("Sarlavha", {'fields': ('title_uz', 'title_ru', 'title_en')}),
+        ("Matn", {'fields': ('body_uz', 'body_ru', 'body_en')}),
+        ("Tartib va holat", {'fields': ('order', 'is_active')}),
+    )

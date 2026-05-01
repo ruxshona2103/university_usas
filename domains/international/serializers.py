@@ -7,6 +7,7 @@ from domains.international.models import (
     InternationalPost, InternationalPostImage,
     InternationalRating, InternationalRatingImage,
     InternationalDeptConfig, MemorandumStat,
+    AkademikAlmashinuv, AkademikAlmashinuvRasm,
 )
 
 
@@ -234,3 +235,44 @@ class InternationalPostSerializer(serializers.ModelSerializer):
     def get_images(self, obj):
         qs = obj.images.all().order_by('order')
         return InternationalPostImageSerializer(qs, many=True, context=self.context).data
+
+
+class AkademikAlmashinuvRasmSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
+    caption   = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = AkademikAlmashinuvRasm
+        fields = ['id', 'image_url', 'caption', 'order']
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image_url(self, obj):
+        return _abs_url(self.context.get('request'), obj.image)
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_caption(self, obj):
+        return {'uz': obj.caption_uz, 'ru': obj.caption_ru or obj.caption_uz, 'en': obj.caption_en or obj.caption_uz}
+
+
+class AkademikAlmashinuvSerializer(serializers.ModelSerializer):
+    title  = serializers.SerializerMethodField()
+    body   = serializers.SerializerMethodField()
+    rasmlar = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = AkademikAlmashinuv
+        fields = ['id', 'title', 'body', 'rasmlar', 'order']
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_title(self, obj):
+        return {'uz': obj.title_uz, 'ru': obj.title_ru or obj.title_uz, 'en': obj.title_en or obj.title_uz}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_body(self, obj):
+        return {'uz': obj.body_uz, 'ru': obj.body_ru or obj.body_uz, 'en': obj.body_en or obj.body_uz}
+
+    @extend_schema_field(AkademikAlmashinuvRasmSerializer(many=True))
+    def get_rasmlar(self, obj):
+        return AkademikAlmashinuvRasmSerializer(
+            obj.rasmlar.all(), many=True, context=self.context
+        ).data

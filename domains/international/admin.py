@@ -199,3 +199,19 @@ class AkademikAlmashinuvAdmin(admin.ModelAdmin):
         ("Matn", {'fields': ('body_uz', 'body_ru', 'body_en')}),
         ("Tartib va holat", {'fields': ('order', 'is_active')}),
     )
+
+from .models import XalqaroReytingBolim
+
+
+@admin.register(XalqaroReytingBolim)
+class XalqaroReytingBolimAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'bolim_type', 'link', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter   = ('bolim_type', 'is_active')
+    search_fields = ('title_uz', 'title_ru')
+    fieldsets = (
+        ("Tur va tartib", {'fields': ('bolim_type', 'order', 'is_active')}),
+        ("Sarlavha", {'fields': ('title_uz', 'title_ru', 'title_en')}),
+        ("Tavsif", {'fields': ('description_uz', 'description_ru', 'description_en')}),
+        ("Rasm va havola", {'fields': ('image', 'link')}),
+    )

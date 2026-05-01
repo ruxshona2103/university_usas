@@ -8,6 +8,7 @@ from domains.international.models import (
     InternationalRating, InternationalRatingImage,
     InternationalDeptConfig, MemorandumStat,
     AkademikAlmashinuv, AkademikAlmashinuvRasm,
+    XalqaroReytingBolim,
 )
 
 
@@ -276,3 +277,25 @@ class AkademikAlmashinuvSerializer(serializers.ModelSerializer):
         return AkademikAlmashinuvRasmSerializer(
             obj.rasmlar.all(), many=True, context=self.context
         ).data
+
+
+class XalqaroReytingBolimSerializer(serializers.ModelSerializer):
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    image_url   = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = XalqaroReytingBolim
+        fields = ['id', 'bolim_type', 'title', 'description', 'image_url', 'link', 'order']
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_title(self, obj):
+        return {'uz': obj.title_uz, 'ru': obj.title_ru or obj.title_uz, 'en': obj.title_en or obj.title_uz}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_description(self, obj):
+        return {'uz': obj.description_uz, 'ru': obj.description_ru or obj.description_uz, 'en': obj.description_en or obj.description_uz}
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image_url(self, obj):
+        return _abs_url(self.context.get('request'), obj.image)

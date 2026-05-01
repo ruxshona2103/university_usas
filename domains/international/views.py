@@ -9,12 +9,13 @@ from domains.international.models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
     InternationalPost, InternationalRating,
     InternationalDeptConfig, MemorandumStat, AkademikAlmashinuv,
+    XalqaroReytingBolim,
 )
 from .serializers import (
     ForeignProfessorReviewSerializer, PartnerOrganizationSerializer, PartnerPageConfigSerializer,
     InternationalPostSerializer, InternationalRatingSerializer,
     InternationalDeptConfigSerializer, MemorandumStatSerializer,
-    AkademikAlmashinuvSerializer,
+    AkademikAlmashinuvSerializer, XalqaroReytingBolimSerializer,
 )
 
 
@@ -234,3 +235,40 @@ class AkademikAlmashinuvListAPIView(generics.ListAPIView):
         lang = self.request.query_params.get('lang', 'uz')
         ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
         return ctx
+
+
+@extend_schema(tags=['international'], summary="Xalqaro reyting bo'limlari (sport va professor)")
+class XalqaroReytingBolimListAPIView(generics.ListAPIView):
+    """
+    ?type=sport|professor  — filterlash uchun
+    ?lang=uz|ru|en
+    """
+    serializer_class   = XalqaroReytingBolimSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        qs = XalqaroReytingBolim.objects.filter(is_active=True).order_by('bolim_type', 'order')
+        bolim_type = self.request.query_params.get('type')
+        if bolim_type in ('sport', 'professor'):
+            qs = qs.filter(bolim_type=bolim_type)
+        return qs
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+    def list(self, request, *args, **kwargs):
+        qs = self.get_queryset()
+        ctx = self.get_serializer_context()
+        bolim_type = request.query_params.get('type')
+        if bolim_type:
+            return Response(XalqaroReytingBolimSerializer(qs, many=True, context=ctx).data)
+        sport = qs.filter(bolim_type='sport')
+        professor = qs.filter(bolim_type='professor')
+        return Response({
+            'sport':     XalqaroReytingBolimSerializer(sport, many=True, context=ctx).data,
+            'professor': XalqaroReytingBolimSerializer(professor, many=True, context=ctx).data,
+        })

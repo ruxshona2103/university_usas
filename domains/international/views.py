@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema
 
 from common.cache_mixin import cached_list
+from common.pagination import CustomDashboardPagination
 from domains.tracker.mixins import ViewsCountMixin
 from domains.tracker.views import RecordViewAPIView
 from domains.international.models import (
@@ -175,16 +176,16 @@ class MemorandumStatListAPIView(generics.ListAPIView):
         return ctx
 
 
-@cached_list(60)
 @extend_schema(tags=['international'], summary="Xalqaro bo'lim xabarlari (e'lon, yangilik, malaka oshirish)")
 class InternationalPostListAPIView(ViewsCountMixin, generics.ListAPIView):
     """
-    ?type=announcement|news|training
+    ?type=announcement|news|training|academic_exchange
     ?lang=uz|ru|en
+    ?page=1  &limit=10
     """
     serializer_class   = InternationalPostSerializer
     permission_classes = [AllowAny]
-    pagination_class   = None
+    pagination_class   = CustomDashboardPagination
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()
@@ -205,6 +206,23 @@ class InternationalPostDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = InternationalPostSerializer
     permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return InternationalPost.objects.filter(is_active=True).prefetch_related('images')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+@extend_schema(tags=['international'], summary="Xalqaro bo'lim xabari — slug bo'yicha")
+class InternationalPostDetailBySlugAPIView(ViewsCountMixin, generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = InternationalPostSerializer
+    permission_classes = [AllowAny]
+    lookup_field       = 'slug'
 
     def get_queryset(self):
         return InternationalPost.objects.filter(is_active=True).prefetch_related('images')

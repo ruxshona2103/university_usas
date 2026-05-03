@@ -214,7 +214,7 @@ class InternationalPostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = InternationalPost
-        fields = ['id', 'post_type', 'type_label', 'title', 'content', 'image', 'images', 'date', 'order', 'created_at', 'updated_at']
+        fields = ['id', 'slug', 'post_type', 'type_label', 'title', 'content', 'image', 'images', 'date', 'order', 'created_at', 'updated_at']
 
     def _lang(self):
         return self.context.get('lang', 'uz')

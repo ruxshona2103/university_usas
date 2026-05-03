@@ -507,6 +507,48 @@ class MarkazDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
                          description="Sahifa slug (default: academy-regulations)", required=False),
     ],
 )
+class MeyoriyHujjatDownloadAPIView(APIView):
+    """
+    /api/meyoriy-hujjatlar/<id>/download/
+    Faylni backend orqali yuklab beradi — ImageKit 403 muammosini hal qiladi.
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        import requests as req
+        from django.http import HttpResponse
+        from domains.pages.models import MeyoriyHujjat
+
+        try:
+            obj = MeyoriyHujjat.objects.get(id=pk, is_active=True)
+        except MeyoriyHujjat.DoesNotExist:
+            return Response({'detail': 'Topilmadi'}, status=404)
+
+        url = None
+        if obj.document_file:
+            try:
+                url = obj.document_file.url
+            except Exception:
+                pass
+        if not url and obj.link:
+            url = obj.link
+
+        if not url:
+            return Response({'detail': 'Fayl mavjud emas'}, status=404)
+
+        try:
+            resp = req.get(url, timeout=30, stream=True)
+            resp.raise_for_status()
+        except Exception:
+            return Response({'detail': 'Fayl yuklanmadi'}, status=502)
+
+        filename = url.split('/')[-1].split('?')[0]
+        content_type = resp.headers.get('Content-Type', 'application/octet-stream')
+        response = HttpResponse(resp.content, content_type=content_type)
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        return response
+
+
 class MeyoriyHujjatlarAPIView(APIView):
     """
     /api/meyoriy-hujjatlar/?page_slug=academy-regulations
@@ -540,11 +582,13 @@ class MeyoriyHujjatlarAPIView(APIView):
                     pass
             if not file_url and lb.link:
                 file_url = lb.link
+            download_url = request.build_absolute_uri(f'/api/meyoriy-hujjatlar/{lb.id}/download/')
             result.append({
-                'id':       str(lb.id),
-                'title':    getattr(lb, f'title_{lang}') or lb.title_uz,
-                'file_url': file_url,
-                'order':    lb.order,
+                'id':           str(lb.id),
+                'title':        getattr(lb, f'title_{lang}') or lb.title_uz,
+                'file_url':     file_url,
+                'download_url': download_url,
+                'order':        lb.order,
             })
 
         return Response(result)

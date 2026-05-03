@@ -538,6 +538,8 @@ class MeyoriyHujjatlarAPIView(APIView):
                     file_url = request.build_absolute_uri(lb.document_file.url)
                 except Exception:
                     pass
+            if not file_url and lb.link:
+                file_url = lb.link
             result.append({
                 'id':       str(lb.id),
                 'title':    getattr(lb, f'title_{lang}') or lb.title_uz,

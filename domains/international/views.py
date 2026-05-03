@@ -278,6 +278,21 @@ class AkademikAlmashinuvDetailAPIView(generics.RetrieveAPIView):
         return ctx
 
 
+@extend_schema(tags=['international'], summary="Xalqaro reyting bo'limi — slug bo'yicha detail")
+class XalqaroReytingBolimDetailAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = XalqaroReytingBolimSerializer
+    permission_classes = [AllowAny]
+    lookup_field       = 'slug'
+    queryset           = XalqaroReytingBolim.objects.filter(is_active=True)
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
 @extend_schema(tags=['international'], summary="Xalqaro reyting bo'limlari (sport va professor)")
 class XalqaroReytingBolimListAPIView(generics.ListAPIView):
     """
@@ -333,11 +348,26 @@ class XorijlikProfessorListAPIView(generics.ListAPIView):
         return ctx
 
 
-@extend_schema(tags=['international'], summary="Xorijlik professor-o'qituvchi detail")
+@extend_schema(tags=['international'], summary="Xorijlik professor-o'qituvchi detail (UUID bo'yicha)")
 class XorijlikProfessorDetailAPIView(generics.RetrieveAPIView):
     """?lang=uz|ru|en"""
     serializer_class   = XorijlikProfessorSerializer
     permission_classes = [AllowAny]
+    queryset           = XorijlikProfessor.objects.filter(is_active=True)
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+@extend_schema(tags=['international'], summary="Xorijlik professor-o'qituvchi detail (slug bo'yicha)")
+class XorijlikProfessorDetailBySlugAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = XorijlikProfessorSerializer
+    permission_classes = [AllowAny]
+    lookup_field       = 'slug'
     queryset           = XorijlikProfessor.objects.filter(is_active=True)
 
     def get_serializer_context(self):

@@ -2,6 +2,7 @@ import os
 import uuid
 
 from django.db import models
+from django.utils.text import slugify
 from common.base_models import TimeStampedModel
 
 
@@ -38,7 +39,8 @@ class XalqaroReytingBolim(TimeStampedModel):
     image    = models.ImageField(
         upload_to=xalqaro_reyting_image_upload, blank=True, null=True, verbose_name="Rasm (screenshot)"
     )
-    link     = models.URLField(blank=True, verbose_name="Tashqi havola (URL)")
+    link      = models.URLField(blank=True, verbose_name="Tashqi havola (URL)")
+    slug      = models.SlugField(max_length=450, unique=True, blank=True, verbose_name="Slug")
 
     order     = models.PositiveIntegerField(default=0, verbose_name="Tartib")
     is_active = models.BooleanField(default=True, verbose_name="Faolmi?")
@@ -48,6 +50,17 @@ class XalqaroReytingBolim(TimeStampedModel):
         ordering            = ['bolim_type', 'order']
         verbose_name        = "Xalqaro reyting bo'limi"
         verbose_name_plural = "Xalqaro reyting bo'limlari"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base = slugify(self.title_uz, allow_unicode=True) or str(self.id)
+            slug = base
+            n = 1
+            while XalqaroReytingBolim.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f'{base}-{n}'
+                n += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"[{self.get_bolim_type_display()}] {self.title_uz}"

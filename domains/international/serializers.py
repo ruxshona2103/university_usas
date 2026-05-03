@@ -287,7 +287,7 @@ class XalqaroReytingBolimSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = XalqaroReytingBolim
-        fields = ['id', 'bolim_type', 'title', 'description', 'image_url', 'link', 'order', 'created_at', 'updated_at']
+        fields = ['id', 'slug', 'bolim_type', 'title', 'description', 'image_url', 'link', 'order', 'created_at', 'updated_at']
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):
@@ -315,7 +315,7 @@ class XorijlikProfessorSerializer(serializers.ModelSerializer):
     class Meta:
         model  = XorijlikProfessor
         fields = [
-            'id', 'full_name', 'photo_url', 'country', 'from_year',
+            'id', 'slug', 'full_name', 'photo_url', 'country', 'from_year',
             'bio', 'education', 'specialty',
             'academic_degree', 'academic_title',
             'order', 'created_at', 'updated_at',

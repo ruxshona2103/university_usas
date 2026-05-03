@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from common.base_models import TimeStampedModel
 
 
@@ -37,6 +38,7 @@ class XorijlikProfessor(TimeStampedModel):
     academic_title_ru  = models.CharField(max_length=200, blank=True, verbose_name="Ilmiy unvoni (Ru)")
     academic_title_en  = models.CharField(max_length=200, blank=True, verbose_name="Ilmiy unvoni (En)")
 
+    slug      = models.SlugField(max_length=350, unique=True, blank=True, verbose_name="Slug")
     order     = models.PositiveIntegerField(default=0, verbose_name="Tartib")
     is_active = models.BooleanField(default=True, verbose_name="Faolmi?")
 
@@ -45,6 +47,17 @@ class XorijlikProfessor(TimeStampedModel):
         verbose_name        = "Xorijlik professor-o'qituvchi"
         verbose_name_plural = "Xorijlik professor-o'qituvchilar"
         ordering            = ['order']
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base = slugify(self.full_name, allow_unicode=True) or str(self.id)
+            slug = base
+            n = 1
+            while XorijlikProfessor.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f'{base}-{n}'
+                n += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.full_name} ({self.country})"

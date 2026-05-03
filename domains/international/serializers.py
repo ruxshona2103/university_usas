@@ -8,7 +8,7 @@ from domains.international.models import (
     InternationalRating, InternationalRatingImage,
     InternationalDeptConfig, MemorandumStat,
     AkademikAlmashinuv, AkademikAlmashinuvRasm,
-    XalqaroReytingBolim,
+    XalqaroReytingBolim, XalqaroReytingBolimRasm,
     XorijlikProfessor,
 )
 
@@ -280,14 +280,27 @@ class AkademikAlmashinuvSerializer(serializers.ModelSerializer):
         ).data
 
 
+class XalqaroReytingBolimRasmSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = XalqaroReytingBolimRasm
+        fields = ['id', 'image_url', 'order']
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image_url(self, obj):
+        return _abs_url(self.context.get('request'), obj.image)
+
+
 class XalqaroReytingBolimSerializer(serializers.ModelSerializer):
     title       = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
     image_url   = serializers.SerializerMethodField()
+    rasmlar     = serializers.SerializerMethodField()
 
     class Meta:
         model  = XalqaroReytingBolim
-        fields = ['id', 'slug', 'bolim_type', 'title', 'description', 'image_url', 'link', 'order', 'created_at', 'updated_at']
+        fields = ['id', 'slug', 'bolim_type', 'title', 'description', 'image_url', 'rasmlar', 'link', 'order', 'created_at', 'updated_at']
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):
@@ -300,6 +313,11 @@ class XalqaroReytingBolimSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.URI)
     def get_image_url(self, obj):
         return _abs_url(self.context.get('request'), obj.image)
+
+    @extend_schema_field(XalqaroReytingBolimRasmSerializer(many=True))
+    def get_rasmlar(self, obj):
+        qs = obj.rasmlar.all().order_by('order')
+        return XalqaroReytingBolimRasmSerializer(qs, many=True, context=self.context).data
 
 
 # ─────────────────────── Xorijlik Professor-o'qituvchilar ───────────────────────

@@ -11,6 +11,11 @@ def xalqaro_reyting_image_upload(instance, filename):
     return f'international/xalqaro_reyting/{uuid.uuid4().hex}{ext}'
 
 
+def xalqaro_reyting_rasm_upload(instance, filename):
+    ext = os.path.splitext(filename)[1].lower()
+    return f'international/xalqaro_reyting/rasmlar/{uuid.uuid4().hex}{ext}'
+
+
 class XalqaroReytingBolim(TimeStampedModel):
     """
     Xalqaro reyting bo'limi — masalan:
@@ -64,3 +69,25 @@ class XalqaroReytingBolim(TimeStampedModel):
 
     def __str__(self):
         return f"[{self.get_bolim_type_display()}] {self.title_uz}"
+
+
+class XalqaroReytingBolimRasm(TimeStampedModel):
+    """XalqaroReytingBolim uchun qo'shimcha rasmlar."""
+
+    bolim = models.ForeignKey(
+        XalqaroReytingBolim,
+        on_delete=models.CASCADE,
+        related_name='rasmlar',
+        verbose_name="Bo'lim",
+    )
+    image = models.ImageField(upload_to=xalqaro_reyting_rasm_upload, verbose_name="Rasm")
+    order = models.PositiveIntegerField(default=0, verbose_name="Tartib")
+
+    class Meta:
+        db_table            = 'international_xalqaro_reyting_bolim_rasm'
+        ordering            = ['order']
+        verbose_name        = "Reyting bo'limi rasmi"
+        verbose_name_plural = "Reyting bo'limi rasmlari"
+
+    def __str__(self):
+        return f"{self.bolim.title_uz} — rasm #{self.order}"

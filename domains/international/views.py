@@ -11,7 +11,7 @@ from domains.international.models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
     InternationalPost, InternationalRating,
     InternationalDeptConfig, MemorandumStat, AkademikAlmashinuv,
-    XalqaroReytingBolim, XorijlikProfessor,
+    XalqaroReytingBolim, XalqaroReytingBolimRasm, XorijlikProfessor,
 )
 from .serializers import (
     ForeignProfessorReviewSerializer, PartnerOrganizationSerializer, PartnerPageConfigSerializer,
@@ -283,7 +283,7 @@ class XalqaroReytingBolimDetailAPIView(generics.RetrieveAPIView):
     """?lang=uz|ru|en  —  slug yoki UUID bilan ishlaydi"""
     serializer_class   = XalqaroReytingBolimSerializer
     permission_classes = [AllowAny]
-    queryset           = XalqaroReytingBolim.objects.filter(is_active=True)
+    queryset           = XalqaroReytingBolim.objects.filter(is_active=True).prefetch_related('rasmlar')
 
     def get_object(self):
         import uuid as uuid_mod
@@ -318,7 +318,7 @@ class XalqaroReytingBolimListAPIView(generics.ListAPIView):
     pagination_class   = None
 
     def get_queryset(self):
-        qs = XalqaroReytingBolim.objects.filter(is_active=True).order_by('bolim_type', 'order')
+        qs = XalqaroReytingBolim.objects.filter(is_active=True).prefetch_related('rasmlar').order_by('bolim_type', 'order')
         bolim_type = self.request.query_params.get('type')
         if bolim_type in ('sport', 'professor'):
             qs = qs.filter(bolim_type=bolim_type)

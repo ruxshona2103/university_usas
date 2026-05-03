@@ -517,11 +517,11 @@ class MeyoriyHujjatDownloadAPIView(APIView):
     def get(self, request, pk):
         import requests as req
         from django.http import HttpResponse
-        from domains.pages.models import MeyoriyHujjat
+        from domains.pages.models import LinkBlock
 
         try:
-            obj = MeyoriyHujjat.objects.get(id=pk, is_active=True)
-        except MeyoriyHujjat.DoesNotExist:
+            obj = LinkBlock.objects.get(id=pk, is_active=True)
+        except LinkBlock.DoesNotExist:
             return Response({'detail': 'Topilmadi'}, status=404)
 
         url = None

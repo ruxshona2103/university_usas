@@ -1,0 +1,1163 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom><w:DoNotOptimizeForBrowser/></w:WordDocument></xml><![endif]-->
+<style>@page WordSection1 {size:210mm 297mm;margin:20mm;}div.WordSection1 {page:WordSection1;}</style>
+<style type="text/css">BODY{scrollbar-base-color:scrollbar;scrollbar-highlight-color:white;scrollbar-darkshadow-color:scrollbar;scrollbar-shadow-color:white;}#divCont DIV{border:none;white-space:normal;}#divCont IMG{float:none;vertical-align:middle;}#divCont A{text-decoration:none;}#divCont A:link{color:#008080;}#divCont A:visited{color:#008080;}#divCont A:hover{color:#ff0000;}#divCont P{margin:0px;padding:0px;line-height:1.0;}#divCont LABEL{display:none;}.aExp{text-align:left;text-indent:0px;margin:0pt 0pt 12pt 0pt;font-style:normal;color:red;font-weight:600;font-size:12pt;font-family:"Times New Roman";font-variant:normal;line-height:1.0;}.aOAD{width:100%;text-align:right;text-indent:0px;margin:0pt 0pt 12pt 0pt;font-style:italic;color:#808080;font-weight:400;font-size:10pt;font-family:"Times New Roman";font-variant:normal;line-height:1.0;}.signCont{text-align:center;margin:0pt 0pt 12pt 0px;text-indent:0pt;}.mrkup{background-color:#00008B!important;color:#FFFFFF!important;}.mrkupNav{color:#00008B!important;}.mrkupNav SPAN{font:12px Webdings!important;padding:0px 2px!important;}.iorRN{font-weight:600;}.iorVal{text-indent:0px;margin-left:1px;}.clausePrfx{display:inline;float:left;}.clauseSuff{display:block;width:100%;text-indent:0px;}@media print{.clausePrfx{float:none;}.clauseSuff{display:inline;width:auto;}}.ACCEPTING_BODY{text-align:center; text-indent:0; margin:0 0 0 0; font-style:normal; color:#000080; font-weight:normal; font-size:12pt; font-family:"Times New Roman";font-variant:normal; line-height:normal;text-transform:uppercase;}.ACT_ESSENTIAL_ELEMENTS{text-align:center; text-indent:0; margin:0 70% 0 0; font-style:normal; color:#000000; font-weight:normal; font-size:11pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.ACT_ESSENTIAL_ELEMENTS_NUM{text-align:center; text-indent:0; margin:0 70% 0 0; font-style:normal; color:#000000; font-weight:normal; font-size:11pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;padding-bottom: 20px;}.ACT_FORM{text-align:center; text-indent:0; margin:0; font-style:normal; color:#000080; font-weight:normal; font-size:12pt; font-family:"Times New Roman"; text-transform:uppercase; font-variant:normal; line-height:normal;}.ACT_FORM_LAW{text-align:center; text-indent:0; margin:0 0 12pt 0; font-style:normal; color:#000080; font-weight:normal; font-size:12pt; font-family:"Times New Roman"; text-transform:uppercase; font-variant:normal; line-height:normal;}.ACT_TEXT{text-align:justify;text-justify:inter-word; text-indent:15mm; margin:0; font-style:normal; color:#000000; font-weight:normal; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:1.3;}.ACT_TITLE{text-align:center; text-indent:0; margin:12pt 0 6pt 0; font-style:normal; color:#000080; font-weight:bold; font-size:12pt; font-family:"Times New Roman"; text-transform:uppercase; font-variant:normal; line-height:normal;}.ACT_TITLE_APPL{text-align:center; text-indent:0; margin:0 0 6pt 0; font-style:normal; color:#000080; font-weight:bold; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.APPL_BANNER_LANDSCAPE_TEXT{text-align:center; text-indent:0pt; margin:0pt 0pt 10pt 66%; font-style:normal; color:#000080; font-weight:normal; font-size:11pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.APPL_BANNER_LANDSCAPE_TITLE{text-align:center; text-indent:0pt; margin:10pt 0pt 12pt 66%; font-style:normal; color:#000080; font-weight:normal; font-size:11pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.APPL_BANNER_PORTRAIT_TEXT{text-align:center; text-indent:0pt; margin:0pt 0pt 0pt 50%; font-style:normal; color:#000080; font-weight:normal; font-size:11pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.APPL_BANNER_PORTRAIT_TITLE{text-align:center; text-indent:0pt; margin:0pt 0pt 12pt 50%; font-style:normal; color:#000080; font-weight:normal; font-size:11pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.BY_DEFAULT{text-align:justify;text-justify:inter-word; text-indent:0; margin:0; font-style:normal; color:#000000; font-weight:normal; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:1.3;}.CHANGES_ORIGINS{text-align:justify;text-justify:inter-word; text-indent:15mm; margin:0; font-style:italic; color:#800000; font-weight:normal; font-size:11pt; font-family:"Times New Roman"; font-variant:normal; line-height:1.3;}.CLAUSE_AFTER_SRC{text-align:justify;text-justify:inter-word; text-indent:0; margin:0 0 3pt 0; font-style:normal; color:#000080; font-weight:boldl; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.CLAUSE_DEFAULT{text-align:justify;text-justify:inter-word; text-indent:15mm; margin:6pt 0 3pt 0; font-style:normal; color:#000080; font-weight:bold; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.COMMENT{text-align:justify;text-justify:inter-word; text-indent:15mm; margin:3pt 0 3pt 0; font-style:italic; color:#800080; font-weight:normal; font-size:11pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.COMMENT_FOR_WARNING{text-align:justify;text-justify:inter-word; text-indent:15mm; margin:3pt 0 3pt 0; font-style:italic; color:#800080; font-weight:normal; font-size:11pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.DEPARTMENTAL{text-align:center; text-indent:0; margin:0 0 6pt 0; font-style:normal; color:#000000; font-weight:bold; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.EXPLANATION{text-align:justify;text-justify:inter-word; text-indent:15mm; margin:3pt 0 3pt 0; font-style:normal; color:#993366; font-weight:normal; font-size:11pt; font-family:"Times New Roman"; line-height:normal;}.EXTRACT{text-align:center; text-indent:0; margin:0 0 6pt 0; font-style:normal; color:#000000; font-weight:bold; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.FOOTNOTE{text-align:justify;text-justify:inter-word; text-indent:15mm; margin:0; font-style:normal; color:#339966; font-weight:normal; font-size:10pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.GRIF_PARLAMENT{text-align: left; text-indent:0 mm; margin:0 0 3pt 50%; font-style:normal; color:#000080; font-weight:normal; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.INDEXES_ON_REF{text-align:left;text-indent:0cm;margin:3pt 0.9cm 3pt 0.95cm;font-style:normal;color:#008000;font-weight:normal;font-size:11pt;font-family:"Times New Roman"; font-variant:normal;line-height:1.0;}.IS_TABLE_FOR_LIST_TEMP{text-align:justify;text-justify:inter-word; text-indent:15mm; margin:0; font-style:normal; color:#000000; font-weight:normal; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:1.3;}.NEW_EDITION{text-align:center; text-indent:0; margin:0 0 6pt 0; font-style:normal; color:#000080; font-weight:normal; font-size:12pt; font-family:"Times New Roman"; text-transform:lowercase; font-variant:normal; line-height:normal;}.OFFICIAL_SOUR_TEXT{text-align:right; font-size:8pt; font-family:Arial, Helvetica, sans-serif; border: 1px solid #A9DBFC; background-color: #E6EDFF;}.PUBLICATION_ORIGIN{text-align:center; text-indent:0; margin:0 0 12pt 0; font-style:italic; color:#800000; font-weight:normal; font-size:11pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.SIGNATURE{text-align:right; text-indent:0; margin:6pt 0 6pt 0; font-style:normal; color:#000000; font-weight:bold; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.SIGNATURE_STAMPS_PLACEHOLDER{text-align:justify; text-justify:inter-word; text-indent:0; margin:4 10; vertical-align:text-top; flow:left;}.SIGNATURE_STAMP_TEXT{text-align:center; text-indent:0; margin:0; font-style:normal; color:#000080; font-weight:normal; font-size:11pt; font-family:"Times New Roman"; font-variant:normal; vertical-align:baseline!important;}.SIGNATURE_WITH_BOLD{text-align:right; text-indent:0; margin:6pt 0 6pt 0; font-style:normal; color:#000000; font-weight:normal; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.TABLE_STD{background:#ffffff;color:#000000;margin:4pt;font-size:12pt;width:100%;height:100%;overflow:visible;}.TEXT_15_LEFT{text-align: left; text-indent:30 mm; margin:0 0 3pt 0; font-style:normal; color:#000080; font-weight:normal; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.TEXT_30_LEFT{text-align: left; text-indent:45 mm; margin:0 0 3pt 0; font-style:normal; color:#000080; font-weight:normal; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.TEXT_BOLD{text-align:justify;  text-indent:0; margin:6pt 0 3pt 0; font-style:normal; color:#000080; font-weight:bold; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;text-indent:15mm;}.TEXT_BOLD_CENTER{text-align:center; text-indent:0; margin:6pt 0 3pt 0; font-style:normal; color:#000080; font-weight:bold; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.TEXT_BOLD_RIGHT{text-align:right; text-indent:0; margin:0 0 3pt 0; font-style:normal; color:#000000; font-weight:bold; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.TEXT_CENTER{text-align:center; text-indent:0; margin:0 0 3pt 0; font-style:normal; color:#000080; font-weight:normal; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.TEXT_HEADER_AFTER_SRC{text-align:center; text-indent:0; margin:0 0 3pt 0; font-style:normal; color:#000080; font-weight:bold; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.TEXT_HEADER_DEFAULT{text-align:center; text-indent:0; margin:6pt 0 3pt 0; font-style:normal; color:#000080; font-weight:bold; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}.TEXT_ITALIC{text-align:justify; text-indent:0; margin:0; font-style:italic; color:#000080; font-weight:italic; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal; text-indent:15mm}.TEXT_RIGHT{text-align: right; text-indent:0; margin:0 0 3pt 0; font-style:normal; color:#000080; font-weight:normal; font-size:12pt; font-family:"Times New Roman"; font-variant:normal; line-height:normal;}DIV#theSysCssID TABLE{background-color:ivory;color:#000000;border-collapse:separate;font:x-small Tahoma;table-layout:auto;position:relative;margin:0pt;top:0pt;zoom:normal;z-index:auto;}DIV#theSysCssID TABLE TD,TH{border:1px solid #000000;cursor:auto;min-height:8pt;padding:1px 1px 1px 2px;vertical-align:top;white-space:normal;word-wrap:break-word;display:block!important;visibility:visible!important;}DIV#theNormCssID TABLE{background-color:#f5f5f5;color:red;border:1px solid red;font:small Verdana;position:relative;margin:0pt;top:0pt;zoom:normal;z-index:auto;}DIV#theNormCssID TABLE TD,TH{border:1px solid red;cursor:auto;min-height:8pt;padding:2px 2px 2px 3px;vertical-align:top;white-space:normal;word-wrap:normal;display:block!important;visibility:visible!important;}DIV#theDefCssID TABLE{background-color:#ffffff;color:#000000;border:1px solid #000000;border-collapse:collapse;font:normal normal normal small/normal Times New Roman;table-layout:fixed;text-align:left;text-decoration:none;text-indent:0;text-transform:none;width:100%;word-spacing:normal;position:relative;margin:0pt;top:0pt;zoom:normal;z-index:auto;}DIV#theDefCssID TABLE TD,TH{background-color:#ffffff;color:#000000;border:1px solid #000000;cursor:auto!important;font:normal normal normal small/normal Times New Roman;min-height:8pt;padding:1px 1px 1px 2px;text-align:left;text-decoration:none;text-indent:0;text-transform:none;vertical-align:top;white-space:normal;word-wrap:break-word;word-spacing:normal;display:block!important;visibility:visible!important;}DIV#theNotCssID TABLE{position:relative;margin:0pt;top:0pt;zoom:normal;z-index:auto;}DIV#theNotCssID TABLE TD,TH,CAPTION{display:block!important;visibility:visible!important;}A#tabBoxDisable TABLE TD,TH{color:#808080;border-color:#808080;}.tabBox{display:inline-block;} .OFFICIAL_SOUR_TEXT{display:none;}</style>
+</head>
+<body lang='uz-Latn-UZ'><div class=WordSection1>
+﻿<div id="divCont" style="background:#ffffff;border:none;margin:auto;"><div class="ACCEPTING_BODY"><div name="-6943160" id="-6943160">Oʻzbekiston Respublikasi Prezidentining</div></div><div class="ACT_FORM"><div name="-6943161" id="-6943161">Qarori</div></div><div class="ACT_TITLE"><div name="-6943162" id="-6943162">Oʻzbekiston davlat sport akademiyasi faoliyatini tashkil qilish chora-tadbirlari toʻgʻrisida</div></div><div class="BY_DEFAULT"><div name="-6943164" id="-6943164"></div></div><div class="ACT_TEXT"><div name="-6943166" id="-6943166">Yuqori malakali sport kadrlarini zamon talablaridan kelib chiqib mutlaqo yangi sharoitlarda tayyorlash, yangi avlod sportchilari va trenerlarini yetishtirish orqali sportdagi yutuqlarimizni yanada kengaytirish, jismoniy tarbiya va sport sohasida oʻquv va ilmiy-tadqiqot jarayonini xalqaro standartlar asosida tashkil qilish maqsadida: </div></div><div class="ACT_TEXT"><div name="-6943167" id="-6943167">1. Sport vazirligi, Oʻzbekiston Milliy olimpiya qoʻmitasi va Oʻzbekiston Milliy paralimpiya qoʻmitasining Sport vazirligi huzuridagi Oliy sport mahorati instituti negizida Oʻzbekiston davlat sport akademiyasi (keyingi oʻrinlarda — Akademiya)ni tashkil etish toʻgʻrisidagi taklifiga rozilik berilsin. </div></div><div class="ACT_TEXT"><div name="-6943168" id="-6943168">2. Amaldagi yuridik shaxs maqomi hamda moliyalashtirish tartibi saqlangan holda quyidagilar 2025/2026 oʻquv yilidan boshlab Akademiya huzuriga oʻtkazilsin:</div></div><div class="ACT_TEXT"><div name="-6943169" id="-6943169">Jismoniy tarbiya va sport ilmiy tadqiqotlar instituti;</div></div><div class="ACT_TEXT"><div name="-6943170" id="-6943170">Jismoniy tarbiya va sport boʻyicha mutaxassislarni qayta tayyorlash va malakasini oshirish instituti hamda uning tegishli filiallari.</div></div><div class="ACT_TEXT"><div name="-6943172" id="-6943172">3. Quyidagilar Akademiyaning asosiy vazifalari etib belgilansin:</div></div><div class="ACT_TEXT"><div name="-6943173" id="-6943173">sport sohasida natijalari yuqori boʻlgan davlatlarning yetakchi oliy sport-taʼlim tashkilotlari tajribasi asosida zamonaviy kadrlarni tayyorlash;</div></div><div class="ACT_TEXT"><div name="-6943174" id="-6943174">kadrlarni tayyorlash jarayoniga xorijiy tajribalarni qoʻllagan holda oʻquv jarayonini tashkil qilish hamda ilmiy asoslangan metodikalarini yaratish;</div></div><div class="ACT_TEXT"><div name="-6943177" id="-6943177">sport sohasida kompleks ilmiy tadqiqotlar, eksperimentlar hamda laborator sinovlar tashkil etish;</div></div><div class="ACT_TEXT"><div name="-6943178" id="-6943178">jismoniy tarbiya va sport boʻyicha mutaxassislarni qayta tayyorlash va malakasini oshirishning zamonaviy oʻqitish mexanizmlarini joriy etish;</div></div><div class="ACT_TEXT"><div name="-6943180" id="-6943180">respublikada sport sohasida zamonaviy nazariya va amaliyot tizimini joriy qilish usullari hamda xususiyatlarini oʻrganish orqali yuqori mahoratli sportchilarni tayyorlab borish;</div></div><div class="ACT_TEXT"><div name="-6943181" id="-6943181">musobaqalar natijalarini chuqur ilmiy yondashuv asosida tahlil qilib borish, ular natijasida sportdagi yutuqlarni yanada kengaytirish boʻyicha tavsiyalar ishlab chiqish.</div></div><div class="ACT_TEXT"><div name="-6943183" id="-6943183">4. Quyidagilar:</div></div><div class="ACT_TEXT"><div name="-6943184" id="-6943184">Oʻzbekiston davlat sport akademiyasining tashkiliy tuzilmasi <a href="https://lex.uz/docs/-6942930#-6943255">1-ilovaga</a> muvofiq; </div></div><div class="ACT_TEXT"><div name="-6943185" id="-6943185">Oʻzbekiston davlat sport akademiyasida tashkil etiladigan bakalavriat taʼlim yoʻnalishlari va magistratura mutaxassisliklari roʻyxati <a href="https://lex.uz/docs/-6942930#-6943263">2-ilovaga</a> muvofiq;</div></div><div class="ACT_TEXT"><div name="-6943187" id="-6943187">Oʻzbekiston davlat sport akademiyasi faoliyatini tashkil etish boʻyicha chora-tadbirlar dasturi <a href="https://lex.uz/docs/-6942930#-6943280">3-ilovaga</a> muvofiq tasdiqlansin.</div></div><div class="ACT_TEXT"><div name="-6943189" id="-6943189">5. Belgilab qoʻyilsinki:</div></div><div class="ACT_TEXT"><div name="-6943190" id="-6943190">Akademiyada oʻquv jarayoni 2025/2026 oʻquv yilidan boshlanadi;</div></div><div class="ACT_TEXT"><div name="-6943191" id="-6943191">Akademiya Toshkent shahri, Yashnobod tumanida barpo etilayotgan Olimpiya shaharchasiga joylashtiriladi;</div></div><div class="ACT_TEXT"><div name="-6943194" id="-6943194">Akademiya davlat oliy taʼlim muassasasi shaklidagi yuridik shaxs boʻlib, oʻz faoliyatida Sport vazirligiga hisobdordir;</div></div><div class="ACT_TEXT"><div name="-6943195" id="-6943195">Akademiyaga talabalarni qabul qilish parametrlari Respublika oliy taʼlim muassasalariga oʻqishga qabul qilishning davlat buyurtmasi doirasida belgilanadi;</div></div><div class="ACT_TEXT"><div name="-6943196" id="-6943196">Akademiya talabalarining kontingenti, birinchi navbatda, olimpiya va paralimpiya sport turlariga tayyorlash markazlarida rivojlantirilayotgan sport turlari boʻyicha soʻnggi bir yilda Jahon, Osiyo va Oʻzbekiston chempionatlarida gʻolib va sovrindor boʻlgan olimpiya va paralimpiya kollejlari, shuningdek, umumiy oʻrta, oʻrta maxsus va professional taʼlim muassasalarining bitiruvchilari orasidan ularning sport natijalariga qarab, saralash (seleksiya) asosida shakllantiriladi. </div></div><div class="ACT_TEXT"><div name="-6943197" id="-6943197">Bunda, Olimpiya va paralimpiya kollejlaridan saralab olingan bitiruvchilar Akademiyaga toʻgʻridan-toʻgʻri ikkinchi bosqichga qabul qilinadi;</div></div><div class="ACT_TEXT"><div name="-6943198" id="-6943198">Akademiya bitiruvchilariga Oʻzbekiston Respublikasida oliy taʼlim toʻgʻrisidagi hujjat sifatida tan olinadigan davlat namunasidagi diplom beriladi;</div></div><div class="ACT_TEXT"><div name="-6943199" id="-6943199">Akademiya talabalari sport va ommaviy jismoniy tarbiya tadbirlarining kalendar rejasiga muvofiq oʻtkaziladigan respublika musobaqalarida toʻgʻridan-toʻgʻri ishtirok etadi;</div></div><div class="ACT_TEXT"><div name="-6943200" id="-6943200">Akademiyada sport turlari boʻyicha tahsil olayotgan talabalarni yashash uchun zaruriy jihozlar hamda sutkalik oziq-ovqat normasi bilan taʼminlashda olimpiya va paralimpiya sport turlariga tayyorlash markazlari normativlari tatbiq etiladi;</div></div><div class="ACT_TEXT"><div name="-6943203" id="-6943203">Jismoniy tarbiya va sport boʻyicha mutaxassislarni qayta tayyorlash va malakasini oshirish instituti rektori hamda Jismoniy tarbiya va sport ilmiy tadqiqotlar instituti direktori Akademiya rektorining tavsiyasiga muvofiq, Oʻzbekiston Respublikasi sport vaziri tomonidan lavozimga tayinlanadi va lavozimidan ozod etiladi.</div></div><div class="ACT_TEXT"><div name="-6943205" id="-6943205">Bunda, Akademiya rektori Jismoniy tarbiya va sport sohasida kadrlar salohiyatini oshirish hamda ilmiy faoliyatini rivojlantirish boʻyicha kuzatuv kengashi taqdimnomasiga koʻra Vazirlar Mahkamasi tomonidan lavozimga tayinlanadi va lavozimidan ozod etiladi.</div></div><div class="ACT_TEXT"><div name="-6943206" id="-6943206">6. Akademiyaga quyidagi huquqlar berilsin:</div></div><div class="ACT_TEXT"><div name="-6943207" id="-6943207">Akademiyaning bakalavriat taʼlim yoʻnalishlari va magistratura mutaxassisliklari uchun malaka talablarini belgilangan tartibda ishlab chiqish;</div></div><div class="ACT_TEXT"><div name="-6943209" id="-6943209">ilgʻor xorijiy davlatlar tajribasi asosida sport taʼlimi jarayonlarining oʻziga xos xususiyatlarini inobatga olgan holda bakalavriat taʼlim yoʻnalishlarini belgilash, Oliy taʼlim, fan va innovatsiyalar vazirligi bilan birgalikda ularning oʻquv rejalari va dasturlarini ishlab chiqish hamda tasdiqlash; </div></div><div class="ACT_TEXT"><div name="-6943210" id="-6943210">Sport vazirligi bilan birgalikda Sportni qoʻllab-quvvatlash jamgʻarmasi va homiylik mablagʻlari hisobidan xorijiy mutaxassislarni, shu jumladan, mahalliy yuqori malakali professor-oʻqituvchilarni, terma jamoa trenerlarini jalb qilish, shuningdek, mehnatga haq toʻlash miqdorlarini bozor konyunkturasidan kelib chiqqan holda oʻrnatilgan tartibda belgilash;</div></div><div class="ACT_TEXT"><div name="-6943212" id="-6943212">chet ellik olimlar, oʻqituvchilar va mutaxassislar uchun milliy valyutada borish-kelish aviachiptalarini (uzoq muddatli mehnat shartnomalari tuzilganda bir yilda koʻpi bilan ikki marta) xarid qilish va mehmonxonada yashash xarajatlarini toʻlash;</div></div><div class="ACT_TEXT"><div name="-6943214" id="-6943214">sport sohasida kadrlar tayyorlash, ularni qayta tayyorlash va malakasini oshirish, shuningdek, ilmiy tadqiqotlar olib borish boʻyicha xorijiy sheriklar bilan hamkorlik toʻgʻrisida idoralararo bitimlar, shartnomalar tuzish; </div></div><div class="ACT_TEXT"><div name="-6943215" id="-6943215">7. Belgilansinki:</div></div><div class="ACT_TEXT"><div name="-6943216" id="-6943216">Jismoniy tarbiya va sport sohasida kadrlar salohiyatini oshirish hamda ilmiy faoliyatini rivojlantirish boʻyicha kuzatuv kengashiga, zarur hollarda, Akademiya tuzilmasiga xodimlarning umumiy cheklangan soni hamda mehnatga haq toʻlash fondi doirasida oʻzgartirishlar kiritish huquqi beriladi;</div></div><div class="ACT_TEXT"><div name="-6943218" id="-6943218">Akademiya bitiruvchilariga trenerlik faoliyati bilan shugʻullanish uchun malaka sertifikati, istisno tariqasida, toʻgʻridan-toʻgʻri 6 yilga beriladi;</div></div><div class="CHANGES_ORIGINS"><label id="s1104"></label><div name="-7929656" id="-7929656">(7-bandning toʻrtinchi xatboshisi Oʻzbekiston Respublikasi Prezidentining 2025-yil 6-dekabrdagi PF-243-sonli <a href="https://lex.uz/docs/-7886963?ONDATE=09.12.2025 00#-7900625">Farmoniga </a>asosan chiqarilgan — Qonunchilik maʼlumotlari milliy bazasi, 09.12.2025-y., 06/25/243/1128-son)</div></div><div class="ACT_TEXT"><div name="-6943221" id="-6943221">8. Sport vazirligi (A. Ikramov) 2025/2026 oʻquv yiliga qadar:</div></div><div class="ACT_TEXT"><div name="-6943222" id="-6943222">Akademiyaning ustavini ishlab chiqib tasdiqlasin hamda belgilangan tartibda davlat roʻyxatidan oʻtkazilishini taʼminlasin;</div></div><div class="ACT_TEXT"><div name="-6943224" id="-6943224">Akademiyaning fakultetlari va kafedralari shakllantirilishini, ularning jismoniy tarbiya va sport sohasida zamonaviy bilimlarga hamda taʼlim tizimida ilmiy-amaliy ish tajribasiga ega yuqori malakali mutaxassislar bilan toʻldirilishini taʼminlasin;</div></div><div class="ACT_TEXT"><div name="-6943226" id="-6943226">oliy taʼlim muassasalari uchun belgilangan normativlarga muvofiq Akademiya tuzilmasi tasdiqlanishini taʼminlasin.</div></div><div class="ACT_TEXT"><div name="-6943227" id="-6943227">9. Belgilab qoʻyilsinki, 2025-yildan boshlab Akademiya faoliyatini moliyalashtirish bilan bogʻliq barcha xarajatlar Davlat budjeti parametrlarida nazarda tutiladi.</div></div><div class="ACT_TEXT"><div name="-6943228" id="-6943228">10. Sport vazirligi, Sogʻliqni saqlash vazirligi hamda Oʻzbekiston Milliy olimpiya qoʻmitasining Akademiya tizimida davlat muassasasi shaklidagi Davlat sport tibbiyoti ilmiy-amaliy markazini tashkil etish toʻgʻrisidagi taklifi maʼqullansin.</div></div><div class="ACT_TEXT"><div name="-6943229" id="-6943229">Belgilansinki, Davlat sport tibbiyoti ilmiy-amaliy markazi sport tibbiyoti sohasida yagona davlat siyosatini amalga oshiruvchi, sport turlari boʻyicha Oʻzbekiston milliy terma jamoalari aʼzolarini tibbiy jihatdan musobaqalarga tayyorlashni tashkil qiluvchi davlat tibbiyot muassasasi hisoblanadi.</div></div><div class="ACT_TEXT"><div name="-6943230" id="-6943230">Sport vazirligi Sogʻliqni saqlash vazirligi bilan birgalikda 2025/2026 oʻquv yiliga qadar Davlat sport tibbiyoti ilmiy-amaliy markazi faoliyatini tashkil qilish boʻyicha Hukumat qarori loyihasini Vazirlar Mahkamasiga kiritsin.</div></div><div class="ACT_TEXT"><div name="-6943231" id="-6943231">11. Belgilab qoʻyilsinki, sportchilarga xorijiy tillar va Oʻzbekiston tarixini chuqurlashtirilgan holda oʻrgatish maqsadida Akademiya tuzilmasida Axborot-kutubxona markazini oʻz ichiga oluvchi yuridik shaxs maqomiga ega boʻlmagan Oʻzbekiston tarixi va xorijiy tillarni oʻqitish markazi tashkil etiladi. </div></div><div class="ACT_TEXT"><div name="-6943232" id="-6943232">12. Innovatsion rivojlanish agentligi jismoniy tarbiya va sport sohasining dolzarb yoʻnalishlarini oʻrganish boʻyicha ilmiy-tadqiqot ishlari uchun belgilangan tartibda davlat buyurtmasini shakllantirsin va har yili ilmiy faoliyatga oid davlat dasturlari doirasida tanlov eʼlon qilib borsin. </div></div><div class="ACT_TEXT"><div name="-6943233" id="-6943233">13. Quyidagilar Akademiya faoliyatini moliyalashtirish manbalari etib belgilansin:</div></div><div class="ACT_TEXT"><div name="-6943234" id="-6943234">Davlat budjeti mablagʻlari;</div></div><div class="ACT_TEXT"><div name="-6943235" id="-6943235">toʻlov-kontrakt asosida oʻqitishdan tushadigan mablagʻlar;</div></div><div class="ACT_TEXT"><div name="-6943237" id="-6943237">xoʻjalik faoliyatidan va shartnoma asosida koʻrsatilgan xizmatlardan tushumlar;</div></div><div class="ACT_TEXT"><div name="-6943239" id="-6943239">jismoniy va yuridik shaxslarning homiylik xayriyalari;</div></div><div class="ACT_TEXT"><div name="-6943240" id="-6943240">xalqaro moliya institutlari va xorijiy tashkilotlarning grantlari;</div></div><div class="ACT_TEXT"><div name="-6943241" id="-6943241">qonunchilik hujjatlarida taqiqlanmagan boshqa manbalar.</div></div><div class="ACT_TEXT"><div name="-6943245" id="-6943245">14. Oʻzbekiston Respublikasi Prezidentining 2022-yil 6-iyundagi “Oliy sport mahorati instituti faoliyatini tashkil qilish chora-tadbirlari toʻgʻrisida”gi PQ-269-son <a href="https://lex.uz/docs/-6048825">qarori</a> oʻz kuchini yoʻqotgan deb hisoblansin. </div></div><div class="ACT_TEXT"><div name="-6943246" id="-6943246">15. Sport vazirligi manfaatdor vazirlik va idoralar bilan birgalikda uch oy muddatda qonunchilik hujjatlariga ushbu qarordan kelib chiqadigan oʻzgartirish va qoʻshimchalar toʻgʻrisida Vazirlar Mahkamasiga taklif kiritsin.</div></div><div class="ACT_TEXT"><div name="-6943247" id="-6943247">16. Mazkur qarorning ijrosini samarali tashkil qilishga masʼul va shaxsiy javobgar etib Oʻzbekiston Respublikasi sport vaziri A.I. Ikramov belgilansin. </div></div><div class="ACT_TEXT"><div name="-6943248" id="-6943248">Qaror ijrosini muhokama qilib borish, masʼul tashkilotlar faoliyatini muvofiqlashtirish va nazorat qilish Oʻzbekiston Respublikasi Bosh vaziri A.N. Aripov va Oʻzbekiston Respublikasi Prezidenti Administratsiyasi departamenti rahbari O.Q. Abduraxmanov zimmasiga yuklansin.</div></div><div class="SIGNATURE"><div name="-6943249" id="-6943249">Oʻzbekiston Respublikasi Prezidenti Sh. MIRZIYOYEV</div></div><div class="ACT_ESSENTIAL_ELEMENTS"><div name="-6943251" id="-6943251">Toshkent sh.,</div></div><div class="ACT_ESSENTIAL_ELEMENTS"><div name="-6943253" id="-6943253">2024-yil 28-may,</div></div><div class="ACT_ESSENTIAL_ELEMENTS_NUM"><div name="-6943254" id="-6943254">PQ-197-son</div></div><div class="BY_DEFAULT"><div name="-6943255" id="-6943255"></div></div><div class="APPL_BANNER_LANDSCAPE_TITLE"><div name="-6943257" id="-6943257">Oʻzbekiston Respublikasi Prezidentining 2024-yil 28-maydagi PQ-197-son <a href="https://lex.uz/docs/-6942930">qaroriga</a> <br />1-ILOVA</div></div><div class="ACT_TITLE_APPL"><div name="-6943259" id="-6943259">Oʻzbekiston davlat sport akademiyasining tashkiliy </div></div><div class="ACT_FORM"><div name="-6943260" id="-6943260">TUZILMASI</div></div><div class="BY_DEFAULT"><div name="-6943261" id="-6943261"></div></div><div class="BY_DEFAULT"><div name="-6943262" id="-6943262"><div align="center">
+<table border="0" cellpadding="0" cellspacing="0" class="MsoNormalTable" style="width: 100.0%; background: white; border-collapse: collapse; mso-yfti-tbllook: 1184;" width="100%">
+	<tbody>
+		<tr style="mso-yfti-irow: 0; mso-yfti-firstrow: yes;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%"><a name="-6943262"></a>
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; padding: 0cm 3.0pt 0cm 3.0pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.82%; padding: 0cm 3.0pt 0cm 3.0pt;" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 4.4%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="4%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 6.68%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="6%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.72%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.2%; padding: 0cm 3.0pt 0cm 3.0pt;" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.68%; padding: 0cm 3.0pt 0cm 3.0pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.86%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 1;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; padding: 0cm 3.0pt 0cm 3.0pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.82%; padding: 0cm 3.0pt 0cm 3.0pt;" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td colspan="6" style="width: 25.66%; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="25%">
+			<p align="center" class="MsoNormal" style="margin-left: 12.75pt; text-align: center;"><strong><span lang="UZ-CYR" style="text-decoration: none; text-line-through: none;"><span style="text-decoration: none; text-line-through: none;">Oʻzbekiston davlat sport </span></span></strong></p>
+
+			<p align="center" class="MsoNormal" style="margin-left: 12.75pt; text-align: center;"><strong><span lang="UZ-CYR" style="text-decoration: none; text-line-through: none;"><span style="text-decoration: none; text-line-through: none;">akademiyasi</span></span></strong></p>
+			</td>
+			<td style="width: 3.62%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.2%; padding: 0cm 3.0pt 0cm 3.0pt;" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.68%; padding: 0cm 3.0pt 0cm 3.0pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.86%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 2; height: 6.6pt;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.82%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 4.4%; border: none; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="4%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 6.68%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="6%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border-top: solid windowtext 1.0pt; border-left: none; border-bottom: none; border-right: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-top: solid windowtext 1.0pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.72%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.2%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.68%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.86%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 3; height: 6.6pt;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.82%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 4.4%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="4%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 6.68%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="6%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.72%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.2%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.68%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.86%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 6.6pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt; height: 6.6pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 4; height: 2.55pt;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.82%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 4.4%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="4%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 6.68%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="6%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.72%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.2%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.68%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.86%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 5; height: 21.0pt;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt; height: 21.0pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 21.0pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 21.0pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 21.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: .75pt .75pt .75pt .75pt; height: 21.0pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; border: none; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 21.0pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td colspan="6" style="width: 27.86%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 21.0pt;" width="27%">
+			<p align="center" class="MsoNormal" style="text-align: center;"></p>
+			</td>
+			<td style="width: 3.62%; border: none; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 21.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 21.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td colspan="6" style="width: 23.4%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 21.0pt;" width="23%">
+			<p align="center" class="MsoNormal" style="text-align: center;"></p>
+			</td>
+			<td style="width: 1.68%; border: none; border-right: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 21.0pt;" width="1%">
+			<p align="center" class="MsoNormal" style="text-align: center;"></p>
+			</td>
+			<td style="width: 5.86%; padding: .75pt .75pt .75pt .75pt; height: 21.0pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt; height: 21.0pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 21.0pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 21.0pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt; height: 21.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 6; height: 2.55pt;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; border: none; border-right: solid windowtext 1.0pt; mso-border-left-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td colspan="6" rowspan="4" style="width: 27.86%; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="27%">
+			<p align="center" class="MsoNormal" style="text-align: center;"><span lang="UZ-CYR" style="text-decoration: none; text-line-through: none;"><span style="text-decoration: none; text-line-through: none;">Jismoniy tarbiya va sport ilmiy-tadqiqotlar instituti</span></span></p>
+			</td>
+			<td style="width: 3.62%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td colspan="6" rowspan="4" style="width: 23.4%; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="23%">
+			<p align="center" class="MsoNormal" style="text-align: center;"><span lang="UZ-CYR" style="text-decoration: none; text-line-through: none;"><span style="text-decoration: none; text-line-through: none;">Davlat sport tibbiyoti ilmiy amaliy markazi</span></span></p>
+			</td>
+			<td style="width: 1.68%; border: none; border-right: solid windowtext 1.0pt; mso-border-left-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="1%"></td>
+			<td style="width: 5.86%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 7; height: 2.55pt;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; border: none; border-right: solid windowtext 1.0pt; mso-border-left-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.68%; border: none; border-right: solid windowtext 1.0pt; mso-border-left-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="1%">
+			<p align="center" class="MsoNormal" style="text-align: center;"></p>
+			</td>
+			<td style="width: 5.86%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 8; height: 2.55pt;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; border-top: solid windowtext 1.0pt; border-left: none; border-bottom: none; border-right: solid windowtext 1.0pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.68%; border-top: solid windowtext 1.0pt; border-left: none; border-bottom: none; border-right: solid windowtext 1.0pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="1%">
+			<p align="center" class="MsoNormal" style="text-align: center;"></p>
+			</td>
+			<td style="width: 5.86%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 9; height: 2.05pt;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.05pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; border: none; border-right: solid windowtext 1.0pt; mso-border-left-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.05pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.05pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.05pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.68%; border: none; border-right: solid windowtext 1.0pt; mso-border-left-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.05pt;" width="1%"></td>
+			<td style="width: 5.86%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.05pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 10; height: 5.0pt;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt; height: 5.0pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 5.0pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 5.0pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: .75pt .75pt .75pt .75pt; height: 5.0pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.82%; border: none; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 4.4%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="4%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 6.68%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="6%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.72%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.2%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.68%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.86%; padding: .75pt .75pt .75pt .75pt; height: 5.0pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt; height: 5.0pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 5.0pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 5.0pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 11; height: 5.7pt;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt; height: 5.7pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 5.7pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 5.7pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.7pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: .75pt .75pt .75pt .75pt; height: 5.7pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.7pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td colspan="6" style="width: 27.86%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.7pt;" width="27%">
+			<p align="center" class="MsoNormal" style="text-align: center;"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.7pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.7pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td colspan="6" style="width: 23.4%; border: none; border-bottom: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.7pt;" width="23%">
+			<p align="center" class="MsoNormal" style="text-align: center;"></p>
+			</td>
+			<td style="width: 1.68%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.7pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.86%; padding: .75pt .75pt .75pt .75pt; height: 5.7pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt; height: 5.7pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 5.7pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 5.7pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt; height: 5.7pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 12; height: 3.65pt;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt; height: 3.65pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 3.65pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 3.65pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 3.65pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: .75pt .75pt .75pt .75pt; height: 3.65pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; border: none; border-right: solid windowtext 1.0pt; mso-border-left-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 3.65pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td colspan="6" rowspan="4" style="width: 27.86%; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 3.65pt;" width="27%">
+			<p align="center" class="MsoNormal" style="text-align: center;"><span lang="UZ-CYR" style="text-decoration: none; text-line-through: none;"><span style="text-decoration: none; text-line-through: none;">Jismoniy tarbiya va sport boʻyicha mutaxassislarni qayta tayyorlash va malakasini oshirish instituti hamda uning Nukus, Samarqand va Fargʻona filiallari</span></span></p>
+			</td>
+			<td style="width: 3.62%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 3.65pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 3.65pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td colspan="6" rowspan="4" style="width: 23.4%; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 3.65pt;" width="23%">
+			<p align="center" class="MsoNormal" style="text-align: center;"><span lang="UZ-CYR" style="text-decoration: none; text-line-through: none;"><span style="text-decoration: none; text-line-through: none;">Oʻzbekiston tarixi va xorijiy tillarni oʻqitish markazi</span></span></p>
+			</td>
+			<td style="width: 1.68%; border: none; border-right: solid windowtext 1.0pt; mso-border-left-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 3.65pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.86%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: .75pt .75pt .75pt .75pt; height: 3.65pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt; height: 3.65pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 3.65pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 3.65pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt; height: 3.65pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 13; height: 2.55pt;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.68%; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.86%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 14; height: 2.55pt;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; border: none; border-right: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.68%; border: none; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.86%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.55pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.55pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 15; height: 2.05pt;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.05pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.05pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.05pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-right: solid windowtext 1.0pt; mso-border-right-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.05pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.68%; border: none; mso-border-left-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.05pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.86%; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt; height: 2.05pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt; height: 2.05pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+		<tr style="mso-yfti-irow: 16; mso-yfti-lastrow: yes;">
+			<td style="width: 3.68%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.5%; padding: 0cm 3.0pt 0cm 3.0pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.82%; border: none; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.66%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 4.4%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="4%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 6.68%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="6%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.72%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.62%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.2%; border: none; border-top: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .5pt; padding: 0cm 3.0pt 0cm 3.0pt;" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 1.68%; padding: 0cm 3.0pt 0cm 3.0pt;" width="1%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 5.86%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="5%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.64%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.5%; padding: .75pt .75pt .75pt .75pt;" valign="top" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+			<td style="width: 3.46%; padding: 0cm 3.0pt 0cm 3.0pt;" width="3%">
+			<p class="MsoNormal"></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div></div></div><div class="BY_DEFAULT"><div name="-6943263" id="-6943263"></div></div><div class="APPL_BANNER_LANDSCAPE_TITLE"><div name="-6943265" id="-6943265">Oʻzbekiston Respublikasi Prezidentining 2024-yil 28-maydagi PQ-197-son <a href="https://lex.uz/docs/6942930">qaroriga</a> <br />2-ILOVA</div></div><div class="ACT_TITLE_APPL"><div name="-6943266" id="-6943266">Oʻzbekiston davlat sport akademiyasida tashkil etiladigan bakalavriat taʼlim yoʻnalishlari va magistratura mutaxassisliklari</div></div><div class="ACT_FORM"><div name="-6943267" id="-6943267">ROʻYXATI </div></div><div class="BY_DEFAULT"><div name="-6943269" id="-6943269"></div></div><div class="BY_DEFAULT"><div name="-6943271" id="-6943271"><table align="center" class="Table" style="width:100.0%; background:white; border-collapse:collapse; border:none" width="100%">
+	<tbody>
+		<tr>
+			<td style="border-bottom:1px solid black; width:3%; padding:0cm 7px 0cm 7px; background-color:white; border-top:1px solid black; border-right:1px solid black; border-left:1px solid black">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><a name="-6943271"><b><span style="font-family:"Times New Roman",serif">T/r</span></b></a></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:42%; padding:0cm 7px 0cm 7px; background-color:white; border-top:1px solid black; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><b><span style="font-family:"Times New Roman",serif">Yoʻnalish va mutaxassisliklar</span></b></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:35%; padding:0cm 7px 0cm 7px; background-color:white; border-top:1px solid black; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><b><span style="font-family:"Times New Roman",serif">Beriladigan malaka</span></b></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:15%; padding:0cm 7px 0cm 7px; background-color:white; border-top:1px solid black; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><b><span style="font-family:"Times New Roman",serif">Taʼlim muddati</span></b></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4" style="border-bottom:1px solid black; width:3%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:1px solid black">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><b><span style="font-family:"Times New Roman",serif">I. Bakalavriat taʼlim yoʻnalishlari</span></b></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:3%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">1.</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:42%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Sport faoliyati (faoliyat turlari boʻyicha)</span></span></span></span></p>
+			</td>
+			<td rowspan="2" style="border-bottom:1px solid black; width:35%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Trener</span></span></span></span></p>
+			</td>
+			<td rowspan="2" style="border-bottom:1px solid black; width:15%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">4 yil</span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:3%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">2.</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:42%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Adaptiv jismoniy tarbiya va sport (parasport)</span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:3%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">3.</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:42%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Sport menejmenti</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:35%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Sport menejeri,<br />
+			sport tahlilchisi</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:15%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">4 yil</span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4" style="border-bottom:1px solid black; width:3%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:1px solid black">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><b><span style="font-family:"Times New Roman",serif">II. Magistratura mutaxassisliklari</span></b></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:3%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">1.</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:42%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Sport faoliyati (faoliyat turlari boʻyicha)</span></span></span></span></p>
+			</td>
+			<td rowspan="2" style="border-bottom:1px solid black; width:35%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Trener, sport sohasida tashkiliy boshqaruv mutaxassisi</span></span></span></span></p>
+			</td>
+			<td rowspan="2" style="border-bottom:1px solid black; width:15%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">2 yil</span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:3%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">2.</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:42%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Adaptiv jismoniy tarbiya va sport (parasport)</span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:3%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">3.</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:42%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Sport huquqi</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:35%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Sport huquqshunosi</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:15%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">2 yil</span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:3%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">4.</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:42%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Sport menejmenti</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:35%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Sport menejeri</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:15%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">2 yil</span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:3%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">5.</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:42%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Sport marketingi</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:35%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Sport marketologi</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:15%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">2 yil</span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:3%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">6.</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:42%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Sport psixologiyasi</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:35%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">Sport psixologi</span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:15%; padding:0cm 7px 0cm 7px; background-color:white; border-top:none; border-right:1px solid black; border-left:none">
+			<p align="center" style="text-align:center"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-family:"Times New Roman",serif">2 yil</span></span></span></span></p>
+			</td>
+		</tr>
+	</tbody>
+</table></div></div><div class="FOOTNOTE"><div name="-6943273" id="-6943273">Izoh: mazkur roʻyxatdagi tegishli bakalavriat taʼlim yoʻnalishlari va magistratura mutaxassisliklari Oʻzbekiston davlat sport akademiyasida mavjud talab va ehtiyojdan kelib chiqib tashkil etiladi. </div></div><div class="BY_DEFAULT"><div name="-6943280" id="-6943280"></div></div><div class="APPL_BANNER_LANDSCAPE_TITLE"><div name="-6943283" id="-6943283">Oʻzbekiston Respublikasi Prezidentining 2024-yil 28-maydagi PQ-197-son <a href="https://lex.uz/docs/6942930">qaroriga</a> <br />3-ILOVA</div></div><div class="ACT_TITLE_APPL"><div name="-6943285" id="-6943285">Oʻzbekiston davlat sport akademiyasi faoliyatini tashkil etish boʻyicha</div></div><div class="ACT_FORM"><div name="-6943286" id="-6943286">CHORA-TADBIRLAR DASTURI</div></div><div class="BY_DEFAULT"><div name="-6943288" id="-6943288"></div></div><div class="BY_DEFAULT"><div name="-7279636" id="-7279636"></div></div><div class="BY_DEFAULT"><div name="-7279637" id="-7279637"><table class="Table" style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; WIDTH: 100%; BORDER-COLLAPSE: collapse; BACKGROUND: white; BORDER-TOP: medium none; BORDER-RIGHT: medium none" width="100%"><thead><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: black 1px solid; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm"><p align="center" style="TEXT-ALIGN: center; MARGIN-TOP: 4px; MARGIN-BOTTOM: 4px"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><a name="-6943290"><b><span style="FONT-FAMILY: 'Times New Roman',serif">T/r</span></b></a></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: black 1px solid; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm"><p align="center" style="TEXT-ALIGN: center; MARGIN-TOP: 4px; MARGIN-BOTTOM: 4px"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><b><span style="FONT-FAMILY: 'Times New Roman',serif">Chora-tadbirlar</span></b></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: black 1px solid; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm"><p align="center" style="TEXT-ALIGN: center; MARGIN-TOP: 4px; MARGIN-BOTTOM: 4px"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><b><span style="FONT-FAMILY: 'Times New Roman',serif">Amalga oshirish mexanizmlari</span></b></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: black 1px solid; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm"><p align="center" style="TEXT-ALIGN: center; MARGIN-TOP: 4px; MARGIN-BOTTOM: 4px"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><b><span style="FONT-FAMILY: 'Times New Roman',serif">Moliyalashtirish manbalari</span></b></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: black 1px solid; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm"><p align="center" style="TEXT-ALIGN: center; MARGIN-TOP: 4px; MARGIN-BOTTOM: 4px"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><b><span style="FONT-FAMILY: 'Times New Roman',serif">Amalga oshirish muddatlari</span></b></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: black 1px solid; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm"><p align="center" style="TEXT-ALIGN: center; MARGIN-TOP: 4px; MARGIN-BOTTOM: 4px"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><b><span style="FONT-FAMILY: 'Times New Roman',serif">Masʼul ijrochilar</span></b></span></span></span></p></td></tr></thead><tbody><tr><td colspan="6" style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 100%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><b><span style="FONT-FAMILY: 'Times New Roman',serif">I. Kadrlar tayyorlash tizimini tubdan takomillashtirish va ilmiy salohiyatni oshirishga qaratilgan normativ-huquqiy bazani hamda maʼmuriy boshqaruv tizimini takomillashtirish</span></b></span></span></span></p></td></tr><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">1.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport akademiyasining ustavini ishlab chiqish hamda belgilangan tartibda davlat roʻyxatidan oʻtkazish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">1. Rivojlangan davlatlarning sport akademiyalari faoliyatini oʻrganish.</span></span></span></span></p><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2. Sport akademiyasining ustavini ishlab chiqish va belgilangan tartibda davlat roʻyxatidan oʻtkazish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">—</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2025/2026 oʻquv yiliga qadar</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport vazirligi<br />(<i>A. Ikramov</i>)</span></span></span></span></p></td></tr><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="BACKGROUND: white"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport akademiyasining boʻlimlari, fakultetlari, kafedralarini shakllantirish, unga jismoniy tarbiya va sport sohasida zamonaviy bilimlar hamda taʼlim tizimida ilmiy-amaliy ish tajribasiga ega yuqori malakali mutaxassislarni jalb etish.</span></span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">1. Sport akademiyasining boʻlimlari, fakultetlari va kafedralarini shakllantirish.</span></span></span></span></p><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2. Jismoniy tarbiya va sport sohasida zamonaviy bilimlargahamda <span style="BACKGROUND: white">taʼlim tizimida </span>ilmiy-amaliy ish tajribasiga ega yuqori malakali mahalliy<br />va xorijiy mutaxassislar bilan toʻldirish.</span></span></span></span></p><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">3. Mutaxassislarning professional koʻnikmalari va bilim darajalarini uzluksiz oshirish uchun shart-sharoitlar yaratish.</span></span></span></span></p><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">4. Sifatli taʼlim berishda yuqori malakaga, tajribaga ega boʻlgan professor-oʻqituvchilarni moddiy hamda maʼnaviy ragʻbatlantirish mexanizmini ishlab chiqish va amaliyotga tatbiq etish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">—</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2025/2026 oʻquv yiliga qadar</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport vazirligi<br />(<i>A. Ikramov</i>)</span></span></span></span></p></td></tr><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">3.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport akademiyasida talabalar uchun sport klubini tashkil qilish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport klubining nizomini ishlab chiqish va tasdiqlash.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">—</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2026/2027 oʻquv yiliga qadar</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport vazirligi<br />(<i>A. Ikramov</i>)</span></span></span></span></p></td></tr><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">4.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport akademiyasining veb-saytini yaratish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport akademiyasi veb-saytini yaratish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Ijrochilar mablagʻlari</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2025/2026 oʻquv yiliga qadar</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Raqamli texnologiyalar vazirligi </span></span></span></span></p><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">(<i>Sh. Shermatov</i>),</span></span></span></span></p><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport vazirligi<br />(<i>A. Ikramov</i>)</span></span></span></span></p></td></tr><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">5.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport akademiyasining xususiyatidan kelib chiqib, shtatlar jadvalini ishlab chiqish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport akademiyasining boshqaruv, pedagog, texnik, xizmat koʻrsatuvchi<br />va oʻquv-yordamchi xodimlari hamda trenerlar tarkibining shtat jadvalini ishlab chiqish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">—</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2025/2026 oʻquv yiliga qadar</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Kambagʻallikni qisqartirish va bandlik vazirligi<br />(<i>B. Musayev</i>),<br />Sport vazirligi<br />(<i>A. Ikramov</i>)</span></span></span></span></p></td></tr><tr><td colspan="6" style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 100%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><b><span style="FONT-FAMILY: 'Times New Roman',serif">II. Oʻquv-uslubiy jarayonni takomillashtirish, taʼlim sifati va ilmiy tadqiqotlar samaradorligini oshirish hamda yangi oʻqitish uslublarini joriy etish</span></b></span></span></span></p></td></tr><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">6.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport akademiyasidagi taʼlim yoʻnalishlari<br />va mutaxassisliklari boʻyicha malaka talablari, oʻquv rejalari va fan dasturlarini belgilangan talablar boʻyicha ishlab chiqish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">1. Oʻquv-meʼyoriy hujjatlarni oʻrganish va tahlil qilish.</span></span></span></span></p><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2. Oʻrganish va tahlil natijalari asosida taʼlim yoʻnalishlari<br />va mutaxassisliklari boʻyicha malaka talablari, oʻquv rejalari va fan dasturlarini ishlab chiqish hamda belgilangan tartibda tasdiqlash.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">—</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2025-yil</span></span></span></span></p><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">may</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport vazirligi<br />(<i>A. Ikramov</i>),</span></span></span></span></p><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Oliy taʼlim, fan<br />va innovatsiyalar vazirligi</span></span></span></span></p><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">(<i>K. Sharipov</i>)</span></span></span></span></p></td></tr><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">7.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Taʼlim yoʻnalishlari<br />va mutaxassisliklari uchun darslik va oʻquv qoʻllanmalarini yaratish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Taʼlim yoʻnalishlari<br />va mutaxassisliklari xususiyatini hisobga olgan holda xorijiy tajribalarni oʻrganish orqali yangi darslik va oʻquv qoʻllanmalarini yaratish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Davlat budjeti mablagʻlari</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2024/2025 oʻquv yili davomida</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport vazirligi<br />(<i>A. Ikramov</i>)</span></span></span></span></p></td></tr><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">8.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Axborot-kutubxona markazini mahalliy hamda xorijiy oʻquv, ilmiy<br />va badiiy adabiyotlar, darsliklar hamda oʻquv qoʻllanmalari bilan toʻldirish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">1. Axborot-kutubxona markazini tashkil qilish.</span></span></span></span></p><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2. Axborot-kutubxona markazini oʻquv-metodik adabiyotlar, axborot materiallari (shu jumladan ularning elektron shakllari), maxsus davriy nashrlar bilan taʼminlash.</span></span></span></span></p><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">3. Axborot-kutubxona markazi moddiy-texnik bazasini mustahkamlash (mebel, zarur inventar, axborot-kommunikatsiya vositalari).</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Davlat budjeti mablagʻlari</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2026-yil</span></span></span></span></p><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">dekabr</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport vazirligi<br />(<i>A. Ikramov</i>),<br />Oliy taʼlim, fan<br />va innovatsiyalar vazirligi</span></span></span></span></p><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">(<i>K. Sharipov</i>)</span></span></span></span></p></td></tr><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">9.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport akademiyasiga xorijiy talabalarni jalb etish choralarini koʻrish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">1. Xorijiy mamlakatlar mehnat bozoridagi talabni oʻrganish va xalqaro taʼlim koʻrgazmalarida ishtirok etish rejasini ishlab chiqish.</span></span></span></span></p><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2. Xorijiy talabalarni jalb etish boʻyicha Oʻzbekiston Respublikasining xorijiy davlatlardagi diplomatik vakolatxonalari bilan aloqalarni oʻrnatish.</span></span></span></span></p><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">3. Xorijiy fuqarolarni toʻlov-kontrakt asosida, shu jumladan, masofaviy taʼlim shaklida oʻqishga qabul qilish va oʻqitishni tashkil etish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport akademiyasining <span style="COLOR: black">budjetdan tashqari mablagʻlari</span></span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2026/2027 oʻquv yili davomida</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Tashqi ishlar vazirligi<br />(<i>B. Saidov</i>),</span></span></span></span></p><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Oliy taʼlim, fan<br />va innovatsiyalar vazirligi<br />(<i>K. Sharipov</i>),</span></span></span></span></p><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport vazirligi<br />(<i>A. Ikramov</i>)</span></span></span></span></p></td></tr><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">10.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport akademiyasi talabalari uchun maxsus stipendiya joriy qilish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">1. Sport akademiyada tahsil olayotgan talabalarga yilda bir marotaba beriladigan “Yil sportchisi” stipendiyasini taʼsis etish.</span></span></span></span></p><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2. “Yil sportchisi” stipendiyasi nizomini ishlab chiqish va tasdiqlash.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport akademiyasining <span style="COLOR: black">budjetdan tashqari mablagʻlari</span></span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2026/2027 oʻquv yili davomida</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport vazirligi<br />(<i>A. Ikramov</i>)</span></span></span></span></p></td></tr><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">11.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Olimpiya va paralimpiya sport turlarida malakali sportchilarni tayyorlash boʻyicha har yili kamida<br />5 ta maqsadli grant loyihasini ajratish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">1. Jismoniy tarbiya va sport ilmiy tadqiqotlar instituti tomonidan olimpiya va paralimpiya sport turlarida malakali sportchilarni tayyorlashga yoʻnaltirilgan maqsadli grant loyihalarini shakllantirish.</span></span></span></span></p><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2. Har yili eʼlon qilinadigan fundamental, amaliy va innovatsion loyihalarga Innovatsion rivojlanish agentligiga olimpiya va paralimpiya sport turlarida malakali sportchilarni tayyorlash boʻyicha kamida 5 ta maqsadli grant loyihasini kiritish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Ilm-fanni moliyalashtirish va innovatsiyalarni qoʻllab-quvvatlash jamgʻarmasi mablagʻlari</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2026-yil yanvar va har yili reja asosida</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Innovatsion rivojlanish agentligi<br />(<i>Sh. Rajabbayev</i>),</span></span></span></span></p><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport vazirligi<br />(<i>A. Ikramov</i>)</span></span></span></span></p></td></tr><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">12.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Akademiya uchun 3 ta xizmat avtotransport vositasi, shu jumladan, 1 ta shaxsiy biriktirilgan va 1 ta navbatchi avtotransport vositasini saqlash uchun limit ajratish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Yengil avtomobil va mikroavtobusni belgilangan tartibda xarid qilish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Davlat budjeti mablagʻlari</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2025/2026 oʻquv yiliga qadar</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Iqtisodiyot va moliya vazirligi<br />(<i>I. Norqulov</i>),<br />Sport vazirligi<br />(<i>A. Ikramov</i>)</span></span></span></span></p></td></tr><tr><td colspan="6" style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 100%; PADDING-RIGHT: 4px; HEIGHT: 22px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><b><span style="FONT-FAMILY: 'Times New Roman',serif">III. Yoshlar bilan ishlash, talaba-yoshlarni vatanparvarlik ruhida tarbiyalash va ular faoliyati samaradorligini oshirish</span></b></span></span></span></p></td></tr><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">13.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport akademiyasini <span style="COLOR: black">sport turlari boʻyicha zamonaviy texnik vositalar va maxsus ilmiy laboratoriya uskunalari (anjomlari) bilan jihozlash.</span></span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">1. Sport akademiyasida <span style="COLOR: black">tashkil etiladigan laboratoriyalar hamda ular uchun zarur boʻlgan jihozlar roʻyxatini shakllantirish.</span></span></span></span></span></p><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2. Sport akademiyasi <span style="COLOR: black">laboratoriyalarini zamonaviy texnik uskunalar bilan jihozlash.</span></span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="BACKGROUND: white"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif"><span style="COLOR: black">Ilm-fanni moliyalashtirish va innovatsiyalarni qoʻllab-quvvatlash jamgʻarmasi mablagʻlari</span></span></span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="BACKGROUND: white"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2025/2026 oʻquv yiliga qadar</span></span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Innovatsion rivojlanish agentligi<br />(<i>Sh. Rajabbayev</i>),</span></span></span></span></p><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport vazirligi<br />(<i>A. Ikramov</i>)</span></span></span></span></p></td></tr><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">14.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport akademiyasining talabalaridan volontyorlik guruhlarini shakllantirish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Volontyorlik guruhlariga taʼlim yoʻnalishlari boʻyicha iqtidorli talabalar orasidan yetakchilarni saralab olish.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="BACKGROUND: white"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">—</span></span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="BACKGROUND: white"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2026/2027 oʻquv yiliga qadar</span></span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport vazirligi</span></span></span></span></p><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">(<i>A. Ikramov</i>)</span></span></span></span></p></td></tr><tr><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 3%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">15.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport akademiyasi talabalarini talabalar turar joyi bilan taʼminlash.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 27%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p style="TEXT-ALIGN: justify; TEXT-INDENT: 11.35pt"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Talabalar yashashlari uchun 400 oʻrinli talabalar turar joyini tashkil etish va zarur jihozlar bilan taʼminlash.</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 14%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Tashabbuskorlar va homiylar mablagʻlari</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 12%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">2025/2026 oʻquv yiliga qadar</span></span></span></span></p></td><td style="BORDER-BOTTOM: black 1px solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: white; PADDING-LEFT: 4px; WIDTH: 21%; PADDING-RIGHT: 4px; BORDER-TOP: medium none; BORDER-RIGHT: black 1px solid; PADDING-TOP: 0cm" valign="top"><p align="center" style="TEXT-ALIGN: center"><span style="FONT-SIZE: 11pt"><span style="LINE-HEIGHT: normal"><span style="FONT-FAMILY: Calibri,sans-serif"><span style="FONT-FAMILY: 'Times New Roman',serif">Sport vazirligi<br />(<i>A. Ikramov</i>)</span></span></span></span></p></td></tr></tbody></table></div></div><div class="CHANGES_ORIGINS"><label id="s1104"></label><div name="-7279638" id="-7279638">(3-ilova Oʻzbekiston Respublikasi Prezidentining 2024-yil 24-dekabrdagi PF-226-sonli <a href="https://lex.uz/docs/-7276057?ONDATE=24.12.2024 00#-7277292">Farmoni </a>tahririda — Qonunchilik maʼlumotlari milliy bazasi, 25.12.2024-y., 06/24/226/1060-son)</div></div><div class="PUBLICATION_ORIGIN"><label id="s1089"></label><div name="-6943163" id="-6943163">(Qonunchilik maʼlumotlari milliy bazasi, 29.05.2024-y., 07/24/197/0374-son; 25.12.2024-y., 06/24/226/1060-son; 09.12.2025-y., 06/25/243/1128-son)</div></div></div>
+</div></body></html>

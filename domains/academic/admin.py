@@ -3,7 +3,7 @@ from django.utils.text import slugify
 from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
 from django import forms
 
-from .models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication, KafedraXodim, KafedraRasm, HuzuridagiTashkilot
+from .models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication, KafedraXodim, KafedraRasm, HuzuridagiTashkilot, TashkiliyTuzilmaItem
 
 
 @admin.register(AcademyStat)
@@ -194,4 +194,19 @@ class HuzuridagiTashkilotAdmin(admin.ModelAdmin):
         ("Ingliz tili", {'classes': ('collapse',), 'fields': ('name_en', 'description_en', 'about_en', 'address_en')}),
         ("Aloqa", {'fields': ('phone', 'email', 'website')}),
         ("Rasm", {'fields': ('image',)}),
+    )
+
+
+@admin.register(TashkiliyTuzilmaItem)
+class TashkiliyTuzilmaItemAdmin(admin.ModelAdmin):
+    list_display = ("slug", "order", "is_active", "updated_at")
+    list_editable = ("order", "is_active")
+    search_fields = ("slug", "text_uz", "text_ru", "text_en")
+    list_per_page = 30
+    readonly_fields = ("slug",)
+    fieldsets = (
+        ("Asosiy", {"fields": ("slug", "order", "is_active")}),
+        ("Matn (Uz)", {"fields": ("text_uz",)}),
+        ("Matn (Ru / En)", {"classes": ("collapse",), "fields": ("text_ru", "text_en")}),
+        ("Rasm", {"fields": ("image",)}),
     )

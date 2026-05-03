@@ -10,7 +10,7 @@ from django.db.models.functions import RowNumber
 from common.cache_mixin import cached_list
 from domains.tracker.mixins import ViewsCountMixin
 from domains.tracker.views import RecordViewAPIView
-from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra, HuzuridagiTashkilot
+from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra, HuzuridagiTashkilot, TashkiliyTuzilmaItem
 
 from .serializers import (
     AcademyStatSerializer, AcademyDetailPageSerializer,
@@ -18,6 +18,7 @@ from .serializers import (
     HuzuridagiTashkilotSerializer, HuzuridagiTashkilotDetailSerializer,
     JamoatTashkilotSerializer, JamoatTashkilotDetailSerializer,
     AkademiyaKengashiListSerializer, AkademiyaKengashiDetailSerializer,
+    TashkiliyTuzilmaListSerializer, TashkiliyTuzilmaDetailSerializer,
 )
 
 
@@ -190,6 +191,25 @@ class AkademiyaKengashiDetailAPIView(generics.RetrieveAPIView):
     serializer_class = AkademiyaKengashiDetailSerializer
     permission_classes = [AllowAny]
     queryset = HuzuridagiTashkilot.objects.filter(is_active=True, org_type='jamoat').select_related('person')
+    lookup_field = 'slug'
+
+
+@cached_list(300)
+@extend_schema(tags=['academic'], summary="Tashkiliy tuzilma ro'yxati (4 ta blok)")
+class TashkiliyTuzilmaListAPIView(generics.ListAPIView):
+    serializer_class = TashkiliyTuzilmaListSerializer
+    permission_classes = [AllowAny]
+    pagination_class = None
+
+    def get_queryset(self):
+        return TashkiliyTuzilmaItem.objects.filter(is_active=True).order_by('order', 'created_at')
+
+
+@extend_schema(tags=['academic'], summary="Tashkiliy tuzilma detali")
+class TashkiliyTuzilmaDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = TashkiliyTuzilmaDetailSerializer
+    permission_classes = [AllowAny]
+    queryset = TashkiliyTuzilmaItem.objects.filter(is_active=True)
     lookup_field = 'slug'
 
 

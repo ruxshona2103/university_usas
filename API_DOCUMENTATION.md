@@ -241,6 +241,8 @@ POST /api/<endpoint>/<id>/view/
 | GET | `/api/academic/huzuridagi-tashkilotlar/` | Akademiya huzuridagi 5 tashkilot |
 | GET | `/api/academic/kengashlar/` | Akademiya kengashi ro'yxati (`slug` + `text`) |
 | GET | `/api/academic/kengashlar/<slug>/` | Akademiya kengashi detali (`slug` bo'yicha) |
+| GET | `/api/academic/tashkiliy-tuzilma/` | Tashkiliy tuzilma ro'yxati (4 ta blok) |
+| GET | `/api/academic/tashkiliy-tuzilma/<slug>/` | Tashkiliy tuzilma detali |
 
 **Filters (kafedralar):** `?type=tashkilot` | `?type=fakultet` | `?type=kafedra`
 
@@ -338,6 +340,42 @@ type AcademyCouncilDetail = {
   created_at: string;
   updated_at: string;
 };
+```
+
+### Tashkiliy tuzilma endpointlari
+
+#### List
+`GET /api/academic/tashkiliy-tuzilma/`
+
+```json
+[
+  {
+    "id": "uuid",
+    "slug": "sport-ilmiy-tadqiqotlar-instituti",
+    "text": {
+      "uz": "Jismoniy tarbiya va sport ilmiy tadqiqotlar instituti",
+      "ru": "Научно-исследовательский институт физической культуры и спорта",
+      "en": "Research Institute of Physical Culture and Sports"
+    },
+    "image_url": "https://yourdomain.com/media/academic/tashkiliy_tuzilma/..png",
+    "order": 1
+  }
+]
+```
+
+#### Detail
+`GET /api/academic/tashkiliy-tuzilma/<slug>/`
+
+```json
+{
+  "id": "uuid",
+  "slug": "sport-ilmiy-tadqiqotlar-instituti",
+  "text": { "uz": "...", "ru": "...", "en": "..." },
+  "image_url": "https://yourdomain.com/media/academic/tashkiliy_tuzilma/..png",
+  "order": 1,
+  "created_at": "2026-05-03T14:00:00Z",
+  "updated_at": "2026-05-03T14:00:00Z"
+}
 ```
 
 ---

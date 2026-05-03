@@ -2,7 +2,7 @@ from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.openapi import OpenApiTypes
 
-from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication, KafedraXodim, KafedraRasm, HuzuridagiTashkilot
+from domains.academic.models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication, KafedraXodim, KafedraRasm, HuzuridagiTashkilot, TashkiliyTuzilmaItem
 
 
 class AcademyStatSerializer(serializers.ModelSerializer):
@@ -457,3 +457,45 @@ class AkademiyaKengashiDetailSerializer(serializers.ModelSerializer):
             },
             'photo_url': _photo_url(self.context.get('request'), p.image),
         }
+
+
+class TashkiliyTuzilmaListSerializer(serializers.ModelSerializer):
+    text = serializers.SerializerMethodField()
+    image_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TashkiliyTuzilmaItem
+        fields = ["id", "slug", "text", "image_url", "order"]
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_text(self, obj):
+        return {
+            "uz": obj.text_uz or "",
+            "ru": obj.text_ru or obj.text_uz or "",
+            "en": obj.text_en or obj.text_uz or "",
+        }
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image_url(self, obj):
+        return _photo_url(self.context.get("request"), obj.image)
+
+
+class TashkiliyTuzilmaDetailSerializer(serializers.ModelSerializer):
+    text = serializers.SerializerMethodField()
+    image_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TashkiliyTuzilmaItem
+        fields = ["id", "slug", "text", "image_url", "order", "created_at", "updated_at"]
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_text(self, obj):
+        return {
+            "uz": obj.text_uz or "",
+            "ru": obj.text_ru or obj.text_uz or "",
+            "en": obj.text_en or obj.text_uz or "",
+        }
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image_url(self, obj):
+        return _photo_url(self.context.get("request"), obj.image)

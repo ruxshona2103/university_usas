@@ -3,7 +3,8 @@ from django.urls import path
 from .views import (
     AcademyStatListAPIView, AcademyDetailPageAPIView,
     FakultetKafedraListAPIView, FakultetKafedraDetailAPIView,
-    HuzuridagiTashkilotListAPIView, JamoatTashkilotlarListAPIView, JamoatTashkilotDetailAPIView,
+    HuzuridagiTashkilotListAPIView, HuzuridagiTashkilotDetailAPIView,
+    JamoatTashkilotlarListAPIView, JamoatTashkilotDetailAPIView,
     FakultetKafedraRecordViewAPIView,
 )
 
@@ -14,6 +15,7 @@ urlpatterns = [
     path('academic/fakultet-kafedralar/<slug:slug>/view/',     FakultetKafedraRecordViewAPIView.as_view(), name='fakultet-kafedra-record-view'),
     path('academic/fakultet-kafedralar/<slug:slug>/',          FakultetKafedraDetailAPIView.as_view(),     name='fakultet-kafedra-detail'),
     path('academic/huzuridagi-tashkilotlar/',                  HuzuridagiTashkilotListAPIView.as_view(),   name='huzuridagi-tashkilot-list'),
+    path('academic/huzuridagi-tashkilotlar/<slug:slug>/',      HuzuridagiTashkilotDetailAPIView.as_view(), name='huzuridagi-tashkilot-detail'),
     path('academic/jamoat-tashkilotlar/',                      JamoatTashkilotlarListAPIView.as_view(),    name='jamoat-tashkilot-list'),
     path('academic/jamoat-tashkilotlar/<slug:slug>/',          JamoatTashkilotDetailAPIView.as_view(),     name='jamoat-tashkilot-detail'),
 ]

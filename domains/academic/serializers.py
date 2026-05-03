@@ -111,7 +111,7 @@ class KafedraPublicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = KafedraPublication
-        fields = ['id', 'cover_url', 'order']
+        fields = ['cover_url']
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_cover_url(self, obj):
@@ -295,6 +295,53 @@ class JamoatTashkilotSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.URI)
     def get_image_url(self, obj):
         return _photo_url(self.context.get('request'), obj.image)
+
+
+class HuzuridagiTashkilotDetailSerializer(serializers.ModelSerializer):
+    name        = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    about       = serializers.SerializerMethodField()
+    address     = serializers.SerializerMethodField()
+    image_url   = serializers.SerializerMethodField()
+    person      = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = HuzuridagiTashkilot
+        fields = ['id', 'slug', 'name', 'description', 'about', 'image_url', 'website', 'phone', 'email', 'address', 'person', 'order', 'created_at', 'updated_at']
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_name(self, obj):
+        return {'uz': obj.name_uz, 'ru': obj.name_ru or obj.name_uz, 'en': obj.name_en or obj.name_uz}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_description(self, obj):
+        return {'uz': obj.description_uz, 'ru': obj.description_ru or obj.description_uz, 'en': obj.description_en or obj.description_uz}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_about(self, obj):
+        return {'uz': obj.about_uz or '', 'ru': obj.about_ru or '', 'en': obj.about_en or ''}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_address(self, obj):
+        return {'uz': obj.address_uz, 'ru': obj.address_ru or obj.address_uz, 'en': obj.address_en or obj.address_uz}
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image_url(self, obj):
+        return _photo_url(self.context.get('request'), obj.image)
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_person(self, obj):
+        if not obj.person_id:
+            return None
+        p = obj.person
+        return {
+            'id':        p.id,
+            'full_name': {'uz': p.full_name_uz, 'ru': p.full_name_ru or p.full_name_uz, 'en': p.full_name_en or p.full_name_uz},
+            'title':     {'uz': p.title_uz or '', 'ru': p.title_ru or '', 'en': p.title_en or ''},
+            'photo_url': _photo_url(self.context.get('request'), p.image),
+            'phone':     p.phone or '',
+            'email':     str(p.email) if p.email else '',
+        }
 
 
 class JamoatTashkilotPersonSerializer(serializers.Serializer):

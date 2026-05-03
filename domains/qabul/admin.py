@@ -143,17 +143,17 @@ class QabulHujjatAdmin(admin.ModelAdmin):
 class QabulNavbarItemInline(admin.TabularInline):
     model  = QabulNavbarItem
     extra  = 1
-    fields = ('title_uz', 'title_ru', 'title_en', 'slug', 'order', 'is_active')
+    fields = ('title_uz', 'title_ru', 'title_en', 'slug', 'page_url', 'order', 'is_active')
 
 
 @admin.register(QabulNavbar)
 class QabulNavbarAdmin(admin.ModelAdmin):
-    list_display  = ('title_uz', 'slug', 'order', 'is_active')
+    list_display  = ('title_uz', 'slug', 'page_url', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     search_fields = ('title_uz', 'slug')
     inlines       = [QabulNavbarItemInline]
 
     fieldsets = (
-        ("Asosiy", {'fields': ('slug', 'order', 'is_active')}),
+        ("Asosiy", {'fields': ('slug', 'page_url', 'order', 'is_active')}),
         ("Nomi",   {'fields': ('title_uz', 'title_ru', 'title_en')}),
     )

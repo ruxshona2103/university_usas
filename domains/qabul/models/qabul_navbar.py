@@ -8,6 +8,7 @@ class QabulNavbar(TimeStampedModel):
     title_uz = models.CharField(max_length=255, verbose_name="Nomi (Uz)")
     title_ru = models.CharField(max_length=255, blank=True, verbose_name="Nomi (Ru)")
     title_en = models.CharField(max_length=255, blank=True, verbose_name="Nomi (En)")
+    page_url = models.CharField(max_length=500, blank=True, verbose_name="Sahifa URL", help_text="Masalan: /qabul/bakalavr")
     order    = models.PositiveIntegerField(default=0, verbose_name="Tartib")
     is_active = models.BooleanField(default=True, verbose_name="Faolmi?")
 
@@ -28,6 +29,7 @@ class QabulNavbarItem(TimeStampedModel):
     title_uz = models.CharField(max_length=255, verbose_name="Nomi (Uz)")
     title_ru = models.CharField(max_length=255, blank=True, verbose_name="Nomi (Ru)")
     title_en = models.CharField(max_length=255, blank=True, verbose_name="Nomi (En)")
+    page_url = models.CharField(max_length=500, blank=True, verbose_name="Sahifa URL", help_text="Masalan: /qabul/bakalavr/ariza")
     order    = models.PositiveIntegerField(default=0, verbose_name="Tartib")
     is_active = models.BooleanField(default=True, verbose_name="Faolmi?")
 

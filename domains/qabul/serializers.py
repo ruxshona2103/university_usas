@@ -237,7 +237,7 @@ class QabulNavbarItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = QabulNavbarItem
-        fields = ['id', 'slug', 'title', 'order']
+        fields = ['id', 'slug', 'title', 'page_url', 'order']
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_title(self, obj):
@@ -251,7 +251,7 @@ class QabulNavbarSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = QabulNavbar
-        fields = ['id', 'slug', 'title', 'items', 'order']
+        fields = ['id', 'slug', 'title', 'page_url', 'items', 'order']
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_title(self, obj):

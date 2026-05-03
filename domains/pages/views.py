@@ -360,6 +360,43 @@ class AboutAcademyAPIView(APIView):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
+# Universitet hayoti — Gallery rasmlari
+# ──────────────────────────────────────────────────────────────────────────────
+
+@cached_list(300)
+@extend_schema(
+    tags=['pages'],
+    summary="Universitet hayoti — gallery rasmlari",
+    parameters=[
+        OpenApiParameter('lang', OpenApiTypes.STR, OpenApiParameter.QUERY,
+                         description='Til: uz | ru | en (default: uz)'),
+    ],
+)
+class UniversitetHayotiGalleryAPIView(generics.ListAPIView):
+    """?lang=uz|ru|en"""
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_serializer_class(self):
+        return None
+
+    def list(self, request, *args, **kwargs):
+        lang    = _lang(request)
+        solo    = AboutAcademy.get_solo()
+        gallery = AboutAcademyImage.objects.filter(about=solo, is_active=True).order_by('order')
+        data = [
+            {
+                'id':        str(img.pk),
+                'image_url': _abs_url(request, img.image),
+                'caption':   getattr(img, f'caption_{lang}') or img.caption_uz or '',
+                'order':     img.order,
+            }
+            for img in gallery
+        ]
+        return Response(data)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
 # Org Structure — Tashkiliy tuzilma
 # ──────────────────────────────────────────────────────────────────────────────
 

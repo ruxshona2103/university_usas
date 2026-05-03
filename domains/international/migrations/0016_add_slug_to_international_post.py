@@ -3,18 +3,29 @@ from django.utils.text import slugify
 
 
 def generate_slugs(apps, schema_editor):
-    InternationalPost = apps.get_model('international', 'InternationalPost')
+    conn = schema_editor.connection
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT id, title_uz FROM international_post ORDER BY date, id")
+        rows = cursor.fetchall()
+
     seen = set()
-    for post in InternationalPost.objects.all().order_by('date', 'id'):
-        base = slugify(post.title_uz, allow_unicode=True) or str(post.id)
+    updates = []
+    for pk, title_uz in rows:
+        base = slugify(title_uz or '', allow_unicode=True) or str(pk)
         slug = base
         n = 1
         while slug in seen:
             slug = f'{base}-{n}'
             n += 1
         seen.add(slug)
-        post.slug = slug
-        post.save(update_fields=['slug'])
+        updates.append((slug, str(pk)))
+
+    with conn.cursor() as cursor:
+        for slug, pk in updates:
+            cursor.execute(
+                "UPDATE international_post SET slug = %s WHERE id = %s",
+                [slug, pk],
+            )
 
 
 def add_slug_column(apps, schema_editor):
@@ -33,7 +44,8 @@ def add_unique_index(apps, schema_editor):
                 WHERE tablename = 'international_post'
                 AND indexname = 'international_post_slug_key'
             ) THEN
-                ALTER TABLE international_post ADD CONSTRAINT international_post_slug_key UNIQUE (slug);
+                ALTER TABLE international_post
+                ADD CONSTRAINT international_post_slug_key UNIQUE (slug);
             END IF;
         END$$;
     """)

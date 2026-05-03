@@ -278,13 +278,27 @@ class AkademikAlmashinuvDetailAPIView(generics.RetrieveAPIView):
         return ctx
 
 
-@extend_schema(tags=['international'], summary="Xalqaro reyting bo'limi — slug bo'yicha detail")
+@extend_schema(tags=['international'], summary="Xalqaro reyting bo'limi — slug yoki UUID bo'yicha detail")
 class XalqaroReytingBolimDetailAPIView(generics.RetrieveAPIView):
-    """?lang=uz|ru|en"""
+    """?lang=uz|ru|en  —  slug yoki UUID bilan ishlaydi"""
     serializer_class   = XalqaroReytingBolimSerializer
     permission_classes = [AllowAny]
-    lookup_field       = 'slug'
     queryset           = XalqaroReytingBolim.objects.filter(is_active=True)
+
+    def get_object(self):
+        import uuid as uuid_mod
+        from rest_framework.exceptions import NotFound
+        lookup = self.kwargs.get('slug') or self.kwargs.get('pk')
+        qs = self.get_queryset()
+        try:
+            uuid_mod.UUID(str(lookup))
+            obj = qs.filter(pk=lookup).first()
+        except (ValueError, AttributeError):
+            obj = qs.filter(slug=lookup).first()
+        if not obj:
+            raise NotFound()
+        self.check_object_permissions(self.request, obj)
+        return obj
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

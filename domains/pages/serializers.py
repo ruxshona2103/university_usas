@@ -366,15 +366,21 @@ class OrgNodeSerializer(serializers.ModelSerializer):
         lang = self.context.get('lang', 'uz')
         return getattr(obj, f'title_{lang}') or obj.title_uz
 
-    @extend_schema_field(OpenApiTypes.STR)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_image_url(self, obj):
-        if obj.image:
-            request = self.context.get('request')
+        request = self.context.get('request')
+        def _url(field):
+            if not field:
+                return None
             try:
-                return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+                return request.build_absolute_uri(field.url) if request else field.url
             except Exception:
                 return None
-        return None
+        return {
+            'uz': _url(obj.image),
+            'ru': _url(obj.image_ru) or _url(obj.image),
+            'en': _url(obj.image_en) or _url(obj.image),
+        }
 
     @extend_schema_field(serializers.ListField())
     def get_structure(self, obj):
@@ -413,15 +419,21 @@ class OrgNodeCardSerializer(serializers.ModelSerializer):
         lang = self.context.get('lang', 'uz')
         return getattr(obj, f'description_{lang}') or obj.description_uz
 
-    @extend_schema_field(OpenApiTypes.STR)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_image_url(self, obj):
-        if obj.image:
-            request = self.context.get('request')
+        request = self.context.get('request')
+        def _url(field):
+            if not field:
+                return None
             try:
-                return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+                return request.build_absolute_uri(field.url) if request else field.url
             except Exception:
                 return None
-        return None
+        return {
+            'uz': _url(obj.image),
+            'ru': _url(obj.image_ru) or _url(obj.image),
+            'en': _url(obj.image_en) or _url(obj.image),
+        }
 
 
 class OrgSectionSerializer(serializers.ModelSerializer):

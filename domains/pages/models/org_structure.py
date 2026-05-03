@@ -72,7 +72,9 @@ class OrgNode(TimeStampedModel):
     )
     section_order = models.PositiveIntegerField(default=0, verbose_name="Bo'limdagi tartib")
 
-    image             = models.ImageField(upload_to='org_nodes/', blank=True, null=True, verbose_name='Rasm')
+    image             = models.ImageField(upload_to='org_nodes/', blank=True, null=True, verbose_name='Rasm (Uz)')
+    image_ru          = models.ImageField(upload_to='org_nodes/', blank=True, null=True, verbose_name='Rasm (Ru)')
+    image_en          = models.ImageField(upload_to='org_nodes/', blank=True, null=True, verbose_name='Rasm (En)')
 
     is_starred        = models.BooleanField(default=False, verbose_name='* (bir yulduz)')
     is_double_starred = models.BooleanField(default=False, verbose_name='** (ikki yulduz)')

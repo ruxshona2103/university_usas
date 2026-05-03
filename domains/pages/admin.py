@@ -687,17 +687,21 @@ class OrgNodeAdmin(admin.ModelAdmin):
     search_fields = ('title_uz', 'title_ru')
     list_select_related = ('parent',)
     inlines       = [OrgNodeChildInline]
-    readonly_fields = ('created_at', 'updated_at', 'image_preview')
+    readonly_fields = ('created_at', 'updated_at', 'image_preview_uz', 'image_preview_ru', 'image_preview_en')
 
     fieldsets = (
         ("Nomi", {
             'fields': ('title_uz', 'title_ru', 'title_en'),
         }),
         ("Rasm", {
-            'fields': ('image', 'image_preview'),
+            'fields': (
+                'image', 'image_preview_uz',
+                'image_ru', 'image_preview_ru',
+                'image_en', 'image_preview_en',
+            ),
         }),
         ("Joylashuv va tur", {
-            'fields': ('parent', 'node_type', 'order'),
+            'fields': ('parent', 'node_type', 'section', 'section_order', 'order'),
         }),
         ("Belgilar", {
             'fields': ('is_starred', 'is_double_starred', 'is_highlighted', 'is_active'),
@@ -713,14 +717,31 @@ class OrgNodeAdmin(admin.ModelAdmin):
         }),
     )
 
-    @admin.display(description='Rasm')
-    def image_preview(self, obj):
+    @admin.display(description='Rasm (Uz) preview')
+    def image_preview_uz(self, obj):
         if obj.image:
             try:
-                url = obj.image.url
+                return format_html('<img src="{}" style="max-height:80px;border-radius:4px;"/>', obj.image.url)
             except Exception:
                 return '—'
-            return format_html('<img src="{}" style="max-height:80px;border-radius:4px;"/>', url)
+        return '—'
+
+    @admin.display(description='Rasm (Ru) preview')
+    def image_preview_ru(self, obj):
+        if obj.image_ru:
+            try:
+                return format_html('<img src="{}" style="max-height:80px;border-radius:4px;"/>', obj.image_ru.url)
+            except Exception:
+                return '—'
+        return '—'
+
+    @admin.display(description='Rasm (En) preview')
+    def image_preview_en(self, obj):
+        if obj.image_en:
+            try:
+                return format_html('<img src="{}" style="max-height:80px;border-radius:4px;"/>', obj.image_en.url)
+            except Exception:
+                return '—'
         return '—'
 
     @admin.display(description='Nomi', ordering='title_uz')

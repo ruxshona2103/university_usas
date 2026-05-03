@@ -256,7 +256,7 @@ class HuzuridagiTashkilotSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = HuzuridagiTashkilot
-        fields = ['id', 'name', 'description', 'image_url', 'website', 'phone', 'email', 'address', 'order', 'created_at', 'updated_at']
+        fields = ['id', 'slug', 'name', 'description', 'image_url', 'website', 'phone', 'email', 'address', 'order', 'created_at', 'updated_at']
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_name(self, obj):

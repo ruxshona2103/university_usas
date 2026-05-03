@@ -17,6 +17,7 @@ from .views import (
     MarkazListAPIView,
     MarkazDetailAPIView,
     MarkazRecordViewAPIView,
+    MeyoriyHujjatlarAPIView,
 )
 
 urlpatterns = [
@@ -42,6 +43,8 @@ urlpatterns = [
     path('markazlar/<slug:slug>/view/', MarkazRecordViewAPIView.as_view(), name='markaz-record-view'),
     path('markazlar/<slug:slug>/',      MarkazDetailAPIView.as_view(),     name='markaz-detail'),
     path('markazlar/',                  MarkazListAPIView.as_view(),       name='markaz-list'),
+
+    path('meyoriy-hujjatlar/',           MeyoriyHujjatlarAPIView.as_view(),   name='meyoriy-hujjatlar'),
 
     path('pages/<slug:page_slug>/',
          NavbarPageDetailAPIView.as_view(),

@@ -493,6 +493,61 @@ class MarkazDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
         return ctx
 
 
+# ──────────────────────────────────────────────────────────────────────────────
+# Me'yoriy hujjatlar — faqat fayllar
+# ──────────────────────────────────────────────────────────────────────────────
+
+@extend_schema(
+    tags=['pages'],
+    summary="Me'yoriy hujjatlar fayllari",
+    parameters=[
+        OpenApiParameter('lang', OpenApiTypes.STR, OpenApiParameter.QUERY,
+                         description='Til: uz | ru | en', required=False),
+        OpenApiParameter('page_slug', OpenApiTypes.STR, OpenApiParameter.QUERY,
+                         description="Sahifa slug (default: academy-regulations)", required=False),
+    ],
+)
+class MeyoriyHujjatlarAPIView(APIView):
+    """
+    /api/meyoriy-hujjatlar/?page_slug=academy-regulations
+    Sahifadagi file-list bloklar → faqat fayl URL ro'yxati.
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        from domains.pages.models import LinkBlock
+        lang      = _lang(request)
+        page_slug = request.query_params.get('page_slug', 'academy-regulations')
+
+        try:
+            page = NavbarSubItem.objects.get(slug=page_slug, is_active=True)
+        except NavbarSubItem.DoesNotExist:
+            return Response([])
+
+        qs = (
+            page.linkblock_items
+            .filter(is_active=True, block_type='file-list')
+            .order_by('order', 'created_at')
+        )
+
+        result = []
+        for lb in qs:
+            file_url = None
+            if lb.document_file:
+                try:
+                    file_url = request.build_absolute_uri(lb.document_file.url)
+                except Exception:
+                    pass
+            result.append({
+                'id':       str(lb.id),
+                'title':    getattr(lb, f'title_{lang}') or lb.title_uz,
+                'file_url': file_url,
+                'order':    lb.order,
+            })
+
+        return Response(result)
+
+
 class MarkazRecordViewAPIView(RecordViewAPIView):
     model_class  = Markaz
     pk_url_kwarg = 'slug'

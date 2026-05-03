@@ -8,7 +8,7 @@ from common.models import ContentImage
 from .models import (
     ContactConfig, ContactLocation, PresidentQuote, SocialLink,
     NavbarCategory, NavbarSubItem, Partner, HeroVideo,
-    ContentBlock, LinkBlock,
+    ContentBlock, LinkBlock, MeyoriyHujjat,
     AboutSocial, AboutSocialSection, AboutSocialSectionItem, AboutSocialExtraTask,
     AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram, AboutAcademyImage,
     OrgNode, OrgSection, Rekvizit, InteraktivXizmat,
@@ -473,6 +473,70 @@ class LinkBlockAdmin(admin.ModelAdmin):
             'fields': ('created_at', 'updated_at'),
         }),
     )
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == 'navbar_items':
+            kwargs['queryset'] = (
+                NavbarSubItem.objects.filter(is_active=True)
+                .select_related('category')
+                .order_by('category__order', 'order', 'name_uz')
+            )
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
+
+
+# ME'YORIY HUJJATLAR
+# ──────────────────────────────────────────────────────────────────────────────
+
+@admin.register(MeyoriyHujjat)
+class MeyoriyHujjatAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'file_preview', 'navbar_pages', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('title_uz', 'title_ru', 'title_en')
+    readonly_fields = ('created_at', 'updated_at')
+
+    fieldsets = (
+        ("Sarlavha", {
+            'fields': ('title_uz', 'title_ru', 'title_en'),
+        }),
+        ("Fayl", {
+            'fields': ('document_file',),
+        }),
+        ("Sahifa", {
+            'fields': ('navbar_items',),
+            'description': "Qaysi sahifaga tegishli ekanini tanlang (masalan: Me'yoriy hujjatlar)",
+        }),
+        ("Tartib va holat", {
+            'fields': ('order', 'is_active'),
+        }),
+        ('Texnik', {
+            'classes': ('collapse',),
+            'fields': ('created_at', 'updated_at'),
+        }),
+    )
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(block_type='file-list')
+
+    def save_model(self, request, obj, form, change):
+        obj.block_type = 'file-list'
+        super().save_model(request, obj, form, change)
+
+    @admin.display(description='Fayl')
+    def file_preview(self, obj):
+        if obj.document_file:
+            try:
+                return format_html(
+                    '<a href="{}" target="_blank" style="color:#1976d2;">📄 Yuklab olish</a>',
+                    obj.document_file.url,
+                )
+            except Exception:
+                return '—'
+        return '—'
+
+    @admin.display(description='Sahifalar')
+    def navbar_pages(self, obj):
+        pages = obj.navbar_items.all()
+        return ', '.join(p.name_uz for p in pages) if pages else '—'
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == 'navbar_items':

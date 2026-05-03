@@ -81,3 +81,12 @@ class LinkBlock(LinkableContent):
 
     def __str__(self):
         return f'[{self.block_type}] {self.title_uz}'
+
+
+class MeyoriyHujjat(LinkBlock):
+    """Me'yoriy hujjatlar — LinkBlock ning proxy modeli (file-list turi)."""
+
+    class Meta:
+        proxy            = True
+        verbose_name     = "Me'yoriy hujjat"
+        verbose_name_plural = "Me'yoriy hujjatlar"

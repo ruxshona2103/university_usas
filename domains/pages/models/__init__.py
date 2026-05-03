@@ -2,7 +2,7 @@ from .site_config import ContactConfig, ContactLocation, PresidentQuote, SocialL
 from .navbar import NavbarCategory, NavbarSubItem
 from .partner import Partner
 from .hero_video import HeroVideo
-from .content_block import ContentBlock, LinkBlock
+from .content_block import ContentBlock, LinkBlock, MeyoriyHujjat
 from .about_social import AboutSocial, AboutSocialSection, AboutSocialSectionItem, AboutSocialExtraTask
 from .about_academy import AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram, AboutAcademyImage
 from .org_structure import OrgNode, OrgSection
@@ -22,6 +22,7 @@ __all__ = [
     'HeroVideo',
     'ContentBlock',
     'LinkBlock',
+    'MeyoriyHujjat',
     'AboutSocial',
     'AboutSocialSection',
     'AboutSocialSectionItem',

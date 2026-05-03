@@ -2,6 +2,7 @@ import os
 import uuid
 
 from django.db import models
+from django.utils.text import slugify
 from common.base_models import TimeStampedModel
 
 
@@ -21,6 +22,7 @@ class AkademikAlmashinuv(TimeStampedModel):
     body_ru = models.TextField(blank=True, verbose_name="Matn (Ru)")
     body_en = models.TextField(blank=True, verbose_name="Matn (En)")
 
+    slug      = models.SlugField(max_length=450, unique=True, blank=True, verbose_name="Slug")
     order     = models.PositiveIntegerField(default=0, verbose_name="Tartib")
     is_active = models.BooleanField(default=True, verbose_name="Faolmi?")
 
@@ -29,6 +31,17 @@ class AkademikAlmashinuv(TimeStampedModel):
         ordering            = ['order']
         verbose_name        = "Akademik almashinuv bo'limi"
         verbose_name_plural = "Akademik almashinuv bo'limlari"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base = slugify(self.title_uz, allow_unicode=True) or str(self.id)
+            slug = base
+            n = 1
+            while AkademikAlmashinuv.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f'{base}-{n}'
+                n += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title_uz

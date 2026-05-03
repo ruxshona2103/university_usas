@@ -263,7 +263,7 @@ class AkademikAlmashinuvSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = AkademikAlmashinuv
-        fields = ['id', 'title', 'body', 'rasmlar', 'order', 'created_at', 'updated_at']
+        fields = ['id', 'slug', 'title', 'body', 'rasmlar', 'order', 'created_at', 'updated_at']
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):

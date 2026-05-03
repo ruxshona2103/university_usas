@@ -261,6 +261,23 @@ class AkademikAlmashinuvListAPIView(generics.ListAPIView):
         return ctx
 
 
+@extend_schema(tags=['international'], summary="Akademik almashinuv — slug bo'yicha detail")
+class AkademikAlmashinuvDetailAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = AkademikAlmashinuvSerializer
+    permission_classes = [AllowAny]
+    lookup_field       = 'slug'
+
+    def get_queryset(self):
+        return AkademikAlmashinuv.objects.filter(is_active=True).prefetch_related('rasmlar')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
 @extend_schema(tags=['international'], summary="Xalqaro reyting bo'limlari (sport va professor)")
 class XalqaroReytingBolimListAPIView(generics.ListAPIView):
     """

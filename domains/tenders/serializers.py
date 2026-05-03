@@ -35,7 +35,7 @@ class TenderAnnouncementSerializer(serializers.ModelSerializer):
     class Meta:
         model  = TenderAnnouncement
         fields = [
-            'id', 'announcement_type', 'title', 'description',
+            'id', 'slug', 'announcement_type', 'title', 'description',
             'date', 'address', 'email', 'phone',
             'views', 'likes', 'comments',
             'images',

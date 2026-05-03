@@ -1,5 +1,6 @@
 from rest_framework import generics, filters
 from rest_framework.permissions import AllowAny
+from rest_framework.exceptions import NotFound
 from drf_spectacular.utils import extend_schema
 
 from common.cache_mixin import cached_list
@@ -85,6 +86,40 @@ class TanlovListAPIView(ViewsCountMixin, generics.ListAPIView):
 class TanlovDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     serializer_class   = TenderAnnouncementSerializer
     permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return TenderAnnouncement.objects.filter(is_published=True, announcement_type='tanlov').prefetch_related('images')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+@extend_schema(tags=['tenders'], summary="Tender — slug bo'yicha")
+class TenderAnnouncementDetailBySlugAPIView(ViewsCountMixin, generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = TenderAnnouncementSerializer
+    permission_classes = [AllowAny]
+    lookup_field       = 'slug'
+
+    def get_queryset(self):
+        return TenderAnnouncement.objects.filter(is_published=True).prefetch_related('images')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+@extend_schema(tags=['tenders'], summary="Tanlov — slug bo'yicha")
+class TanlovDetailBySlugAPIView(ViewsCountMixin, generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = TenderAnnouncementSerializer
+    permission_classes = [AllowAny]
+    lookup_field       = 'slug'
 
     def get_queryset(self):
         return TenderAnnouncement.objects.filter(is_published=True, announcement_type='tanlov').prefetch_related('images')

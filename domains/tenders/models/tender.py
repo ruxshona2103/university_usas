@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 from common.base_models import TimeStampedModel
 
@@ -30,6 +31,7 @@ class TenderAnnouncement(TimeStampedModel):
     email   = models.EmailField(blank=True, verbose_name="Email")
     phone   = models.CharField(max_length=25, blank=True, verbose_name="Telefon")
 
+    slug         = models.SlugField(max_length=550, unique=True, blank=True, verbose_name="Slug")
     is_published = models.BooleanField(default=True, verbose_name="Chiqarilsinmi?")
     views        = models.PositiveIntegerField(default=0, verbose_name="Ko'rishlar soni")
     likes        = models.PositiveIntegerField(default=0, verbose_name="Like soni")
@@ -40,6 +42,17 @@ class TenderAnnouncement(TimeStampedModel):
         ordering            = ['-date']
         verbose_name        = "Tender / E'lon"
         verbose_name_plural = "Tenderlar va e'lonlar"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base = slugify(self.title_uz, allow_unicode=True) or str(self.id)
+            slug = base
+            n = 1
+            while TenderAnnouncement.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f'{base}-{n}'
+                n += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title_uz

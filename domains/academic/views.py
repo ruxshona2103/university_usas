@@ -17,6 +17,7 @@ from .serializers import (
     FakultetKafedraListSerializer, FakultetKafedraDetailSerializer,
     HuzuridagiTashkilotSerializer, HuzuridagiTashkilotDetailSerializer,
     JamoatTashkilotSerializer, JamoatTashkilotDetailSerializer,
+    AkademiyaKengashiListSerializer, AkademiyaKengashiDetailSerializer,
 )
 
 
@@ -167,6 +168,29 @@ class JamoatTashkilotDetailAPIView(generics.RetrieveAPIView):
         lang = self.request.query_params.get('lang', 'uz')
         ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
         return ctx
+
+
+@cached_list(300)
+@extend_schema(tags=['academic'], summary="Akademiya kengashi ro'yxati (slug + text)")
+class AkademiyaKengashiListAPIView(generics.ListAPIView):
+    serializer_class = AkademiyaKengashiListSerializer
+    permission_classes = [AllowAny]
+    pagination_class = None
+
+    def get_queryset(self):
+        return (
+            HuzuridagiTashkilot.objects
+            .filter(is_active=True, org_type='jamoat')
+            .order_by('order', 'created_at')
+        )
+
+
+@extend_schema(tags=['academic'], summary="Akademiya kengashi detali (slug bo'yicha)")
+class AkademiyaKengashiDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = AkademiyaKengashiDetailSerializer
+    permission_classes = [AllowAny]
+    queryset = HuzuridagiTashkilot.objects.filter(is_active=True, org_type='jamoat').select_related('person')
+    lookup_field = 'slug'
 
 
 # ── RecordView endpoints ───────────────────────────────────────────────────────

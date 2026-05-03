@@ -5,6 +5,7 @@ from .views import (
     FakultetKafedraListAPIView, FakultetKafedraDetailAPIView,
     HuzuridagiTashkilotListAPIView, HuzuridagiTashkilotDetailAPIView,
     JamoatTashkilotlarListAPIView, JamoatTashkilotDetailAPIView,
+    AkademiyaKengashiListAPIView, AkademiyaKengashiDetailAPIView,
     FakultetKafedraRecordViewAPIView,
 )
 
@@ -18,4 +19,6 @@ urlpatterns = [
     path('academic/huzuridagi-tashkilotlar/<slug:slug>/',      HuzuridagiTashkilotDetailAPIView.as_view(), name='huzuridagi-tashkilot-detail'),
     path('academic/jamoat-tashkilotlar/',                      JamoatTashkilotlarListAPIView.as_view(),    name='jamoat-tashkilot-list'),
     path('academic/jamoat-tashkilotlar/<slug:slug>/',          JamoatTashkilotDetailAPIView.as_view(),     name='jamoat-tashkilot-detail'),
+    path('academic/kengashlar/',                               AkademiyaKengashiListAPIView.as_view(),     name='akademiya-kengashi-list'),
+    path('academic/kengashlar/<slug:slug>/',                   AkademiyaKengashiDetailAPIView.as_view(),   name='akademiya-kengashi-detail'),
 ]

@@ -250,10 +250,27 @@ class KorrupsiyaAdmin(ArticleAdminBase):
 
 # AXBOROT XIZMATI
 class InformationImageInline(admin.TabularInline):
-    model   = InformationImage
-    extra   = 1
-    fields  = ('image', 'order')
-    ordering = ('order',)
+    model          = InformationImage
+    extra          = 1
+    fields         = ('image_preview', 'image', 'order')
+    readonly_fields = ('image_preview',)
+    ordering       = ('order',)
+
+    @admin.display(description="Hozirgi rasm")
+    def image_preview(self, obj):
+        if not obj.pk:
+            return "—"
+        try:
+            url = obj.image.url
+        except Exception:
+            return "—"
+        return format_html(
+            '<a href="{url}" target="_blank">'
+            '<img src="{url}" style="max-height:80px;max-width:120px;'
+            'border-radius:4px;border:1px solid #ddd;object-fit:cover;" />'
+            '</a>',
+            url=url,
+        )
 
 
 class InformationContentAdminBase(admin.ModelAdmin):

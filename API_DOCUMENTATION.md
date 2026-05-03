@@ -239,6 +239,8 @@ POST /api/<endpoint>/<id>/view/
 | GET | `/api/academic/fakultet-kafedralar/<slug>/` | Kafedra detail + professor tarkibi |
 | POST | `/api/academic/fakultet-kafedralar/<slug>/view/` | Ko'rishni qaydlash |
 | GET | `/api/academic/huzuridagi-tashkilotlar/` | Akademiya huzuridagi 5 tashkilot |
+| GET | `/api/academic/kengashlar/` | Akademiya kengashi ro'yxati (`slug` + `text`) |
+| GET | `/api/academic/kengashlar/<slug>/` | Akademiya kengashi detali (`slug` bo'yicha) |
 
 **Filters (kafedralar):** `?type=tashkilot` | `?type=fakultet` | `?type=kafedra`
 
@@ -255,6 +257,87 @@ POST /api/<endpoint>/<id>/view/
   "publications": [{ "id": "uuid", "cover_url": "https://..." }],
   "views_count": 34
 }
+```
+
+### Akademiya kengashi endpointlari (frontend uchun)
+
+#### 1) List
+`GET /api/academic/kengashlar/`
+
+**Response:**
+```json
+[
+  {
+    "id": "uuid",
+    "slug": "xotin-qizlar-masalalari-boyicha-maslahat-kengashi",
+    "text": {
+      "uz": "Xotin-qizlar masalalari bo'yicha maslahat kengashi",
+      "ru": "Совет по вопросам женщин",
+      "en": "Women's Advisory Council"
+    },
+    "order": 1
+  }
+]
+```
+
+#### 2) Detail
+`GET /api/academic/kengashlar/<slug>/`
+
+**Response:**
+```json
+{
+  "id": "uuid",
+  "slug": "xotin-qizlar-masalalari-boyicha-maslahat-kengashi",
+  "text": {
+    "uz": "Kengash haqida to'liq matn...",
+    "ru": "Полный текст о совете...",
+    "en": "Full council text..."
+  },
+  "person": {
+    "id": "uuid",
+    "full_name": {
+      "uz": "F.I.Sh",
+      "ru": "Ф.И.О",
+      "en": "Full Name"
+    },
+    "title": {
+      "uz": "Lavozim",
+      "ru": "Должность",
+      "en": "Position"
+    },
+    "photo_url": "https://yourdomain.com/media/persons/..."
+  },
+  "order": 1,
+  "created_at": "2026-05-03T12:00:00Z",
+  "updated_at": "2026-05-03T12:00:00Z"
+}
+```
+
+#### TypeScript type (tavsiya)
+```ts
+type LocalizedText = { uz?: string; ru?: string; en?: string };
+
+type AcademyCouncilListItem = {
+  id: string;
+  slug: string;
+  text: LocalizedText;
+  order: number;
+};
+
+type AcademyCouncilDetail = {
+  id: string;
+  slug: string;
+  text: LocalizedText;
+  person: {
+    id: string;
+    full_name: LocalizedText;
+    title: LocalizedText;
+    photo_url: string | null;
+  } | null;
+  order: number;
+  created_at: string;
+  updated_at: string;
+};
 ```
 
 ---

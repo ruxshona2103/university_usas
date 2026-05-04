@@ -95,4 +95,4 @@ from domains.contact.models import QabulRaqami
 class QabulRaqamiSerializer(serializers.ModelSerializer):
     class Meta:
         model  = QabulRaqami
-        fields = ['id', 'number', 'created_at', 'updated_at']
+        fields = ['id', 'number', 'link', 'created_at', 'updated_at']

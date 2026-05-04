@@ -4,6 +4,7 @@ from common.base_models import TimeStampedModel
 
 class QabulRaqami(TimeStampedModel):
     number    = models.CharField(max_length=50, unique=True, verbose_name="Qabul raqami")
+    link      = models.URLField(max_length=500, blank=True, null=True, verbose_name="Havola")
     is_active = models.BooleanField(default=True, verbose_name="Faolmi?")
 
     class Meta:

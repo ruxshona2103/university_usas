@@ -154,11 +154,7 @@ REST_FRAMEWORK = {
 }
 
 # CORS — Frontend ulanishi uchun
-CORS_ALLOWED_ORIGINS = [
-    origin.strip()
-    for origin in os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,http://localhost:5173').split(',')
-    if origin.strip()
-]
+CORS_ALLOWED_ORIGINS = True
 
 # Swagger UI — title, description, version, tags
 # ── Jazzmin — Django Admin UI ──────────────────────────────────────────────────

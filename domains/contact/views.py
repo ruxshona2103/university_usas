@@ -97,7 +97,7 @@ class QabulRaqamiListAPIView(generics.ListAPIView):
     pagination_class   = None
 
     def get_queryset(self):
-        return QabulRaqami.objects.filter(is_active=True).order_by('order')
+        return QabulRaqami.objects.filter(is_active=True).order_by('created_at')
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

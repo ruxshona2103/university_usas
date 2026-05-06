@@ -14,6 +14,8 @@ COMMANDS = [
     ('seed_page_content',  {}),
     ('seed_rekvizit',      {}),   # tashkilot rekvizitlari
     ('seed_about_academy', {}),   # akademiya haqida sahifasi
+    ('seed_mission',       {}),   # akademiya missiyasi
+    ('seed_scientific_department', {}),  # ilmiy bo'lim
 
     # ── Akademik ma'lumotlar ────────────────────────────────────────────
     ('seed_academy_stats', {}),

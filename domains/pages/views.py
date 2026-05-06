@@ -15,6 +15,8 @@ from domains.pages.models import (
     AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram, AboutAcademyImage,
     OrgNode, OrgSection, Rekvizit, InteraktivXizmat,
     Markaz,
+    AkademiyaMissiya,
+    IlmiyBolim,
 )
 from .serializers import (
     ContactConfigSerializer,
@@ -638,3 +640,52 @@ class MarkazRecordViewAPIView(RecordViewAPIView):
     def get_target_object(self):
         slug = self.kwargs.get('slug')
         return Markaz.objects.get(slug=slug, is_active=True)
+
+
+# ── Akademiya missiyasi ───────────────────────────────────────────────────────
+
+class AkademiyaMissiyaAPIView(APIView):
+    """
+    GET /api/mission/
+    Akademiya missiyasi: asosiy matn va yo'nalishlar ro'yxati.
+    ?lang=uz|ru|en
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        lang = _lang(request)
+        solo = AkademiyaMissiya.get_solo()
+        yonalishlar = solo.yonalishlar.all().order_by('order')
+
+        items = [
+            getattr(y, f'text_{lang}') or y.text_uz
+            for y in yonalishlar
+        ]
+
+        return Response({
+            'description': getattr(solo, f'description_{lang}') or solo.description_uz,
+            'items': items,
+        })
+
+
+class IlmiyBolimAPIView(APIView):
+    """
+    GET /api/scientific-department/
+    Ilmiy bo'lim: asosiy matn va yo'nalishlar.
+    ?lang=uz|ru|en
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        lang = _lang(request)
+        solo = IlmiyBolim.get_solo()
+        yonalishlar = solo.yonalishlar.all().order_by("order")
+
+        items = [getattr(y, f"text_{lang}") or y.text_uz for y in yonalishlar]
+
+        return Response(
+            {
+                "description": getattr(solo, f"description_{lang}") or solo.description_uz,
+                "items": items,
+            }
+        )

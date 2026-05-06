@@ -9,6 +9,8 @@ from .org_structure import OrgNode, OrgSection
 from .rekvizit import Rekvizit
 from .interaktiv_xizmat import InteraktivXizmat
 from .markaz import Markaz, MarkazSubBolim
+from .mission import AkademiyaMissiya, AkademiyaMissiyaYonalish
+from .scientific_department import IlmiyBolim, IlmiyBolimYonalish
 
 __all__ = [
     'ContactConfig',
@@ -38,4 +40,8 @@ __all__ = [
     'InteraktivXizmat',
     'Markaz',
     'MarkazSubBolim',
+    'AkademiyaMissiya',
+    'AkademiyaMissiyaYonalish',
+    'IlmiyBolim',
+    'IlmiyBolimYonalish',
 ]

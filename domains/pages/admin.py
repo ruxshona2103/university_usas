@@ -13,6 +13,8 @@ from .models import (
     AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram, AboutAcademyImage,
     OrgNode, OrgSection, Rekvizit, InteraktivXizmat,
     Markaz, MarkazSubBolim,
+    AkademiyaMissiya, AkademiyaMissiyaYonalish,
+    IlmiyBolim, IlmiyBolimYonalish,
 )
 
 
@@ -875,4 +877,40 @@ class MarkazAdmin(admin.ModelAdmin):
         ("Rus tili",   {'classes': ('collapse',), 'fields': ('name_ru', 'description_ru')}),
         ("Ingliz tili", {'classes': ('collapse',), 'fields': ('name_en', 'description_en')}),
         ("Sozlamalar", {'fields': ('order', 'is_active', 'slug')}),
+    )
+
+
+# ── Akademiya missiyasi ───────────────────────────────────────────────────────
+
+class AkademiyaMissiyaYonalishInline(admin.TabularInline):
+    model   = AkademiyaMissiyaYonalish
+    extra   = 1
+    fields  = ('text_uz', 'text_ru', 'text_en', 'order')
+    ordering = ('order',)
+
+
+@admin.register(AkademiyaMissiya)
+class AkademiyaMissiyaAdmin(admin.ModelAdmin):
+    inlines = [AkademiyaMissiyaYonalishInline]
+    fieldsets = (
+        ("Missiya matni (O'zbek tili)", {'fields': ('description_uz',)}),
+        ("Missiya matni (Rus tili)",    {'classes': ('collapse',), 'fields': ('description_ru',)}),
+        ("Missiya matni (Ingliz tili)", {'classes': ('collapse',), 'fields': ('description_en',)}),
+    )
+
+
+class IlmiyBolimYonalishInline(admin.TabularInline):
+    model = IlmiyBolimYonalish
+    extra = 1
+    fields = ("text_uz", "text_ru", "text_en", "order")
+    ordering = ("order",)
+
+
+@admin.register(IlmiyBolim)
+class IlmiyBolimAdmin(admin.ModelAdmin):
+    inlines = [IlmiyBolimYonalishInline]
+    fieldsets = (
+        ("Bo'lim matni (O'zbek tili)", {"fields": ("description_uz",)}),
+        ("Bo'lim matni (Rus tili)", {"classes": ("collapse",), "fields": ("description_ru",)}),
+        ("Bo'lim matni (Ingliz tili)", {"classes": ("collapse",), "fields": ("description_en",)}),
     )

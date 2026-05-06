@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'domains.infra',
     'domains.tracker',
     'domains.qabul',
+    'domains.ilmiy_tadqiqot',
 ]
 
 MIDDLEWARE = [

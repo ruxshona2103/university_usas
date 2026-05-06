@@ -24,6 +24,7 @@ urlpatterns = [
     path('api/', include('domains.axborot.urls')),
     path('api/', include('domains.infra.urls')),
     path('api/', include('domains.qabul.urls')),
+    path('api/', include('domains.ilmiy_tadqiqot.urls')),
     path('summernote/', include('django_summernote.urls')),
 ]
 

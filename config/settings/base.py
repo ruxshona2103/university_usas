@@ -155,7 +155,7 @@ REST_FRAMEWORK = {
 }
 
 # CORS — Frontend ulanishi uchun
-CORS_ALLOWED_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Swagger UI — title, description, version, tags
 # ── Jazzmin — Django Admin UI ──────────────────────────────────────────────────

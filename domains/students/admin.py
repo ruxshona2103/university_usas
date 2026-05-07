@@ -93,7 +93,9 @@ class PersonCategoryAdmin(admin.ModelAdmin):
 # ── Person ────────────────────────────────────────────────────────────────────
 
 @admin.register(Person)
-class PersonAdmin(admin.ModelAdmin):
+class PersonAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name   = 'person_translate'
+    change_form_template = 'admin/students/person/change_form.html'
     list_display       = ('image_preview', 'full_name_uz', 'category', 'is_head', 'order', 'is_active')
     list_display_links = ('full_name_uz',)
     list_editable      = ('order', 'is_active')
@@ -127,7 +129,11 @@ class PersonAdmin(admin.ModelAdmin):
         }),
         ("Kontakt (xodimlar uchun)", {
             'classes': ('collapse',),
-            'fields': ('phone', 'fax', 'email', 'address', 'reception'),
+            'fields': (
+                'phone', 'fax', 'email',
+                'address_uz', 'address_ru', 'address_en',
+                'reception_uz', 'reception_ru', 'reception_en',
+            ),
         }),
         ("Tartib va holat", {
             'fields': ('order', 'is_active'),

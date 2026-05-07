@@ -78,6 +78,8 @@ class PersonSerializer(serializers.ModelSerializer):
     images      = serializers.SerializerMethodField()
     title       = serializers.SerializerMethodField()
     position    = serializers.SerializerMethodField()
+    address     = serializers.SerializerMethodField()
+    reception   = serializers.SerializerMethodField()
     category    = PersonCategorySerializer(read_only=True)
     tabs        = PersonContentSerializer(many=True, read_only=True)
 
@@ -126,6 +128,16 @@ class PersonSerializer(serializers.ModelSerializer):
     def get_position(self, obj):
         lang = self._lang()
         return getattr(obj, f'position_{lang}') or obj.position_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_address(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'address_{lang}', None) or obj.address_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_reception(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'reception_{lang}', None) or obj.reception_uz
 
 
 class PersonCategoryWithPersonsSerializer(serializers.ModelSerializer):

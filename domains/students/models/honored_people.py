@@ -78,8 +78,14 @@ class Person(TimeStampedModel):
     phone     = models.CharField(max_length=100, null=True, blank=True, verbose_name="Telefon")
     fax       = models.CharField(max_length=100, null=True, blank=True, verbose_name="Faks")
     email     = models.EmailField(null=True, blank=True, verbose_name="Email")
-    address   = models.CharField(max_length=300, null=True, blank=True, verbose_name="Manzil")
-    reception = models.CharField(max_length=100, null=True, blank=True, verbose_name="Qabul vaqti")
+
+    address_uz   = models.CharField(max_length=300, null=True, blank=True, verbose_name="Manzil (Uz)")
+    address_ru   = models.CharField(max_length=300, null=True, blank=True, verbose_name="Manzil (Ru)")
+    address_en   = models.CharField(max_length=300, null=True, blank=True, verbose_name="Manzil (En)")
+
+    reception_uz = models.CharField(max_length=100, null=True, blank=True, verbose_name="Qabul vaqti (Uz)")
+    reception_ru = models.CharField(max_length=100, null=True, blank=True, verbose_name="Qabul vaqti (Ru)")
+    reception_en = models.CharField(max_length=100, null=True, blank=True, verbose_name="Qabul vaqti (En)")
     is_head   = models.BooleanField(default=False, verbose_name="Bo'lim boshlig'i")
     # ──────────────────────────────────────────────────────────────────────────
 

@@ -10,12 +10,45 @@ from .models import (
     ServiceVehicle,
     IlmiyFaoliyatCategory,
     IlmiyFaoliyat,
+    IlmiyYonalish,
+    IlmiyYonalishItem,
     SportStat,
     SportYonalish,
     SportTadbir,
     AxborotVazifa,
     AxborotXodim,
 )
+
+
+import json
+
+
+class AutoTranslateMixin:
+    translate_url_name = None
+
+    def get_urls(self):
+        return [
+            path(
+                'translate/',
+                self.admin_site.admin_view(self.translate_view),
+                name=self.translate_url_name,
+            ),
+        ] + super().get_urls()
+
+    def translate_view(self, request):
+        if request.method != 'POST':
+            return JsonResponse({'error': 'POST required'}, status=405)
+        try:
+            from deep_translator import GoogleTranslator
+            body = json.loads(request.body)
+            text = (body.get('text') or '').strip()
+            if not text:
+                return JsonResponse({'ru': '', 'en': ''})
+            ru = GoogleTranslator(source='uz', target='ru').translate(text) or ''
+            en = GoogleTranslator(source='uz', target='en').translate(text) or ''
+            return JsonResponse({'ru': ru, 'en': en})
+        except Exception as exc:
+            return JsonResponse({'error': str(exc)}, status=500)
 
 
 class OquvFaoliyatAdminForm(forms.ModelForm):
@@ -289,4 +322,59 @@ class AxborotXodimAdmin(admin.ModelAdmin):
         ("Ru / En",    {'classes': ('collapse',), 'fields': ('full_name_ru', 'full_name_en', 'position_ru', 'position_en')}),
         ("Kontakt",    {'fields': ('phone', 'email', 'photo')}),
         ("Meta",       {'fields': ('order', 'is_active')}),
+    )
+
+
+# ── Ilmiy yo'nalish (yangi sodda model) ──────────────────────────────────────
+
+class IlmiyYonalishItemInline(admin.StackedInline):
+    model            = IlmiyYonalishItem
+    extra            = 1
+    readonly_fields  = ('slug',)
+    show_change_link = True
+    fieldsets = (
+        ("Asosiy", {'fields': ('order', 'is_active', 'photo')}),
+        ("Nomi (Uz)", {'fields': ('name_uz',)}),
+        ("Nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('name_ru', 'name_en')}),
+        ("Tavsif (Uz)", {'fields': ('description_uz',)}),
+        ("Tavsif (Ru / En)", {'classes': ('collapse',), 'fields': ('description_ru', 'description_en')}),
+        ("Texnik", {'classes': ('collapse',), 'fields': ('slug',)}),
+    )
+
+
+@admin.register(IlmiyYonalish)
+class IlmiyYonalishAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name   = 'ilmiyyonalish_translate'
+    change_form_template = 'admin/activities/ilmiyyonalish/change_form.html'
+    list_display    = ('name_uz', 'slug', 'order', 'is_active')
+    list_editable   = ('order', 'is_active')
+    search_fields   = ('name_uz', 'name_ru', 'name_en', 'slug')
+    readonly_fields = ('slug',)
+    inlines         = [IlmiyYonalishItemInline]
+
+    fieldsets = (
+        ("Asosiy", {'fields': ('order', 'is_active')}),
+        ("Nomi (Uz)", {'fields': ('name_uz',)}),
+        ("Nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('name_ru', 'name_en')}),
+        ("Texnik (avtomatik)", {'classes': ('collapse',), 'fields': ('slug',)}),
+    )
+
+
+@admin.register(IlmiyYonalishItem)
+class IlmiyYonalishItemAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name   = 'ilmiyyonalishitem_translate'
+    change_form_template = 'admin/activities/ilmiyyonalishitem/change_form.html'
+    list_display    = ('name_uz', 'yonalish', 'order', 'is_active')
+    list_editable   = ('order', 'is_active')
+    list_filter     = ('yonalish', 'is_active')
+    search_fields   = ('name_uz', 'name_ru', 'name_en', 'slug')
+    readonly_fields = ('slug',)
+
+    fieldsets = (
+        ("Asosiy", {'fields': ('yonalish', 'order', 'is_active', 'photo')}),
+        ("Nomi (Uz)", {'fields': ('name_uz',)}),
+        ("Nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('name_ru', 'name_en')}),
+        ("Tavsif (Uz)", {'fields': ('description_uz',)}),
+        ("Tavsif (Ru / En)", {'classes': ('collapse',), 'fields': ('description_ru', 'description_en')}),
+        ("Texnik (avtomatik)", {'classes': ('collapse',), 'fields': ('slug',)}),
     )

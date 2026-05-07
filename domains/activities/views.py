@@ -15,6 +15,8 @@ from domains.activities.models import (
     ServiceVehicle,
     IlmiyFaoliyat,
     IlmiyFaoliyatCategory,
+    IlmiyYonalish,
+    IlmiyYonalishItem,
     SportStat,
     SportYonalish,
     SportTadbir,
@@ -29,6 +31,8 @@ from .serializers import (
     IlmiyFaoliyatCategoryTreeSerializer,
     FaoliyatSubcategoryWriteSerializer,
     IlmiyFaoliyatWriteSerializer,
+    IlmiyYonalishListSerializer,
+    IlmiyYonalishDetailSerializer,
     SportStatSerializer, SportStatWriteSerializer,
     SportYonalishSerializer, SportYonalishWriteSerializer,
     SportTadbirSerializer, SportTadbirWriteSerializer,
@@ -498,3 +502,43 @@ class SportTadbirRecordViewAPIView(RecordViewAPIView):
 
 class SportYonalishRecordViewAPIView(RecordViewAPIView):
     model_class = SportYonalish
+
+
+# ── Ilmiy yo'nalish (yangi sodda model) ───────────────────────────────────────
+
+def _yonalish_lang(request):
+    lang = request.query_params.get('lang', 'uz')
+    return lang if lang in ('uz', 'ru', 'en') else 'uz'
+
+
+@cached_list(120)
+@extend_schema(tags=['ilmiy-yonalish'], summary="Ilmiy yo'nalishlar ro'yxati (parent)")
+class IlmiyYonalishListAPIView(generics.ListAPIView):
+    """?lang=uz|ru|en — faqat name + slug."""
+    serializer_class   = IlmiyYonalishListSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        return IlmiyYonalish.objects.filter(is_active=True).order_by('order', 'name_uz')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _yonalish_lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['ilmiy-yonalish'], summary="Ilmiy yo'nalish detali (slug bo'yicha) — child elementlar bilan")
+class IlmiyYonalishDetailAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en — parent + items[]."""
+    serializer_class   = IlmiyYonalishDetailSerializer
+    permission_classes = [AllowAny]
+    lookup_field       = 'slug'
+
+    def get_queryset(self):
+        return IlmiyYonalish.objects.filter(is_active=True).prefetch_related('items')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _yonalish_lang(self.request)
+        return ctx

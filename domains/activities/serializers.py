@@ -7,6 +7,8 @@ from domains.activities.models import (
     ServiceVehicle,
     IlmiyFaoliyat,
     IlmiyFaoliyatCategory,
+    IlmiyYonalish,
+    IlmiyYonalishItem,
     SportStat,
     SportYonalish,
     SportTadbir,
@@ -422,3 +424,73 @@ class AxborotXodimWriteSerializer(serializers.ModelSerializer):
             'phone', 'email', 'photo', 'order', 'is_active',
         ]
         read_only_fields = ['id']
+
+
+# ── Ilmiy yo'nalish (yangi sodda model) ──────────────────────────────────────
+
+class IlmiyYonalishListSerializer(serializers.ModelSerializer):
+    """Parent ro'yxati uchun — faqat name + slug."""
+    name = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = IlmiyYonalish
+        fields = ['id', 'name', 'slug', 'order']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_name(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'name_{lang}', None) or obj.name_uz
+
+
+class IlmiyYonalishItemSerializer(serializers.ModelSerializer):
+    """Child element — name, description, photo, slug."""
+    name        = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    photo       = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = IlmiyYonalishItem
+        fields = ['id', 'name', 'description', 'photo', 'slug', 'order']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_name(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'name_{lang}', None) or obj.name_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_description(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'description_{lang}', None) or obj.description_uz
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_photo(self, obj):
+        return _safe_file_url(obj.photo, self.context.get('request'))
+
+
+class IlmiyYonalishDetailSerializer(serializers.ModelSerializer):
+    """Parent + ichidagi child elementlar bilan."""
+    name  = serializers.SerializerMethodField()
+    items = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = IlmiyYonalish
+        fields = ['id', 'name', 'slug', 'order', 'items']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_name(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'name_{lang}', None) or obj.name_uz
+
+    @extend_schema_field(IlmiyYonalishItemSerializer(many=True))
+    def get_items(self, obj):
+        qs = obj.items.filter(is_active=True).order_by('order', 'name_uz')
+        return IlmiyYonalishItemSerializer(qs, many=True, context=self.context).data

@@ -10,6 +10,8 @@ from .views import (
     IlmiyFaoliyatListAPIView,
     IlmiyFaoliyatDetailAPIView,
     FaoliyatSubcategoryDetailAPIView,
+    IlmiyYonalishListAPIView,
+    IlmiyYonalishDetailAPIView,
     SportStatListCreateAPIView,
     SportStatDetailAPIView,
     SportYonalishListCreateAPIView,
@@ -56,4 +58,8 @@ urlpatterns = [
     path('activities/faoliyat/',                   IlmiyFaoliyatListAPIView.as_view(),          name='faoliyat-list'),
     path('activities/faoliyat/<uuid:pk>/',         IlmiyFaoliyatDetailAPIView.as_view(),        name='faoliyat-detail'),
     path('activities/faoliyat/subcategories/<uuid:pk>/', FaoliyatSubcategoryDetailAPIView.as_view(), name='faoliyat-subcategory-detail'),
+
+    # ── Ilmiy yo'nalish (yangi sodda model) ─────────────────────────────────
+    path('ilmiy-yonalishlar/',              IlmiyYonalishListAPIView.as_view(),   name='ilmiy-yonalish-list'),
+    path('ilmiy-yonalishlar/<slug:slug>/',  IlmiyYonalishDetailAPIView.as_view(), name='ilmiy-yonalish-detail'),
 ]

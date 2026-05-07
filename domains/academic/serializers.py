@@ -478,6 +478,29 @@ class AkademiyaKengashiDetailSerializer(serializers.ModelSerializer):
                 'ru': p.title_ru or '',
                 'en': p.title_en or '',
             },
+            'position': {
+                'uz': p.position_uz or '',
+                'ru': p.position_ru or '',
+                'en': p.position_en or '',
+            },
+            'description': {
+                'uz': p.description_uz or '',
+                'ru': p.description_ru or '',
+                'en': p.description_en or '',
+            },
+            'phone':   p.phone or '',
+            'fax':     p.fax or '',
+            'email':   str(p.email) if p.email else '',
+            'address': {
+                'uz': p.address_uz or '',
+                'ru': p.address_ru or '',
+                'en': p.address_en or '',
+            },
+            'reception': {
+                'uz': p.reception_uz or '',
+                'ru': p.reception_ru or '',
+                'en': p.reception_en or '',
+            },
             'photo_url': _photo_url(self.context.get('request'), p.image),
         }
 

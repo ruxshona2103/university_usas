@@ -423,19 +423,28 @@ class AkademiyaKengashiListSerializer(serializers.ModelSerializer):
 
 
 class AkademiyaKengashiDetailSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
     text = serializers.SerializerMethodField()
     person = serializers.SerializerMethodField()
 
     class Meta:
         model = HuzuridagiTashkilot
-        fields = ['id', 'slug', 'text', 'person', 'order', 'created_at', 'updated_at']
+        fields = ['id', 'slug', 'name', 'text', 'person', 'order', 'created_at', 'updated_at']
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_name(self, obj):
+        return {
+            'uz': obj.name_uz or '',
+            'ru': obj.name_ru or obj.name_uz or '',
+            'en': obj.name_en or obj.name_uz or '',
+        }
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_text(self, obj):
         return {
-            'uz': obj.about_uz or obj.description_uz or obj.name_uz or '',
-            'ru': obj.about_ru or obj.description_ru or obj.about_uz or obj.description_uz or obj.name_ru or obj.name_uz or '',
-            'en': obj.about_en or obj.description_en or obj.about_uz or obj.description_uz or obj.name_en or obj.name_uz or '',
+            'uz': obj.about_uz or obj.description_uz or '',
+            'ru': obj.about_ru or obj.description_ru or obj.about_uz or obj.description_uz or '',
+            'en': obj.about_en or obj.description_en or obj.about_uz or obj.description_uz or '',
         }
 
     @extend_schema_field(OpenApiTypes.OBJECT)

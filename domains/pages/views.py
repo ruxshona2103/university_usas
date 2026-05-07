@@ -549,13 +549,20 @@ class MarkazDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
 class MeyoriyHujjatDownloadAPIView(APIView):
     """
     /api/meyoriy-hujjatlar/<id>/download/
-    Faylni backend orqali yuklab beradi — ImageKit 403 muammosini hal qiladi.
+
+    Faylni yuklab beradi:
+    - Lokal saqlangan fayl bo'lsa — to'g'ridan-to'g'ri stream qiladi (FileResponse).
+    - ImageKit kabi tashqi URL bo'lsa — uni proxy qiladi (eski yozuvlar uchun
+      backwards compatibility).
+    - Faqat tashqi havola (link) bo'lsa — shu URL'ga redirect.
     """
     permission_classes = [AllowAny]
 
     def get(self, request, pk):
+        import os
+        import urllib.parse
         import requests as req
-        from django.http import HttpResponse
+        from django.http import FileResponse, HttpResponse, HttpResponseRedirect
         from domains.pages.models import LinkBlock
 
         try:
@@ -563,29 +570,56 @@ class MeyoriyHujjatDownloadAPIView(APIView):
         except LinkBlock.DoesNotExist:
             return Response({'detail': 'Topilmadi'}, status=404)
 
-        url = None
+        # 1) Document fayl bor — lokal yoki tashqi storage
         if obj.document_file:
+            storage = obj.document_file.storage
+            name = obj.document_file.name
+            try:
+                # Lokal fayl bo'lsa: to'g'ridan-to'g'ri stream
+                if hasattr(storage, 'path'):
+                    path = storage.path(name)
+                    if os.path.exists(path):
+                        filename = os.path.basename(path)
+                        return FileResponse(
+                            open(path, 'rb'),
+                            as_attachment=True,
+                            filename=filename,
+                        )
+            except Exception:
+                pass
+
+            # Tashqi storage (ImageKit) — proxy
             try:
                 url = obj.document_file.url
             except Exception:
-                pass
-        if not url and obj.link:
-            url = obj.link
+                url = None
 
-        if not url:
-            return Response({'detail': 'Fayl mavjud emas'}, status=404)
+            if url:
+                try:
+                    resp = req.get(url, timeout=30)
+                    resp.raise_for_status()
+                except Exception:
+                    return Response(
+                        {'detail': "Fayl yuklab bo'lmadi"},
+                        status=502,
+                    )
+                filename = urllib.parse.unquote(
+                    url.split('/')[-1].split('?')[0]
+                )
+                content_type = resp.headers.get(
+                    'Content-Type', 'application/octet-stream'
+                )
+                response = HttpResponse(resp.content, content_type=content_type)
+                response['Content-Disposition'] = (
+                    f'attachment; filename="{filename}"'
+                )
+                return response
 
-        try:
-            resp = req.get(url, timeout=30, stream=True)
-            resp.raise_for_status()
-        except Exception:
-            return Response({'detail': 'Fayl yuklanmadi'}, status=502)
+        # 2) Faqat tashqi havola bo'lsa — redirect
+        if obj.link:
+            return HttpResponseRedirect(obj.link)
 
-        filename = url.split('/')[-1].split('?')[0]
-        content_type = resp.headers.get('Content-Type', 'application/octet-stream')
-        response = HttpResponse(resp.content, content_type=content_type)
-        response['Content-Disposition'] = f'attachment; filename="{filename}"'
-        return response
+        return Response({'detail': 'Fayl mavjud emas'}, status=404)
 
 
 class MeyoriyHujjatlarAPIView(APIView):

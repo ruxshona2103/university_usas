@@ -1,8 +1,14 @@
 import uuid
 
 from django.contrib.contenttypes.fields import GenericRelation
+from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.utils.text import slugify
+
+
+# Hujjat fayllari (PDF/DOC) lokal media'da saqlanadi — ImageKit'da .doc/.pdf
+# bloklangan, shuning uchun ularni alohida storage'ga yo'naltiramiz.
+local_document_storage = FileSystemStorage()
 
 
 class TimeStampedModel(models.Model):
@@ -104,6 +110,7 @@ class LinkableContent(NavbarLinkedContent):
     document_file = models.FileField(
         upload_to='documents/%Y/%m/',
         null=True, blank=True,
+        storage=local_document_storage,
         verbose_name="Fayl (PDF)",
     )
 

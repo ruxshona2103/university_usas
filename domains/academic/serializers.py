@@ -441,10 +441,24 @@ class AkademiyaKengashiDetailSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_text(self, obj):
+        # Description (Tavsif) + About (Qo'shimcha ma'lumot) ikkalasini birlashtiradi.
+        def merge(desc, about, fallback_desc='', fallback_about=''):
+            parts = [
+                (desc or fallback_desc or '').strip(),
+                (about or fallback_about or '').strip(),
+            ]
+            return '\n\n'.join(p for p in parts if p)
+
         return {
-            'uz': obj.about_uz or obj.description_uz or '',
-            'ru': obj.about_ru or obj.description_ru or obj.about_uz or obj.description_uz or '',
-            'en': obj.about_en or obj.description_en or obj.about_uz or obj.description_uz or '',
+            'uz': merge(obj.description_uz, obj.about_uz),
+            'ru': merge(
+                obj.description_ru, obj.about_ru,
+                fallback_desc=obj.description_uz, fallback_about=obj.about_uz,
+            ),
+            'en': merge(
+                obj.description_en, obj.about_en,
+                fallback_desc=obj.description_uz, fallback_about=obj.about_uz,
+            ),
         }
 
     @extend_schema_field(OpenApiTypes.OBJECT)

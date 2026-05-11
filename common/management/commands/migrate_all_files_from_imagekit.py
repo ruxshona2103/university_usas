@@ -44,7 +44,8 @@ import requests
 from django.apps import apps
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.db import models, transaction
+from django.db import connection, models, transaction
+from django.db.utils import DatabaseError, OperationalError, ProgrammingError
 
 
 IMAGEKIT_API_BASE = "https://api.imagekit.io/v1"
@@ -111,8 +112,31 @@ class Command(BaseCommand):
         self.media_root = Path(settings.MEDIA_ROOT)
         self.media_root.mkdir(parents=True, exist_ok=True)
 
-        # 1) Barcha file/image field'larni topish
-        field_specs = self._collect_file_fields(only_app=only_app, only_model=only_model)
+        # 1) Mavjud jadval nomlarini olish (yo'q jadvallarni skip qilish uchun)
+        try:
+            existing_tables = set(connection.introspection.table_names())
+        except DatabaseError as exc:
+            self.stderr.write(self.style.ERROR(f"DB jadval ro'yxatini o'qib bo'lmadi: {exc}"))
+            return
+
+        # 2) Barcha file/image field'larni topish
+        all_specs = self._collect_file_fields(only_app=only_app, only_model=only_model)
+        field_specs = []
+        skipped_models = set()
+        for spec in all_specs:
+            table = spec["model"]._meta.db_table
+            if table not in existing_tables:
+                skipped_models.add(spec["model"]._meta.label)
+                continue
+            field_specs.append(spec)
+
+        if skipped_models:
+            self.stdout.write(
+                self.style.WARNING(
+                    f"DB'da jadvali yo'q (skip): {', '.join(sorted(skipped_models))}"
+                )
+            )
+
         if not field_specs:
             self.stderr.write(
                 self.style.WARNING("Hech qanday FileField/ImageField topilmadi.")
@@ -138,7 +162,13 @@ class Command(BaseCommand):
             qs = model.objects.exclude(**{field_name: ""}).exclude(
                 **{f"{field_name}__isnull": True}
             )
-            count = qs.count()
+            try:
+                count = qs.count()
+            except (OperationalError, ProgrammingError) as exc:
+                self.stderr.write(
+                    self.style.WARNING(f"{label} — DB so'rovi xato, skip: {exc}")
+                )
+                continue
             if count == 0:
                 continue
 
@@ -146,7 +176,15 @@ class Command(BaseCommand):
                 self.style.NOTICE(f"\n=== {label} — {count} ta yozuv ===")
             )
 
-            for obj in qs.iterator():
+            try:
+                iterator = qs.iterator()
+            except (OperationalError, ProgrammingError) as exc:
+                self.stderr.write(
+                    self.style.WARNING(f"{label} — iterator xato, skip: {exc}")
+                )
+                continue
+
+            for obj in iterator:
                 if limit and processed >= limit:
                     self._print_summary(totals)
                     return

@@ -494,3 +494,139 @@ class IlmiyYonalishDetailSerializer(serializers.ModelSerializer):
     def get_items(self, obj):
         qs = obj.items.filter(is_active=True).order_by('order', 'name_uz')
         return IlmiyYonalishItemSerializer(qs, many=True, context=self.context).data
+
+
+# ── Ilmiy kontent (jurnallar, kengash, loyihalar, maktablar) ────────────────
+
+from domains.activities.models import (
+    IlmiyKontentSahifa, IlmiyJurnal, IlmiyKengashSeminar,
+    IlmiyLoyiha, IlmiyMaktab,
+)
+
+
+def _local(obj, field, lang):
+    return getattr(obj, f"{field}_{lang}", None) or getattr(obj, f"{field}_uz", "") or ""
+
+
+class IlmiyKontentSahifaSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+    intro = serializers.SerializerMethodField()
+
+    class Meta:
+        model = IlmiyKontentSahifa
+        fields = ['kategoriya', 'title', 'intro']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_title(self, obj):
+        return _local(obj, 'title', self._lang())
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_intro(self, obj):
+        return _local(obj, 'intro', self._lang())
+
+
+class IlmiyJurnalSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    image_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = IlmiyJurnal
+        fields = ['id', 'name', 'description', 'image_url', 'link', 'order']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_name(self, obj):
+        return _local(obj, 'name', self._lang())
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_description(self, obj):
+        return _local(obj, 'description', self._lang())
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image_url(self, obj):
+        return _safe_file_url(obj.image, self.context.get('request'))
+
+
+class IlmiyKengashSeminarSerializer(serializers.ModelSerializer):
+    ixtisoslik_nomi = serializers.SerializerMethodField()
+    rais = serializers.SerializerMethodField()
+    rais_lavozim = serializers.SerializerMethodField()
+    kotib = serializers.SerializerMethodField()
+    kotib_lavozim = serializers.SerializerMethodField()
+
+    class Meta:
+        model = IlmiyKengashSeminar
+        fields = [
+            'id', 'tipi', 'shifr', 'buyruq_sanasi', 'ixtisoslik_shifri',
+            'ixtisoslik_nomi', 'rais', 'rais_lavozim',
+            'kotib', 'kotib_lavozim', 'order',
+        ]
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_ixtisoslik_nomi(self, obj):
+        return _local(obj, 'ixtisoslik_nomi', self._lang())
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_rais(self, obj):
+        return _local(obj, 'rais', self._lang())
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_rais_lavozim(self, obj):
+        return _local(obj, 'rais_lavozim', self._lang())
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_kotib(self, obj):
+        return _local(obj, 'kotib', self._lang())
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_kotib_lavozim(self, obj):
+        return _local(obj, 'kotib_lavozim', self._lang())
+
+
+class IlmiyLoyihaSerializer(serializers.ModelSerializer):
+    raqami = serializers.SerializerMethodField()
+    mavzusi = serializers.SerializerMethodField()
+
+    class Meta:
+        model = IlmiyLoyiha
+        fields = ['id', 'raqami', 'mavzusi', 'order']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_raqami(self, obj):
+        return _local(obj, 'raqami', self._lang())
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_mavzusi(self, obj):
+        return _local(obj, 'mavzusi', self._lang())
+
+
+class IlmiyMaktabSerializer(serializers.ModelSerializer):
+    nomi = serializers.SerializerMethodField()
+    asoschi = serializers.SerializerMethodField()
+
+    class Meta:
+        model = IlmiyMaktab
+        fields = ['id', 'nomi', 'asoschi', 'order']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_nomi(self, obj):
+        return _local(obj, 'nomi', self._lang())
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_asoschi(self, obj):
+        return _local(obj, 'asoschi', self._lang())

@@ -547,3 +547,66 @@ class MarkazDetailSerializer(MarkazListSerializer):
         return MarkazSubBolimSerializer(
             obj.sub_bolimlar.all(), many=True, context=self.context
         ).data
+
+
+# ── Savol-javob (FAQ) ────────────────────────────────────────────────────────
+
+from domains.pages.models import SavolJavob, SavolJavobCategory
+
+
+def _abs_url(request, field):
+    if not field:
+        return None
+    try:
+        url = field.url
+    except Exception:
+        return None
+    return request.build_absolute_uri(url) if request else url
+
+
+class SavolJavobCategorySerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = SavolJavobCategory
+        fields = ['id', 'slug', 'name', 'icon', 'order']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_name(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'name_{lang}', None) or obj.name_uz
+
+
+class SavolJavobSerializer(serializers.ModelSerializer):
+    question = serializers.SerializerMethodField()
+    answer   = serializers.SerializerMethodField()
+    image    = serializers.SerializerMethodField()
+    category = SavolJavobCategorySerializer(read_only=True)
+
+    class Meta:
+        model  = SavolJavob
+        fields = [
+            'id', 'slug', 'category',
+            'question', 'answer', 'image',
+            'order', 'is_featured', 'views_count',
+        ]
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_question(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'question_{lang}', None) or obj.question_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_answer(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'answer_{lang}', None) or obj.answer_uz
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image(self, obj):
+        return _abs_url(self.context.get('request'), obj.image)

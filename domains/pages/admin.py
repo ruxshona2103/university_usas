@@ -15,7 +15,39 @@ from .models import (
     Markaz, MarkazSubBolim,
     AkademiyaMissiya, AkademiyaMissiyaYonalish,
     IlmiyBolim, IlmiyBolimYonalish,
+    SavolJavob, SavolJavobCategory,
 )
+import json
+from django.http import JsonResponse
+from django.urls import path as _path
+
+
+class AutoTranslateMixin:
+    translate_url_name = None
+
+    def get_urls(self):
+        return [
+            _path(
+                'translate/',
+                self.admin_site.admin_view(self.translate_view),
+                name=self.translate_url_name,
+            ),
+        ] + super().get_urls()
+
+    def translate_view(self, request):
+        if request.method != 'POST':
+            return JsonResponse({'error': 'POST required'}, status=405)
+        try:
+            from deep_translator import GoogleTranslator
+            body = json.loads(request.body)
+            text = (body.get('text') or '').strip()
+            if not text:
+                return JsonResponse({'ru': '', 'en': ''})
+            ru = GoogleTranslator(source='uz', target='ru').translate(text) or ''
+            en = GoogleTranslator(source='uz', target='en').translate(text) or ''
+            return JsonResponse({'ru': ru, 'en': en})
+        except Exception as exc:
+            return JsonResponse({'error': str(exc)}, status=500)
 
 
 #----------------------------------------------ALOQA SOZLAMASI--------------------------------------------
@@ -914,3 +946,61 @@ class IlmiyBolimAdmin(admin.ModelAdmin):
         ("Bo'lim matni (Rus tili)", {"classes": ("collapse",), "fields": ("description_ru",)}),
         ("Bo'lim matni (Ingliz tili)", {"classes": ("collapse",), "fields": ("description_en",)}),
     )
+
+
+# ----------------------------------------------SAVOL-JAVOB (FAQ)----------------------------------------------
+
+@admin.register(SavolJavobCategory)
+class SavolJavobCategoryAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name   = 'savoljavobcategory_translate'
+    change_form_template = 'admin/pages/savoljavobcategory/change_form.html'
+    list_display    = ('name_uz', 'slug', 'order', 'is_active')
+    list_editable   = ('order', 'is_active')
+    search_fields   = ('name_uz', 'name_ru', 'name_en')
+    readonly_fields = ('slug',)
+
+    fieldsets = (
+        ("Asosiy", {'fields': ('order', 'is_active', 'icon')}),
+        ("Nomi (Uz)", {'fields': ('name_uz',)}),
+        ("Nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('name_ru', 'name_en')}),
+        ("Texnik (avtomatik)", {'classes': ('collapse',), 'fields': ('slug',)}),
+    )
+
+
+class SavolJavobAdminForm(forms.ModelForm):
+    answer_uz = forms.CharField(widget=SummernoteWidget(), required=True, label="Javob (Uz)")
+    answer_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Javob (Ru)")
+    answer_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Javob (En)")
+
+    class Meta:
+        model  = SavolJavob
+        fields = '__all__'
+
+
+@admin.register(SavolJavob)
+class SavolJavobAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name   = 'savoljavob_translate'
+    change_form_template = 'admin/pages/savoljavob/change_form.html'
+    form            = SavolJavobAdminForm
+    list_display    = ('short_question', 'category', 'order', 'is_featured', 'is_active', 'views_count')
+    list_filter     = ('category', 'is_active', 'is_featured')
+    list_editable   = ('order', 'is_featured', 'is_active')
+    search_fields   = ('question_uz', 'question_ru', 'question_en')
+    readonly_fields = ('slug', 'views_count')
+
+    fieldsets = (
+        ("Asosiy", {'fields': ('category', 'order', 'is_featured', 'is_active')}),
+        ("Rasm (ixtiyoriy)", {'fields': ('image',)}),
+        ("Savol (Uz)", {'fields': ('question_uz',)}),
+        ("Savol (Ru / En)", {'classes': ('collapse',), 'fields': ('question_ru', 'question_en')}),
+        ("Javob (Uz)", {'fields': ('answer_uz',)}),
+        ("Javob (Ru / En)", {'classes': ('collapse',), 'fields': ('answer_ru', 'answer_en')}),
+        ("Texnik (avtomatik)", {'classes': ('collapse',), 'fields': ('slug', 'views_count')}),
+    )
+
+    @admin.display(description="Savol")
+    def short_question(self, obj):
+        if len(obj.question_uz) > 90:
+            return obj.question_uz[:90] + '...'
+        return obj.question_uz
+

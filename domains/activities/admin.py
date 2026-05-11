@@ -12,6 +12,11 @@ from .models import (
     IlmiyFaoliyat,
     IlmiyYonalish,
     IlmiyYonalishItem,
+    IlmiyKontentSahifa,
+    IlmiyJurnal,
+    IlmiyKengashSeminar,
+    IlmiyLoyiha,
+    IlmiyMaktab,
     SportStat,
     SportYonalish,
     SportTadbir,
@@ -377,4 +382,98 @@ class IlmiyYonalishItemAdmin(AutoTranslateMixin, admin.ModelAdmin):
         ("Tavsif (Uz)", {'fields': ('description_uz',)}),
         ("Tavsif (Ru / En)", {'classes': ('collapse',), 'fields': ('description_ru', 'description_en')}),
         ("Texnik (avtomatik)", {'classes': ('collapse',), 'fields': ('slug',)}),
+    )
+
+
+# ── Ilmiy kontent (jurnallar, kengash, loyihalar, maktablar) ────────────────
+
+@admin.register(IlmiyKontentSahifa)
+class IlmiyKontentSahifaAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name = 'ilmiykontentsahifa_translate'
+    change_form_template = 'admin/activities/ilmiykontentsahifa/change_form.html'
+    list_display = ('kategoriya', 'title_uz')
+    list_filter = ('kategoriya',)
+
+    fieldsets = (
+        ("Kategoriya", {'fields': ('kategoriya',)}),
+        ("Sarlavha (Uz)", {'fields': ('title_uz',)}),
+        ("Sarlavha (Ru / En)", {'classes': ('collapse',), 'fields': ('title_ru', 'title_en')}),
+        ("Intro matn (Uz)", {'fields': ('intro_uz',)}),
+        ("Intro matn (Ru / En)", {'classes': ('collapse',), 'fields': ('intro_ru', 'intro_en')}),
+    )
+
+
+@admin.register(IlmiyJurnal)
+class IlmiyJurnalAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name = 'ilmiyjurnal_translate'
+    change_form_template = 'admin/activities/ilmiyjurnal/change_form.html'
+    list_display = ('name_uz', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('name_uz', 'name_ru', 'name_en')
+
+    fieldsets = (
+        ("Asosiy", {'fields': ('order', 'is_active', 'image', 'link')}),
+        ("Nomi (Uz)", {'fields': ('name_uz',)}),
+        ("Nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('name_ru', 'name_en')}),
+        ("Tavsif (Uz)", {'fields': ('description_uz',)}),
+        ("Tavsif (Ru / En)", {'classes': ('collapse',), 'fields': ('description_ru', 'description_en')}),
+    )
+
+
+@admin.register(IlmiyKengashSeminar)
+class IlmiyKengashSeminarAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name = 'ilmiykengashseminar_translate'
+    change_form_template = 'admin/activities/ilmiykengashseminar/change_form.html'
+    list_display = ('tipi', 'shifr', 'buyruq_sanasi', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter = ('tipi', 'is_active')
+    search_fields = ('shifr', 'rais_uz', 'kotib_uz')
+
+    fieldsets = (
+        ("Asosiy", {'fields': ('tipi', 'order', 'is_active')}),
+        ("Shifr va sana", {'fields': ('shifr', 'buyruq_sanasi', 'ixtisoslik_shifri')}),
+        ("Ixtisoslik nomi (Uz)", {'fields': ('ixtisoslik_nomi_uz',)}),
+        ("Ixtisoslik nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('ixtisoslik_nomi_ru', 'ixtisoslik_nomi_en')}),
+        ("Rais (Uz)", {'fields': ('rais_uz', 'rais_lavozim_uz')}),
+        ("Rais (Ru / En)", {'classes': ('collapse',), 'fields': ('rais_ru', 'rais_en', 'rais_lavozim_ru', 'rais_lavozim_en')}),
+        ("Kotib (Uz)", {'fields': ('kotib_uz', 'kotib_lavozim_uz')}),
+        ("Kotib (Ru / En)", {'classes': ('collapse',), 'fields': ('kotib_ru', 'kotib_en', 'kotib_lavozim_ru', 'kotib_lavozim_en')}),
+    )
+
+
+@admin.register(IlmiyLoyiha)
+class IlmiyLoyihaAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name = 'ilmiyloyiha_translate'
+    change_form_template = 'admin/activities/ilmiyloyiha/change_form.html'
+    list_display = ('short_mavzu', 'raqami_uz', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('mavzusi_uz', 'mavzusi_ru', 'raqami_uz')
+
+    fieldsets = (
+        ("Asosiy", {'fields': ('order', 'is_active')}),
+        ("Loyiha raqami va muddati (Uz)", {'fields': ('raqami_uz',)}),
+        ("Loyiha raqami va muddati (Ru / En)", {'classes': ('collapse',), 'fields': ('raqami_ru', 'raqami_en')}),
+        ("Loyiha mavzusi (Uz)", {'fields': ('mavzusi_uz',)}),
+        ("Loyiha mavzusi (Ru / En)", {'classes': ('collapse',), 'fields': ('mavzusi_ru', 'mavzusi_en')}),
+    )
+
+    @admin.display(description="Mavzu")
+    def short_mavzu(self, obj):
+        return (obj.mavzusi_uz or '')[:90] + ('...' if len(obj.mavzusi_uz or '') > 90 else '')
+
+
+@admin.register(IlmiyMaktab)
+class IlmiyMaktabAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name = 'ilmiymaktab_translate'
+    change_form_template = 'admin/activities/ilmiymaktab/change_form.html'
+    list_display = ('nomi_uz', 'asoschi_uz', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('nomi_uz', 'asoschi_uz')
+
+    fieldsets = (
+        ("Asosiy", {'fields': ('order', 'is_active')}),
+        ("Maktab nomi (Uz)", {'fields': ('nomi_uz',)}),
+        ("Maktab nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('nomi_ru', 'nomi_en')}),
+        ("Asoschi (Uz)", {'fields': ('asoschi_uz',)}),
+        ("Asoschi (Ru / En)", {'classes': ('collapse',), 'fields': ('asoschi_ru', 'asoschi_en')}),
     )

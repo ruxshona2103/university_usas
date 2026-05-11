@@ -542,3 +542,95 @@ class IlmiyYonalishDetailAPIView(generics.RetrieveAPIView):
         ctx = super().get_serializer_context()
         ctx['lang'] = _yonalish_lang(self.request)
         return ctx
+
+
+# ── Ilmiy kontent (jurnallar, kengash, loyihalar, maktablar) ────────────────
+
+from domains.activities.models import (
+    IlmiyKontentSahifa, IlmiyJurnal, IlmiyKengashSeminar,
+    IlmiyLoyiha, IlmiyMaktab, IlmiyKategoriya,
+)
+from .serializers import (
+    IlmiyKontentSahifaSerializer,
+    IlmiyJurnalSerializer,
+    IlmiyKengashSeminarSerializer,
+    IlmiyLoyihaSerializer,
+    IlmiyMaktabSerializer,
+)
+
+
+def _ilmiy_lang(request):
+    lang = request.query_params.get('lang', 'uz')
+    return lang if lang in ('uz', 'ru', 'en') else 'uz'
+
+
+def _get_intro(kategoriya, lang, request):
+    sahifa = IlmiyKontentSahifa.objects.filter(kategoriya=kategoriya).first()
+    if not sahifa:
+        return None
+    return IlmiyKontentSahifaSerializer(
+        sahifa, context={'lang': lang, 'request': request}
+    ).data
+
+
+@extend_schema(tags=['ilmiy-kontent'], summary="Ilmiy jurnallar")
+class IlmiyJurnalListAPIView(APIView):
+    """?lang=uz|ru|en — sahifa intro + jurnallar ro'yxati."""
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        lang = _ilmiy_lang(request)
+        ctx = {'lang': lang, 'request': request}
+        items = IlmiyJurnal.objects.filter(is_active=True).order_by('order', '-created_at')
+        return Response({
+            'sahifa': _get_intro(IlmiyKategoriya.JURNALLAR, lang, request),
+            'items': IlmiyJurnalSerializer(items, many=True, context=ctx).data,
+        })
+
+
+@extend_schema(tags=['ilmiy-kontent'], summary="Ilmiy kengash va seminar")
+class IlmiyKengashSeminarListAPIView(APIView):
+    """?lang=uz|ru|en — kengash va seminar ro'yxati (alohida)."""
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        lang = _ilmiy_lang(request)
+        ctx = {'lang': lang, 'request': request}
+        all_items = IlmiyKengashSeminar.objects.filter(is_active=True).order_by('order', '-created_at')
+        kengashlar = [i for i in all_items if i.tipi == 'kengash']
+        seminarlar = [i for i in all_items if i.tipi == 'seminar']
+        return Response({
+            'sahifa': _get_intro(IlmiyKategoriya.KENGASH, lang, request),
+            'kengashlar': IlmiyKengashSeminarSerializer(kengashlar, many=True, context=ctx).data,
+            'seminarlar': IlmiyKengashSeminarSerializer(seminarlar, many=True, context=ctx).data,
+        })
+
+
+@extend_schema(tags=['ilmiy-kontent'], summary="Ilmiy loyihalar")
+class IlmiyLoyihaListAPIView(APIView):
+    """?lang=uz|ru|en"""
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        lang = _ilmiy_lang(request)
+        ctx = {'lang': lang, 'request': request}
+        items = IlmiyLoyiha.objects.filter(is_active=True).order_by('order', '-created_at')
+        return Response({
+            'sahifa': _get_intro(IlmiyKategoriya.LOYIHALAR, lang, request),
+            'items': IlmiyLoyihaSerializer(items, many=True, context=ctx).data,
+        })
+
+
+@extend_schema(tags=['ilmiy-kontent'], summary="Ilmiy maktablar")
+class IlmiyMaktabListAPIView(APIView):
+    """?lang=uz|ru|en"""
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        lang = _ilmiy_lang(request)
+        ctx = {'lang': lang, 'request': request}
+        items = IlmiyMaktab.objects.filter(is_active=True).order_by('order', '-created_at')
+        return Response({
+            'sahifa': _get_intro(IlmiyKategoriya.MAKTABLAR, lang, request),
+            'items': IlmiyMaktabSerializer(items, many=True, context=ctx).data,
+        })

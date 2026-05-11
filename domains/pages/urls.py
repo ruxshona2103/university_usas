@@ -22,6 +22,9 @@ from .views import (
     MeyoriyHujjatDownloadAPIView,
     AkademiyaMissiyaAPIView,
     IlmiyBolimAPIView,
+    SavolJavobListAPIView,
+    SavolJavobDetailAPIView,
+    SavolJavobCategoryListAPIView,
 )
 
 urlpatterns = [
@@ -54,6 +57,11 @@ urlpatterns = [
 
     path('mission/',             AkademiyaMissiyaAPIView.as_view(),    name='mission'),
     path('scientific-department/', IlmiyBolimAPIView.as_view(), name='scientific-department'),
+
+    # Savol-javob (FAQ)
+    path('savol-javoblar/categories/', SavolJavobCategoryListAPIView.as_view(), name='savol-javob-categories'),
+    path('savol-javoblar/<slug:slug>/', SavolJavobDetailAPIView.as_view(), name='savol-javob-detail'),
+    path('savol-javoblar/',             SavolJavobListAPIView.as_view(),   name='savol-javob-list'),
 
     path('pages/<slug:page_slug>/',
          NavbarPageDetailAPIView.as_view(),

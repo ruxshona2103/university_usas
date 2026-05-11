@@ -3,6 +3,10 @@ from .service_vehicle          import ServiceVehicle
 from .ilmiy_faoliyat_category  import IlmiyFaoliyatCategory
 from .ilmiy_faoliyat           import IlmiyFaoliyat
 from .ilmiy_yonalish           import IlmiyYonalish, IlmiyYonalishItem
+from .ilmiy_kontent            import (
+    IlmiyKategoriya, IlmiyKontentSahifa,
+    IlmiyJurnal, IlmiyKengashSeminar, IlmiyLoyiha, IlmiyMaktab,
+)
 from .sport_stat               import SportStat
 from .sport_yonalish           import SportYonalish
 from .sport_tadbir             import SportTadbir
@@ -15,6 +19,12 @@ __all__ = [
     'IlmiyFaoliyat',
     'IlmiyYonalish',
     'IlmiyYonalishItem',
+    'IlmiyKategoriya',
+    'IlmiyKontentSahifa',
+    'IlmiyJurnal',
+    'IlmiyKengashSeminar',
+    'IlmiyLoyiha',
+    'IlmiyMaktab',
     'SportStat',
     'SportYonalish',
     'SportTadbir',

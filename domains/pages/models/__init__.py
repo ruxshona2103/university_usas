@@ -11,6 +11,7 @@ from .interaktiv_xizmat import InteraktivXizmat
 from .markaz import Markaz, MarkazSubBolim
 from .mission import AkademiyaMissiya, AkademiyaMissiyaYonalish
 from .scientific_department import IlmiyBolim, IlmiyBolimYonalish
+from .savol_javob import SavolJavob, SavolJavobCategory
 
 __all__ = [
     'ContactConfig',
@@ -44,4 +45,6 @@ __all__ = [
     'AkademiyaMissiyaYonalish',
     'IlmiyBolim',
     'IlmiyBolimYonalish',
+    'SavolJavob',
+    'SavolJavobCategory',
 ]

@@ -1,0 +1,77 @@
+{% extends "admin/change_form.html" %}
+
+{% block after_field_sets %}
+{{ block.super }}
+<style>
+  .translate-btn { margin: 6px 0 14px; padding: 6px 14px; background: #417690; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; }
+  .translate-btn:hover    { background: #2b5372; }
+  .translate-btn:disabled { background: #888; cursor: not-allowed; }
+</style>
+<script>
+(function () {
+  'use strict';
+  const url  = '{% url "admin:savoljavob_translate" %}';
+  const csrf = () => { const i = document.querySelector('[name=csrfmiddlewaretoken]'); return i ? i.value : ''; };
+
+  function readSummernote(uzId) {
+    const el = document.getElementById(uzId);
+    if (!el) return '';
+    if (window.jQuery && jQuery('#' + uzId).next('.note-editor').length) {
+      try { return jQuery('#' + uzId).summernote('code') || ''; } catch (e) {}
+    }
+    return el.value || '';
+  }
+
+  function writeSummernote(targetId, html) {
+    const el = document.getElementById(targetId);
+    if (!el) return;
+    if (window.jQuery && jQuery('#' + targetId).next('.note-editor').length) {
+      try { jQuery('#' + targetId).summernote('code', html); return; } catch (e) {}
+    }
+    el.value = html;
+  }
+
+  function addBtn(label, uzId, ruId, enId) {
+    const uz = document.getElementById(uzId);
+    if (!uz) return;
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'translate-btn';
+    btn.textContent = '🌐 ' + label + ' — UZ → RU, EN';
+
+    // Joylash: agar Summernote'da bo'lsa, editorning tagiga qo'shamiz
+    let after = uz;
+    if (window.jQuery && jQuery('#' + uzId).next('.note-editor').length) {
+      after = jQuery('#' + uzId).next('.note-editor')[0];
+    }
+    after.parentNode.insertBefore(btn, after.nextSibling);
+
+    btn.addEventListener('click', function () {
+      const text = (readSummernote(uzId) || uz.value || '').trim();
+      if (!text) { alert("Avval UZ maydoni to'ldirilsin!"); return; }
+      btn.disabled = true; btn.textContent = 'Tarjima qilinmoqda…';
+      fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf(), 'X-Requested-With': 'XMLHttpRequest' }, body: JSON.stringify({ text }) })
+        .then(r => r.json())
+        .then(d => {
+          if (d.error) { alert('Xato: ' + d.error); return; }
+          if (d.ru) writeSummernote(ruId, d.ru);
+          if (d.en) writeSummernote(enId, d.en);
+        })
+        .catch(e => alert('Xato: ' + e))
+        .finally(() => { btn.disabled = false; btn.textContent = '🌐 ' + label + ' — UZ → RU, EN'; });
+    });
+  }
+
+  // DOM va Summernote yuklanishini kutamiz
+  function init() {
+    addBtn("Savol", 'id_question_uz', 'id_question_ru', 'id_question_en');
+    addBtn("Javob", 'id_answer_uz',   'id_answer_ru',   'id_answer_en');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    setTimeout(init, 300);
+  }
+})();
+</script>
+{% endblock %}

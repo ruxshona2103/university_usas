@@ -678,3 +678,96 @@ class IlmiyBolimAPIView(APIView):
                 "items": items,
             }
         )
+
+
+# ── Savol-javob (FAQ) ────────────────────────────────────────────────────────
+
+from domains.pages.models import SavolJavob, SavolJavobCategory
+from .serializers import SavolJavobSerializer, SavolJavobCategorySerializer
+
+
+@cached_list(120)
+@extend_schema(tags=['savol-javob'], summary="Savol-javoblar ro'yxati")
+class SavolJavobListAPIView(generics.ListAPIView):
+    """
+    /api/savol-javoblar/?lang=uz|ru|en&category=<slug>&search=<term>
+
+    Foydali parametrlar:
+    - lang     - til (default uz)
+    - category - kategoriya slug bo'yicha filter
+    - search   - savol matnida qidirish
+    - featured - faqat tepada chiqadiganlar (true/false)
+    """
+    serializer_class   = SavolJavobSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        qs = SavolJavob.objects.filter(is_active=True).select_related('category')
+
+        category = self.request.query_params.get('category')
+        if category:
+            qs = qs.filter(category__slug=category, category__is_active=True)
+
+        search = (self.request.query_params.get('search') or '').strip()
+        if search:
+            qs = qs.filter(
+                models.Q(question_uz__icontains=search) |
+                models.Q(question_ru__icontains=search) |
+                models.Q(question_en__icontains=search) |
+                models.Q(answer_uz__icontains=search) |
+                models.Q(answer_ru__icontains=search) |
+                models.Q(answer_en__icontains=search)
+            )
+
+        featured = self.request.query_params.get('featured')
+        if featured in ('true', '1'):
+            qs = qs.filter(is_featured=True)
+
+        return qs.order_by('-is_featured', 'order', '-created_at')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['savol-javob'], summary="Savol-javob detali (slug bo'yicha)")
+class SavolJavobDetailAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = SavolJavobSerializer
+    permission_classes = [AllowAny]
+    lookup_field       = 'slug'
+
+    def get_queryset(self):
+        return SavolJavob.objects.filter(is_active=True).select_related('category')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        # views_count ni oshirish
+        SavolJavob.objects.filter(pk=instance.pk).update(views_count=models.F('views_count') + 1)
+        instance.refresh_from_db(fields=['views_count'])
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+
+@cached_list(300)
+@extend_schema(tags=['savol-javob'], summary="Savol-javob kategoriyalari")
+class SavolJavobCategoryListAPIView(generics.ListAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = SavolJavobCategorySerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        return SavolJavobCategory.objects.filter(is_active=True).order_by('order', 'name_uz')
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx

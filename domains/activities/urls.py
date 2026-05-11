@@ -12,6 +12,10 @@ from .views import (
     FaoliyatSubcategoryDetailAPIView,
     IlmiyYonalishListAPIView,
     IlmiyYonalishDetailAPIView,
+    IlmiyJurnalListAPIView,
+    IlmiyKengashSeminarListAPIView,
+    IlmiyLoyihaListAPIView,
+    IlmiyMaktabListAPIView,
     SportStatListCreateAPIView,
     SportStatDetailAPIView,
     SportYonalishListCreateAPIView,
@@ -62,4 +66,10 @@ urlpatterns = [
     # ── Ilmiy yo'nalish (yangi sodda model) ─────────────────────────────────
     path('ilmiy-yonalishlar/',              IlmiyYonalishListAPIView.as_view(),   name='ilmiy-yonalish-list'),
     path('ilmiy-yonalishlar/<slug:slug>/',  IlmiyYonalishDetailAPIView.as_view(), name='ilmiy-yonalish-detail'),
+
+    # ── Ilmiy kontent (4 ta kategoriya) ─────────────────────────────────────
+    path('ilmiy-jurnallar/',         IlmiyJurnalListAPIView.as_view(),         name='ilmiy-jurnallar'),
+    path('ilmiy-kengash-seminar/',   IlmiyKengashSeminarListAPIView.as_view(), name='ilmiy-kengash-seminar'),
+    path('ilmiy-loyihalar/',         IlmiyLoyihaListAPIView.as_view(),         name='ilmiy-loyihalar'),
+    path('ilmiy-maktablar/',         IlmiyMaktabListAPIView.as_view(),         name='ilmiy-maktablar'),
 ]

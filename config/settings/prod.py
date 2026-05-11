@@ -38,38 +38,15 @@ else:
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
 
-# storage sozlamasi 
-imagekit_public_key = os.getenv('IMAGEKIT_PUBLIC_KEY')
-imagekit_private_key = os.getenv('IMAGEKIT_PRIVATE_KEY')
-imagekit_url_endpoint = os.getenv('IMAGEKIT_URL_ENDPOINT')
-
-if imagekit_public_key and imagekit_private_key and imagekit_url_endpoint:
-    INSTALLED_APPS += ['imagekitio_storage']
-
-    # SDK 'IMAGEKIT_STORAGE' kalitini o'qiydi (IMAGEKITIO_SETTINGS emas)
-    IMAGEKIT_STORAGE = {
-        'PUBLIC_KEY': imagekit_public_key,
-        'PRIVATE_KEY': imagekit_private_key,
-        'URL_ENDPOINT': imagekit_url_endpoint,
-    }
-
-    STORAGES = {
-        "default": {
-            "BACKEND": "common.storage.PatchedMediaImagekitStorage",
-        },
-        "staticfiles": {
-            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-        },
-    }
-else:
-    STORAGES = {
-        "default": {
-            "BACKEND": "django.core.files.storage.FileSystemStorage",
-        },
-        "staticfiles": {
-            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-        },
-    }
+# storage sozlamasi — fayllar lokal media/ ga yoziladi
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 
 # ── Cache ─────────────────────────────────────────────────────────────────────
 redis_url = os.getenv('REDIS_URL', '')

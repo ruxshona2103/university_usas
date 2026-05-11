@@ -46,6 +46,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db import connection, models, transaction
 from django.db.utils import DatabaseError, OperationalError, ProgrammingError
+from imagekitio import ImageKit
 
 
 IMAGEKIT_API_BASE = "https://api.imagekit.io/v1"
@@ -100,15 +101,23 @@ class Command(BaseCommand):
         limit = options["limit"]
 
         private_key = os.getenv("IMAGEKIT_PRIVATE_KEY", "").strip()
-        if not private_key:
+        public_key = os.getenv("IMAGEKIT_PUBLIC_KEY", "").strip()
+        url_endpoint = os.getenv("IMAGEKIT_URL_ENDPOINT", "").strip()
+        if not (private_key and public_key and url_endpoint):
             self.stderr.write(
                 self.style.ERROR(
-                    "IMAGEKIT_PRIVATE_KEY topilmadi. .env yoki environment'ni tekshiring."
+                    "IMAGEKIT_* o'zgaruvchilari to'liq emas (PRIVATE_KEY/PUBLIC_KEY/URL_ENDPOINT). "
+                    ".env yoki environment'ni tekshiring."
                 )
             )
             return
 
         self.auth = (private_key, "")
+        self.imagekit = ImageKit(
+            private_key=private_key,
+            public_key=public_key,
+            url_endpoint=url_endpoint,
+        )
         self.media_root = Path(settings.MEDIA_ROOT)
         self.media_root.mkdir(parents=True, exist_ok=True)
 
@@ -240,6 +249,20 @@ class Command(BaseCommand):
                     )
         return results
 
+    def _signed_url(self, file_path):
+        """ImageKit signed URL — restricted (403) fayllar uchun."""
+        try:
+            return self.imagekit.url(
+                {
+                    "path": "/" + file_path.lstrip("/"),
+                    "signed": True,
+                    "expire_seconds": 600,
+                }
+            )
+        except Exception as exc:
+            self.stderr.write(self.style.WARNING(f"  signed URL xato: {exc}"))
+            return None
+
     def _resolve_upload_dir(self, upload_to, created_at_iso):
         """
         upload_to ni real yo'lga aylantiradi.
@@ -309,9 +332,8 @@ class Command(BaseCommand):
             return "fail"
 
         file_url = meta.get("url")
-        file_name = meta.get("name") or os.path.basename(
-            (meta.get("filePath") or "").lstrip("/")
-        )
+        file_path = (meta.get("filePath") or "").lstrip("/")
+        file_name = meta.get("name") or os.path.basename(file_path)
         created_at = meta.get("createdAt", "")
 
         if not file_url or not file_name:
@@ -344,9 +366,17 @@ class Command(BaseCommand):
         if self.dry_run:
             return "ok"
 
-        # 3) Yuklab olish
+        # 3) Yuklab olish — avval oddiy URL, 403 bo'lsa signed URL bilan qayta
+        download_url = file_url
         try:
-            resp = requests.get(file_url, timeout=180, auth=self.auth, stream=True)
+            resp = requests.get(download_url, timeout=180, auth=self.auth, stream=True)
+            if resp.status_code == 403 and file_path:
+                resp.close()
+                signed = self._signed_url(file_path)
+                if signed:
+                    self.stdout.write(f"  403 → signed URL bilan qayta urinish")
+                    download_url = signed
+                    resp = requests.get(download_url, timeout=180, stream=True)
             resp.raise_for_status()
         except Exception as exc:
             self.stderr.write(self.style.ERROR(f"{label} yuklash xato: {exc}"))

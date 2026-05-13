@@ -107,6 +107,14 @@ class PersonAdmin(AutoTranslateMixin, admin.ModelAdmin):
     inlines            = [PersonImageInline, PersonContentInline]
     list_per_page      = 20
 
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        cache.clear()
+
+    def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
+        cache.clear()
+
     fieldsets = (
         ("Kategoriya", {
             'fields': ('category', 'is_head'),
@@ -169,6 +177,10 @@ class PersonContentAdmin(admin.ModelAdmin):
     search_fields = ('person__full_name_uz',)
     list_per_page = 20
     autocomplete_fields = ['person']
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        cache.clear()
 
     fieldsets = (
         ("Shaxs va tartib", {'fields': ('person', 'tags', 'order')}),

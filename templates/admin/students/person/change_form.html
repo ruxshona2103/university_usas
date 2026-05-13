@@ -2,6 +2,20 @@
 
 {% block after_field_sets %}
 {{ block.super }}
+<script>
+/* Fix: Summernote inline editors block DELETE submission */
+document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('change', function (e) {
+    var cb = e.target;
+    if (cb.type !== 'checkbox' || !cb.id || !cb.id.endsWith('-DELETE')) return;
+    var row = cb.closest('.inline-related');
+    if (!row) return;
+    row.querySelectorAll('textarea').forEach(function (ta) {
+      try { if (window.$ && $(ta).data('summernote')) $(ta).summernote('destroy'); } catch (_) {}
+    });
+  });
+});
+</script>
 <style>
   .translate-btn { margin: 6px 0 14px; padding: 6px 14px; background: #417690; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; }
   .translate-btn:hover    { background: #2b5372; }

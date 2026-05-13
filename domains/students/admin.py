@@ -63,6 +63,7 @@ class PersonContentInline(admin.StackedInline):
     model            = PersonContent
     form             = PersonContentForm
     extra            = 1
+    can_delete       = True
     fields           = ('tags', 'content_uz', 'content_ru', 'content_en', 'order')
     ordering         = ('order',)
     show_change_link = True

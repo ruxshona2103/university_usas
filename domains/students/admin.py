@@ -1,6 +1,7 @@
 import json
 from django import forms
 from django.contrib import admin
+from django.core.cache import cache
 from django.http import JsonResponse
 from django.urls import path
 from django.utils.html import format_html
@@ -60,6 +61,7 @@ class PersonContentForm(forms.ModelForm):
 
 class PersonContentInline(admin.StackedInline):
     model            = PersonContent
+    form             = PersonContentForm
     extra            = 1
     fields           = ('tags', 'content_uz', 'content_ru', 'content_en', 'order')
     ordering         = ('order',)

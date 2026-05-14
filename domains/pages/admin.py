@@ -16,6 +16,7 @@ from .models import (
     AkademiyaMissiya, AkademiyaMissiyaYonalish,
     IlmiyBolim, IlmiyBolimYonalish,
     SavolJavob, SavolJavobCategory,
+    HomepageHaqida, HomepageHaqidaRasm,
 )
 import json
 from django.http import JsonResponse
@@ -1004,3 +1005,51 @@ class SavolJavobAdmin(AutoTranslateMixin, admin.ModelAdmin):
             return obj.question_uz[:90] + '...'
         return obj.question_uz
 
+
+# ── Homepage Haqida ──────────────────────────────────────────────────────────
+
+class HomepageHaqidaRasmInline(admin.TabularInline):
+    model   = HomepageHaqidaRasm
+    extra   = 1
+    fields  = ('image', 'order', 'is_active')
+    ordering = ('order',)
+
+
+@admin.register(HomepageHaqida)
+class HomepageHaqidaAdmin(admin.ModelAdmin):
+    inlines         = [HomepageHaqidaRasmInline]
+    readonly_fields = ('created_at', 'updated_at')
+
+    fieldsets = (
+        ("Tavsif (Uz)", {
+            'fields': ('description_uz',),
+        }),
+        ("Tavsif (Ru / En)", {
+            'classes': ('collapse',),
+            'fields': ('description_ru', 'description_en'),
+        }),
+        ("1-xususiyat (Uz)", {
+            'fields': ('feature_1_title_uz', 'feature_1_desc_uz'),
+        }),
+        ("1-xususiyat (Ru / En)", {
+            'classes': ('collapse',),
+            'fields': ('feature_1_title_ru', 'feature_1_title_en', 'feature_1_desc_ru', 'feature_1_desc_en'),
+        }),
+        ("2-xususiyat (Uz)", {
+            'fields': ('feature_2_title_uz', 'feature_2_desc_uz'),
+        }),
+        ("2-xususiyat (Ru / En)", {
+            'classes': ('collapse',),
+            'fields': ('feature_2_title_ru', 'feature_2_title_en', 'feature_2_desc_ru', 'feature_2_desc_en'),
+        }),
+        ("Texnik", {
+            'classes': ('collapse',),
+            'fields': ('created_at', 'updated_at'),
+        }),
+    )
+
+    def has_add_permission(self, request):
+        return not HomepageHaqida.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False

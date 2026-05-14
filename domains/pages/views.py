@@ -17,6 +17,7 @@ from domains.pages.models import (
     Markaz,
     AkademiyaMissiya,
     IlmiyBolim,
+    HomepageHaqida,
 )
 from .serializers import (
     ContactConfigSerializer,
@@ -771,3 +772,39 @@ class SavolJavobCategoryListAPIView(generics.ListAPIView):
         ctx = super().get_serializer_context()
         ctx['lang'] = _lang(self.request)
         return ctx
+
+
+class HomepageHaqidaAPIView(APIView):
+    """
+    /api/homepage-haqida/
+    Asosiy sahifadagi 'Akademiya haqida' bloki: tavsif, xususiyatlar, carousel rasmlari.
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        lang = _lang(request)
+        solo = HomepageHaqida.get_solo()
+        rasmlar = solo.rasmlar.filter(is_active=True).order_by('order')
+
+        def loc(field):
+            return getattr(solo, f'{field}_{lang}') or getattr(solo, f'{field}_uz') or ''
+
+        return Response({
+            'description': loc('description'),
+            'feature_1': {
+                'title': loc('feature_1_title'),
+                'desc':  loc('feature_1_desc'),
+            },
+            'feature_2': {
+                'title': loc('feature_2_title'),
+                'desc':  loc('feature_2_desc'),
+            },
+            'images': [
+                {
+                    'id':        str(r.pk),
+                    'image_url': _abs_url(request, r.image),
+                    'order':     r.order,
+                }
+                for r in rasmlar
+            ],
+        })

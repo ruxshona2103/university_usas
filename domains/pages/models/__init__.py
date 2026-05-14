@@ -12,6 +12,7 @@ from .markaz import Markaz, MarkazSubBolim
 from .mission import AkademiyaMissiya, AkademiyaMissiyaYonalish
 from .scientific_department import IlmiyBolim, IlmiyBolimYonalish
 from .savol_javob import SavolJavob, SavolJavobCategory
+from .homepage_haqida import HomepageHaqida, HomepageHaqidaRasm
 
 __all__ = [
     'ContactConfig',
@@ -47,4 +48,6 @@ __all__ = [
     'IlmiyBolimYonalish',
     'SavolJavob',
     'SavolJavobCategory',
+    'HomepageHaqida',
+    'HomepageHaqidaRasm',
 ]

@@ -7,39 +7,35 @@ from domains.infra.models import OlimpiyaShaharchasi, OlimpiyaGalleryImage
 
 
 INTRO_UZ = """
-<p><strong>Olimpiya shaharchasi</strong> — O'zbekistonning yirik sport infrastrukturasi ob'ektlaridan biri.</p>
-
-<h2>Umumiy ko'rsatkichlar</h2>
 <ul>
-  <li>Umumiy maydoni — <strong>100.4 gektar</strong></li>
-  <li>Qurilish maydoni — <strong>7.1 gektar</strong></li>
-  <li>Kukalamzorlashtirish — <strong>47.5 gektar</strong></li>
+  <li>Qurilish maydoni — 7.1 gektar</li>
+  <li>Kukalamzorlashtirish — 47.5 gektar</li>
   <li>47.5 gektar maydonga bog'lar, suv havzalari, yugurish yo'laklari va ochiq sport maydonlari barpo etiladi</li>
-  <li>Asosiy kirish darvozalari — <strong>12 ta</strong> (piyodalar uchun 6 ta, avtomobillarga 6 ta)</li>
-  <li><strong>1 900 o'rinli</strong> avtoturargoh mavjud</li>
+  <li>Asosiy kirish darvozalari — 12 ta (piyodalar uchun 6 ta, avtomobillarga 6 ta)</li>
+  <li>1 900 o'rinli avtoturargoh mavjud</li>
 </ul>
 
 <h2>15 ta ochiq maydon</h2>
 <ul>
-  <li>1 ta <strong>68×105</strong> o'lchamli yengil atletika va futbol maydoni</li>
-  <li>2 ta <strong>65×106</strong> o'lchamli chim ustida xokkey maydoni</li>
-  <li>2 ta <strong>20×40</strong> o'lchamli mini-futbol maydoni</li>
-  <li>4 ta <strong>10,97×23,77</strong> o'lchamli tennis korti</li>
-  <li>2 ta <strong>8×16</strong> o'lchamli sohil voleyboli maydoni</li>
-  <li>2 ta <strong>11×15</strong> o'lchamli 3×3 basketbol maydoni</li>
+  <li>1 ta 68x105 o'lchamli yengil atletika va futbol maydoni</li>
+  <li>2 ta 65x106 o'lchamli chim ustida xokkey maydoni</li>
+  <li>2 ta 20x40 o'lchamli mini-futbol maydoni</li>
+  <li>4 ta 10,97x23,77 o'lchamli tennis korti</li>
+  <li>2 ta 8x16 o'lchamli sohil voleyboli maydoni</li>
+  <li>2 ta 11x15 o'lchamli 3x3 basketbol maydoni</li>
 </ul>
 
-<h2>206×68 maydonda</h2>
+<h2>206x68 maydonda</h2>
 <ul>
-  <li>1 ta <strong>300 metrlik</strong> trassa — BMX maydoni</li>
+  <li>1 ta 300 metrlik trassa — BMX maydoni</li>
   <li>1 ta skeytbord maydoni</li>
 </ul>
 
 <h2>Barpo etilayotgan bino-inshootlar</h2>
 <ul>
-  <li>3 qavatli <strong>Davlat sport-tibbiyoti ilmiy-amaliy markazi</strong></li>
-  <li>5 qavatli <strong>400 o'rinli</strong> Paralimpiya terma jamoalari yotoqxonasi</li>
-  <li><strong>21 km</strong> uzunlikdagi Yangi O'zbekiston bog'i va Olimpiya shaharchasi hududidan o'tuvchi yugurish va velosport yo'lagi</li>
+  <li>3 qavatli Davlat sport-tibbiyoti ilmiy-amaliy markazi</li>
+  <li>5 qavatli 400 o'rinli Paralimpiya terma jamoalari yotoqxonasi</li>
+  <li>21 km uzunlikdagi Yangi O'zbekiston bog'i va Olimpiya shaharchasi hududidan o'tuvchi yugurish va velosport yo'lagi</li>
 </ul>
 """.strip()
 

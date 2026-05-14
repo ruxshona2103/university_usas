@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'django_celery_beat',
     
     'django_summernote',
+    'django_quill',
+    'tinymce',
     'common',
     'domains.pages',
     'domains.academic',
@@ -363,6 +365,30 @@ SPECTACULAR_SETTINGS = {
     'COMPONENT_SPLIT_REQUEST': True,
     'SORT_OPERATIONS': False,
 }
+
+# ── TinyMCE ──────────────────────────────────────────────────────────────────
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 360,
+    'width': '100%',
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 20,
+    'selector': 'textarea',
+    'theme': 'silver',
+    'plugins': 'link image preview codesample table code lists',
+    'toolbar': (
+        'undo redo | bold italic underline strikethrough | '
+        'fontsize | forecolor backcolor | '
+        'alignleft aligncenter alignright alignjustify | '
+        'bullist numlist | table link image | code'
+    ),
+    'menubar': False,
+    'statusbar': True,
+    'relative_urls': False,
+    'remove_script_host': False,
+    'convert_urls': True,
+}
+TINYMCE_SPELLCHECKER = False
+TINYMCE_COMPRESSOR = False
 
 # ── Summernote ────────────────────────────────────────────────────────────────
 SUMMERNOTE_THEME = 'lite'

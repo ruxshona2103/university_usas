@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.urls import path
 from django.utils.html import format_html
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
+from tinymce.widgets import TinyMCE
 
 from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent, MagistrTalaba, Stipendiya
 
@@ -50,9 +51,9 @@ class PersonImageInline(admin.TabularInline):
 # ── PersonContent inline ──────────────────────────────────────────────────────
 
 class PersonContentForm(forms.ModelForm):
-    content_uz = forms.CharField(widget=SummernoteInplaceWidget(), required=False, label="Kontent (Uz)")
-    content_ru = forms.CharField(widget=SummernoteInplaceWidget(), required=False, label="Kontent (Ru)")
-    content_en = forms.CharField(widget=SummernoteInplaceWidget(), required=False, label="Kontent (En)")
+    content_uz = forms.CharField(widget=TinyMCE(), required=False, label="Kontent (Uz)")
+    content_ru = forms.CharField(widget=TinyMCE(), required=False, label="Kontent (Ru)")
+    content_en = forms.CharField(widget=TinyMCE(), required=False, label="Kontent (En)")
 
     class Meta:
         model  = PersonContent
@@ -214,9 +215,9 @@ class StudentInfoCategoryAdmin(admin.ModelAdmin):
 
 
 class StudentInfoForm(forms.ModelForm):
-    content_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (Uz)")
-    content_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (Ru)")
-    content_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (En)")
+    content_uz = forms.CharField(widget=TinyMCE(), required=False, label="Kontent (Uz)")
+    content_ru = forms.CharField(widget=TinyMCE(), required=False, label="Kontent (Ru)")
+    content_en = forms.CharField(widget=TinyMCE(), required=False, label="Kontent (En)")
 
     class Meta:
         model  = StudentInfo

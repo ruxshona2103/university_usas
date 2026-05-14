@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/', include('domains.qabul.urls')),
     path('api/', include('domains.ilmiy_tadqiqot.urls')),
     path('summernote/', include('django_summernote.urls')),
+    path('tinymce/', include('tinymce.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

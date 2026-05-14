@@ -6,8 +6,11 @@ from drf_spectacular.utils import extend_schema
 from common.cache_mixin import cached_list
 from domains.tracker.mixins import ViewsCountMixin
 from domains.tracker.views import RecordViewAPIView
-from .models import SportMajmua, Sharoit
-from .serializers import SportMajmuaSerializer, SportMajmuaListSerializer, SharoitSerializer
+from .models import SportMajmua, Sharoit, OlimpiyaShaharchasi
+from .serializers import (
+    SportMajmuaSerializer, SportMajmuaListSerializer,
+    SharoitSerializer, OlimpiyaInfoSerializer,
+)
 
 
 def _lang(request):
@@ -106,6 +109,23 @@ class SharoitListAPIView(generics.ListAPIView):
                 base_qs.filter(category='talim'), many=True, context=ctx
             ).data,
         })
+
+
+@extend_schema(
+    tags=['infra'],
+    summary="Olimpiya shaharchasi ma'lumotlari",
+    description="Kirish matni (HTML) + fotogaleriya. ?lang=uz|ru|en",
+)
+class OlimpiyaInfoAPIView(generics.RetrieveAPIView):
+    serializer_class   = OlimpiyaInfoSerializer
+    permission_classes = [AllowAny]
+
+    def retrieve(self, request, *args, **kwargs):
+        obj = OlimpiyaShaharchasi.objects.prefetch_related('gallery').first()
+        if obj is None:
+            return Response({'intro': '', 'gallery_title': '', 'gallery': []})
+        ctx = {'request': request, 'lang': _lang(request)}
+        return Response(OlimpiyaInfoSerializer(obj, context=ctx).data)
 
 
 # ── RecordView endpoints ───────────────────────────────────────────────────────

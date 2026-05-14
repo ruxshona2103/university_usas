@@ -6,6 +6,7 @@ from .models import (
     SportMajmua, SportMajmuaImage,
     SportMajmuaStat, SportMajmuaSportTuri, SportMajmuaTadbir,
     Sharoit,
+    OlimpiyaShaharchasi, OlimpiyaGalleryImage,
 )
 
 
@@ -131,6 +132,50 @@ class SportMajmuaListSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_location(self, obj):
         return {'uz': obj.location_uz, 'ru': obj.location_ru or obj.location_uz, 'en': obj.location_en or obj.location_uz}
+
+
+class OlimpiyaGalleryImageSerializer(serializers.ModelSerializer):
+    url     = serializers.SerializerMethodField()
+    caption = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = OlimpiyaGalleryImage
+        fields = ['id', 'url', 'caption', 'order']
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_url(self, obj):
+        return _abs_url(self.context.get('request'), obj.image)
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_caption(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'caption_{lang}', '') or obj.caption_uz or ''
+
+
+class OlimpiyaInfoSerializer(serializers.ModelSerializer):
+    intro         = serializers.SerializerMethodField()
+    gallery_title = serializers.SerializerMethodField()
+    gallery       = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = OlimpiyaShaharchasi
+        fields = ['intro', 'gallery_title', 'gallery']
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_intro(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'intro_{lang}', '') or obj.intro_uz or ''
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_gallery_title(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'gallery_title_{lang}', '') or obj.gallery_title_uz or ''
+
+    @extend_schema_field(serializers.ListField())
+    def get_gallery(self, obj):
+        return OlimpiyaGalleryImageSerializer(
+            obj.gallery.order_by('order'), many=True, context=self.context
+        ).data
 
 
 class SharoitSerializer(serializers.ModelSerializer):

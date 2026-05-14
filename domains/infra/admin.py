@@ -7,6 +7,7 @@ from .models import (
     SportMajmua, SportMajmuaImage,
     SportMajmuaStat, SportMajmuaSportTuri, SportMajmuaTadbir,
     Sharoit,
+    OlimpiyaShaharchasi, OlimpiyaGalleryImage,
 )
 
 
@@ -64,6 +65,46 @@ class SportMajmuaAdmin(admin.ModelAdmin):
             'fields': ('slug',),
         }),
     )
+
+
+class OlimpiyaGalleryInline(admin.TabularInline):
+    model    = OlimpiyaGalleryImage
+    extra    = 1
+    fields   = ('image', 'caption_uz', 'caption_ru', 'caption_en', 'order')
+    ordering = ('order',)
+
+
+class OlimpiyaForm(forms.ModelForm):
+    intro_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Kirish matni (Uz)")
+    intro_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Kirish matni (Ru)")
+    intro_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Kirish matni (En)")
+
+    class Meta:
+        model  = OlimpiyaShaharchasi
+        fields = '__all__'
+
+
+@admin.register(OlimpiyaShaharchasi)
+class OlimpiyaAdmin(admin.ModelAdmin):
+    form    = OlimpiyaForm
+    inlines = [OlimpiyaGalleryInline]
+
+    fieldsets = (
+        ("O'zbek tili (majburiy)", {
+            'fields': ('intro_uz', 'gallery_title_uz'),
+        }),
+        ("Rus tili", {
+            'classes': ('collapse',),
+            'fields': ('intro_ru', 'gallery_title_ru'),
+        }),
+        ("Ingliz tili", {
+            'classes': ('collapse',),
+            'fields': ('intro_en', 'gallery_title_en'),
+        }),
+    )
+
+    def has_add_permission(self, request):
+        return not OlimpiyaShaharchasi.objects.exists()
 
 
 class SharoitForm(forms.ModelForm):

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.utils.html import format_html
+from django_summernote.admin import SummernoteModelAdmin
 from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
 
 from .models import (
@@ -74,19 +75,9 @@ class OlimpiyaGalleryInline(admin.TabularInline):
     ordering = ('order',)
 
 
-class OlimpiyaForm(forms.ModelForm):
-    intro_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Kirish matni (Uz)")
-    intro_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Kirish matni (Ru)")
-    intro_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Kirish matni (En)")
-
-    class Meta:
-        model  = OlimpiyaShaharchasi
-        fields = '__all__'
-
-
 @admin.register(OlimpiyaShaharchasi)
-class OlimpiyaAdmin(admin.ModelAdmin):
-    form    = OlimpiyaForm
+class OlimpiyaAdmin(SummernoteModelAdmin):
+    summernote_fields = ('intro_uz', 'intro_ru', 'intro_en')
     inlines = [OlimpiyaGalleryInline]
 
     fieldsets = (

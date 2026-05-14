@@ -75,9 +75,28 @@ class OlimpiyaGalleryInline(admin.TabularInline):
     ordering = ('order',)
 
 
+class OlimpiyaForm(forms.ModelForm):
+    intro_uz = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 18, 'style': 'font-family:monospace;font-size:13px;'}),
+        required=False, label="Kirish matni (Uz) — HTML",
+    )
+    intro_ru = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 18, 'style': 'font-family:monospace;font-size:13px;'}),
+        required=False, label="Kirish matni (Ru) — HTML",
+    )
+    intro_en = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 18, 'style': 'font-family:monospace;font-size:13px;'}),
+        required=False, label="Kirish matni (En) — HTML",
+    )
+
+    class Meta:
+        model  = OlimpiyaShaharchasi
+        fields = '__all__'
+
+
 @admin.register(OlimpiyaShaharchasi)
-class OlimpiyaAdmin(SummernoteModelAdmin):
-    summernote_fields = ('intro_uz', 'intro_ru', 'intro_en')
+class OlimpiyaAdmin(admin.ModelAdmin):
+    form    = OlimpiyaForm
     inlines = [OlimpiyaGalleryInline]
 
     fieldsets = (

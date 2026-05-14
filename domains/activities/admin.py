@@ -427,15 +427,13 @@ class IlmiyKengashSeminarAdmin(AutoTranslateMixin, admin.ModelAdmin):
     list_display = ('tipi', 'shifr', 'buyruq_sanasi', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter = ('tipi', 'is_active')
-    search_fields = ('shifr', 'rais_uz', 'kotib_uz')
+    search_fields = ('shifr', 'kotib_uz')
 
     fieldsets = (
         ("Asosiy", {'fields': ('tipi', 'order', 'is_active')}),
         ("Shifr va sana", {'fields': ('shifr', 'buyruq_sanasi', 'ixtisoslik_shifri')}),
         ("Ixtisoslik nomi (Uz)", {'fields': ('ixtisoslik_nomi_uz',)}),
         ("Ixtisoslik nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('ixtisoslik_nomi_ru', 'ixtisoslik_nomi_en')}),
-        ("Rais (Uz)", {'fields': ('rais_uz', 'rais_lavozim_uz')}),
-        ("Rais (Ru / En)", {'classes': ('collapse',), 'fields': ('rais_ru', 'rais_en', 'rais_lavozim_ru', 'rais_lavozim_en')}),
         ("Kotib (Uz)", {'fields': ('kotib_uz', 'kotib_lavozim_uz')}),
         ("Kotib (Ru / En)", {'classes': ('collapse',), 'fields': ('kotib_ru', 'kotib_en', 'kotib_lavozim_ru', 'kotib_lavozim_en')}),
     )

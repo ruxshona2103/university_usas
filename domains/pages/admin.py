@@ -274,6 +274,10 @@ class NavbarSubItemAdmin(admin.ModelAdmin):
         ("Sahifa nomi", {
             'fields': ('category', 'name_uz', 'name_ru', 'name_en')
         }),
+        ("Qisqa tavsif (hero subtitl)", {
+            'fields': ('subtitle_uz', 'subtitle_ru', 'subtitle_en'),
+            'description': "Sahifa banner ostidagi qisqa izoh matni (ixtiyoriy).",
+        }),
         ("Sahifa turi", {
             'fields': ('page_type', 'redirect_url'),
             'description': (

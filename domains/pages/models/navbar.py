@@ -62,6 +62,10 @@ class NavbarSubItem(TimeStampedModel):
     name_ru = models.CharField(max_length=100, blank=True, verbose_name="Nomi (Ru)")
     name_en = models.CharField(max_length=100, blank=True, verbose_name="Nomi (En)")
 
+    subtitle_uz = models.CharField(max_length=300, blank=True, verbose_name="Qisqa tavsif (Uz)")
+    subtitle_ru = models.CharField(max_length=300, blank=True, verbose_name="Qisqa tavsif (Ru)")
+    subtitle_en = models.CharField(max_length=300, blank=True, verbose_name="Qisqa tavsif (En)")
+
     slug = models.SlugField(max_length=150, unique=True, blank=True, verbose_name="Slug (URL)")
 
     page_type = models.CharField(

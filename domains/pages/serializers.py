@@ -225,13 +225,14 @@ class NavbarPageSerializer(serializers.ModelSerializer):
       hero, rich-text, stats, gallery, quote, table, timeline  ← ContentBlock
       file-list, useful-links                                   ← LinkBlock
     """
-    name    = serializers.SerializerMethodField()
-    content = serializers.SerializerMethodField()
-    blocks  = serializers.SerializerMethodField()
+    name     = serializers.SerializerMethodField()
+    subtitle = serializers.SerializerMethodField()
+    content  = serializers.SerializerMethodField()
+    blocks   = serializers.SerializerMethodField()
 
     class Meta:
         model  = NavbarSubItem
-        fields = ['id', 'slug', 'name', 'page_type', 'redirect_url', 'content', 'blocks']
+        fields = ['id', 'slug', 'name', 'subtitle', 'page_type', 'redirect_url', 'content', 'blocks']
 
     def _lang(self):
         return self.context.get('lang', 'uz')
@@ -240,6 +241,11 @@ class NavbarPageSerializer(serializers.ModelSerializer):
     def get_name(self, obj):
         lang = self._lang()
         return getattr(obj, f'name_{lang}') or obj.name_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_subtitle(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'subtitle_{lang}', '') or obj.subtitle_uz or ''
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_content(self, obj):

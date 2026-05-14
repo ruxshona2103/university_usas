@@ -5,7 +5,7 @@ from django.core.cache import cache
 from django.http import JsonResponse
 from django.urls import path
 from django.utils.html import format_html
-from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
+from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent, MagistrTalaba, Stipendiya
 
@@ -50,9 +50,9 @@ class PersonImageInline(admin.TabularInline):
 # ── PersonContent inline ──────────────────────────────────────────────────────
 
 class PersonContentForm(forms.ModelForm):
-    content_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (Uz)")
-    content_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (Ru)")
-    content_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (En)")
+    content_uz = forms.CharField(widget=SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '300px'}}), required=False, label="Kontent (Uz)")
+    content_ru = forms.CharField(widget=SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '300px'}}), required=False, label="Kontent (Ru)")
+    content_en = forms.CharField(widget=SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '300px'}}), required=False, label="Kontent (En)")
 
     class Meta:
         model  = PersonContent

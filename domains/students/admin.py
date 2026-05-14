@@ -50,9 +50,9 @@ class PersonImageInline(admin.TabularInline):
 # ── PersonContent inline ──────────────────────────────────────────────────────
 
 class PersonContentForm(forms.ModelForm):
-    content_uz = forms.CharField(widget=SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '300px'}}), required=False, label="Kontent (Uz)")
-    content_ru = forms.CharField(widget=SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '300px'}}), required=False, label="Kontent (Ru)")
-    content_en = forms.CharField(widget=SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '300px'}}), required=False, label="Kontent (En)")
+    content_uz = forms.CharField(widget=SummernoteInplaceWidget(), required=False, label="Kontent (Uz)")
+    content_ru = forms.CharField(widget=SummernoteInplaceWidget(), required=False, label="Kontent (Ru)")
+    content_en = forms.CharField(widget=SummernoteInplaceWidget(), required=False, label="Kontent (En)")
 
     class Meta:
         model  = PersonContent

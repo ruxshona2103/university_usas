@@ -329,18 +329,23 @@ class MagistrTalabaAdmin(admin.ModelAdmin):
 
 
 @admin.register(OlimpiyaChempion)
-class OlimpiyaChempionAdmin(admin.ModelAdmin):
-    list_display  = ('full_name', 'yonalish', 'guruh', 'order', 'is_active', 'image_preview')
+class OlimpiyaChempionAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name   = 'olimpiyachempion_translate'
+    change_form_template = 'admin/students/olimpiyachempion/change_form.html'
+    list_display  = ('full_name_uz', 'yonalish_uz', 'order', 'is_active', 'image_preview')
     list_editable = ('order', 'is_active')
-    list_filter   = ('is_active', 'yonalish', 'guruh')
-    search_fields = ('full_name', 'yonalish', 'guruh')
+    list_filter   = ('is_active',)
+    search_fields = ('full_name_uz', 'full_name_ru', 'full_name_en', 'yonalish_uz')
 
     fieldsets = (
         ("Shaxs", {
-            'fields': ('full_name', 'image', 'image_preview'),
+            'fields': ('image', 'image_preview'),
         }),
-        ("Sport", {
-            'fields': ('yonalish', 'guruh'),
+        ("To'liq ismi", {
+            'fields': ('full_name_uz', 'full_name_ru', 'full_name_en'),
+        }),
+        ("Sport turi", {
+            'fields': ('yonalish_uz', 'yonalish_ru', 'yonalish_en'),
         }),
         ("Tartib va holat", {
             'fields': ('order', 'is_active'),

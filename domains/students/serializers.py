@@ -238,15 +238,30 @@ class StipendiyaSerializer(serializers.ModelSerializer):
 
 
 class OlimpiyaChempionSerializer(serializers.ModelSerializer):
-    image_url = serializers.SerializerMethodField()
+    image_url  = serializers.SerializerMethodField()
+    full_name  = serializers.SerializerMethodField()
+    yonalish   = serializers.SerializerMethodField()
 
     class Meta:
         model  = OlimpiyaChempion
-        fields = ['id', 'full_name', 'image_url', 'yonalish', 'guruh', 'order']
+        fields = ['id', 'full_name', 'image_url', 'yonalish', 'order']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
 
     @extend_schema_field(OpenApiTypes.URI)
     def get_image_url(self, obj):
         return _abs_url(self.context.get('request'), obj.image)
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_full_name(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'full_name_{lang}') or obj.full_name_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_yonalish(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'yonalish_{lang}') or obj.yonalish_uz
 
 
 class MagistrTalabaSerializer(serializers.ModelSerializer):

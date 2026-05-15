@@ -352,18 +352,26 @@ class MagistrPageAPIView(APIView):
 @extend_schema(tags=['people'], summary="Olimpiya chempionlari ro'yxati")
 class OlimpiyaChempionListAPIView(ViewsCountMixin, generics.ListAPIView):
     """
-    ?yonalish=<sport>   — sport turi bo'yicha filter
-    ?guruh=<guruh>      — guruh bo'yicha filter
+    ?lang=uz|ru|en       — til
+    ?yonalish=<sport>    — sport turi bo'yicha filter (uz/ru/en bo'yicha qidiradi)
     """
     serializer_class   = OlimpiyaChempionSerializer
     pagination_class   = None
 
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
     def get_queryset(self):
         qs = OlimpiyaChempion.objects.filter(is_active=True)
         yonalish = self.request.query_params.get('yonalish')
-        guruh    = self.request.query_params.get('guruh')
         if yonalish:
-            qs = qs.filter(yonalish__icontains=yonalish)
-        if guruh:
-            qs = qs.filter(guruh__icontains=guruh)
+            from django.db.models import Q
+            qs = qs.filter(
+                Q(yonalish_uz__icontains=yonalish)
+                | Q(yonalish_ru__icontains=yonalish)
+                | Q(yonalish_en__icontains=yonalish)
+            )
         return qs

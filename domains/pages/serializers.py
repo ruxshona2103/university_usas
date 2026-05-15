@@ -492,6 +492,28 @@ class InteraktivXizmatSerializer(serializers.ModelSerializer):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
+# Kampus xizmatlari
+# ──────────────────────────────────────────────────────────────────────────────
+
+class KampusXizmatiSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = None
+        fields = ['id', 'icon_class', 'title', 'link', 'order']
+
+    def __init__(self, *args, **kwargs):
+        from domains.pages.models import KampusXizmati
+        self.Meta.model = KampusXizmati
+        super().__init__(*args, **kwargs)
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_title(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+
+# ──────────────────────────────────────────────────────────────────────────────
 # Markazlar
 # ──────────────────────────────────────────────────────────────────────────────
 

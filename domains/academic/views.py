@@ -60,6 +60,12 @@ class FakultetKafedraListAPIView(generics.ListAPIView):
     permission_classes = [AllowAny]
     pagination_class   = None
 
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
     def get_queryset(self):
         qs = FakultetKafedra.objects.filter(is_active=True)
         type_filter = self.request.query_params.get('type')
@@ -93,6 +99,12 @@ class FakultetKafedraDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     permission_classes = [AllowAny]
     queryset           = FakultetKafedra.objects.filter(is_active=True).prefetch_related('publications', 'xodimlar__person', 'rasmlar')
     lookup_field       = 'slug'
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
 
     def get_object(self):
         slug = self.kwargs.get(self.lookup_field)

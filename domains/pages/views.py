@@ -18,6 +18,7 @@ from domains.pages.models import (
     AkademiyaMissiya,
     IlmiyBolim,
     HomepageHaqida,
+    KampusXizmati,
 )
 from .serializers import (
     ContactConfigSerializer,
@@ -34,6 +35,7 @@ from .serializers import (
     InteraktivXizmatSerializer,
     MarkazListSerializer,
     MarkazDetailSerializer,
+    KampusXizmatiSerializer,
 )
 from domains.tracker.mixins import ViewsCountMixin
 from domains.tracker.views import RecordViewAPIView
@@ -472,6 +474,28 @@ class InteraktivXizmatListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         return InteraktivXizmat.objects.filter(is_active=True)
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Kampus xizmatlari
+# ──────────────────────────────────────────────────────────────────────────────
+
+@cached_list(300)
+@extend_schema(tags=['pages'], summary="Kampus xizmatlari ro'yxati")
+class KampusXizmatiListAPIView(generics.ListAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = KampusXizmatiSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        return KampusXizmati.objects.filter(is_active=True)
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

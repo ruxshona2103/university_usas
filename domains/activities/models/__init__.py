@@ -10,6 +10,7 @@ from .ilmiy_kontent            import (
 from .sport_stat               import SportStat
 from .sport_yonalish           import SportYonalish
 from .sport_tadbir             import SportTadbir
+from .sport_natija             import SportNatija, SportKalendar
 from .axborot_xizmati          import AxborotVazifa, AxborotXodim
 
 __all__ = [
@@ -28,6 +29,8 @@ __all__ = [
     'SportStat',
     'SportYonalish',
     'SportTadbir',
+    'SportNatija',
+    'SportKalendar',
     'AxborotVazifa',
     'AxborotXodim',
 ]

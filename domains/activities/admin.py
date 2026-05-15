@@ -20,6 +20,8 @@ from .models import (
     SportStat,
     SportYonalish,
     SportTadbir,
+    SportNatija,
+    SportKalendar,
     AxborotVazifa,
     AxborotXodim,
 )
@@ -475,3 +477,43 @@ class IlmiyMaktabAdmin(AutoTranslateMixin, admin.ModelAdmin):
         ("Asoschi (Uz)", {'fields': ('asoschi_uz',)}),
         ("Asoschi (Ru / En)", {'classes': ('collapse',), 'fields': ('asoschi_ru', 'asoschi_en')}),
     )
+
+
+@admin.register(SportNatija)
+class SportNatijaAdmin(admin.ModelAdmin):
+    list_display  = ('bosqich', 'sport_turi_uz', 'talabalar_soni', 'order')
+    list_filter   = ('bosqich',)
+    list_editable = ('order',)
+    search_fields = ('sport_turi_uz',)
+    fieldsets = (
+        ('Asosiy', {'fields': ('bosqich', 'talabalar_soni', 'order')}),
+        ('Sport turi', {'fields': ('sport_turi_uz', 'sport_turi_ru', 'sport_turi_en')}),
+        ('Jahon chempionati', {'fields': ('jahon_chempionati_1', 'jahon_chempionati_2', 'jahon_chempionati_3')}),
+        ('Para osiyo', {'fields': ('para_osiyo_1', 'para_osiyo_2', 'para_osiyo_3')}),
+        ('Osiyo chempionati', {'fields': ('osiyo_chempionati_1', 'osiyo_chempionati_2', 'osiyo_chempionati_3')}),
+        ('Osiyo kubogi', {'fields': ('osiyo_kubogi_1', 'osiyo_kubogi_2', 'osiyo_kubogi_3')}),
+        ('Xalqaro turnir', {'fields': ('xalqaro_turnir_1', 'xalqaro_turnir_2', 'xalqaro_turnir_3')}),
+        ('MDH', {'fields': ('mdh_1', 'mdh_2', 'mdh_3')}),
+        ('Osiyo yoshlar', {'fields': ('osiyo_yoshlar_1', 'osiyo_yoshlar_2', 'osiyo_yoshlar_3')}),
+    )
+
+
+@admin.register(SportKalendar)
+class SportKalendarAdmin(admin.ModelAdmin):
+    list_display  = ('yil', 'sport_turi_uz', 'order')
+    list_filter   = ('yil',)
+    list_editable = ('order',)
+    search_fields = ('sport_turi_uz',)
+    fieldsets = (
+        ('Asosiy', {'fields': ('yil', 'order')}),
+        ('Sport turi', {'fields': ('sport_turi_uz', 'sport_turi_ru', 'sport_turi_en')}),
+        ('Sport tadbirlari soni', {
+            'fields': (
+                'jahon_chempionati', 'jahon_seriyasi', 'jahon_kubogi',
+                'yoshlar_olimpiya', 'osiyo_oyinlari', 'osiyo_chempionati',
+                'osiyo_kubogi', 'xalqaro_turnir',
+                'ozb_chempionati', 'ozb_kubogi', 'prezident_olimpiyada',
+            ),
+        }),
+    )
+

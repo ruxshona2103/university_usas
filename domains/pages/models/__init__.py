@@ -14,6 +14,7 @@ from .scientific_department import IlmiyBolim, IlmiyBolimYonalish
 from .savol_javob import SavolJavob, SavolJavobCategory
 from .homepage_haqida import HomepageHaqida, HomepageHaqidaRasm
 from .kampus_xizmati import KampusXizmati
+from .iqtidorli_talabalar import IqtidorliTalabalar, IqtidorliVazifa
 
 __all__ = [
     'ContactConfig',
@@ -52,4 +53,6 @@ __all__ = [
     'HomepageHaqida',
     'HomepageHaqidaRasm',
     'KampusXizmati',
+    'IqtidorliTalabalar',
+    'IqtidorliVazifa',
 ]

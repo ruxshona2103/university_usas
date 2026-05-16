@@ -24,7 +24,9 @@ class SportMajmua(TimeStampedModel):
     location_uz = models.CharField(max_length=300, blank=True, verbose_name="Joylashuvi (Uz)")
     location_ru = models.CharField(max_length=300, blank=True, verbose_name="Joylashuvi (Ru)")
     location_en = models.CharField(max_length=300, blank=True, verbose_name="Joylashuvi (En)")
-    category    = models.CharField(max_length=120, blank=True, default="", verbose_name="Kategoriya")
+    category_uz = models.CharField(max_length=120, blank=True, default="", verbose_name="Kategoriya (Uz)")
+    category_ru = models.CharField(max_length=120, blank=True, default="", verbose_name="Kategoriya (Ru)")
+    category_en = models.CharField(max_length=120, blank=True, default="", verbose_name="Kategoriya (En)")
 
     slug      = models.SlugField(unique=True, blank=True, verbose_name="Slug")
     is_active = models.BooleanField(default=True, verbose_name="Faolmi?")

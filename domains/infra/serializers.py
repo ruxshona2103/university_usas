@@ -74,6 +74,7 @@ class SportMajmuaTadbirSerializer(serializers.ModelSerializer):
 
 
 class SportMajmuaSerializer(serializers.ModelSerializer):
+    category    = serializers.SerializerMethodField()
     name        = serializers.SerializerMethodField()
     location    = serializers.SerializerMethodField()
     images      = serializers.SerializerMethodField()
@@ -84,6 +85,14 @@ class SportMajmuaSerializer(serializers.ModelSerializer):
     class Meta:
         model  = SportMajmua
         fields = ['id', 'slug', 'category', 'name', 'location', 'images', 'stats', 'sport_types', 'events', 'created_at', 'updated_at']
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_category(self, obj):
+        return {
+            'uz': obj.category_uz or '',
+            'ru': obj.category_ru or obj.category_uz or '',
+            'en': obj.category_en or obj.category_uz or '',
+        }
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_name(self, obj):
@@ -118,12 +127,21 @@ class SportMajmuaSerializer(serializers.ModelSerializer):
 
 
 class SportMajmuaListSerializer(serializers.ModelSerializer):
+    category = serializers.SerializerMethodField()
     name     = serializers.SerializerMethodField()
     location = serializers.SerializerMethodField()
 
     class Meta:
         model  = SportMajmua
         fields = ['id', 'slug', 'category', 'name', 'location', 'order']
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_category(self, obj):
+        return {
+            'uz': obj.category_uz or '',
+            'ru': obj.category_ru or obj.category_uz or '',
+            'en': obj.category_en or obj.category_uz or '',
+        }
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_name(self, obj):

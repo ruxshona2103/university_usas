@@ -37,7 +37,9 @@ class MagistrStudent(TimeStampedModel):
         verbose_name="Guruh",
     )
 
-    student_name           = models.CharField(max_length=300, verbose_name="Talabaning F.I.Sh.")
+    student_name_uz        = models.CharField(max_length=300, verbose_name="Talabaning F.I.Sh. (Uz)")
+    student_name_ru        = models.CharField(max_length=300, blank=True, verbose_name="Talabaning F.I.Sh. (Ru)")
+    student_name_en        = models.CharField(max_length=300, blank=True, verbose_name="Talabaning F.I.Sh. (En)")
     dissertation_topic_uz  = models.TextField(verbose_name="Dissertatsiya mavzusi (Uz)")
     dissertation_topic_ru  = models.TextField(blank=True, verbose_name="Dissertatsiya mavzusi (Ru)")
     dissertation_topic_en  = models.TextField(blank=True, verbose_name="Dissertatsiya mavzusi (En)")
@@ -54,4 +56,4 @@ class MagistrStudent(TimeStampedModel):
         verbose_name_plural = "Magistratura talabalari"
 
     def __str__(self):
-        return self.student_name
+        return self.student_name_uz

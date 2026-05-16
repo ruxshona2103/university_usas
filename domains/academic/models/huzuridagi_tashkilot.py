@@ -76,3 +76,33 @@ class HuzuridagiTashkilot(TimeStampedModel):
 
     def __str__(self):
         return self.name_uz
+
+
+def tashkilot_rasm_upload(instance, filename):
+    ext = os.path.splitext(filename)[1].lower()
+    return f'academic/tashkilot_rasmlar/{uuid.uuid4().hex}{ext}'
+
+
+class HuzuridagiTashkilotRasm(TimeStampedModel):
+    """Tashkilot uchun rasm galereyasi."""
+
+    tashkilot  = models.ForeignKey(
+        HuzuridagiTashkilot,
+        on_delete=models.CASCADE,
+        related_name='rasmlar',
+        verbose_name="Tashkilot",
+    )
+    image      = models.ImageField(upload_to=tashkilot_rasm_upload, verbose_name="Rasm")
+    caption_uz = models.CharField(max_length=300, blank=True, verbose_name="Izoh (Uz)")
+    caption_ru = models.CharField(max_length=300, blank=True, verbose_name="Izoh (Ru)")
+    caption_en = models.CharField(max_length=300, blank=True, verbose_name="Izoh (En)")
+    order      = models.PositiveIntegerField(default=0, verbose_name="Tartib")
+
+    class Meta:
+        db_table            = 'academic_huzuridagi_tashkilot_rasm'
+        ordering            = ['order']
+        verbose_name        = "Tashkilot rasmi"
+        verbose_name_plural = "Tashkilot rasmlari"
+
+    def __str__(self):
+        return f"{self.tashkilot.name_uz} — rasm #{self.order}"

@@ -245,7 +245,7 @@ class StudentInfoAdmin(admin.ModelAdmin):
 class MagistrStudentInline(admin.TabularInline):
     model   = MagistrStudent
     extra   = 1
-    fields  = ('order', 'student_name', 'dissertation_topic_uz', 'supervisor_name', 'supervisor_info_uz')
+    fields  = ('order', 'student_name_uz', 'dissertation_topic_uz', 'supervisor_name', 'supervisor_info_uz')
     ordering = ('order',)
 
 
@@ -272,12 +272,14 @@ class MagistrGroupAdmin(AutoTranslateMixin, admin.ModelAdmin):
 class MagistrStudentAdmin(AutoTranslateMixin, admin.ModelAdmin):
     translate_url_name   = 'magistrstudent_translate'
     change_form_template = 'admin/students/magistrstudent/change_form.html'
-    list_display  = ('order', 'student_name', 'group', 'supervisor_name')
+    list_display  = ('order', 'student_name_uz', 'group', 'supervisor_name')
     list_filter   = ('group', 'group__year')
-    search_fields = ('student_name', 'dissertation_topic_uz', 'supervisor_name')
+    search_fields = ('student_name_uz', 'dissertation_topic_uz', 'supervisor_name')
 
     fieldsets = (
-        ("Talaba", {'fields': ('group', 'order', 'student_name')}),
+        ("Talaba", {'fields': ('group', 'order')}),
+        ("Talabaning F.I.Sh. (Uz)", {'fields': ('student_name_uz',)}),
+        ("Talabaning F.I.Sh. (Ru / En)", {'classes': ('collapse',), 'fields': ('student_name_ru', 'student_name_en')}),
         ("Dissertatsiya mavzusi (Uz)", {'fields': ('dissertation_topic_uz',)}),
         ("Dissertatsiya mavzusi (Ru / En)", {'classes': ('collapse',), 'fields': ('dissertation_topic_ru', 'dissertation_topic_en')}),
         ("Ilmiy rahbar", {'fields': ('supervisor_name', 'supervisor_info_uz')}),

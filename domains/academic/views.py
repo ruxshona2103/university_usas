@@ -202,7 +202,7 @@ class AkademiyaKengashiListAPIView(generics.ListAPIView):
 class AkademiyaKengashiDetailAPIView(generics.RetrieveAPIView):
     serializer_class = AkademiyaKengashiDetailSerializer
     permission_classes = [AllowAny]
-    queryset = HuzuridagiTashkilot.objects.filter(is_active=True, org_type='jamoat').select_related('person')
+    queryset = HuzuridagiTashkilot.objects.filter(is_active=True, org_type='jamoat').select_related('person').prefetch_related('rasmlar')
     lookup_field = 'slug'
 
 

@@ -339,6 +339,7 @@ class MagistrTalabaSerializer(serializers.ModelSerializer):
 
 
 class MagistrStudentSerializer(serializers.ModelSerializer):
+    student_name       = serializers.SerializerMethodField()
     dissertation_topic = serializers.SerializerMethodField()
     supervisor_info    = serializers.SerializerMethodField()
 
@@ -348,6 +349,10 @@ class MagistrStudentSerializer(serializers.ModelSerializer):
 
     def _lang(self):
         return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_student_name(self, obj):
+        return getattr(obj, f'student_name_{self._lang()}') or obj.student_name_uz
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_dissertation_topic(self, obj):

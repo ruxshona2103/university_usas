@@ -432,13 +432,14 @@ class AkademiyaKengashiListSerializer(serializers.ModelSerializer):
 
 
 class AkademiyaKengashiDetailSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField()
-    text = serializers.SerializerMethodField()
+    name   = serializers.SerializerMethodField()
+    text   = serializers.SerializerMethodField()
     person = serializers.SerializerMethodField()
+    rasmlar = serializers.SerializerMethodField()
 
     class Meta:
         model = HuzuridagiTashkilot
-        fields = ['id', 'slug', 'name', 'text', 'person', 'order', 'created_at', 'updated_at']
+        fields = ['id', 'slug', 'name', 'text', 'person', 'rasmlar', 'order', 'created_at', 'updated_at']
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_name(self, obj):
@@ -512,6 +513,26 @@ class AkademiyaKengashiDetailSerializer(serializers.ModelSerializer):
             },
             'photo_url': _photo_url(self.context.get('request'), p.image),
         }
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_rasmlar(self, obj):
+        request = self.context.get('request')
+        result = []
+        for r in obj.rasmlar.order_by('order'):
+            url = _photo_url(request, r.image)
+            if not url:
+                continue
+            result.append({
+                'id': r.id,
+                'image_url': url,
+                'caption': {
+                    'uz': r.caption_uz or '',
+                    'ru': r.caption_ru or r.caption_uz or '',
+                    'en': r.caption_en or r.caption_uz or '',
+                },
+                'order': r.order,
+            })
+        return result
 
 
 class TashkiliyTuzilmaListSerializer(serializers.ModelSerializer):

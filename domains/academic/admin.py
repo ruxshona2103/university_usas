@@ -1,9 +1,48 @@
+import json
+
 from django.contrib import admin
+from django.http import JsonResponse
+from django.urls import path
 from django.utils.text import slugify
 from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
 from django import forms
 
-from .models import AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication, KafedraXodim, KafedraRasm, HuzuridagiTashkilot, TashkiliyTuzilmaItem
+from .models import (
+    AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication,
+    KafedraXodim, KafedraRasm, HuzuridagiTashkilot, HuzuridagiTashkilotRasm,
+    TashkiliyTuzilmaItem,
+)
+
+
+class AutoTranslateMixin:
+    """UZ → RU/EN avtomatik tarjima AJAX endpoint ni admin ga qo'shadi."""
+
+    translate_url_name = None
+
+    def get_urls(self):
+        urls = super().get_urls()
+        return [
+            path(
+                'translate/',
+                self.admin_site.admin_view(self.translate_view),
+                name=self.translate_url_name,
+            ),
+        ] + urls
+
+    def translate_view(self, request):
+        if request.method != 'POST':
+            return JsonResponse({'error': 'POST required'}, status=405)
+        try:
+            from deep_translator import GoogleTranslator
+            body = json.loads(request.body)
+            text = (body.get('text') or '').strip()
+            if not text:
+                return JsonResponse({'ru': '', 'en': ''})
+            ru = GoogleTranslator(source='uz', target='ru').translate(text) or ''
+            en = GoogleTranslator(source='uz', target='en').translate(text) or ''
+            return JsonResponse({'ru': ru, 'en': en})
+        except Exception as exc:
+            return JsonResponse({'error': str(exc)}, status=500)
 
 
 @admin.register(AcademyStat)
@@ -178,14 +217,32 @@ class KafedraPublicationAdmin(admin.ModelAdmin):
     list_per_page = 30
 
 
+class HuzuridagiTashkilotRasmInline(admin.TabularInline):
+    model   = HuzuridagiTashkilotRasm
+    extra   = 1
+    fields  = ('image', 'caption_uz', 'caption_ru', 'caption_en', 'order')
+    ordering = ('order',)
+
+
+@admin.register(HuzuridagiTashkilotRasm)
+class HuzuridagiTashkilotRasmAdmin(admin.ModelAdmin):
+    list_display  = ('tashkilot', 'caption_uz', 'order')
+    list_editable = ('order',)
+    list_filter   = ('tashkilot',)
+    list_per_page = 30
+
+
 @admin.register(HuzuridagiTashkilot)
-class HuzuridagiTashkilotAdmin(admin.ModelAdmin):
+class HuzuridagiTashkilotAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name   = 'huzuridagitashkilot_translate'
+    change_form_template = 'admin/academic/huzuridagitashkilot/change_form.html'
     list_display  = ('name_uz', 'org_type', 'phone', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('org_type', 'is_active')
     search_fields = ('name_uz', 'name_ru')
     list_per_page = 20
     autocomplete_fields = ['person']
+    inlines       = [HuzuridagiTashkilotRasmInline]
     fieldsets = (
         ("Tur va tartib", {'fields': ('org_type', 'slug', 'order', 'is_active')}),
         ("Rahbar (Person)", {'fields': ('person',)}),

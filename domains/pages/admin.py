@@ -1066,7 +1066,7 @@ class HomepageHaqidaAdmin(admin.ModelAdmin):
 @admin.register(KampusXizmati)
 class KampusXizmatiAdmin(AutoTranslateMixin, admin.ModelAdmin):
     translate_url_name = 'kampus-xizmati-translate'
-    list_display  = ('title_uz', 'icon_class', 'link', 'order', 'is_active')
+    list_display  = ('title_uz', 'link', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     search_fields = ('title_uz', 'title_ru')
     list_per_page = 20
@@ -1074,7 +1074,7 @@ class KampusXizmatiAdmin(AutoTranslateMixin, admin.ModelAdmin):
         ("O'zbek tili (majburiy)", {'fields': ('title_uz',)}),
         ("Rus tili",   {'classes': ('collapse',), 'fields': ('title_ru',)}),
         ("Ingliz tili", {'classes': ('collapse',), 'fields': ('title_en',)}),
-        ("Sozlamalar", {'fields': ('icon_class', 'link', 'order', 'is_active')}),
+        ("Rasm va sozlamalar", {'fields': ('image', 'icon_class', 'link', 'order', 'is_active')}),
     )
     change_form_template = 'admin/pages/kampusxizmati/change_form.html'
 

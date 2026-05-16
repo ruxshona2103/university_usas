@@ -498,11 +498,12 @@ class InteraktivXizmatSerializer(serializers.ModelSerializer):
 # ──────────────────────────────────────────────────────────────────────────────
 
 class KampusXizmatiSerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField()
+    title     = serializers.SerializerMethodField()
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model  = None
-        fields = ['id', 'icon_class', 'title', 'link', 'order']
+        fields = ['id', 'icon_class', 'image_url', 'title', 'link', 'order']
 
     def __init__(self, *args, **kwargs):
         from domains.pages.models import KampusXizmati
@@ -513,6 +514,10 @@ class KampusXizmatiSerializer(serializers.ModelSerializer):
     def get_title(self, obj):
         lang = self.context.get('lang', 'uz')
         return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image_url(self, obj):
+        return _abs_url(self.context.get('request'), obj.image)
 
 
 # ──────────────────────────────────────────────────────────────────────────────

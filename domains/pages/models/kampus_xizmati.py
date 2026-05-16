@@ -6,7 +6,8 @@ class KampusXizmati(TimeStampedModel):
     """
     Asosiy sahifa hero pastidagi 4-ta kampus afzalliklari kartochkalari.
     """
-    icon_class = models.CharField(max_length=100, blank=True, verbose_name="Icon nomi (lucide)")
+    image      = models.FileField(upload_to='kampus_xizmati/', blank=True, null=True, verbose_name="Rasm (icon o'rniga)")
+    icon_class = models.CharField(max_length=100, blank=True, verbose_name="Icon nomi (lucide, rasm yo'q bo'lsa)")
     title_uz   = models.CharField(max_length=200, verbose_name="Sarlavha (Uz)")
     title_ru   = models.CharField(max_length=200, blank=True, verbose_name="Sarlavha (Ru)")
     title_en   = models.CharField(max_length=200, blank=True, verbose_name="Sarlavha (En)")

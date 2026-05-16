@@ -265,14 +265,15 @@ class OlimpiyaChempionSerializer(serializers.ModelSerializer):
 
 
 class MagistrTalabaSerializer(serializers.ModelSerializer):
-    person           = serializers.SerializerMethodField()
-    display_name     = serializers.SerializerMethodField()
-    image_url        = serializers.SerializerMethodField()
-    bio              = serializers.SerializerMethodField()
-    specialty_name   = serializers.SerializerMethodField()
+    person             = serializers.SerializerMethodField()
+    display_name       = serializers.SerializerMethodField()
+    image_url          = serializers.SerializerMethodField()
+    bio                = serializers.SerializerMethodField()
+    specialty_name     = serializers.SerializerMethodField()
     dissertation_topic = serializers.SerializerMethodField()
-    supervisor_info  = serializers.SerializerMethodField()
-    education_form   = serializers.SerializerMethodField()
+    supervisor_name    = serializers.SerializerMethodField()
+    supervisor_info    = serializers.SerializerMethodField()
+    education_form     = serializers.SerializerMethodField()
 
     class Meta:
         model  = MagistrTalaba
@@ -305,7 +306,7 @@ class MagistrTalabaSerializer(serializers.ModelSerializer):
         lang = self._lang()
         if obj.person_id:
             return getattr(obj.person, f'full_name_{lang}') or obj.person.full_name_uz
-        return obj.full_name
+        return getattr(obj, f'full_name_{lang}') or obj.full_name_uz
 
     @extend_schema_field(OpenApiTypes.URI)
     def get_image_url(self, obj):
@@ -328,6 +329,10 @@ class MagistrTalabaSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.STR)
     def get_dissertation_topic(self, obj):
         return getattr(obj, f'dissertation_topic_{self._lang()}') or obj.dissertation_topic_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_supervisor_name(self, obj):
+        return getattr(obj, f'supervisor_name_{self._lang()}') or obj.supervisor_name_uz
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_supervisor_info(self, obj):

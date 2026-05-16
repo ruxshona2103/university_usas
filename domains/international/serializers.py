@@ -103,10 +103,11 @@ class PartnerPageConfigSerializer(serializers.ModelSerializer):
 
 
 class InternationalDeptConfigSerializer(serializers.ModelSerializer):
-    head_name     = serializers.SerializerMethodField()
-    head_position = serializers.SerializerMethodField()
-    tasks         = serializers.SerializerMethodField()
-    head_photo    = serializers.SerializerMethodField()
+    head_name          = serializers.SerializerMethodField()
+    head_position      = serializers.SerializerMethodField()
+    head_working_hours = serializers.SerializerMethodField()
+    tasks              = serializers.SerializerMethodField()
+    head_photo         = serializers.SerializerMethodField()
 
     class Meta:
         model  = InternationalDeptConfig
@@ -126,6 +127,10 @@ class InternationalDeptConfigSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.STR)
     def get_head_position(self, obj):
         return getattr(obj, f'head_position_{self._lang()}') or obj.head_position_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_head_working_hours(self, obj):
+        return getattr(obj, f'head_working_hours_{self._lang()}') or obj.head_working_hours_uz
 
     @extend_schema_field(OpenApiTypes.URI)
     def get_head_photo(self, obj):

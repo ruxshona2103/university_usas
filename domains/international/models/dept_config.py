@@ -11,7 +11,9 @@ class InternationalDeptConfig(models.Model):
     head_position_uz   = models.CharField(max_length=300, blank=True, verbose_name="Lavozimi (Uz)")
     head_position_ru   = models.CharField(max_length=300, blank=True, verbose_name="Lavozimi (Ru)")
     head_position_en   = models.CharField(max_length=300, blank=True, verbose_name="Lavozimi (En)")
-    head_working_hours = models.CharField(max_length=200, blank=True, verbose_name="Qabul kunlari")
+    head_working_hours_uz = models.CharField(max_length=200, blank=True, verbose_name="Qabul kunlari (Uz)")
+    head_working_hours_ru = models.CharField(max_length=200, blank=True, verbose_name="Qabul kunlari (Ru)")
+    head_working_hours_en = models.CharField(max_length=200, blank=True, verbose_name="Qabul kunlari (En)")
     head_phone         = models.CharField(max_length=200, blank=True, verbose_name="Telefon")
     head_email         = models.CharField(max_length=300, blank=True, verbose_name="E-mail")
     head_photo         = models.FileField(

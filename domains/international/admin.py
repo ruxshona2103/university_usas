@@ -146,7 +146,8 @@ class InternationalDeptConfigAdmin(AutoTranslateMixin, admin.ModelAdmin):
         ("Bo'lim boshlig'i", {
             'fields': ('head_photo', 'head_name_uz', 'head_name_ru', 'head_name_en',
                        'head_position_uz', 'head_position_ru', 'head_position_en',
-                       'head_working_hours', 'head_phone', 'head_email'),
+                       'head_working_hours_uz', 'head_working_hours_ru', 'head_working_hours_en',
+                       'head_phone', 'head_email'),
         }),
         ("Vazifalari (Uz / Ru / En)", {'fields': ('tasks_uz', 'tasks_ru', 'tasks_en')}),
     )

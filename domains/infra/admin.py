@@ -22,14 +22,18 @@ class SportMajmuaImageInline(admin.TabularInline):
 class SportMajmuaStatInline(admin.TabularInline):
     model   = SportMajmuaStat
     extra   = 1
-    fields  = ('label_uz', 'value_uz', 'order')
+    fields  = (
+        'label_uz', 'label_ru', 'label_en',
+        'value_uz', 'value_ru', 'value_en',
+        'order',
+    )
     ordering = ('order',)
 
 
 class SportMajmuaSportTuriInline(admin.TabularInline):
     model   = SportMajmuaSportTuri
     extra   = 1
-    fields  = ('name_uz', 'order')
+    fields  = ('name_uz', 'name_ru', 'name_en', 'order')
     ordering = ('order',)
 
 

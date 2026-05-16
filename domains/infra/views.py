@@ -18,7 +18,6 @@ def _lang(request):
     return lang if lang in ('uz', 'ru', 'en') else 'uz'
 
 
-@cached_list(300)
 @extend_schema(
     tags=['infra'],
     summary="Sport majmualari ro'yxati",

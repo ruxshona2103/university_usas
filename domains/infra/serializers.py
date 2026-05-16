@@ -42,11 +42,11 @@ class SportMajmuaStatSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_label(self, obj):
-        return {'uz': obj.label_uz, 'ru': obj.label_ru or obj.label_uz, 'en': obj.label_en or obj.label_uz}
+        return {'uz': obj.label_uz or '', 'ru': obj.label_ru or '', 'en': obj.label_en or ''}
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_value(self, obj):
-        return {'uz': obj.value_uz, 'ru': obj.value_ru or obj.value_uz, 'en': obj.value_en or obj.value_uz}
+        return {'uz': obj.value_uz or '', 'ru': obj.value_ru or '', 'en': obj.value_en or ''}
 
 
 class SportMajmuaSportTuriSerializer(serializers.ModelSerializer):
@@ -58,7 +58,7 @@ class SportMajmuaSportTuriSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_name(self, obj):
-        return {'uz': obj.name_uz, 'ru': obj.name_ru or obj.name_uz, 'en': obj.name_en or obj.name_uz}
+        return {'uz': obj.name_uz or '', 'ru': obj.name_ru or '', 'en': obj.name_en or ''}
 
 
 class SportMajmuaTadbirSerializer(serializers.ModelSerializer):
@@ -70,7 +70,7 @@ class SportMajmuaTadbirSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):
-        return {'uz': obj.title_uz, 'ru': obj.title_ru or obj.title_uz, 'en': obj.title_en or obj.title_uz}
+        return {'uz': obj.title_uz or '', 'ru': obj.title_ru or '', 'en': obj.title_en or ''}
 
 
 class SportMajmuaSerializer(serializers.ModelSerializer):
@@ -90,17 +90,17 @@ class SportMajmuaSerializer(serializers.ModelSerializer):
     def get_category(self, obj):
         return {
             'uz': obj.category_uz or '',
-            'ru': obj.category_ru or obj.category_uz or '',
-            'en': obj.category_en or obj.category_uz or '',
+            'ru': obj.category_ru or '',
+            'en': obj.category_en or '',
         }
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_name(self, obj):
-        return {'uz': obj.name_uz, 'ru': obj.name_ru or obj.name_uz, 'en': obj.name_en or obj.name_uz}
+        return {'uz': obj.name_uz or '', 'ru': obj.name_ru or '', 'en': obj.name_en or ''}
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_location(self, obj):
-        return {'uz': obj.location_uz, 'ru': obj.location_ru or obj.location_uz, 'en': obj.location_en or obj.location_uz}
+        return {'uz': obj.location_uz or '', 'ru': obj.location_ru or '', 'en': obj.location_en or ''}
 
     @extend_schema_field(serializers.ListField())
     def get_images(self, obj):
@@ -139,17 +139,17 @@ class SportMajmuaListSerializer(serializers.ModelSerializer):
     def get_category(self, obj):
         return {
             'uz': obj.category_uz or '',
-            'ru': obj.category_ru or obj.category_uz or '',
-            'en': obj.category_en or obj.category_uz or '',
+            'ru': obj.category_ru or '',
+            'en': obj.category_en or '',
         }
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_name(self, obj):
-        return {'uz': obj.name_uz, 'ru': obj.name_ru or obj.name_uz, 'en': obj.name_en or obj.name_uz}
+        return {'uz': obj.name_uz or '', 'ru': obj.name_ru or '', 'en': obj.name_en or ''}
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_location(self, obj):
-        return {'uz': obj.location_uz, 'ru': obj.location_ru or obj.location_uz, 'en': obj.location_en or obj.location_uz}
+        return {'uz': obj.location_uz or '', 'ru': obj.location_ru or '', 'en': obj.location_en or ''}
 
 
 class OlimpiyaGalleryImageSerializer(serializers.ModelSerializer):

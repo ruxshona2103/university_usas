@@ -8,7 +8,7 @@ from .about_academy import AboutAcademy, AboutAcademySection, AboutAcademySectio
 from .org_structure import OrgNode, OrgSection
 from .rekvizit import Rekvizit
 from .interaktiv_xizmat import InteraktivXizmat
-from .markaz import Markaz, MarkazSubBolim
+from .markaz import Markaz, MarkazXodim, MarkazSubBolim
 from .mission import AkademiyaMissiya, AkademiyaMissiyaYonalish
 from .scientific_department import IlmiyBolim, IlmiyBolimYonalish
 from .savol_javob import SavolJavob, SavolJavobCategory
@@ -43,6 +43,7 @@ __all__ = [
     'Rekvizit',
     'InteraktivXizmat',
     'Markaz',
+    'MarkazXodim',
     'MarkazSubBolim',
     'AkademiyaMissiya',
     'AkademiyaMissiyaYonalish',

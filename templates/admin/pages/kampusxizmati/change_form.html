@@ -6,10 +6,57 @@
   .translate-btn { margin: 6px 0 14px; padding: 6px 14px; background: #417690; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; }
   .translate-btn:hover    { background: #2b5372; }
   .translate-btn:disabled { background: #888; cursor: not-allowed; }
+
+  .icon-picker-wrap {
+    margin: 10px 0 16px;
+  }
+  .icon-picker-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 2px solid #d0d0d0;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    padding: 0;
+  }
+  .icon-btn:hover {
+    border-color: #2680d9;
+    background: #e8f3ff;
+  }
+  .icon-btn.selected {
+    border-color: #1a6fc4;
+    background: #1a6fc4;
+  }
+  .icon-btn.selected svg {
+    stroke: #fff;
+  }
+  .icon-btn svg {
+    width: 22px;
+    height: 22px;
+    stroke: #444;
+    fill: none;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
 </style>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script>
 (function () {
   'use strict';
+
+  /* ---------- translation button ---------- */
   const url  = '{% url "admin:kampus-xizmati-translate" %}';
   const csrf = () => { const i = document.querySelector('[name=csrfmiddlewaretoken]'); return i ? i.value : ''; };
 
@@ -33,6 +80,67 @@
   }
 
   addBtn("Sarlavha", 'id_title_uz', 'id_title_ru', 'id_title_en');
+
+  /* ---------- icon picker ---------- */
+  const ICONS = [
+    'soup', 'book-open', 'graduation-cap', 'laptop', 'message-square',
+    'monitor', 'wifi', 'globe', 'file-text', 'users', 'briefcase',
+    'brain', 'external-link', 'home', 'building', 'library', 'star',
+    'award', 'flask-conical', 'microscope', 'cpu', 'bus', 'utensils',
+    'dumbbell', 'heart', 'shield', 'map-pin', 'phone', 'mail',
+  ];
+
+  function buildPicker() {
+    const input = document.getElementById('id_icon_class');
+    if (!input) return;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'icon-picker-wrap';
+
+    const grid = document.createElement('div');
+    grid.className = 'icon-picker-grid';
+
+    ICONS.forEach(function (name) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'icon-btn';
+      btn.dataset.icon = name;
+      btn.title = name;
+
+      const el = document.createElement('i');
+      el.dataset.lucide = name;
+      btn.appendChild(el);
+
+      if (input.value.trim() === name) btn.classList.add('selected');
+
+      btn.addEventListener('click', function () {
+        grid.querySelectorAll('.icon-btn').forEach(function (b) { b.classList.remove('selected'); });
+        btn.classList.add('selected');
+        input.value = name;
+      });
+
+      grid.appendChild(btn);
+    });
+
+    wrap.appendChild(grid);
+    input.parentNode.insertBefore(wrap, input.nextSibling);
+
+    /* sync external edits to the text input */
+    input.addEventListener('input', function () {
+      const val = input.value.trim();
+      grid.querySelectorAll('.icon-btn').forEach(function (b) {
+        b.classList.toggle('selected', b.dataset.icon === val);
+      });
+    });
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', buildPicker);
+  } else {
+    buildPicker();
+  }
 })();
 </script>
 {% endblock %}

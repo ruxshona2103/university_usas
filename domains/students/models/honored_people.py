@@ -75,6 +75,10 @@ class Person(TimeStampedModel):
     position_ru = models.CharField(max_length=255, null=True, blank=True, verbose_name="Ilmiy unvon (Ru)")
     position_en = models.CharField(max_length=255, null=True, blank=True, verbose_name="Ilmiy unvon (En)")
 
+    degree_uz = models.CharField(max_length=255, null=True, blank=True, verbose_name="Ilmiy daraja (Uz)")
+    degree_ru = models.CharField(max_length=255, null=True, blank=True, verbose_name="Ilmiy daraja (Ru)")
+    degree_en = models.CharField(max_length=255, null=True, blank=True, verbose_name="Ilmiy daraja (En)")
+
     phone     = models.CharField(max_length=100, null=True, blank=True, verbose_name="Telefon")
     fax       = models.CharField(max_length=100, null=True, blank=True, verbose_name="Faks")
     email     = models.EmailField(null=True, blank=True, verbose_name="Email")

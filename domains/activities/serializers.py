@@ -48,10 +48,22 @@ def _safe_file_url(field, request=None):
     return url
 
 
+_EDUCATION_TYPE_LABELS = {
+    'bachelor': {'uz': 'Bakalavr',     'ru': 'Бакалавриат',  'en': 'Bachelor'},
+    'master':   {'uz': 'Magistratura', 'ru': 'Магистратура', 'en': 'Master'},
+}
+
+_EDUCATION_FORM_LABELS = {
+    'daytime':  {'uz': 'Kunduzgi', 'ru': 'Дневная',  'en': 'Daytime'},
+    'evening':  {'uz': 'Kechki',   'ru': 'Вечерняя', 'en': 'Evening'},
+    'distance': {'uz': 'Sirtqi',   'ru': 'Заочная',  'en': 'Distance'},
+}
+
+
 class ContractPriceSerializer(serializers.ModelSerializer):
     specialty_name = serializers.SerializerMethodField()
-    education_type = serializers.CharField(source='get_education_type_display')
-    education_form = serializers.CharField(source='get_education_form_display')
+    education_type = serializers.SerializerMethodField()
+    education_form = serializers.SerializerMethodField()
 
     class Meta:
         model  = ContractPrice
@@ -65,6 +77,16 @@ class ContractPriceSerializer(serializers.ModelSerializer):
     def get_specialty_name(self, obj):
         lang = self.context.get('lang', 'uz')
         return getattr(obj, f'specialty_name_{lang}') or obj.specialty_name_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_education_type(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return _EDUCATION_TYPE_LABELS.get(obj.education_type, {}).get(lang) or obj.get_education_type_display()
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_education_form(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return _EDUCATION_FORM_LABELS.get(obj.education_form, {}).get(lang) or obj.get_education_form_display()
 
 
 class ServiceVehicleSerializer(serializers.ModelSerializer):

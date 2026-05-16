@@ -231,7 +231,10 @@ class InternationalPostSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.URI)
     def get_image(self, obj):
-        return _abs_url(self.context.get('request'), obj.image)
+        req = self.context.get('request')
+        lang = self._lang()
+        localized = getattr(obj, f'image_{lang}', None) if lang != 'uz' else None
+        return _abs_url(req, localized) or _abs_url(req, obj.image)
 
     @extend_schema_field(InternationalPostImageSerializer(many=True))
     def get_images(self, obj):

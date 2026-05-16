@@ -148,8 +148,7 @@ class InternationalDeptConfigAdmin(AutoTranslateMixin, admin.ModelAdmin):
                        'head_position_uz', 'head_position_ru', 'head_position_en',
                        'head_working_hours', 'head_phone', 'head_email'),
         }),
-        ("Vazifalari (Uz)", {'fields': ('tasks_uz',)}),
-        ("Vazifalari (Ru / En)", {'classes': ('collapse',), 'fields': ('tasks_ru', 'tasks_en')}),
+        ("Vazifalari (Uz / Ru / En)", {'fields': ('tasks_uz', 'tasks_ru', 'tasks_en')}),
     )
 
     def has_add_permission(self, request):

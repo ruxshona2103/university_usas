@@ -572,12 +572,66 @@ class MarkazListSerializer(serializers.ModelSerializer):
         return {'uz': uz, 'ru': _abs_url(req, obj.image_ru) or uz, 'en': _abs_url(req, obj.image_en) or uz}
 
 
+class MarkazXodimSerializer(serializers.Serializer):
+    id         = serializers.UUIDField(source='person.id')
+    full_name  = serializers.SerializerMethodField()
+    lavozim    = serializers.SerializerMethodField()
+    ilmiy_unvon = serializers.SerializerMethodField()
+    ilmiy_daraja = serializers.SerializerMethodField()
+    email      = serializers.EmailField(source='person.email')
+    photo_url  = serializers.SerializerMethodField()
+    order      = serializers.IntegerField()
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    def get_full_name(self, obj):
+        lang = self._lang()
+        return getattr(obj.person, f'full_name_{lang}') or obj.person.full_name_uz
+
+    def get_lavozim(self, obj):
+        lang = self._lang()
+        return getattr(obj.person, f'title_{lang}') or obj.person.title_uz or ''
+
+    def get_ilmiy_unvon(self, obj):
+        lang = self._lang()
+        return getattr(obj.person, f'position_{lang}') or obj.person.position_uz or ''
+
+    def get_ilmiy_daraja(self, obj):
+        lang = self._lang()
+        return getattr(obj.person, f'degree_{lang}') or obj.person.degree_uz or ''
+
+    def get_photo_url(self, obj):
+        return _abs_url(self.context.get('request'), obj.person.image)
+
+
 class MarkazDetailSerializer(MarkazListSerializer):
-    """Detail uchun — sub_bolimlar bilan."""
+    """Detail uchun — goals, functions, xodimlar, sub_bolimlar bilan."""
+    goals        = serializers.SerializerMethodField()
+    functions    = serializers.SerializerMethodField()
+    xodimlar     = serializers.SerializerMethodField()
     sub_bolimlar = serializers.SerializerMethodField()
 
     class Meta(MarkazListSerializer.Meta):
-        fields = MarkazListSerializer.Meta.fields + ['sub_bolimlar']
+        fields = MarkazListSerializer.Meta.fields + ['goals', 'functions', 'xodimlar', 'sub_bolimlar']
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_goals(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'goals_{lang}') or obj.goals_uz or ''
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_functions(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'functions_{lang}') or obj.functions_uz or ''
+
+    @extend_schema_field(MarkazXodimSerializer(many=True))
+    def get_xodimlar(self, obj):
+        return MarkazXodimSerializer(
+            obj.xodimlar.select_related('person').all(),
+            many=True,
+            context=self.context,
+        ).data
 
     @extend_schema_field(MarkazSubBolimSerializer(many=True))
     def get_sub_bolimlar(self, obj):

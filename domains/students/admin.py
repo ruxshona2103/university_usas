@@ -137,6 +137,7 @@ class PersonAdmin(AutoTranslateMixin, admin.ModelAdmin):
             'fields': (
                 'title_uz', 'title_ru', 'title_en',
                 'position_uz', 'position_ru', 'position_en',
+                'degree_uz', 'degree_ru', 'degree_en',
             ),
         }),
         ("Kontakt (xodimlar uchun)", {

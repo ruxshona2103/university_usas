@@ -12,7 +12,7 @@ from .models import (
     AboutSocial, AboutSocialSection, AboutSocialSectionItem, AboutSocialExtraTask,
     AboutAcademy, AboutAcademySection, AboutAcademySectionItem, AboutAcademyProgram, AboutAcademyImage,
     OrgNode, OrgSection, Rekvizit, InteraktivXizmat,
-    Markaz, MarkazSubBolim,
+    Markaz, MarkazXodim, MarkazSubBolim,
     AkademiyaMissiya, AkademiyaMissiyaYonalish,
     IlmiyBolim, IlmiyBolimYonalish,
     SavolJavob, SavolJavobCategory,
@@ -687,7 +687,7 @@ class AboutAcademyProgramInline(admin.TabularInline):
 class AboutAcademyImageInline(admin.TabularInline):
     model   = AboutAcademyImage
     extra   = 1
-    fields  = ('image', 'caption_uz', 'order', 'is_active')
+    fields  = ('image', 'caption_uz', 'caption_ru', 'caption_en', 'order', 'is_active')
     ordering = ('order',)
 
 
@@ -902,6 +902,14 @@ class MarkazSubBolimInline(admin.TabularInline):
     ordering = ('order',)
 
 
+class MarkazXodimInline(admin.TabularInline):
+    model               = MarkazXodim
+    extra               = 1
+    fields              = ('person', 'order')
+    autocomplete_fields = ('person',)
+    ordering            = ('order',)
+
+
 @admin.register(Markaz)
 class MarkazAdmin(admin.ModelAdmin):
     list_display  = ('name_uz', 'slug', 'order', 'is_active')
@@ -909,12 +917,12 @@ class MarkazAdmin(admin.ModelAdmin):
     search_fields = ('name_uz', 'name_ru', 'name_en')
     readonly_fields = ('slug',)
     list_per_page = 20
-    inlines = [MarkazSubBolimInline]
+    inlines = [MarkazXodimInline, MarkazSubBolimInline]
     fieldsets = (
         ("Rasm (Uz)", {'fields': ('image',)}),
-        ("O'zbek tili (majburiy)", {'fields': ('name_uz', 'description_uz')}),
-        ("Rus tili",   {'classes': ('collapse',), 'fields': ('image_ru', 'name_ru', 'description_ru')}),
-        ("Ingliz tili", {'classes': ('collapse',), 'fields': ('image_en', 'name_en', 'description_en')}),
+        ("O'zbek tili (majburiy)", {'fields': ('name_uz', 'description_uz', 'goals_uz', 'functions_uz')}),
+        ("Rus tili",   {'classes': ('collapse',), 'fields': ('image_ru', 'name_ru', 'description_ru', 'goals_ru', 'functions_ru')}),
+        ("Ingliz tili", {'classes': ('collapse',), 'fields': ('image_en', 'name_en', 'description_en', 'goals_en', 'functions_en')}),
         ("Sozlamalar", {'fields': ('order', 'is_active', 'slug')}),
     )
 

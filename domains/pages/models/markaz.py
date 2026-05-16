@@ -23,6 +23,14 @@ class Markaz(TimeStampedModel):
     description_ru = models.TextField(blank=True, verbose_name="Tavsif (Ru)")
     description_en = models.TextField(blank=True, verbose_name="Tavsif (En)")
 
+    goals_uz = models.TextField(blank=True, verbose_name="Maqsad va vazifalari (Uz)")
+    goals_ru = models.TextField(blank=True, verbose_name="Maqsad va vazifalari (Ru)")
+    goals_en = models.TextField(blank=True, verbose_name="Maqsad va vazifalari (En)")
+
+    functions_uz = models.TextField(blank=True, verbose_name="Funksiyalari (Uz)")
+    functions_ru = models.TextField(blank=True, verbose_name="Funksiyalari (Ru)")
+    functions_en = models.TextField(blank=True, verbose_name="Funksiyalari (En)")
+
     image = models.ImageField(
         upload_to=markaz_image_upload,
         null=True, blank=True,
@@ -62,6 +70,33 @@ class Markaz(TimeStampedModel):
                 counter += 1
             self.slug = slug
         super().save(*args, **kwargs)
+
+
+class MarkazXodim(TimeStampedModel):
+    """Markaz / bo'lim xodimlari (Person → Markaz ko'prigi)."""
+    markaz = models.ForeignKey(
+        Markaz,
+        on_delete=models.CASCADE,
+        related_name='xodimlar',
+        verbose_name="Markaz / Bo'lim",
+    )
+    person = models.ForeignKey(
+        'students.Person',
+        on_delete=models.CASCADE,
+        related_name='markaz_xodim_set',
+        verbose_name="Xodim",
+    )
+    order = models.PositiveIntegerField(default=0, verbose_name="Tartib")
+
+    class Meta:
+        db_table       = 'pages_markaz_xodim'
+        ordering       = ['order']
+        unique_together = ('markaz', 'person')
+        verbose_name        = "Markaz xodimi"
+        verbose_name_plural = "Markaz xodimlari"
+
+    def __str__(self):
+        return f"{self.markaz.name_uz} — {self.person.full_name_uz}"
 
 
 class MarkazSubBolim(TimeStampedModel):

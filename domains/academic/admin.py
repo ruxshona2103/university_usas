@@ -39,7 +39,7 @@ class AcademyDetailPageAdmin(admin.ModelAdmin):
 class KafedraRasmInline(admin.TabularInline):
     model   = KafedraRasm
     extra   = 1
-    fields  = ('image', 'caption_uz', 'order', 'is_active')
+    fields  = ('image', 'caption_uz', 'caption_ru', 'caption_en', 'order', 'is_active')
     ordering = ('order',)
 
 

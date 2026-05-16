@@ -222,7 +222,9 @@ class AkademikAlmashinuvForm(forms.ModelForm):
 
 
 @admin.register(AkademikAlmashinuv)
-class AkademikAlmashinuvAdmin(admin.ModelAdmin):
+class AkademikAlmashinuvAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    translate_url_name   = 'akademikalmashinuv_translate'
+    change_form_template = 'admin/international/akademikalmashinuv/change_form.html'
     form          = AkademikAlmashinuvForm
     list_display  = ('title_uz', 'order', 'is_active')
     list_editable = ('order', 'is_active')

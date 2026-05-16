@@ -17,8 +17,10 @@ class TimeStampedModel(models.Model):
 
 class PublishableContent(TimeStampedModel):
     """Yangiliklar, blog, tadbirlar uchun asosiy klass."""
-    image  = models.FileField(upload_to='content/%Y/%m/', blank=True, null=True, verbose_name="Asosiy rasm")
-    images = GenericRelation('common.ContentImage', related_query_name='%(class)s')
+    image    = models.FileField(upload_to='content/%Y/%m/', blank=True, null=True, verbose_name="Asosiy rasm (Uz)")
+    image_ru = models.FileField(upload_to='content/%Y/%m/', blank=True, null=True, verbose_name="Asosiy rasm (Ru)")
+    image_en = models.FileField(upload_to='content/%Y/%m/', blank=True, null=True, verbose_name="Asosiy rasm (En)")
+    images   = GenericRelation('common.ContentImage', related_query_name='%(class)s')
 
     title_uz = models.CharField(max_length=255, blank=True, null=True, verbose_name="Sarlavha (Uz)")
     title_ru = models.CharField(max_length=255, blank=True, null=True, verbose_name="Sarlavha (Ru)")

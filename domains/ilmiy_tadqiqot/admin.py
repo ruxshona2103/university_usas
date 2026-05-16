@@ -41,7 +41,7 @@ class IlmiyTadqiqotAdmin(admin.ModelAdmin):
     inlines       = [IlmiyTadqiqotFileInline]
 
     fieldsets = (
-        ("Asosiy", {'fields': ('category', 'is_published', 'date', 'image', 'slug')}),
+        ("Asosiy", {'fields': ('category', 'is_published', 'date', 'image', 'image_ru', 'image_en', 'slug')}),
         ("Sarlavha", {'fields': ('title_uz', 'title_ru', 'title_en')}),
         ("Muallif", {'fields': ('author_uz', 'author_ru', 'author_en')}),
         ("Kontent", {'fields': ('description_uz', 'description_ru', 'description_en')}),

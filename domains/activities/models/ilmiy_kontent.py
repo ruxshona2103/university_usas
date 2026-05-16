@@ -66,7 +66,13 @@ class IlmiyJurnal(TimeStampedModel):
     description_en = models.TextField(blank=True, verbose_name="Tavsif (En)")
 
     image = models.ImageField(
-        upload_to=ilmiy_kontent_image_upload, blank=True, null=True, verbose_name="Rasm"
+        upload_to=ilmiy_kontent_image_upload, blank=True, null=True, verbose_name="Rasm (Uz)"
+    )
+    image_ru = models.ImageField(
+        upload_to=ilmiy_kontent_image_upload, blank=True, null=True, verbose_name="Rasm (Ru)"
+    )
+    image_en = models.ImageField(
+        upload_to=ilmiy_kontent_image_upload, blank=True, null=True, verbose_name="Rasm (En)"
     )
     link = models.URLField(blank=True, verbose_name="Jurnal sayti (URL)")
 

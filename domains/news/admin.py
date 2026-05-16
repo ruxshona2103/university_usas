@@ -102,11 +102,11 @@ class NewsAdmin(ArticleAdminBase):
         }),
         ("Rus tili", {
             'classes': ('collapse',),
-            'fields': ('title_ru', 'description_ru'),
+            'fields': ('image_ru', 'title_ru', 'description_ru'),
         }),
         ("Ingliz tili", {
             'classes': ('collapse',),
-            'fields': ('title_en', 'description_en'),
+            'fields': ('image_en', 'title_en', 'description_en'),
         }),
         ("Qo'shimcha", {
             'fields': ('source', 'categories', 'date', 'keywords', 'is_published'),
@@ -140,11 +140,11 @@ class EventAdmin(ArticleAdminBase):
         }),
         ("Rus tili", {
             'classes': ('collapse',),
-            'fields': ('title_ru', 'description_ru'),
+            'fields': ('image_ru', 'title_ru', 'description_ru'),
         }),
         ("Ingliz tili", {
             'classes': ('collapse',),
-            'fields': ('title_en', 'description_en'),
+            'fields': ('image_en', 'title_en', 'description_en'),
         }),
         ("Manzil", {
             'fields': ('location_uz', 'location_ru', 'location_en'),
@@ -181,11 +181,11 @@ class BlogAdmin(ArticleAdminBase):
         }),
         ("Rus tili", {
             'classes': ('collapse',),
-            'fields': ('title_ru', 'description_ru'),
+            'fields': ('image_ru', 'title_ru', 'description_ru'),
         }),
         ("Ingliz tili", {
             'classes': ('collapse',),
-            'fields': ('title_en', 'description_en'),
+            'fields': ('image_en', 'title_en', 'description_en'),
         }),
         ("Muallif va holat", {
             'fields': ('author', 'date', 'categories', 'keywords', 'is_published'),
@@ -225,11 +225,11 @@ class KorrupsiyaAdmin(ArticleAdminBase):
         }),
         ("Rus tili", {
             'classes': ('collapse',),
-            'fields': ('title_ru', 'description_ru'),
+            'fields': ('image_ru', 'title_ru', 'description_ru'),
         }),
         ("Ingliz tili", {
             'classes': ('collapse',),
-            'fields': ('title_en', 'description_en'),
+            'fields': ('image_en', 'title_en', 'description_en'),
         }),
         ("Holat", {
             'fields': ('date', 'categories', 'keywords', 'is_published'),

@@ -29,6 +29,8 @@ from .views import (
     IlmiyFaoliyatRecordViewAPIView,
     SportTadbirRecordViewAPIView,
     SportYonalishRecordViewAPIView,
+    SportNatijaListAPIView,
+    SportKalendarListAPIView,
 )
 
 urlpatterns = [
@@ -72,4 +74,8 @@ urlpatterns = [
     path('ilmiy-kengash-seminar/',   IlmiyKengashSeminarListAPIView.as_view(), name='ilmiy-kengash-seminar'),
     path('ilmiy-loyihalar/',         IlmiyLoyihaListAPIView.as_view(),         name='ilmiy-loyihalar'),
     path('ilmiy-maktablar/',         IlmiyMaktabListAPIView.as_view(),         name='ilmiy-maktablar'),
+
+    # ── Sport natijalari va kalendar ─────────────────────────────────────────
+    path('activities/sport/natijalari/',  SportNatijaListAPIView.as_view(),   name='sport-natijalari'),
+    path('activities/sport/kalendar/',    SportKalendarListAPIView.as_view(), name='sport-kalendar'),
 ]

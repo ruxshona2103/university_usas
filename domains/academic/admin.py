@@ -193,7 +193,7 @@ class HuzuridagiTashkilotAdmin(admin.ModelAdmin):
         ("Rus tili", {'classes': ('collapse',), 'fields': ('name_ru', 'description_ru', 'about_ru', 'address_ru')}),
         ("Ingliz tili", {'classes': ('collapse',), 'fields': ('name_en', 'description_en', 'about_en', 'address_en')}),
         ("Aloqa", {'fields': ('phone', 'email', 'website')}),
-        ("Rasm", {'fields': ('image',)}),
+        ("Rasm", {'fields': ('image', 'image_ru', 'image_en')}),
     )
 
 
@@ -208,5 +208,5 @@ class TashkiliyTuzilmaItemAdmin(admin.ModelAdmin):
         ("Asosiy", {"fields": ("slug", "order", "is_active")}),
         ("Matn (Uz)", {"fields": ("text_uz",)}),
         ("Matn (Ru / En)", {"classes": ("collapse",), "fields": ("text_ru", "text_en")}),
-        ("Rasm", {"fields": ("image",)}),
+        ("Rasm", {"fields": ("image", "image_ru", "image_en")}),
     )

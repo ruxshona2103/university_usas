@@ -58,7 +58,9 @@ class IlmiyTadqiqot(TimeStampedModel):
     author_ru = models.CharField(max_length=300, blank=True, verbose_name="Muallif (Ru)")
     author_en = models.CharField(max_length=300, blank=True, verbose_name="Muallif (En)")
 
-    image        = models.FileField(upload_to='ilmiy_tadqiqot/images/%Y/%m/', blank=True, null=True, verbose_name="Asosiy rasm")
+    image        = models.FileField(upload_to='ilmiy_tadqiqot/images/%Y/%m/', blank=True, null=True, verbose_name="Asosiy rasm (Uz)")
+    image_ru     = models.FileField(upload_to='ilmiy_tadqiqot/images/%Y/%m/', blank=True, null=True, verbose_name="Asosiy rasm (Ru)")
+    image_en     = models.FileField(upload_to='ilmiy_tadqiqot/images/%Y/%m/', blank=True, null=True, verbose_name="Asosiy rasm (En)")
     slug         = models.SlugField(max_length=550, unique=True, blank=True, verbose_name="Slug")
     date         = models.DateTimeField(null=True, blank=True, verbose_name="Nashr sanasi")
     is_published = models.BooleanField(default=True, verbose_name="Chiqarilsinmi?")

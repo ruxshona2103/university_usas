@@ -64,9 +64,11 @@ class PublishableMixin:
     def get_tavsif(self, obj):
         return {'uz': obj.tavsif_uz, 'ru': obj.tavsif_ru, 'en': obj.tavsif_en}
 
-    @extend_schema_field(OpenApiTypes.URI)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_image(self, obj):
-        return _abs_url(self.context.get('request'), obj.image)
+        req = self.context.get('request')
+        uz = _abs_url(req, obj.image)
+        return {'uz': uz, 'ru': _abs_url(req, obj.image_ru) or uz, 'en': _abs_url(req, obj.image_en) or uz}
 
     @extend_schema_field(OpenApiTypes.DATETIME)
     def get_date(self, obj):

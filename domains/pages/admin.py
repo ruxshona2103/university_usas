@@ -18,6 +18,7 @@ from .models import (
     SavolJavob, SavolJavobCategory,
     HomepageHaqida, HomepageHaqidaRasm,
     KampusXizmati,
+    IqtidorliTalabalar, IqtidorliVazifa,
 )
 import json
 from django.http import JsonResponse
@@ -355,7 +356,7 @@ class HeroVideoAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Video ma\'lumotlari', {
-            'fields': ('title', 'video_url', 'video_file', 'poster_image', 'is_active'),
+            'fields': ('title', 'video_url', 'video_file', 'poster_image', 'poster_image_ru', 'poster_image_en', 'is_active'),
             'description': "Video URL yoki Video fayli — bittasini to'ldiring.",
         }),
         ('Preview (Ko\'rinishi)', {
@@ -707,7 +708,7 @@ class AboutAcademyAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
     fieldsets = (
         ("Media", {
-            'fields': ('logo', 'image'),
+            'fields': ('logo', 'image', 'image_ru', 'image_en'),
         }),
         ("Akademiya tavsifi", {
             'fields': ('description_uz', 'description_ru', 'description_en'),
@@ -910,10 +911,10 @@ class MarkazAdmin(admin.ModelAdmin):
     list_per_page = 20
     inlines = [MarkazSubBolimInline]
     fieldsets = (
-        ("Rasm", {'fields': ('image',)}),
+        ("Rasm (Uz)", {'fields': ('image',)}),
         ("O'zbek tili (majburiy)", {'fields': ('name_uz', 'description_uz')}),
-        ("Rus tili",   {'classes': ('collapse',), 'fields': ('name_ru', 'description_ru')}),
-        ("Ingliz tili", {'classes': ('collapse',), 'fields': ('name_en', 'description_en')}),
+        ("Rus tili",   {'classes': ('collapse',), 'fields': ('image_ru', 'name_ru', 'description_ru')}),
+        ("Ingliz tili", {'classes': ('collapse',), 'fields': ('image_en', 'name_en', 'description_en')}),
         ("Sozlamalar", {'fields': ('order', 'is_active', 'slug')}),
     )
 
@@ -1076,3 +1077,33 @@ class KampusXizmatiAdmin(AutoTranslateMixin, admin.ModelAdmin):
         ("Sozlamalar", {'fields': ('icon_class', 'link', 'order', 'is_active')}),
     )
     change_form_template = 'admin/pages/kampusxizmati/change_form.html'
+
+
+# ── Iqtidorli talabalar bo'limi ───────────────────────────────────────────────
+
+class IqtidorliVazifaInline(admin.TabularInline):
+    model  = IqtidorliVazifa
+    extra  = 1
+    fields = ('text_uz', 'text_ru', 'text_en', 'order')
+
+
+@admin.register(IqtidorliTalabalar)
+class IqtidorliTalabalarAdmin(admin.ModelAdmin):
+    inlines = [IqtidorliVazifaInline]
+    fieldsets = (
+        ("Sektor boshlig'i", {
+            'fields': ('image', 'image_ru', 'image_en', 'telefon', 'email'),
+        }),
+        ("Lavozim (Uz)", {'fields': ('boshliq_lavozim_uz', 'boshliq_fio_uz', 'qabul_kunlari_uz')}),
+        ("Lavozim (Ru)", {'classes': ('collapse',), 'fields': ('boshliq_lavozim_ru', 'boshliq_fio_ru', 'qabul_kunlari_ru')}),
+        ("Lavozim (En)", {'classes': ('collapse',), 'fields': ('boshliq_lavozim_en', 'boshliq_fio_en', 'qabul_kunlari_en')}),
+        ("Bo'lim sarlavhasi", {
+            'fields': ('bolim_title_uz', 'bolim_title_ru', 'bolim_title_en'),
+        }),
+    )
+
+    def has_add_permission(self, request):
+        return not IqtidorliTalabalar.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False

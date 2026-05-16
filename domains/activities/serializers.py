@@ -105,9 +105,11 @@ class IlmiyFaoliyatSerializer(serializers.ModelSerializer):
     def get_description(self, obj):
         return {'uz': obj.description_uz or '', 'ru': obj.description_ru or '', 'en': obj.description_en or ''}
 
-    @extend_schema_field(OpenApiTypes.URI)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_image_url(self, obj):
-        return _safe_file_url(obj.image, self._req())
+        req = self._req()
+        uz = _safe_file_url(obj.image, req)
+        return {'uz': uz, 'ru': _safe_file_url(obj.image_ru, req) or uz, 'en': _safe_file_url(obj.image_en, req) or uz}
 
     @extend_schema_field(OpenApiTypes.URI)
     def get_file_url(self, obj):
@@ -133,7 +135,10 @@ class IlmiyFaoliyatItemSerializer(serializers.ModelSerializer):
         return getattr(obj, f'description_{lang}') or obj.description_uz or ''
 
     def get_image_url(self, obj):
-        return _safe_file_url(obj.image, self.context.get('request'))
+        req = self.context.get('request')
+        lang = self.context.get('lang', 'uz')
+        field = getattr(obj, f'image_{lang}', None) if lang != 'uz' else None
+        return _safe_file_url(field, req) or _safe_file_url(obj.image, req)
 
     def get_file_url(self, obj):
         return _safe_file_url(obj.file, self.context.get('request'))
@@ -548,9 +553,11 @@ class IlmiyJurnalSerializer(serializers.ModelSerializer):
     def get_description(self, obj):
         return _local(obj, 'description', self._lang())
 
-    @extend_schema_field(OpenApiTypes.URI)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_image_url(self, obj):
-        return _safe_file_url(obj.image, self.context.get('request'))
+        req = self.context.get('request')
+        uz = _safe_file_url(obj.image, req)
+        return {'uz': uz, 'ru': _safe_file_url(obj.image_ru, req) or uz, 'en': _safe_file_url(obj.image_en, req) or uz}
 
 
 class IlmiyKengashSeminarSerializer(serializers.ModelSerializer):
@@ -630,3 +637,60 @@ class IlmiyMaktabSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.STR)
     def get_asoschi(self, obj):
         return _local(obj, 'asoschi', self._lang())
+
+
+# ── Sport natijalari va kalendar ─────────────────────────────────────────────
+
+from domains.activities.models import SportNatija, SportKalendar
+
+
+class SportNatijaSerializer(serializers.ModelSerializer):
+    sport_turi = serializers.SerializerMethodField()
+    bosqich_display = serializers.CharField(source='get_bosqich_display', read_only=True)
+    jami = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = SportNatija
+        fields = [
+            'id', 'bosqich', 'bosqich_display', 'sport_turi', 'talabalar_soni',
+            'jahon_chempionati_1', 'jahon_chempionati_2', 'jahon_chempionati_3',
+            'para_osiyo_1', 'para_osiyo_2', 'para_osiyo_3',
+            'osiyo_chempionati_1', 'osiyo_chempionati_2', 'osiyo_chempionati_3',
+            'osiyo_kubogi_1', 'osiyo_kubogi_2', 'osiyo_kubogi_3',
+            'xalqaro_turnir_1', 'xalqaro_turnir_2', 'xalqaro_turnir_3',
+            'mdh_1', 'mdh_2', 'mdh_3',
+            'osiyo_yoshlar_1', 'osiyo_yoshlar_2', 'osiyo_yoshlar_3',
+            'jami', 'order',
+        ]
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_sport_turi(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'sport_turi_{lang}') or obj.sport_turi_uz
+
+
+class SportKalendarSerializer(serializers.ModelSerializer):
+    sport_turi = serializers.SerializerMethodField()
+    jami = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = SportKalendar
+        fields = [
+            'id', 'yil', 'sport_turi',
+            'jahon_chempionati', 'jahon_seriyasi', 'jahon_kubogi',
+            'yoshlar_olimpiya', 'osiyo_oyinlari', 'osiyo_chempionati',
+            'osiyo_kubogi', 'xalqaro_turnir',
+            'ozb_chempionati', 'ozb_kubogi', 'prezident_olimpiyada',
+            'jami', 'order',
+        ]
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_sport_turi(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'sport_turi_{lang}') or obj.sport_turi_uz

@@ -39,7 +39,17 @@ class IlmiyFaoliyat(TimeStampedModel):
     image = models.FileField(
         upload_to=ilmiy_image_upload,
         blank=True, null=True,
-        verbose_name="Muqova rasmi",
+        verbose_name="Muqova rasmi (Uz)",
+    )
+    image_ru = models.FileField(
+        upload_to=ilmiy_image_upload,
+        blank=True, null=True,
+        verbose_name="Muqova rasmi (Ru)",
+    )
+    image_en = models.FileField(
+        upload_to=ilmiy_image_upload,
+        blank=True, null=True,
+        verbose_name="Muqova rasmi (En)",
     )
     file = models.FileField(
         upload_to=ilmiy_file_upload,

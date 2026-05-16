@@ -20,8 +20,18 @@ class HeroVideo(TimeStampedModel):
     )
     poster_image = models.FileField(
         upload_to="hero_videos/posters/",
-        verbose_name="Poster rasmi",
+        verbose_name="Poster rasmi (Uz)",
         help_text="Video yuborilmaguncha joylab turiladigan rasm (poster)"
+    )
+    poster_image_ru = models.FileField(
+        upload_to="hero_videos/posters/",
+        blank=True, null=True,
+        verbose_name="Poster rasmi (Ru)",
+    )
+    poster_image_en = models.FileField(
+        upload_to="hero_videos/posters/",
+        blank=True, null=True,
+        verbose_name="Poster rasmi (En)",
     )
     is_active = models.BooleanField(default=True, verbose_name="Faolmi?")
     images = GenericRelation('common.ContentImage', related_query_name='hero_video')

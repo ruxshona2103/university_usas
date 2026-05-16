@@ -19,9 +19,18 @@ class TashkiliyTuzilmaItem(TimeStampedModel):
     text_en = models.TextField(blank=True, verbose_name="Matn (En)")
     image = models.ImageField(
         upload_to=tashkiliy_tuzilma_image_upload,
-        blank=True,
-        null=True,
-        verbose_name="Rasm",
+        blank=True, null=True,
+        verbose_name="Rasm (Uz)",
+    )
+    image_ru = models.ImageField(
+        upload_to=tashkiliy_tuzilma_image_upload,
+        blank=True, null=True,
+        verbose_name="Rasm (Ru)",
+    )
+    image_en = models.ImageField(
+        upload_to=tashkiliy_tuzilma_image_upload,
+        blank=True, null=True,
+        verbose_name="Rasm (En)",
     )
     order = models.PositiveIntegerField(default=0, verbose_name="Tartib")
     is_active = models.BooleanField(default=True, verbose_name="Faolmi?")

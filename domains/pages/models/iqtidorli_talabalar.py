@@ -24,7 +24,9 @@ class IqtidorliTalabalar(TimeStampedModel):
 
     telefon = models.CharField(max_length=50, blank=True, verbose_name="Telefon")
     email = models.EmailField(blank=True, verbose_name="E-mail")
-    image = models.ImageField(upload_to='iqtidorli/', blank=True, null=True, verbose_name="Rasm")
+    image    = models.ImageField(upload_to='iqtidorli/', blank=True, null=True, verbose_name="Rasm (Uz)")
+    image_ru = models.ImageField(upload_to='iqtidorli/', blank=True, null=True, verbose_name="Rasm (Ru)")
+    image_en = models.ImageField(upload_to='iqtidorli/', blank=True, null=True, verbose_name="Rasm (En)")
 
     # Bo'lim sarlavhasi
     bolim_title_uz = models.CharField(max_length=200, default="Bo'lim vazifalari:", verbose_name="Bo'lim sarlavhasi (Uz)")

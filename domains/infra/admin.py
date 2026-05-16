@@ -42,8 +42,10 @@ class SportMajmuaTadbirInline(admin.TabularInline):
 
 @admin.register(SportMajmua)
 class SportMajmuaAdmin(admin.ModelAdmin):
-    list_display  = ('name_uz', 'slug', 'order', 'is_active')
+    list_display  = ('name_uz', 'category', 'slug', 'order', 'is_active')
     list_editable = ('order', 'is_active')
+    list_filter   = ('category', 'is_active')
+    search_fields = ('name_uz', 'name_ru', 'name_en', 'category')
     readonly_fields = ('slug',)
     inlines       = [
         SportMajmuaImageInline,
@@ -59,7 +61,7 @@ class SportMajmuaAdmin(admin.ModelAdmin):
             'fields': ('location_uz', 'location_ru', 'location_en'),
         }),
         ("Tartib va holat", {
-            'fields': ('order', 'is_active'),
+            'fields': ('category', 'order', 'is_active'),
         }),
         ("Texnik (avtomatik)", {
             'classes': ('collapse',),

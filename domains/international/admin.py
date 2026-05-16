@@ -199,7 +199,7 @@ class InternationalPostAdmin(admin.ModelAdmin):
         ("Turi va sana", {'fields': ('post_type', 'date')}),
         ("Sarlavha", {'fields': ('title_uz', 'title_ru', 'title_en')}),
         ("Matn", {'fields': ('content_uz', 'content_ru', 'content_en')}),
-        ("Asosiy rasm", {'fields': ('image',)}),
+        ("Asosiy rasm", {'fields': ('image', 'image_ru', 'image_en')}),
         ("Tartib va holat", {'fields': ('order', 'is_active')}),
     )
 
@@ -291,5 +291,5 @@ class XalqaroReytingBolimAdmin(admin.ModelAdmin):
         ("Tur va tartib", {'fields': ('bolim_type', 'order', 'is_active')}),
         ("Sarlavha", {'fields': ('title_uz', 'title_ru', 'title_en')}),
         ("Tavsif", {'fields': ('description_uz', 'description_ru', 'description_en')}),
-        ("Asosiy rasm va havola", {'fields': ('image', 'link')}),
+        ("Asosiy rasm va havola", {'fields': ('image', 'image_ru', 'image_en', 'link')}),
     )

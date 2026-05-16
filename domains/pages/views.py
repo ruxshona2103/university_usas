@@ -19,6 +19,7 @@ from domains.pages.models import (
     IlmiyBolim,
     HomepageHaqida,
     KampusXizmati,
+    IqtidorliTalabalar,
 )
 from .serializers import (
     ContactConfigSerializer,
@@ -36,6 +37,7 @@ from .serializers import (
     MarkazListSerializer,
     MarkazDetailSerializer,
     KampusXizmatiSerializer,
+    IqtidorliTalabalarSerializer,
 )
 from domains.tracker.mixins import ViewsCountMixin
 from domains.tracker.views import RecordViewAPIView
@@ -832,3 +834,23 @@ class HomepageHaqidaAPIView(APIView):
                 for r in rasmlar
             ],
         })
+
+
+# ── Iqtidorli talabalar bo'limi ───────────────────────────────────────────────
+
+@extend_schema(tags=['pages'], summary="Iqtidorli talabalar bo'limi ma'lumotlari")
+class IqtidorliTalabalarAPIView(APIView):
+    """
+    /api/iqtidorli-talabalar/
+    Sektor boshlig'i ma'lumotlari va bo'lim vazifalari ro'yxati.
+    ?lang=uz|ru|en
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        lang = _lang(request)
+        solo = IqtidorliTalabalar.get_solo()
+        data = IqtidorliTalabalarSerializer(
+            solo, context={'lang': lang, 'request': request}
+        ).data
+        return Response(data)

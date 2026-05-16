@@ -634,3 +634,55 @@ class IlmiyMaktabListAPIView(APIView):
             'sahifa': _get_intro(IlmiyKategoriya.MAKTABLAR, lang, request),
             'items': IlmiyMaktabSerializer(items, many=True, context=ctx).data,
         })
+
+
+# ── Sport natijalari va kalendar ─────────────────────────────────────────────
+
+from domains.activities.models import SportNatija, SportKalendar
+from .serializers import SportNatijaSerializer, SportKalendarSerializer
+
+
+@extend_schema(tags=['sport-faoliyat'], summary="Sport natijalari (medallar jadvali)")
+class SportNatijaListAPIView(generics.ListAPIView):
+    """
+    ?lang=uz|ru|en
+    ?bosqich=1|2|magistr|para  — filtrlash uchun
+    """
+    serializer_class   = SportNatijaSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        qs = SportNatija.objects.order_by('bosqich', 'order')
+        bosqich = self.request.query_params.get('bosqich')
+        if bosqich:
+            qs = qs.filter(bosqich=bosqich)
+        return qs
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx
+
+
+@extend_schema(tags=['sport-faoliyat'], summary="Sport kalendari (rejalashtirilgan tadbirlar)")
+class SportKalendarListAPIView(generics.ListAPIView):
+    """
+    ?lang=uz|ru|en
+    ?yil=2026  — yil bo'yicha filtrlash
+    """
+    serializer_class   = SportKalendarSerializer
+    permission_classes = [AllowAny]
+    pagination_class   = None
+
+    def get_queryset(self):
+        qs = SportKalendar.objects.order_by('-yil', 'order')
+        yil = self.request.query_params.get('yil')
+        if yil:
+            qs = qs.filter(yil=yil)
+        return qs
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _lang(self.request)
+        return ctx

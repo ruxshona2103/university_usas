@@ -42,7 +42,13 @@ class XalqaroReytingBolim(TimeStampedModel):
     description_en = models.TextField(blank=True, verbose_name="Tavsif (En)")
 
     image    = models.ImageField(
-        upload_to=xalqaro_reyting_image_upload, blank=True, null=True, verbose_name="Rasm (screenshot)"
+        upload_to=xalqaro_reyting_image_upload, blank=True, null=True, verbose_name="Rasm (Uz)"
+    )
+    image_ru = models.ImageField(
+        upload_to=xalqaro_reyting_image_upload, blank=True, null=True, verbose_name="Rasm (Ru)"
+    )
+    image_en = models.ImageField(
+        upload_to=xalqaro_reyting_image_upload, blank=True, null=True, verbose_name="Rasm (En)"
     )
     link      = models.URLField(blank=True, verbose_name="Tashqi havola (URL)")
     slug      = models.SlugField(max_length=450, unique=True, blank=True, verbose_name="Slug")

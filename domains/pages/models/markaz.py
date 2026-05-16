@@ -26,7 +26,17 @@ class Markaz(TimeStampedModel):
     image = models.ImageField(
         upload_to=markaz_image_upload,
         null=True, blank=True,
-        verbose_name="Rasm",
+        verbose_name="Rasm (Uz)",
+    )
+    image_ru = models.ImageField(
+        upload_to=markaz_image_upload,
+        null=True, blank=True,
+        verbose_name="Rasm (Ru)",
+    )
+    image_en = models.ImageField(
+        upload_to=markaz_image_upload,
+        null=True, blank=True,
+        verbose_name="Rasm (En)",
     )
 
     order     = models.PositiveIntegerField(default=0, verbose_name="Tartib")

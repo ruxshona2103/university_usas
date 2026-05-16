@@ -145,6 +145,15 @@ def _photo_url(request, field):
         return None
 
 
+def _multilang_image_url(request, obj):
+    uz = _photo_url(request, obj.image)
+    return {
+        'uz': uz,
+        'ru': _photo_url(request, obj.image_ru) or uz,
+        'en': _photo_url(request, obj.image_en) or uz,
+    }
+
+
 class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
     name               = serializers.SerializerMethodField()
     description        = serializers.SerializerMethodField()
@@ -270,9 +279,9 @@ class HuzuridagiTashkilotSerializer(serializers.ModelSerializer):
     def get_address(self, obj):
         return {'uz': obj.address_uz, 'ru': obj.address_ru or obj.address_uz, 'en': obj.address_en or obj.address_uz}
 
-    @extend_schema_field(OpenApiTypes.URI)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_image_url(self, obj):
-        return _photo_url(self.context.get('request'), obj.image)
+        return _multilang_image_url(self.context.get('request'), obj)
 
 
 class JamoatTashkilotSerializer(serializers.ModelSerializer):
@@ -292,9 +301,9 @@ class JamoatTashkilotSerializer(serializers.ModelSerializer):
     def get_description(self, obj):
         return {'uz': obj.description_uz, 'ru': obj.description_ru or obj.description_uz, 'en': obj.description_en or obj.description_uz}
 
-    @extend_schema_field(OpenApiTypes.URI)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_image_url(self, obj):
-        return _photo_url(self.context.get('request'), obj.image)
+        return _multilang_image_url(self.context.get('request'), obj)
 
 
 class HuzuridagiTashkilotDetailSerializer(serializers.ModelSerializer):
@@ -325,9 +334,9 @@ class HuzuridagiTashkilotDetailSerializer(serializers.ModelSerializer):
     def get_address(self, obj):
         return {'uz': obj.address_uz, 'ru': obj.address_ru or obj.address_uz, 'en': obj.address_en or obj.address_uz}
 
-    @extend_schema_field(OpenApiTypes.URI)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_image_url(self, obj):
-        return _photo_url(self.context.get('request'), obj.image)
+        return _multilang_image_url(self.context.get('request'), obj)
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_person(self, obj):
@@ -521,9 +530,9 @@ class TashkiliyTuzilmaListSerializer(serializers.ModelSerializer):
             "en": obj.text_en or obj.text_uz or "",
         }
 
-    @extend_schema_field(OpenApiTypes.URI)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_image_url(self, obj):
-        return _photo_url(self.context.get("request"), obj.image)
+        return _multilang_image_url(self.context.get("request"), obj)
 
 
 class TashkiliyTuzilmaDetailSerializer(serializers.ModelSerializer):
@@ -542,6 +551,6 @@ class TashkiliyTuzilmaDetailSerializer(serializers.ModelSerializer):
             "en": obj.text_en or obj.text_uz or "",
         }
 
-    @extend_schema_field(OpenApiTypes.URI)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_image_url(self, obj):
-        return _photo_url(self.context.get("request"), obj.image)
+        return _multilang_image_url(self.context.get("request"), obj)

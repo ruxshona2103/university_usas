@@ -128,9 +128,11 @@ class HeroVideoSerializer(serializers.ModelSerializer):
         model  = HeroVideo
         fields = ['id', 'title', 'video_url', 'poster_image', 'is_active', 'created_at']
 
-    @extend_schema_field(OpenApiTypes.URI)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_poster_image(self, obj):
-        return _abs_url(self.context.get('request'), obj.poster_image)
+        req = self.context.get('request')
+        uz = _abs_url(req, obj.poster_image)
+        return {'uz': uz, 'ru': _abs_url(req, obj.poster_image_ru) or uz, 'en': _abs_url(req, obj.poster_image_en) or uz}
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -558,9 +560,11 @@ class MarkazListSerializer(serializers.ModelSerializer):
     def get_description(self, obj):
         return getattr(obj, f'description_{self._lang()}') or obj.description_uz
 
-    @extend_schema_field(OpenApiTypes.URI)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_image_url(self, obj):
-        return _abs_url(self.context.get('request'), obj.image)
+        req = self.context.get('request')
+        uz = _abs_url(req, obj.image)
+        return {'uz': uz, 'ru': _abs_url(req, obj.image_ru) or uz, 'en': _abs_url(req, obj.image_en) or uz}
 
 
 class MarkazDetailSerializer(MarkazListSerializer):
@@ -638,3 +642,74 @@ class SavolJavobSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.URI)
     def get_image(self, obj):
         return _abs_url(self.context.get('request'), obj.image)
+
+
+# ── Iqtidorli talabalar ───────────────────────────────────────────────────────
+
+from domains.pages.models import IqtidorliTalabalar, IqtidorliVazifa
+
+
+class IqtidorliVazifaSerializer(serializers.ModelSerializer):
+    text = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = IqtidorliVazifa
+        fields = ['id', 'text', 'order']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_text(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'text_{lang}', None) or obj.text_uz
+
+
+class IqtidorliTalabalarSerializer(serializers.ModelSerializer):
+    boshliq_lavozim = serializers.SerializerMethodField()
+    boshliq_fio     = serializers.SerializerMethodField()
+    qabul_kunlari   = serializers.SerializerMethodField()
+    bolim_title     = serializers.SerializerMethodField()
+    image_url       = serializers.SerializerMethodField()
+    vazifalar       = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = IqtidorliTalabalar
+        fields = [
+            'boshliq_lavozim', 'boshliq_fio', 'qabul_kunlari',
+            'telefon', 'email', 'image_url',
+            'bolim_title', 'vazifalar',
+        ]
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_boshliq_lavozim(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'boshliq_lavozim_{lang}') or obj.boshliq_lavozim_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_boshliq_fio(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'boshliq_fio_{lang}') or obj.boshliq_fio_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_qabul_kunlari(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'qabul_kunlari_{lang}') or obj.qabul_kunlari_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_bolim_title(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'bolim_title_{lang}') or obj.bolim_title_uz
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image_url(self, obj):
+        return _abs_url(self.context.get('request'), obj.image)
+
+    @extend_schema_field(IqtidorliVazifaSerializer(many=True))
+    def get_vazifalar(self, obj):
+        return IqtidorliVazifaSerializer(
+            obj.vazifalar.order_by('order'), many=True, context=self.context
+        ).data

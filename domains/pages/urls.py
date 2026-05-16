@@ -27,6 +27,7 @@ from .views import (
     SavolJavobCategoryListAPIView,
     HomepageHaqidaAPIView,
     KampusXizmatiListAPIView,
+    IqtidorliTalabalarAPIView,
 )
 
 urlpatterns = [
@@ -67,6 +68,7 @@ urlpatterns = [
 
     path('homepage-haqida/', HomepageHaqidaAPIView.as_view(), name='homepage-haqida'),
     path('kampus-xizmatlari/', KampusXizmatiListAPIView.as_view(), name='kampus-xizmatlari'),
+    path('iqtidorli-talabalar/', IqtidorliTalabalarAPIView.as_view(), name='iqtidorli-talabalar'),
 
     path('pages/<slug:page_slug>/',
          NavbarPageDetailAPIView.as_view(),

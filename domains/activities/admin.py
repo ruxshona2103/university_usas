@@ -195,7 +195,7 @@ class OquvFaoliyatAdmin(admin.ModelAdmin):
             'fields': ('description_ru', 'description_en'),
         }),
         ("Media va holat", {
-            'fields': ('image', 'file', 'order', 'is_active'),
+            'fields': ('image', 'image_ru', 'image_en', 'file', 'order', 'is_active'),
         }),
     )
 
@@ -414,7 +414,7 @@ class IlmiyJurnalAdmin(AutoTranslateMixin, admin.ModelAdmin):
     search_fields = ('name_uz', 'name_ru', 'name_en')
 
     fieldsets = (
-        ("Asosiy", {'fields': ('order', 'is_active', 'image', 'link')}),
+        ("Asosiy", {'fields': ('order', 'is_active', 'image', 'image_ru', 'image_en', 'link')}),
         ("Nomi (Uz)", {'fields': ('name_uz',)}),
         ("Nomi (Ru / En)", {'classes': ('collapse',), 'fields': ('name_ru', 'name_en')}),
         ("Tavsif (Uz)", {'fields': ('description_uz',)}),

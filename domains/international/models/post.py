@@ -31,7 +31,9 @@ class InternationalPost(TimeStampedModel):
 
     slug  = models.SlugField(max_length=350, unique=True, blank=True, verbose_name="Slug")
 
-    image = models.FileField(upload_to='international/posts/%Y/%m/', blank=True, verbose_name="Rasm")
+    image    = models.FileField(upload_to='international/posts/%Y/%m/', blank=True, verbose_name="Rasm (Uz)")
+    image_ru = models.FileField(upload_to='international/posts/%Y/%m/', blank=True, null=True, verbose_name="Rasm (Ru)")
+    image_en = models.FileField(upload_to='international/posts/%Y/%m/', blank=True, null=True, verbose_name="Rasm (En)")
     date  = models.DateField(verbose_name="Sana")
 
     order     = models.PositiveIntegerField(default=0, verbose_name="Tartib")

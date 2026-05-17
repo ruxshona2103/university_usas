@@ -63,8 +63,12 @@
     uzField.parentNode.insertBefore(btn, uzField.nextSibling);
 
     btn.addEventListener('click', function () {
-      var text = uzField.value.trim();
-      if (!text) { alert("Avval UZ maydoni toʻldirilsin!"); return; }
+      /* For Summernote fields, read from the editor; fall back to textarea.value */
+      var $ = window.jQuery;
+      var text = ($ && typeof $.fn.summernote !== 'undefined')
+        ? ($(uzField).data('summernote') ? $(uzField).summernote('code') : uzField.value).trim()
+        : uzField.value.trim();
+      if (!text || text === '<p><br></p>') { alert("Avval UZ maydoni toʻldirilsin!"); return; }
       btn.disabled = true;
       btn.textContent = 'Tarjima qilinmoqda…';
 
@@ -80,8 +84,16 @@
         .then(function (r) { return r.json(); })
         .then(function (d) {
           if (d.error) { alert('Xato: ' + d.error); return; }
-          if (ruField && d.ru) ruField.value = d.ru;
-          if (enField && d.en) enField.value = d.en;
+          /* Write to textarea AND update Summernote visual editor if active */
+          function setField(field, value) {
+            if (!field || !value) return;
+            field.value = value;
+            if ($ && typeof $.fn.summernote !== 'undefined' && $(field).data('summernote')) {
+              $(field).summernote('code', value);
+            }
+          }
+          setField(ruField, d.ru);
+          setField(enField, d.en);
         })
         .catch(function (e) { alert('Tarjima amalga oshmadi: ' + e); })
         .finally(function () {
@@ -93,6 +105,69 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('input[id$="_uz"], textarea[id$="_uz"]').forEach(addBtn);
+  });
+})();
+</script>
+
+<script>
+/* ── Summernote + Jazzmin horizontal_tabs fix ───────────────────────────────
+   Jazzmin shows fieldsets as Bootstrap tabs. Summernote initialises on page
+   load while non-active tab-panes are hidden (display:none), so the height
+   calculation inside recalcHeight() returns 0 and the editor is invisible.
+   Fix: when a tab becomes visible (shown.bs.tab), destroy the broken editor
+   and call the global initSummernote_<id> function that was already rendered
+   by django-summernote's widget_inplace.html template.
+─────────────────────────────────────────────────────────────────────────── */
+(function () {
+  'use strict';
+
+  function reinitInPane(pane) {
+    var $ = window.jQuery;
+    if (typeof $ === 'undefined') return;
+
+    $(pane).find('textarea[hidden]').each(function () {
+      var ta = this;
+      var idSafe = ta.id.replace(/-/g, '_');
+      var initFn = window['initSummernote_' + idSafe];
+      if (typeof initFn !== 'function') return;
+
+      /* Check if there is already a properly-rendered editor (height > 0).
+         After shown.bs.tab fires the pane is already visible, so offsetHeight
+         is 0 only when the editor rendered while the pane was hidden. */
+      var sibling = ta.nextElementSibling;
+      while (sibling) {
+        if (sibling.classList.contains('summernote-div') && sibling.offsetHeight > 0) {
+          return; /* already good – do nothing */
+        }
+        sibling = sibling.nextElementSibling;
+      }
+
+      /* Destroy the broken (zero-height) editor if one exists */
+      try { $(ta).summernote('destroy'); } catch (_) {}
+
+      /* Re-initialise now that the pane is visible */
+      initFn();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var $ = window.jQuery;
+    if (typeof $ === 'undefined') return;
+
+    /* Jazzmin/AdminLTE uses Bootstrap 4 (data-toggle) but also support BS5 */
+    $(document).on(
+      'shown.bs.tab',
+      '[data-toggle="tab"], [data-bs-toggle="tab"]',
+      function (e) {
+        var $tab = $(e.target);
+        var sel = $tab.attr('href') ||
+                  $tab.data('target') ||
+                  $tab.attr('data-bs-target');
+        if (!sel) return;
+        var pane = document.querySelector(sel);
+        if (pane) reinitInPane(pane);
+      }
+    );
   });
 })();
 </script>

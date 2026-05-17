@@ -192,13 +192,21 @@ class InternationalRatingSerializer(serializers.ModelSerializer):
     def _lang(self):
         return self.context.get('lang', 'uz')
 
-    @extend_schema_field(OpenApiTypes.STR)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_title(self, obj):
-        return getattr(obj, f'title_{self._lang()}') or obj.title_uz
+        return {
+            'uz': obj.title_uz or '',
+            'ru': obj.title_ru or obj.title_uz or '',
+            'en': obj.title_en or obj.title_uz or '',
+        }
 
-    @extend_schema_field(OpenApiTypes.STR)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_description(self, obj):
-        return getattr(obj, f'description_{self._lang()}') or obj.description_uz
+        return {
+            'uz': obj.description_uz or '',
+            'ru': obj.description_ru or obj.description_uz or '',
+            'en': obj.description_en or obj.description_uz or '',
+        }
 
     @extend_schema_field(OpenApiTypes.URI)
     def get_cover(self, obj):
@@ -255,9 +263,13 @@ class AkademikAlmashinuvRasmSerializer(serializers.ModelSerializer):
         model  = AkademikAlmashinuvRasm
         fields = ['id', 'image_url', 'caption', 'order']
 
-    @extend_schema_field(OpenApiTypes.URI)
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_image_url(self, obj):
-        return _abs_url(self.context.get('request'), obj.image)
+        req = self.context.get('request')
+        uz = _abs_url(req, obj.image)
+        ru = _abs_url(req, obj.image_ru) if obj.image_ru else uz
+        en = _abs_url(req, obj.image_en) if obj.image_en else uz
+        return {'uz': uz, 'ru': ru, 'en': en}
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_caption(self, obj):

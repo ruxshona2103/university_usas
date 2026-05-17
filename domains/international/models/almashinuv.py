@@ -56,7 +56,9 @@ class AkademikAlmashinuvRasm(TimeStampedModel):
         related_name='rasmlar',
         verbose_name="Bo'lim",
     )
-    image   = models.ImageField(upload_to=almashinuv_image_upload, verbose_name="Rasm")
+    image    = models.ImageField(upload_to=almashinuv_image_upload, verbose_name="Rasm (Uz)")
+    image_ru = models.ImageField(upload_to=almashinuv_image_upload, blank=True, null=True, verbose_name="Rasm (Ru)")
+    image_en = models.ImageField(upload_to=almashinuv_image_upload, blank=True, null=True, verbose_name="Rasm (En)")
     caption_uz = models.CharField(max_length=300, blank=True, verbose_name="Izoh (Uz)")
     caption_ru = models.CharField(max_length=300, blank=True, verbose_name="Izoh (Ru)")
     caption_en = models.CharField(max_length=300, blank=True, verbose_name="Izoh (En)")

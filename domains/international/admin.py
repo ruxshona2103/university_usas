@@ -209,7 +209,7 @@ from .models import AkademikAlmashinuv, AkademikAlmashinuvRasm
 class AkademikAlmashinuvRasmInline(admin.TabularInline):
     model  = AkademikAlmashinuvRasm
     extra  = 1
-    fields = ('image', 'caption_uz', 'caption_ru', 'caption_en', 'order')
+    fields = ('image', 'image_ru', 'image_en', 'caption_uz', 'caption_ru', 'caption_en', 'order')
 
 
 class AkademikAlmashinuvForm(forms.ModelForm):

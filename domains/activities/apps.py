@@ -4,4 +4,4 @@ from django.apps import AppConfig
 class ActivitiesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name               = 'domains.activities'
-    verbose_name       = "Faoliyat"
+    verbose_name       = "🏃 Faoliyat (Sport, Ilmiy, O'quv)"

@@ -204,20 +204,92 @@ JAZZMIN_SETTINGS = {
     "order_with_respect_to": [
         "auth",
         "pages",
-        "students",
-        "academic",
         "news",
+        "academic",
+        "students",
         "activities",
         "axborot",
-        "tenders",
+        "international",
         "qabul",
         "contact",
-        "international",
+        "tenders",
         "infra",
         "common",
         "django_celery_beat",
         "django_celery_results",
     ],
+
+    # ── Sidebar qo'shimcha havolalar ─────────────────────────────────────────
+    "custom_links": {
+        "pages": [
+            {
+                "name":        "🔗 Navbar menyusini tahrirlash",
+                "url":         "admin:pages_navbarcategory_changelist",
+                "icon":        "fas fa-bars",
+                "permissions": ["pages.view_navbarcategory"],
+            },
+            {
+                "name":        "📄 Sahifalar va bloklar",
+                "url":         "admin:pages_contentblock_changelist",
+                "icon":        "fas fa-th-large",
+                "permissions": ["pages.view_contentblock"],
+            },
+            {
+                "name":        "🏛️ Markazlar va Bo'limlar",
+                "url":         "admin:pages_markaz_changelist",
+                "icon":        "fas fa-building",
+                "permissions": ["pages.view_markaz"],
+            },
+        ],
+        "news": [
+            {
+                "name":        "📰 Yangiliklar",
+                "url":         "admin:news_news_changelist",
+                "icon":        "fas fa-newspaper",
+                "permissions": ["news.view_news"],
+            },
+            {
+                "name":        "📅 Tadbirlar",
+                "url":         "admin:news_event_changelist",
+                "icon":        "fas fa-calendar-alt",
+                "permissions": ["news.view_event"],
+            },
+            {
+                "name":        "✍️ Blog",
+                "url":         "admin:news_blog_changelist",
+                "icon":        "fas fa-pen",
+                "permissions": ["news.view_blog"],
+            },
+        ],
+        "students": [
+            {
+                "name":        "👤 Shaxslar (Rektorat, xodimlar)",
+                "url":         "admin:students_person_changelist",
+                "icon":        "fas fa-id-card",
+                "permissions": ["students.view_person"],
+            },
+            {
+                "name":        "🏅 Olimpiya chempionlari",
+                "url":         "admin:students_olimpiyachempion_changelist",
+                "icon":        "fas fa-medal",
+                "permissions": ["students.view_olimpiyachempion"],
+            },
+        ],
+        "contact": [
+            {
+                "name":        "📬 Kirgan murojaatlar",
+                "url":         "admin:contact_rectorappeal_changelist",
+                "icon":        "fas fa-inbox",
+                "permissions": ["contact.view_rectorappeal"],
+            },
+            {
+                "name":        "💬 Aloqa xabarlari",
+                "url":         "admin:contact_contactmessage_changelist",
+                "icon":        "fas fa-envelope",
+                "permissions": ["contact.view_contactmessage"],
+            },
+        ],
+    },
 
     "icons": {
         # Auth

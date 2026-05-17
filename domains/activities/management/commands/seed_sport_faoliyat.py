@@ -1,30 +1,31 @@
 """
 python manage.py seed_sport_faoliyat
-
-Sport faoliyat uchun:
-  - 1 ta root IlmiyFaoliyatCategory  (slug="sport-faoliyat")
-  - 3 ta child  IlmiyFaoliyatCategory (kartochkalar)
-  - Har bir kartochkada namunali IlmiyFaoliyat itemlar
+python manage.py seed_sport_faoliyat --clear
 """
-
-import uuid
 
 from django.core.management.base import BaseCommand
 
 from domains.activities.models import IlmiyFaoliyat, IlmiyFaoliyatCategory
 
+ROOT_SLUG = "sport-faoliyat"
+
 ROOT = {
-    "id":       "a1b2c3d4-0001-0001-0001-000000000001",
-    "slug":     "sport-faoliyat",
+    "slug":     ROOT_SLUG,
     "title_uz": "Sport faoliyat",
     "title_ru": "Спортивная деятельность",
     "title_en": "Sports Activity",
     "order":    1,
 }
 
+# Eski sluglar — --clear da tozalanadi
+OLD_SLUGS = [
+    "sport-faoliyati",
+    "sport-klublari-hayoti",
+    "ekologik-faol-talabalar",
+]
+
 SUBCATEGORIES = [
     {
-        "id":             "a1b2c3d4-0001-0001-0001-000000000012",
         "slug":           "sport-activity-results",
         "title_uz":       "Sport natijalari",
         "title_ru":       "Спортивные результаты",
@@ -34,10 +35,8 @@ SUBCATEGORIES = [
         "description_en": "Results of students and athletes at international and national competitions.",
         "icon":           "trophy",
         "order":          1,
-        "items": [],
     },
     {
-        "id":             "a1b2c3d4-0001-0001-0001-000000000013",
         "slug":           "sport-activity-calendar",
         "title_uz":       "Kutilayotgan sport tadbirlari va musobaqalari",
         "title_ru":       "Предстоящие спортивные мероприятия и соревнования",
@@ -47,30 +46,37 @@ SUBCATEGORIES = [
         "description_en": "Calendar of planned international and local sports competitions.",
         "icon":           "calendar",
         "order":          2,
-        "items": [],
     },
 ]
 
 
 class Command(BaseCommand):
-    help = "Sport faoliyat kategoriyalari va namunali itemlarni DB ga qo'shadi"
+    help = "Sport faoliyat kategoriyalarini DB ga qo'shadi (faqat 2 ta karta)"
 
     def add_arguments(self, parser):
         parser.add_argument(
             '--clear',
             action='store_true',
-            help="Avval sport-faoliyat slug bo'yicha mavjud categorylarni o'chiradi",
+            help="Barcha sport-faoliyat categoriyalarini o'chirib qayta yozadi",
         )
 
     def handle(self, *args, **options):
         if options['clear']:
-            IlmiyFaoliyatCategory.objects.filter(slug=ROOT['slug']).delete()
-            self.stdout.write(self.style.WARNING("Mavjud sport-faoliyat ma'lumotlari o'chirildi."))
+            # Eski sluglarni to'g'ridan-to'g'ri o'chirish
+            deleted_old = IlmiyFaoliyatCategory.objects.filter(slug__in=OLD_SLUGS).delete()
+            # Root va uning cascade children larini o'chirish
+            deleted_root = IlmiyFaoliyatCategory.objects.filter(slug=ROOT_SLUG).delete()
+            # Yangi sluglar ham bo'lsa o'chirish (re-run uchun)
+            IlmiyFaoliyatCategory.objects.filter(
+                slug__in=[s['slug'] for s in SUBCATEGORIES]
+            ).delete()
+            self.stdout.write(self.style.WARNING(
+                f"O'chirildi: eski={deleted_old[0]}, root+children={deleted_root[0]}"
+            ))
 
         root, created = IlmiyFaoliyatCategory.objects.update_or_create(
             slug=ROOT['slug'],
             defaults={
-                'id':       uuid.UUID(ROOT['id']),
                 'title_uz': ROOT['title_uz'],
                 'title_ru': ROOT['title_ru'],
                 'title_en': ROOT['title_en'],
@@ -78,14 +84,12 @@ class Command(BaseCommand):
                 'order':    ROOT['order'],
             },
         )
-        action = 'Yaratildi' if created else 'Yangilandi'
-        self.stdout.write(f"[{action}] Root: {root.title_uz}")
+        self.stdout.write(f"[{'Yaratildi' if created else 'Yangilandi'}] Root: {root.title_uz}")
 
         for sub_data in SUBCATEGORIES:
             sub, s_created = IlmiyFaoliyatCategory.objects.update_or_create(
                 slug=sub_data['slug'],
                 defaults={
-                    'id':             uuid.UUID(sub_data['id']),
                     'title_uz':       sub_data['title_uz'],
                     'title_ru':       sub_data['title_ru'],
                     'title_en':       sub_data['title_en'],
@@ -97,22 +101,6 @@ class Command(BaseCommand):
                     'order':          sub_data['order'],
                 },
             )
-            s_action = 'Yaratildi' if s_created else 'Yangilandi'
-            self.stdout.write(f"  [{s_action}] Sub: {sub.title_uz}")
+            self.stdout.write(f"  [{'Yaratildi' if s_created else 'Yangilandi'}] {sub.title_uz}")
 
-            for item_data in sub_data.get('items', []):
-                item, i_created = IlmiyFaoliyat.objects.update_or_create(
-                    category=sub,
-                    order=item_data['order'],
-                    defaults={
-                        'title_uz':       item_data['title_uz'],
-                        'title_ru':       item_data['title_ru'],
-                        'title_en':       item_data['title_en'],
-                        'description_uz': item_data.get('description_uz', ''),
-                        'is_active':      True,
-                    },
-                )
-                i_action = 'Yaratildi' if i_created else 'Yangilandi'
-                self.stdout.write(f"    [{i_action}] Item: {item.title_uz}")
-
-        self.stdout.write(self.style.SUCCESS("\nSport faoliyat ma'lumotlari muvaffaqiyatli qo'shildi!"))
+        self.stdout.write(self.style.SUCCESS("\nSport faoliyat muvaffaqiyatli yangilandi!"))

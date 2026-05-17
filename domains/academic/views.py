@@ -193,7 +193,7 @@ class AkademiyaKengashiListAPIView(generics.ListAPIView):
     def get_queryset(self):
         return (
             HuzuridagiTashkilot.objects
-            .filter(is_active=True, org_type='jamoat')
+            .filter(is_active=True, org_type='kengash')
             .order_by('order', 'created_at')
         )
 
@@ -202,7 +202,7 @@ class AkademiyaKengashiListAPIView(generics.ListAPIView):
 class AkademiyaKengashiDetailAPIView(generics.RetrieveAPIView):
     serializer_class = AkademiyaKengashiDetailSerializer
     permission_classes = [AllowAny]
-    queryset = HuzuridagiTashkilot.objects.filter(is_active=True, org_type='jamoat').select_related('person').prefetch_related('rasmlar')
+    queryset = HuzuridagiTashkilot.objects.filter(is_active=True, org_type='kengash').select_related('person').prefetch_related('rasmlar')
     lookup_field = 'slug'
 
 

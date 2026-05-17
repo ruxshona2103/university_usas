@@ -78,6 +78,7 @@ class PersonSerializer(serializers.ModelSerializer):
     images      = serializers.SerializerMethodField()
     title       = serializers.SerializerMethodField()
     position    = serializers.SerializerMethodField()
+    degree      = serializers.SerializerMethodField()
     address     = serializers.SerializerMethodField()
     reception   = serializers.SerializerMethodField()
     category    = PersonCategorySerializer(read_only=True)
@@ -89,7 +90,7 @@ class PersonSerializer(serializers.ModelSerializer):
             'id', 'category',
             'image', 'images',
             'full_name', 'description',
-            'title', 'position',
+            'title', 'position', 'degree',
             'phone', 'fax', 'email', 'address', 'reception',
             'is_head', 'order',
             'tabs',
@@ -128,6 +129,11 @@ class PersonSerializer(serializers.ModelSerializer):
     def get_position(self, obj):
         lang = self._lang()
         return getattr(obj, f'position_{lang}') or obj.position_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_degree(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'degree_{lang}', None) or obj.degree_uz or ''
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_address(self, obj):

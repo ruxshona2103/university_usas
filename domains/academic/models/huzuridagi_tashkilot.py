@@ -18,9 +18,11 @@ class HuzuridagiTashkilot(TimeStampedModel):
     """
     ORG_AKADEMIYA = 'akademiya'
     ORG_JAMOAT    = 'jamoat'
+    ORG_KENGASH   = 'kengash'
     ORG_TYPE_CHOICES = [
         (ORG_AKADEMIYA, 'Akademiya huzuridagi'),
         (ORG_JAMOAT,    'Jamoat tashkiloti'),
+        (ORG_KENGASH,   'Akademiya kengashi'),
     ]
 
     person         = models.ForeignKey(

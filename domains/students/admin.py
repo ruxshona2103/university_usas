@@ -11,6 +11,23 @@ from tinymce.widgets import TinyMCE
 from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent, MagistrTalaba, Stipendiya
 
 
+class PersonContentInlineForm(forms.ModelForm):
+    """Inline uchun soddalashtirilgan forma — Summernote delete muammosini hal qiladi."""
+    content_uz = forms.CharField(
+        widget=SummernoteInplaceWidget(), required=False, label="Kontent (Uz)"
+    )
+    content_ru = forms.CharField(
+        widget=SummernoteInplaceWidget(), required=False, label="Kontent (Ru)"
+    )
+    content_en = forms.CharField(
+        widget=SummernoteInplaceWidget(), required=False, label="Kontent (En)"
+    )
+
+    class Meta:
+        model  = PersonContent
+        fields = '__all__'
+
+
 class AutoTranslateMixin:
     translate_url_name = None
 
@@ -62,7 +79,7 @@ class PersonContentForm(forms.ModelForm):
 
 class PersonContentInline(admin.StackedInline):
     model            = PersonContent
-    form             = PersonContentForm
+    form             = PersonContentInlineForm
     extra            = 1
     can_delete       = True
     fields           = ('tags', 'content_uz', 'content_ru', 'content_en', 'order')

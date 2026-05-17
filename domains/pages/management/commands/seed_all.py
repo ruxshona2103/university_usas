@@ -28,6 +28,7 @@ COMMANDS = [
     # ── Talaba ma'lumotlari ─────────────────────────────────────────────
     ('seed_student_info',  {}),
     ('seed_stipendiya',    {}),   # stipendiya jadvali
+    ('seed_iqtidorli',    {}),   # iqtidorli talabalar sektori
 
     # ── Faoliyat va tadbirlar ───────────────────────────────────────────
     ('seed_oquv_faoliyat', {}),

@@ -103,7 +103,9 @@ class Person(TimeStampedModel):
         verbose_name_plural = "Shaxslar"
 
     def __str__(self):
-        return self.full_name_uz
+        cat = self.category.title_uz if self.category_id else "—"
+        title = f" · {self.title_uz}" if self.title_uz else ""
+        return f"{self.full_name_uz} [{cat}]{title}"
 
 
 class PersonImage(TimeStampedModel):

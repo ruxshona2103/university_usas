@@ -29,11 +29,12 @@ class Command(BaseCommand):
         clear = options['clear']
 
         steps = [
-            ('seed_sport_section_data',    {'clear': clear}),
-            ('seed_sport_faoliyat',        {'clear': clear}),
-            ('seed_ilmiy_faoliyat_science',{'clear': clear}),
-            ('seed_manaviy_faoliyat',      {'clear': clear}),
-            ('seed_fake_data_complete',    {}),
+            ('seed_sport_section_data',       {'clear': clear}),
+            ('seed_sport_faoliyat',           {'clear': clear}),
+            ('seed_sport_natija_kalendar',    {'clear': clear}),
+            ('seed_ilmiy_faoliyat_science',   {'clear': clear}),
+            ('seed_manaviy_faoliyat',         {'clear': clear}),
+            ('seed_fake_data_complete',       {}),
         ]
 
         for cmd, kwargs in steps:

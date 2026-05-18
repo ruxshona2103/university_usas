@@ -16,6 +16,7 @@ from .views import (
     MagistrPageAPIView,
     StipendiyaListAPIView,
     PersonRecordViewAPIView,
+    PsixologPageAPIView,
 )
 
 urlpatterns = [
@@ -47,4 +48,7 @@ urlpatterns = [
 
     # ── Stipendiyalar ──────────────────────────────────────────────────────────
     path('stipendiya/',                     StipendiyaListAPIView.as_view(),      name='stipendiya-list'),
+
+    # ── Psixolog maslahatlari ──────────────────────────────────────────────────
+    path('psixolog/',                       PsixologPageAPIView.as_view(),        name='psixolog-page'),
 ]

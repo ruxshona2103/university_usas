@@ -4,6 +4,7 @@ from .olimpiya_chempion   import OlimpiyaChempion
 from .magistr_student     import MagistrGroup, MagistrStudent
 from .magistr_talaba      import MagistrTalaba
 from .stipendiya          import Stipendiya
+from .psixolog            import PsixologXizmat, PsixologSection
 
 __all__ = [
     'Person', 'PersonCategory', 'PersonContent', 'PersonImage',
@@ -12,4 +13,5 @@ __all__ = [
     'MagistrGroup', 'MagistrStudent',
     'MagistrTalaba',
     'Stipendiya',
+    'PsixologXizmat', 'PsixologSection',
 ]

@@ -2,7 +2,12 @@ from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.openapi import OpenApiTypes
 
-from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent, MagistrTalaba, Stipendiya
+from .models import (
+    Person, PersonCategory, PersonContent, PersonImage,
+    StudentInfoCategory, StudentInfo,
+    OlimpiyaChempion, MagistrGroup, MagistrStudent, MagistrTalaba, Stipendiya,
+    PsixologXizmat, PsixologSection,
+)
 
 
 def _abs_url(request, field):
@@ -393,3 +398,35 @@ class MagistrGroupSerializer(serializers.ModelSerializer):
     def get_students(self, obj):
         qs = obj.students.order_by('order')
         return MagistrStudentSerializer(qs, many=True, context=self.context).data
+
+
+class PsixologXizmatSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = PsixologXizmat
+        fields = ['id', 'title', 'order']
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_title(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+
+class PsixologSectionSerializer(serializers.ModelSerializer):
+    title   = serializers.SerializerMethodField()
+    content = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = PsixologSection
+        fields = ['id', 'title', 'content', 'order']
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_title(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'title_{lang}') or obj.title_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_content(self, obj):
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj, f'content_{lang}') or obj.content_uz

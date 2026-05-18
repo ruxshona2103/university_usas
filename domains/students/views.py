@@ -7,11 +7,12 @@ from rest_framework.views import APIView
 
 from common.cache_mixin import cached_list
 from common.pagination import CustomDashboardPagination
-from .models import Person, PersonCategory, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrTalaba, Stipendiya
+from .models import Person, PersonCategory, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrTalaba, Stipendiya, PsixologXizmat, PsixologSection
 from .serializers import (
     PersonSerializer, PersonCategorySerializer, StudentInfoSerializer,
     PersonCategoryWithPersonsSerializer, StudentInfoCategorySerializer,
     OlimpiyaChempionSerializer, MagistrGroupSerializer, MagistrTalabaSerializer, StipendiyaSerializer,
+    PsixologXizmatSerializer, PsixologSectionSerializer,
 )
 from domains.tracker.mixins import ViewsCountMixin
 from domains.tracker.views import RecordViewAPIView
@@ -375,3 +376,45 @@ class OlimpiyaChempionListAPIView(ViewsCountMixin, generics.ListAPIView):
                 | Q(yonalish_en__icontains=yonalish)
             )
         return qs
+
+
+@extend_schema(
+    tags=['students'],
+    summary="Psixolog maslahatlari sahifasi",
+    description="Psixologik xizmat turlari va bo'limlarni qaytaradi. ?lang=uz|ru|en",
+)
+class PsixologPageAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    PAGE_INTRO = {
+        'uz': (
+            "O'zbekiston Davlat Sport Akademiyasida talabalar uchun maxsus psixologik "
+            "yordam xizmati mavjud. Psixolog mutaxassislar ta'lim, sport va shaxsiy "
+            "hayot bilan bog'liq muammolarni hal qilishda yordam beradi."
+        ),
+        'ru': (
+            "В Государственной академии спорта Узбекистана действует специальная "
+            "психологическая служба для студентов. Специалисты-психологи оказывают "
+            "помощь в решении проблем, связанных с учёбой, спортом и личной жизнью."
+        ),
+        'en': (
+            "The Uzbekistan State Sports Academy operates a special psychological "
+            "counselling service for students. Specialists provide help in resolving "
+            "issues related to study, sport and personal life."
+        ),
+    }
+
+    def get(self, request):
+        lang = request.query_params.get('lang', 'uz')
+        if lang not in ('uz', 'ru', 'en'):
+            lang = 'uz'
+        ctx = {'request': request, 'lang': lang}
+
+        xizmatlar = PsixologXizmat.objects.filter(is_active=True).order_by('order')
+        sections  = PsixologSection.objects.filter(is_active=True).order_by('order')
+
+        return Response({
+            'intro':    self.PAGE_INTRO.get(lang, self.PAGE_INTRO['uz']),
+            'xizmatlar': PsixologXizmatSerializer(xizmatlar, many=True, context=ctx).data,
+            'sections':  PsixologSectionSerializer(sections, many=True, context=ctx).data,
+        })

@@ -19,13 +19,13 @@ class Markaz(TimeStampedModel):
     name_ru = models.CharField(max_length=300, blank=True, verbose_name="Nomi (Ru)")
     name_en = models.CharField(max_length=300, blank=True, verbose_name="Nomi (En)")
 
-    description_uz = models.TextField(blank=True, verbose_name="Tavsif (Uz)")
-    description_ru = models.TextField(blank=True, verbose_name="Tavsif (Ru)")
-    description_en = models.TextField(blank=True, verbose_name="Tavsif (En)")
+    description_uz = models.TextField(blank=True, verbose_name="Bo'lim haqida ma'lumot (Uz)")
+    description_ru = models.TextField(blank=True, verbose_name="Bo'lim haqida ma'lumot (Ru)")
+    description_en = models.TextField(blank=True, verbose_name="Bo'lim haqida ma'lumot (En)")
 
-    goals_uz = models.TextField(blank=True, verbose_name="Maqsad va vazifalari (Uz)")
-    goals_ru = models.TextField(blank=True, verbose_name="Maqsad va vazifalari (Ru)")
-    goals_en = models.TextField(blank=True, verbose_name="Maqsad va vazifalari (En)")
+    goals_uz = models.TextField(blank=True, verbose_name="Bo'lim maqsad va vazifalari (Uz)")
+    goals_ru = models.TextField(blank=True, verbose_name="Bo'lim maqsad va vazifalari (Ru)")
+    goals_en = models.TextField(blank=True, verbose_name="Bo'lim maqsad va vazifalari (En)")
 
     functions_uz = models.TextField(blank=True, verbose_name="Funksiyalari (Uz)")
     functions_ru = models.TextField(blank=True, verbose_name="Funksiyalari (Ru)")

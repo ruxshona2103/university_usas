@@ -8,7 +8,7 @@ from django.utils.html import format_html
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 from tinymce.widgets import TinyMCE
 
-from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent, MagistrTalaba, Stipendiya
+from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent, MagistrTalaba, Stipendiya, PsixologXizmat, PsixologSection
 
 
 class PersonContentInlineForm(forms.ModelForm):
@@ -386,3 +386,45 @@ class OlimpiyaChempionAdmin(AutoTranslateMixin, admin.ModelAdmin):
                 return '—'
             return format_html('<img src="{}" style="max-height:80px;border-radius:4px;"/>', url)
         return '—'
+
+
+# ── Psixolog xizmatlari ────────────────────────────────────────────────────────
+
+@admin.register(PsixologXizmat)
+class PsixologXizmatAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    ordering      = ('order',)
+    search_fields = ('title_uz', 'title_ru', 'title_en')
+
+    fieldsets = (
+        ("Sarlavha (Uz)", {'fields': ('title_uz',)}),
+        ("Sarlavha (Ru / En)", {'classes': ('collapse',), 'fields': ('title_ru', 'title_en')}),
+        ("Tartib va holat", {'fields': ('order', 'is_active')}),
+    )
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        from django.core.cache import cache
+        cache.clear()
+
+
+@admin.register(PsixologSection)
+class PsixologSectionAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    ordering      = ('order',)
+    search_fields = ('title_uz', 'title_ru', 'title_en')
+
+    fieldsets = (
+        ("Sarlavha (Uz)", {'fields': ('title_uz',)}),
+        ("Sarlavha (Ru / En)", {'classes': ('collapse',), 'fields': ('title_ru', 'title_en')}),
+        ("Matn (Uz)", {'fields': ('content_uz',)}),
+        ("Matn (Ru / En)", {'classes': ('collapse',), 'fields': ('content_ru', 'content_en')}),
+        ("Tartib va holat", {'fields': ('order', 'is_active')}),
+    )
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        from django.core.cache import cache
+        cache.clear()

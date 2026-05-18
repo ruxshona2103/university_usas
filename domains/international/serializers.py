@@ -6,6 +6,7 @@ from domains.international.models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
     InternationalPost, InternationalPostImage,
     InternationalRating, InternationalRatingImage,
+    NationalRating, NationalRatingImage,
     InternationalDeptConfig, MemorandumStat,
     AkademikAlmashinuv, AkademikAlmashinuvRasm,
     XalqaroReytingBolim, XalqaroReytingBolimRasm,
@@ -179,6 +180,27 @@ class InternationalRatingImageSerializer(serializers.ModelSerializer):
         return _abs_url(self.context.get('request'), obj.image)
 
 
+class NationalRatingImageSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+    alt = serializers.SerializerMethodField()
+
+    class Meta:
+        model = NationalRatingImage
+        fields = ['id', 'image', 'alt', 'order']
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_image(self, obj):
+        return _abs_url(self.context.get('request'), obj.image)
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_alt(self, obj):
+        return {
+            'uz': obj.alt_uz or '',
+            'ru': obj.alt_ru or obj.alt_uz or '',
+            'en': obj.alt_en or obj.alt_uz or '',
+        }
+
+
 class InternationalRatingSerializer(serializers.ModelSerializer):
     title       = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
@@ -216,6 +238,46 @@ class InternationalRatingSerializer(serializers.ModelSerializer):
     def get_images(self, obj):
         qs = obj.images.all().order_by('order')
         return InternationalRatingImageSerializer(qs, many=True, context=self.context).data
+
+
+class NationalRatingSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+    title = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    images = serializers.SerializerMethodField()
+
+    class Meta:
+        model = NationalRating
+        fields = ['id', 'slug', 'name', 'title', 'description', 'images', 'order', 'created_at', 'updated_at']
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_name(self, obj):
+        return {
+            'uz': obj.name_uz or '',
+            'ru': obj.name_ru or obj.name_uz or '',
+            'en': obj.name_en or obj.name_uz or '',
+        }
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_title(self, obj):
+        return {
+            'uz': obj.title_uz or '',
+            'ru': obj.title_ru or obj.title_uz or '',
+            'en': obj.title_en or obj.title_uz or '',
+        }
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_description(self, obj):
+        return {
+            'uz': obj.description_uz or '',
+            'ru': obj.description_ru or obj.description_uz or '',
+            'en': obj.description_en or obj.description_uz or '',
+        }
+
+    @extend_schema_field(NationalRatingImageSerializer(many=True))
+    def get_images(self, obj):
+        qs = obj.images.all().order_by('order')
+        return NationalRatingImageSerializer(qs, many=True, context=self.context).data
 
 
 class InternationalPostSerializer(serializers.ModelSerializer):

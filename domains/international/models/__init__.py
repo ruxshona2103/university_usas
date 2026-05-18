@@ -4,6 +4,7 @@ from .partner_config import PartnerPageConfig
 from .post import InternationalPost
 from .post_image import InternationalPostImage
 from .rating import InternationalRating, InternationalRatingImage
+from .national_rating import NationalRating, NationalRatingImage
 from .dept_config import InternationalDeptConfig
 from .memorandum_stat import MemorandumStat
 from .almashinuv import AkademikAlmashinuv, AkademikAlmashinuvRasm
@@ -18,6 +19,8 @@ __all__ = [
     'InternationalPostImage',
     'InternationalRating',
     'InternationalRatingImage',
+    'NationalRating',
+    'NationalRatingImage',
     'InternationalDeptConfig',
     'MemorandumStat',
     'AkademikAlmashinuv',

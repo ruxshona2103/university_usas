@@ -10,12 +10,14 @@ from domains.tracker.views import RecordViewAPIView
 from domains.international.models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
     InternationalPost, InternationalRating,
+    NationalRating,
     InternationalDeptConfig, MemorandumStat, AkademikAlmashinuv,
     XalqaroReytingBolim, XalqaroReytingBolimRasm, XorijlikProfessor,
 )
 from .serializers import (
     ForeignProfessorReviewSerializer, PartnerOrganizationSerializer, PartnerPageConfigSerializer,
     InternationalPostSerializer, InternationalRatingSerializer,
+    NationalRatingSerializer,
     InternationalDeptConfigSerializer, MemorandumStatSerializer,
     AkademikAlmashinuvSerializer, XalqaroReytingBolimSerializer,
     XorijlikProfessorSerializer,
@@ -135,6 +137,24 @@ class InternationalRatingDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView
     permission_classes = [AllowAny]
     queryset           = InternationalRating.objects.filter(is_active=True).prefetch_related('images')
     lookup_field       = 'slug'
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+@cached_list(120)
+@extend_schema(tags=['international'], summary="Milliy reytinglar ro'yxati")
+class NationalRatingListAPIView(generics.ListAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class = NationalRatingSerializer
+    permission_classes = [AllowAny]
+    pagination_class = None
+
+    def get_queryset(self):
+        return NationalRating.objects.filter(is_active=True).prefetch_related('images')
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

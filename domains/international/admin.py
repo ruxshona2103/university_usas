@@ -9,6 +9,7 @@ from .models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
     InternationalPost, InternationalPostImage,
     InternationalRating, InternationalRatingImage,
+    NationalRating, NationalRatingImage,
     InternationalDeptConfig, MemorandumStat,
 )
 
@@ -105,6 +106,13 @@ class InternationalRatingImageInline(admin.TabularInline):
     ordering = ('order',)
 
 
+class NationalRatingImageInline(admin.TabularInline):
+    model = NationalRatingImage
+    extra = 1
+    fields = ('image', 'alt_uz', 'alt_ru', 'alt_en', 'order')
+    ordering = ('order',)
+
+
 class InternationalRatingForm(forms.ModelForm):
     description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
     description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
@@ -112,6 +120,16 @@ class InternationalRatingForm(forms.ModelForm):
 
     class Meta:
         model  = InternationalRating
+        fields = '__all__'
+
+
+class NationalRatingForm(forms.ModelForm):
+    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Uz)")
+    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Ru)")
+    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (En)")
+
+    class Meta:
+        model = NationalRating
         fields = '__all__'
 
 
@@ -134,6 +152,28 @@ class InternationalRatingAdmin(admin.ModelAdmin):
         ("Slug",     {'fields': ('slug',)}),
         ("Tartib va holat", {'fields': ('order', 'is_active')}),
         ('Texnik',   {'classes': ('collapse',), 'fields': ('created_at', 'updated_at')}),
+    )
+
+
+@admin.register(NationalRating)
+class NationalRatingAdmin(admin.ModelAdmin):
+    form = NationalRatingForm
+    list_display = ('name_uz', 'title_uz', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter = ('is_active',)
+    search_fields = ('name_uz', 'name_ru', 'name_en', 'title_uz', 'title_ru', 'title_en')
+    prepopulated_fields = {'slug': ('title_uz',)}
+    readonly_fields = ('created_at', 'updated_at')
+    list_per_page = 20
+    inlines = [NationalRatingImageInline]
+
+    fieldsets = (
+        ("Nomi", {'fields': ('name_uz', 'name_ru', 'name_en')}),
+        ("Sarlavha", {'fields': ('title_uz', 'title_ru', 'title_en')}),
+        ("Matn", {'fields': ('description_uz', 'description_ru', 'description_en')}),
+        ("Slug", {'fields': ('slug',)}),
+        ("Tartib va holat", {'fields': ('order', 'is_active')}),
+        ('Texnik', {'classes': ('collapse',), 'fields': ('created_at', 'updated_at')}),
     )
 
 

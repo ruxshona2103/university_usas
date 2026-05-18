@@ -14,13 +14,13 @@ from .models import Person, PersonCategory, PersonContent, PersonImage, StudentI
 class PersonContentInlineForm(forms.ModelForm):
     """Inline uchun soddalashtirilgan forma — Summernote delete muammosini hal qiladi."""
     content_uz = forms.CharField(
-        widget=SummernoteInplaceWidget(), required=False, label="Kontent (Uz)"
+       required=False, label="Kontent (Uz)"
     )
     content_ru = forms.CharField(
-        widget=SummernoteInplaceWidget(), required=False, label="Kontent (Ru)"
+       required=False, label="Kontent (Ru)"
     )
     content_en = forms.CharField(
-        widget=SummernoteInplaceWidget(), required=False, label="Kontent (En)"
+         required=False, label="Kontent (En)"
     )
 
     class Meta:

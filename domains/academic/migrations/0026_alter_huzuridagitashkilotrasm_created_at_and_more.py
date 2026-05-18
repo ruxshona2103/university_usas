@@ -16,10 +16,37 @@ class Migration(migrations.Migration):
             name='created_at',
             field=models.DateTimeField(auto_now_add=True, verbose_name='Yaratilgan vaqt'),
         ),
-        migrations.AlterField(
-            model_name='huzuridagitashkilotrasm',
-            name='id',
-            field=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, verbose_name='ID'),
+        # PostgreSQL cannot cast bigint→uuid directly (USING "id"::uuid fails).
+        # Instead: add a new uuid column, drop the old bigint pk, rename.
+        migrations.RunSQL(
+            sql="""
+                ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
+                    ADD COLUMN "_new_id" uuid DEFAULT gen_random_uuid() NOT NULL;
+                ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
+                    DROP CONSTRAINT "academic_huzuridagi_tashkilot_rasm_pkey";
+                ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
+                    DROP COLUMN "id";
+                ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
+                    RENAME COLUMN "_new_id" TO "id";
+                ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
+                    ALTER COLUMN "id" DROP DEFAULT;
+                ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
+                    ADD PRIMARY KEY ("id");
+            """,
+            reverse_sql=migrations.RunSQL.noop,
+            state_operations=[
+                migrations.AlterField(
+                    model_name='huzuridagitashkilotrasm',
+                    name='id',
+                    field=models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+            ],
         ),
         migrations.AlterField(
             model_name='huzuridagitashkilotrasm',

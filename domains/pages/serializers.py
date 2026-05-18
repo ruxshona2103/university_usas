@@ -579,6 +579,7 @@ class MarkazXodimSerializer(serializers.Serializer):
     ilmiy_unvon = serializers.SerializerMethodField()
     ilmiy_daraja = serializers.SerializerMethodField()
     email      = serializers.EmailField(source='person.email')
+    phone      = serializers.CharField(source='person.phone', default=None)
     photo_url  = serializers.SerializerMethodField()
     order      = serializers.IntegerField()
 

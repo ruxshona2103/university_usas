@@ -125,21 +125,22 @@
     var $ = window.jQuery;
     if (typeof $ === 'undefined') return;
 
-    $(pane).find('textarea[hidden]').each(function () {
+    /* Summernote hides textareas via jQuery .hide() (sets style="display:none"),
+       NOT via the HTML `hidden` attribute — so we search all textareas and
+       filter by whether a corresponding initSummernote_ function exists. */
+    $(pane).find('textarea').each(function () {
       var ta = this;
-      var idSafe = ta.id.replace(/-/g, '_');
+      var idSafe = (ta.id || '').replace(/-/g, '_');
+      if (!idSafe) return;
       var initFn = window['initSummernote_' + idSafe];
       if (typeof initFn !== 'function') return;
 
       /* Check if there is already a properly-rendered editor (height > 0).
          After shown.bs.tab fires the pane is already visible, so offsetHeight
          is 0 only when the editor rendered while the pane was hidden. */
-      var sibling = ta.nextElementSibling;
-      while (sibling) {
-        if (sibling.classList.contains('summernote-div') && sibling.offsetHeight > 0) {
-          return; /* already good – do nothing */
-        }
-        sibling = sibling.nextElementSibling;
+      var $nextEditor = $(ta).next('.note-editor, .summernote-div');
+      if ($nextEditor.length && $nextEditor[0].offsetHeight > 0) {
+        return; /* already good – do nothing */
       }
 
       /* Destroy the broken (zero-height) editor if one exists */
@@ -168,6 +169,12 @@
         if (pane) reinitInPane(pane);
       }
     );
+
+    /* Also reinit editors on the default active pane(s) at page load.
+       Summernote initialises async (language pack AJAX), so delay slightly. */
+    setTimeout(function () {
+      document.querySelectorAll('.tab-pane.active').forEach(reinitInPane);
+    }, 800);
   });
 })();
 </script>

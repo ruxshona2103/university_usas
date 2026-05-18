@@ -676,6 +676,19 @@ class IlmiyAnjumanlarListAPIView(APIView):
         })
 
 
+@extend_schema(tags=['ilmiy-kontent'], summary="Ilmiy anjuman detali (id bo'yicha)")
+class IlmiyAnjumanDetailAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = IlmiyAnjumanSerializer
+    permission_classes = [AllowAny]
+    queryset           = IlmiyAnjuman.objects.filter(is_active=True)
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['lang'] = _ilmiy_lang(self.request)
+        return ctx
+
+
 # ── Sport natijalari va kalendar ─────────────────────────────────────────────
 
 from domains.activities.models import SportNatija, SportKalendar

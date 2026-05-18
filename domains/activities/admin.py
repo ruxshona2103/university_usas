@@ -17,6 +17,7 @@ from .models import (
     IlmiyKengashSeminar,
     IlmiyLoyiha,
     IlmiyMaktab,
+    IlmiyAnjuman,
     SportStat,
     SportYonalish,
     SportTadbir,
@@ -517,3 +518,18 @@ class SportKalendarAdmin(admin.ModelAdmin):
         }),
     )
 
+
+
+@admin.register(IlmiyAnjuman)
+class IlmiyAnjumanAdmin(admin.ModelAdmin):
+    list_display  = ('title_uz', 'turi', 'status', 'date', 'order', 'is_active')
+    list_filter   = ('turi', 'status', 'is_active')
+    list_editable = ('order', 'status', 'is_active')
+    search_fields = ('title_uz', 'title_ru', 'title_en')
+    date_hierarchy = 'date'
+    fieldsets = (
+        ('Asosiy', {'fields': ('turi', 'status', 'date', 'order', 'is_active', 'image')}),
+        ('Sarlavha', {'fields': ('title_uz', 'title_ru', 'title_en')}),
+        ('Tavsif', {'fields': ('description_uz', 'description_ru', 'description_en')}),
+        ('Manzil', {'fields': ('location_uz', 'location_ru', 'location_en')}),
+    )

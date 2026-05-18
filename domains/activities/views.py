@@ -548,7 +548,7 @@ class IlmiyYonalishDetailAPIView(generics.RetrieveAPIView):
 
 from domains.activities.models import (
     IlmiyKontentSahifa, IlmiyJurnal, IlmiyKengashSeminar,
-    IlmiyLoyiha, IlmiyMaktab, IlmiyKategoriya,
+    IlmiyLoyiha, IlmiyMaktab, IlmiyKategoriya, IlmiyAnjuman,
 )
 from .serializers import (
     IlmiyKontentSahifaSerializer,
@@ -556,6 +556,7 @@ from .serializers import (
     IlmiyKengashSeminarSerializer,
     IlmiyLoyihaSerializer,
     IlmiyMaktabSerializer,
+    IlmiyAnjumanSerializer,
 )
 
 
@@ -633,6 +634,45 @@ class IlmiyMaktabListAPIView(APIView):
         return Response({
             'sahifa': _get_intro(IlmiyKategoriya.MAKTABLAR, lang, request),
             'items': IlmiyMaktabSerializer(items, many=True, context=ctx).data,
+        })
+
+
+@extend_schema(tags=['ilmiy-kontent'], summary="Ilmiy anjuman va konferensiyalar")
+class IlmiyAnjumanlarListAPIView(APIView):
+    """
+    ?lang=uz|ru|en
+    ?status=upcoming|ongoing|past  — filtrlash (ixtiyoriy)
+    ?turi=republic|international|seminar|roundtable|webinar  — filtrlash (ixtiyoriy)
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        lang = _ilmiy_lang(request)
+        ctx = {'lang': lang, 'request': request}
+        qs = IlmiyAnjuman.objects.filter(is_active=True).order_by('-date', 'order')
+
+        status = request.query_params.get('status')
+        if status:
+            qs = qs.filter(status=status)
+
+        turi = request.query_params.get('turi')
+        if turi:
+            qs = qs.filter(turi=turi)
+
+        return Response({
+            'sahifa': {
+                'title': {
+                    'uz': "Ilmiy anjuman va konferensiyalar",
+                    'ru': "Научные конференции и семинары",
+                    'en': "Scientific Conferences and Seminars",
+                }.get(lang, "Ilmiy anjuman va konferensiyalar"),
+                'intro': {
+                    'uz': "Akademiyada o'tkazilgan va rejalashtirilgan ilmiy anjumanlar",
+                    'ru': "Прошедшие и предстоящие научные мероприятия Академии",
+                    'en': "Past and upcoming scientific events of the Academy",
+                }.get(lang, ""),
+            },
+            'items': IlmiyAnjumanSerializer(qs, many=True, context=ctx).data,
         })
 
 

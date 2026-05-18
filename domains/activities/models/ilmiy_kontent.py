@@ -1,10 +1,11 @@
 """
 Ilmiy kontentlar:
-- IlmiyKontentSahifa — har bir kategoriya uchun sahifa boshlanish matni (intro)
-- IlmiyJurnal       — ilmiy jurnallar ro'yxati
+- IlmiyKontentSahifa  — har bir kategoriya uchun sahifa boshlanish matni (intro)
+- IlmiyJurnal         — ilmiy jurnallar ro'yxati
 - IlmiyKengashSeminar — ilmiy kengash va seminar (jadval)
-- IlmiyLoyiha       — ilmiy loyihalar (jadval)
-- IlmiyMaktab       — ilmiy maktablar (jadval)
+- IlmiyLoyiha         — ilmiy loyihalar (jadval)
+- IlmiyMaktab         — ilmiy maktablar (jadval)
+- IlmiyAnjuman        — ilmiy anjuman va konferensiyalar
 """
 import os
 import uuid
@@ -194,3 +195,70 @@ class IlmiyMaktab(TimeStampedModel):
 
     def __str__(self):
         return self.nomi_uz[:80]
+
+
+def anjuman_image_upload(instance, filename):
+    ext = os.path.splitext(filename)[1].lower()
+    name = uuid.uuid4().hex
+    return f"ilmiy_anjumanlar/{name}{ext}"
+
+
+class AnjumanTuri(models.TextChoices):
+    RESPUBLIKA    = 'republic',      "Respublika konferensiyasi"
+    XALQARO       = 'international', "Xalqaro konferensiya"
+    SEMINAR       = 'seminar',       "Ilmiy seminar"
+    DAVRA         = 'roundtable',    "Davra suhbati"
+    VEBINAR       = 'webinar',       "Vebinar"
+
+
+class AnjumanStatus(models.TextChoices):
+    UPCOMING = 'upcoming', "Kutilmoqda"
+    ONGOING  = 'ongoing',  "Davom etmoqda"
+    PAST     = 'past',     "O'tkazildi"
+
+
+class IlmiyAnjuman(TimeStampedModel):
+    """Ilmiy anjuman va konferensiyalar."""
+
+    title_uz = models.CharField(max_length=500, verbose_name="Sarlavha (Uz)")
+    title_ru = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (Ru)")
+    title_en = models.CharField(max_length=500, blank=True, verbose_name="Sarlavha (En)")
+
+    description_uz = models.TextField(blank=True, verbose_name="Tavsif (Uz)")
+    description_ru = models.TextField(blank=True, verbose_name="Tavsif (Ru)")
+    description_en = models.TextField(blank=True, verbose_name="Tavsif (En)")
+
+    date = models.DateField(verbose_name="Sana")
+
+    location_uz = models.CharField(max_length=300, blank=True, verbose_name="Manzil (Uz)")
+    location_ru = models.CharField(max_length=300, blank=True, verbose_name="Manzil (Ru)")
+    location_en = models.CharField(max_length=300, blank=True, verbose_name="Manzil (En)")
+
+    turi = models.CharField(
+        max_length=20,
+        choices=AnjumanTuri.choices,
+        default=AnjumanTuri.RESPUBLIKA,
+        verbose_name="Turi",
+    )
+    status = models.CharField(
+        max_length=10,
+        choices=AnjumanStatus.choices,
+        default=AnjumanStatus.UPCOMING,
+        verbose_name="Holati",
+    )
+
+    image = models.ImageField(
+        upload_to=anjuman_image_upload, blank=True, null=True, verbose_name="Rasm"
+    )
+
+    order = models.PositiveIntegerField(default=0, verbose_name="Tartib")
+    is_active = models.BooleanField(default=True, verbose_name="Faolmi?")
+
+    class Meta:
+        db_table = "activities_ilmiy_anjuman"
+        ordering = ["-date", "order"]
+        verbose_name = "Ilmiy anjuman"
+        verbose_name_plural = "Ilmiy anjumanlar"
+
+    def __str__(self):
+        return self.title_uz[:100]

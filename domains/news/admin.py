@@ -129,8 +129,8 @@ class NewsAdmin(ArticleAdminBase):
 # TADBIRLAR
 @admin.register(Event)
 class EventAdmin(ArticleAdminBase):
-    list_display  = ('title_uz', 'date', 'start_time', 'location_uz', 'event_status', 'is_published', 'views_badge')
-    list_editable = ('event_status', 'is_published',)
+    list_display  = ('title_uz', 'date', 'start_time', 'location_uz', 'computed_status_badge', 'is_published', 'views_badge')
+    list_editable = ('is_published',)
     list_filter   = ('is_published', 'event_status', 'date')
     inlines       = [ArticleImageInline]
 
@@ -150,7 +150,7 @@ class EventAdmin(ArticleAdminBase):
             'fields': ('location_uz', 'location_ru', 'location_en'),
         }),
         ("Vaqt va holat", {
-            'fields': ('date', 'start_time', 'event_status', 'categories', 'keywords', 'is_published'),
+            'fields': ('date', 'start_time', 'categories', 'keywords', 'is_published'),
         }),
         ("Texnik (avtomatik)", {
             'classes': ('collapse',),
@@ -162,8 +162,28 @@ class EventAdmin(ArticleAdminBase):
         return super().get_queryset(request).filter(article_type=ArticleType.EVENT)
 
     def save_model(self, request, obj, form, change):
+        from django.utils import timezone
         obj.article_type = ArticleType.EVENT
+        ref = obj.start_time or obj.date
+        if ref is not None:
+            obj.event_status = 'completed' if ref < timezone.now() else 'upcoming'
         super().save_model(request, obj, form, change)
+
+    @admin.display(description="Holat (avtomatik)")
+    def computed_status_badge(self, obj):
+        from django.utils import timezone
+        ref = obj.start_time or obj.date
+        if ref is None:
+            label, color = "Noaniq", "#888"
+        elif ref < timezone.now():
+            label, color = "Bo'lib o'tgan", "#c5221f"
+        else:
+            label, color = "Kutilmoqda", "#137333"
+        return format_html(
+            '<span style="background:{bg};color:#fff;padding:2px 10px;'
+            'border-radius:12px;font-size:12px;font-weight:600;">{label}</span>',
+            bg=color, label=label,
+        )
 
 
 

@@ -527,7 +527,7 @@ class IlmiyYonalishDetailSerializer(serializers.ModelSerializer):
 
 from domains.activities.models import (
     IlmiyKontentSahifa, IlmiyJurnal, IlmiyKengashSeminar,
-    IlmiyLoyiha, IlmiyMaktab,
+    IlmiyLoyiha, IlmiyMaktab, IlmiyAnjuman,
 )
 
 
@@ -659,6 +659,45 @@ class IlmiyMaktabSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.STR)
     def get_asoschi(self, obj):
         return _local(obj, 'asoschi', self._lang())
+
+
+class IlmiyAnjumanSerializer(serializers.ModelSerializer):
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    location    = serializers.SerializerMethodField()
+    image_url   = serializers.SerializerMethodField()
+    type        = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = IlmiyAnjuman
+        fields = ['id', 'title', 'description', 'date', 'location',
+                  'type', 'status', 'image_url', 'order']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_title(self, obj):
+        return _local(obj, 'title', self._lang())
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_description(self, obj):
+        return _local(obj, 'description', self._lang())
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_location(self, obj):
+        return _local(obj, 'location', self._lang())
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_image_url(self, obj):
+        request = self.context.get('request')
+        if obj.image and request:
+            return request.build_absolute_uri(obj.image.url)
+        return None
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_type(self, obj):
+        return obj.turi
 
 
 # ── Sport natijalari va kalendar ─────────────────────────────────────────────

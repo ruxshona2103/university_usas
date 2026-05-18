@@ -6,6 +6,7 @@ from .ilmiy_yonalish           import IlmiyYonalish, IlmiyYonalishItem
 from .ilmiy_kontent            import (
     IlmiyKategoriya, IlmiyKontentSahifa,
     IlmiyJurnal, IlmiyKengashSeminar, IlmiyLoyiha, IlmiyMaktab,
+    IlmiyAnjuman, AnjumanTuri, AnjumanStatus,
 )
 from .sport_stat               import SportStat
 from .sport_yonalish           import SportYonalish
@@ -33,4 +34,7 @@ __all__ = [
     'SportKalendar',
     'AxborotVazifa',
     'AxborotXodim',
+    'IlmiyAnjuman',
+    'AnjumanTuri',
+    'AnjumanStatus',
 ]

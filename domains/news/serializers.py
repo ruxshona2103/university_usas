@@ -123,6 +123,7 @@ class EventSerializer(PublishableMixin, serializers.ModelSerializer):
     location      = serializers.SerializerMethodField()
     badgeCategory = serializers.SerializerMethodField()
     categories    = serializers.SerializerMethodField()
+    event_status  = serializers.SerializerMethodField()
 
     class Meta:
         model  = Event
@@ -135,6 +136,14 @@ class EventSerializer(PublishableMixin, serializers.ModelSerializer):
             'views', 'likes', 'comments',
             'created_at', 'updated_at',
         ]
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_event_status(self, obj):
+        from django.utils import timezone
+        ref = obj.start_time or obj.date
+        if ref is None:
+            return obj.event_status
+        return 'completed' if ref < timezone.now() else 'upcoming'
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_location(self, obj):

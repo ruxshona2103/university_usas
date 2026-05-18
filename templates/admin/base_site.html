@@ -111,42 +111,37 @@
 
 <script>
 /* ── Summernote + Jazzmin horizontal_tabs fix ───────────────────────────────
-   Jazzmin shows fieldsets as Bootstrap tabs. Summernote initialises on page
-   load while non-active tab-panes are hidden (display:none), so the height
-   calculation inside recalcHeight() returns 0 and the editor is invisible.
-   Fix: when a tab becomes visible (shown.bs.tab), destroy the broken editor
-   and call the global initSummernote_<id> function that was already rendered
-   by django-summernote's widget_inplace.html template.
+   SUMMERNOTE_CONFIG has lazy:True, so editors are queued but not initialized
+   automatically. We initialize only visible panes to avoid zero-height editors
+   that result from Summernote measuring hidden DOM elements.
 ─────────────────────────────────────────────────────────────────────────── */
 (function () {
   'use strict';
 
-  function reinitInPane(pane) {
+  function initPane(pane) {
     var $ = window.jQuery;
     if (typeof $ === 'undefined') return;
 
-    /* Summernote hides textareas via jQuery .hide() (sets style="display:none"),
-       NOT via the HTML `hidden` attribute — so we search all textareas and
-       filter by whether a corresponding initSummernote_ function exists. */
     $(pane).find('textarea').each(function () {
       var ta = this;
-      var idSafe = (ta.id || '').replace(/-/g, '_');
-      if (!idSafe) return;
+      var id = ta.id || '';
+      if (!id) return;
+
+      /* Skip textareas inside an inactive (hidden) tab pane */
+      if ($(ta).closest('.tab-pane').length > 0 &&
+          $(ta).closest('.tab-pane.active').length === 0) return;
+
+      var idSafe = id.replace(/-/g, '_');
       var initFn = window['initSummernote_' + idSafe];
       if (typeof initFn !== 'function') return;
 
-      /* Check if there is already a properly-rendered editor (height > 0).
-         After shown.bs.tab fires the pane is already visible, so offsetHeight
-         is 0 only when the editor rendered while the pane was hidden. */
-      var $nextEditor = $(ta).next('.note-editor, .summernote-div');
-      if ($nextEditor.length && $nextEditor[0].offsetHeight > 0) {
-        return; /* already good – do nothing */
-      }
+      /* Already has a properly-rendered editor — skip */
+      var $ed = $(ta).next('.note-editor, .summernote-div');
+      if ($ed.length && $ed[0].offsetHeight > 0) return;
 
-      /* Destroy the broken (zero-height) editor if one exists */
+      /* Destroy any broken (zero-height) editor first */
       try { $(ta).summernote('destroy'); } catch (_) {}
 
-      /* Re-initialise now that the pane is visible */
       initFn();
     });
   }
@@ -155,26 +150,30 @@
     var $ = window.jQuery;
     if (typeof $ === 'undefined') return;
 
-    /* Jazzmin/AdminLTE uses Bootstrap 4 (data-toggle) but also support BS5 */
+    /* Trigger init when a tab becomes visible */
     $(document).on(
       'shown.bs.tab',
       '[data-toggle="tab"], [data-bs-toggle="tab"]',
       function (e) {
         var $tab = $(e.target);
-        var sel = $tab.attr('href') ||
-                  $tab.data('target') ||
-                  $tab.attr('data-bs-target');
+        var sel  = $tab.attr('href') || $tab.data('target') || $tab.attr('data-bs-target');
         if (!sel) return;
         var pane = document.querySelector(sel);
-        if (pane) reinitInPane(pane);
+        if (pane) initPane(pane);
       }
     );
 
-    /* Also reinit editors on the default active pane(s) at page load.
-       Summernote initialises async (language pack AJAX), so delay slightly. */
+    /* Initialize the default visible pane(s) after the page fully settles.
+       With lazy:True nothing has run yet, so this is the first and only init. */
     setTimeout(function () {
-      document.querySelectorAll('.tab-pane.active').forEach(reinitInPane);
-    }, 800);
+      var $active = $('.tab-pane.active');
+      if ($active.length) {
+        $active.each(function () { initPane(this); });
+      } else {
+        /* No Jazzmin tabs — plain change-form layout */
+        initPane(document.body);
+      }
+    }, 300);
   });
 })();
 </script>

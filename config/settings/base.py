@@ -466,6 +466,7 @@ TINYMCE_COMPRESSOR = False
 SUMMERNOTE_THEME = 'lite'
 SUMMERNOTE_CONFIG = {
     'iframe': False,
+    'lazy': True,
     'summernote': {
         'width':  '100%',
         'height': '350px',

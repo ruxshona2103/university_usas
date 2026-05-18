@@ -550,7 +550,7 @@ class MarkazDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView):
     lookup_field       = 'slug'
 
     def get_queryset(self):
-        return Markaz.objects.filter(is_active=True).prefetch_related('sub_bolimlar')
+        return Markaz.objects.filter(is_active=True).prefetch_related('sub_bolimlar', 'xodimlar__person')
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

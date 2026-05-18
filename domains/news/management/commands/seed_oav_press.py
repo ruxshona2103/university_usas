@@ -2,6 +2,8 @@
 python manage.py seed_oav_press          # yaratadi / yangilaydi
 python manage.py seed_oav_press --clear  # o'chirib qaytadan yozadi
 """
+import datetime
+
 from django.utils import timezone
 from django.core.management.base import BaseCommand
 from domains.news.models import InformationContent
@@ -24,7 +26,7 @@ OAV_ITEMS = [
             "Sport.uz spoke with the head coach of the Uzbekistan national team Fabio Cannavaro. "
             "The coach talked about preparation for the World Cup, player conditions, and future plans."
         ),
-        "date": timezone.datetime(2026, 5, 12, 10, 0, tzinfo=timezone.utc),
+        "date": timezone.datetime(2026, 5, 12, 10, 0, tzinfo=datetime.timezone.utc),
         "external_url": "https://sport.uz",
         "is_published": True,
     },
@@ -44,7 +46,7 @@ OAV_ITEMS = [
             "Academy rector Otabek Umarov gave an interview to the press about the 8th Tashkent "
             "International Marathon, emphasising its importance in the development of sport."
         ),
-        "date": timezone.datetime(2026, 4, 5, 10, 0, tzinfo=timezone.utc),
+        "date": timezone.datetime(2026, 4, 5, 10, 0, tzinfo=datetime.timezone.utc),
         "external_url": "https://uza.uz",
         "is_published": True,
     },
@@ -64,7 +66,7 @@ OAV_ITEMS = [
             "Academy graduate and world karate champion Diyora Keldiyorova gave an interview "
             "to Kun.uz and announced her intention to return to big sport."
         ),
-        "date": timezone.datetime(2026, 4, 4, 10, 0, tzinfo=timezone.utc),
+        "date": timezone.datetime(2026, 4, 4, 10, 0, tzinfo=datetime.timezone.utc),
         "external_url": "https://kun.uz",
         "is_published": True,
     },
@@ -84,7 +86,7 @@ OAV_ITEMS = [
             "Daryo.uz published a detailed article about the achievements of the State Sports "
             "Academy of Uzbekistan in international rankings."
         ),
-        "date": timezone.datetime(2026, 3, 20, 9, 0, tzinfo=timezone.utc),
+        "date": timezone.datetime(2026, 3, 20, 9, 0, tzinfo=datetime.timezone.utc),
         "external_url": "https://daryo.uz",
         "is_published": True,
     },
@@ -104,7 +106,7 @@ OAV_ITEMS = [
             "Gazeta.uz conducted an interview following the inclusion of the Academy's "
             "scientific journal in the international Scopus database."
         ),
-        "date": timezone.datetime(2026, 3, 10, 9, 0, tzinfo=timezone.utc),
+        "date": timezone.datetime(2026, 3, 10, 9, 0, tzinfo=datetime.timezone.utc),
         "external_url": "https://gazeta.uz",
         "is_published": True,
     },

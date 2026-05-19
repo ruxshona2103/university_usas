@@ -272,16 +272,13 @@ class KorrupsiyaAdmin(ArticleAdminBase):
 class InformationImageInline(admin.TabularInline):
     model          = InformationImage
     extra          = 1
-    fields         = ('image_preview', 'image', 'order')
-    readonly_fields = ('image_preview',)
+    fields         = ('image_preview_uz', 'image_uz', 'image_preview_ru', 'image_ru', 'image_preview_en', 'image_en', 'order')
+    readonly_fields = ('image_preview_uz', 'image_preview_ru', 'image_preview_en')
     ordering       = ('order',)
 
-    @admin.display(description="Hozirgi rasm")
-    def image_preview(self, obj):
-        if not obj.pk:
-            return "—"
+    def _preview(self, field_value):
         try:
-            url = obj.image.url
+            url = field_value.url
         except Exception:
             return "—"
         return format_html(
@@ -291,6 +288,24 @@ class InformationImageInline(admin.TabularInline):
             '</a>',
             url=url,
         )
+
+    @admin.display(description="Rasm UZ")
+    def image_preview_uz(self, obj):
+        if not obj.pk:
+            return "—"
+        return self._preview(obj.image_uz)
+
+    @admin.display(description="Rasm RU")
+    def image_preview_ru(self, obj):
+        if not obj.pk:
+            return "—"
+        return self._preview(obj.image_ru)
+
+    @admin.display(description="Rasm EN")
+    def image_preview_en(self, obj):
+        if not obj.pk:
+            return "—"
+        return self._preview(obj.image_en)
 
 
 class InformationContentAdminBase(admin.ModelAdmin):

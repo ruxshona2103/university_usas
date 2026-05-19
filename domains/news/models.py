@@ -309,7 +309,9 @@ class InformationImage(TimeStampedModel):
         related_name='images',
         verbose_name='Kontent',
     )
-    image = models.FileField(upload_to='information/%Y/%m/', verbose_name="Rasm")
+    image_uz = models.FileField(upload_to='information/%Y/%m/', verbose_name="Rasm (UZ)", blank=True, null=True)
+    image_ru = models.FileField(upload_to='information/%Y/%m/', verbose_name="Rasm (RU)", blank=True, null=True)
+    image_en = models.FileField(upload_to='information/%Y/%m/', verbose_name="Rasm (EN)", blank=True, null=True)
     order = models.PositiveIntegerField(default=0, verbose_name="Tartib")
 
     class Meta:

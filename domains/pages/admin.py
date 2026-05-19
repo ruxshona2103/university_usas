@@ -701,9 +701,9 @@ class AboutAcademyImageInline(admin.TabularInline):
 
 
 class AboutAcademyForm(forms.ModelForm):
-    description_uz = forms.CharField( required=False, label="Tavsif (Uz)")
-    description_ru = forms.CharField( required=False, label="Tavsif (Ru)")
-    description_en = forms.CharField( required=False, label="Tavsif (En)")
+    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
+    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
+    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
 
     class Meta:
         model  = AboutAcademy

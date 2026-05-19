@@ -446,7 +446,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'custom_undo_redo_levels': 20,
     'selector': 'textarea',
     'theme': 'silver',
-    'plugins': 'link image preview codesample table code lists',
+    'plugins': 'link image preview codesample table code lists paste',
     'toolbar': (
         'undo redo | bold italic underline strikethrough | '
         'fontsize | forecolor backcolor | '
@@ -458,6 +458,12 @@ TINYMCE_DEFAULT_CONFIG = {
     'relative_urls': False,
     'remove_script_host': False,
     'convert_urls': True,
+    # Word paste cleanup
+    'paste_as_text': False,
+    'paste_word_valid_elements': 'b,strong,i,em,h1,h2,h3,h4,h5,h6,p,ul,ol,li,a[href],br,table,thead,tbody,tr,td,th',
+    'paste_retain_style_properties': 'none',
+    'paste_strip_class_attributes': 'all',
+    'paste_remove_styles_if_webkit': True,
 }
 TINYMCE_SPELLCHECKER = False
 TINYMCE_COMPRESSOR = False
@@ -478,8 +484,11 @@ SUMMERNOTE_CONFIG = {
             ['table',   ['table']],
             ['insert',  ['link', 'picture', 'hr']],
             ['view',    ['fullscreen', 'codeview']],
+            ['misc',    ['clean']],
         ],
         'lang': 'uz-UZ',
+        # Strip Word/Office HTML junk (mso- styles, <o:p> tags) on paste
+        'cleanPastedHTML': True,
     },
     'attachment_upload_to': 'summernote/',
     'attachment_filesize_limit': 5 * 1024 * 1024,

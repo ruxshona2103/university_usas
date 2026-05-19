@@ -715,12 +715,14 @@ class SportNatijaSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'bosqich', 'bosqich_display', 'sport_turi', 'talabalar_soni',
             'jahon_chempionati_1', 'jahon_chempionati_2', 'jahon_chempionati_3',
+            'jahon_kubogi_1', 'jahon_kubogi_2', 'jahon_kubogi_3',
             'para_osiyo_1', 'para_osiyo_2', 'para_osiyo_3',
             'osiyo_chempionati_1', 'osiyo_chempionati_2', 'osiyo_chempionati_3',
             'osiyo_kubogi_1', 'osiyo_kubogi_2', 'osiyo_kubogi_3',
             'xalqaro_turnir_1', 'xalqaro_turnir_2', 'xalqaro_turnir_3',
-            'mdh_1', 'mdh_2', 'mdh_3',
-            'osiyo_yoshlar_1', 'osiyo_yoshlar_2', 'osiyo_yoshlar_3',
+            'prezident_1', 'prezident_2', 'prezident_3',
+            'ozb_chempionati_1', 'ozb_chempionati_2', 'ozb_chempionati_3',
+            'ozb_kubogi_1', 'ozb_kubogi_2', 'ozb_kubogi_3',
             'jami', 'order',
         ]
 

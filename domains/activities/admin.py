@@ -490,12 +490,14 @@ class SportNatijaAdmin(admin.ModelAdmin):
         ('Asosiy', {'fields': ('bosqich', 'talabalar_soni', 'order')}),
         ('Sport turi', {'fields': ('sport_turi_uz', 'sport_turi_ru', 'sport_turi_en')}),
         ('Jahon chempionati', {'fields': ('jahon_chempionati_1', 'jahon_chempionati_2', 'jahon_chempionati_3')}),
+        ('Jahon kubogi', {'fields': ('jahon_kubogi_1', 'jahon_kubogi_2', 'jahon_kubogi_3')}),
         ('Para osiyo', {'fields': ('para_osiyo_1', 'para_osiyo_2', 'para_osiyo_3')}),
         ('Osiyo chempionati', {'fields': ('osiyo_chempionati_1', 'osiyo_chempionati_2', 'osiyo_chempionati_3')}),
         ('Osiyo kubogi', {'fields': ('osiyo_kubogi_1', 'osiyo_kubogi_2', 'osiyo_kubogi_3')}),
         ('Xalqaro turnir', {'fields': ('xalqaro_turnir_1', 'xalqaro_turnir_2', 'xalqaro_turnir_3')}),
-        ('MDH', {'fields': ('mdh_1', 'mdh_2', 'mdh_3')}),
-        ('Osiyo yoshlar', {'fields': ('osiyo_yoshlar_1', 'osiyo_yoshlar_2', 'osiyo_yoshlar_3')}),
+        ('Prezident olimpiyadasi', {'fields': ('prezident_1', 'prezident_2', 'prezident_3')}),
+        ("O'zbekiston chempionati", {'fields': ('ozb_chempionati_1', 'ozb_chempionati_2', 'ozb_chempionati_3')}),
+        ("O'zbekiston kubogi", {'fields': ('ozb_kubogi_1', 'ozb_kubogi_2', 'ozb_kubogi_3')}),
     )
 
 

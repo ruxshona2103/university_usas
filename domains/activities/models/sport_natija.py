@@ -30,6 +30,11 @@ class SportNatija(TimeStampedModel):
     jahon_chempionati_2 = models.PositiveIntegerField(default=0, verbose_name="Jahon chempionati — 2-o'rin")
     jahon_chempionati_3 = models.PositiveIntegerField(default=0, verbose_name="Jahon chempionati — 3-o'rin")
 
+    # Jahon kubogi
+    jahon_kubogi_1 = models.PositiveIntegerField(default=0, verbose_name="Jahon kubogi — 1-o'rin")
+    jahon_kubogi_2 = models.PositiveIntegerField(default=0, verbose_name="Jahon kubogi — 2-o'rin")
+    jahon_kubogi_3 = models.PositiveIntegerField(default=0, verbose_name="Jahon kubogi — 3-o'rin")
+
     # Para osiyo o'yinlari
     para_osiyo_1 = models.PositiveIntegerField(default=0, verbose_name="Para osiyo — 1-o'rin")
     para_osiyo_2 = models.PositiveIntegerField(default=0, verbose_name="Para osiyo — 2-o'rin")
@@ -50,15 +55,20 @@ class SportNatija(TimeStampedModel):
     xalqaro_turnir_2 = models.PositiveIntegerField(default=0, verbose_name="Xalqaro turnir — 2-o'rin")
     xalqaro_turnir_3 = models.PositiveIntegerField(default=0, verbose_name="Xalqaro turnir — 3-o'rin")
 
-    # MDH o'yinlari
-    mdh_1 = models.PositiveIntegerField(default=0, verbose_name="MDH o'yinlari — 1-o'rin")
-    mdh_2 = models.PositiveIntegerField(default=0, verbose_name="MDH o'yinlari — 2-o'rin")
-    mdh_3 = models.PositiveIntegerField(default=0, verbose_name="MDH o'yinlari — 3-o'rin")
+    # Prezident olimpiyadasi
+    prezident_1 = models.PositiveIntegerField(default=0, verbose_name="Prezident olimpiyadasi — 1-o'rin")
+    prezident_2 = models.PositiveIntegerField(default=0, verbose_name="Prezident olimpiyadasi — 2-o'rin")
+    prezident_3 = models.PositiveIntegerField(default=0, verbose_name="Prezident olimpiyadasi — 3-o'rin")
 
-    # III-Osiyo yoshlar
-    osiyo_yoshlar_1 = models.PositiveIntegerField(default=0, verbose_name="Osiyo yoshlar — 1-o'rin")
-    osiyo_yoshlar_2 = models.PositiveIntegerField(default=0, verbose_name="Osiyo yoshlar — 2-o'rin")
-    osiyo_yoshlar_3 = models.PositiveIntegerField(default=0, verbose_name="Osiyo yoshlar — 3-o'rin")
+    # O'zbekiston chempionati
+    ozb_chempionati_1 = models.PositiveIntegerField(default=0, verbose_name="O'zbekiston chempionati — 1-o'rin")
+    ozb_chempionati_2 = models.PositiveIntegerField(default=0, verbose_name="O'zbekiston chempionati — 2-o'rin")
+    ozb_chempionati_3 = models.PositiveIntegerField(default=0, verbose_name="O'zbekiston chempionati — 3-o'rin")
+
+    # O'zbekiston kubogi
+    ozb_kubogi_1 = models.PositiveIntegerField(default=0, verbose_name="O'zbekiston kubogi — 1-o'rin")
+    ozb_kubogi_2 = models.PositiveIntegerField(default=0, verbose_name="O'zbekiston kubogi — 2-o'rin")
+    ozb_kubogi_3 = models.PositiveIntegerField(default=0, verbose_name="O'zbekiston kubogi — 3-o'rin")
 
     order = models.PositiveIntegerField(default=0, verbose_name="Tartib")
 
@@ -72,12 +82,14 @@ class SportNatija(TimeStampedModel):
     def jami(self):
         return sum([
             self.jahon_chempionati_1, self.jahon_chempionati_2, self.jahon_chempionati_3,
+            self.jahon_kubogi_1, self.jahon_kubogi_2, self.jahon_kubogi_3,
             self.para_osiyo_1, self.para_osiyo_2, self.para_osiyo_3,
             self.osiyo_chempionati_1, self.osiyo_chempionati_2, self.osiyo_chempionati_3,
             self.osiyo_kubogi_1, self.osiyo_kubogi_2, self.osiyo_kubogi_3,
             self.xalqaro_turnir_1, self.xalqaro_turnir_2, self.xalqaro_turnir_3,
-            self.mdh_1, self.mdh_2, self.mdh_3,
-            self.osiyo_yoshlar_1, self.osiyo_yoshlar_2, self.osiyo_yoshlar_3,
+            self.prezident_1, self.prezident_2, self.prezident_3,
+            self.ozb_chempionati_1, self.ozb_chempionati_2, self.ozb_chempionati_3,
+            self.ozb_kubogi_1, self.ozb_kubogi_2, self.ozb_kubogi_3,
         ])
 
     def __str__(self):

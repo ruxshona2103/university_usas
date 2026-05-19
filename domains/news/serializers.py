@@ -211,7 +211,9 @@ class InformationImageSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.URI)
     def get_image(self, obj):
-        return _abs_url(self.context.get('request'), obj.image)
+        lang = self.context.get('lang', 'uz')
+        img = getattr(obj, f'image_{lang}', None) or obj.image_uz or obj.image_ru or obj.image_en
+        return _abs_url(self.context.get('request'), img)
 
 
 class InformationContentSerializer(serializers.ModelSerializer):

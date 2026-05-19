@@ -677,12 +677,22 @@ class AboutAcademySectionInline(admin.StackedInline):
     show_change_link = True
 
     def items_preview(self, obj):
+        from django.urls import reverse
+        edit_url = reverse('admin:pages_aboutacademysection_change', args=[obj.pk])
+        btn = format_html(
+            '<a href="{}" style="display:inline-block;margin-bottom:8px;padding:4px 14px;'
+            'background:#1877be;color:#fff;border-radius:4px;font-size:12px;'
+            'text-decoration:none;font-weight:600">✏ Elementlarni tahrirlash</a>',
+            edit_url,
+        )
         items = list(obj.items.order_by('order'))
         if not items:
-            return "— (bo'sh)"
-        lines = [format_html('<li style="margin:2px 0">{}</li>', item.text_uz[:120]) for item in items]
-        return format_html('<ul style="margin:0;padding-left:18px">{}</ul>', format_html(''.join(str(l) for l in lines)))
-    items_preview.short_description = "Elementlar (ko'rish)"
+            return format_html('{}<br><span style="color:#999;font-size:12px">— hali element yo\'q</span>', btn)
+        lines = [format_html('<li style="margin:3px 0">{}</li>', item.text_uz[:150]) for item in items]
+        lst = format_html('<ul style="margin:6px 0 0;padding-left:18px">{}</ul>',
+                          format_html(''.join(str(l) for l in lines)))
+        return format_html('{}{}', btn, lst)
+    items_preview.short_description = "Elementlar"
 
 
 class AboutAcademyProgramInline(admin.TabularInline):

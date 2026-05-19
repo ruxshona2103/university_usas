@@ -671,9 +671,18 @@ class AboutAcademySectionItemInline(admin.TabularInline):
 class AboutAcademySectionInline(admin.StackedInline):
     model            = AboutAcademySection
     extra            = 0
-    fields           = ('key', 'title_uz', 'title_ru', 'title_en', 'order')
+    fields           = ('key', 'title_uz', 'title_ru', 'title_en', 'order', 'items_preview')
+    readonly_fields  = ('items_preview',)
     ordering         = ('order',)
     show_change_link = True
+
+    def items_preview(self, obj):
+        items = list(obj.items.order_by('order'))
+        if not items:
+            return "— (bo'sh)"
+        lines = [format_html('<li style="margin:2px 0">{}</li>', item.text_uz[:120]) for item in items]
+        return format_html('<ul style="margin:0;padding-left:18px">{}</ul>', format_html(''.join(str(l) for l in lines)))
+    items_preview.short_description = "Elementlar (ko'rish)"
 
 
 class AboutAcademyProgramInline(admin.TabularInline):

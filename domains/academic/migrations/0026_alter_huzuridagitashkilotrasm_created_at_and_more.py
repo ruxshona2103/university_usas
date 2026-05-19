@@ -4,6 +4,71 @@ import uuid
 from django.db import migrations, models
 
 
+def _change_pk_to_uuid(apps, schema_editor):
+    vendor = schema_editor.connection.vendor
+    if vendor == 'postgresql':
+        for sql in [
+            """ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
+               ADD COLUMN "_new_id" uuid DEFAULT gen_random_uuid() NOT NULL""",
+            """ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
+               DROP CONSTRAINT "academic_huzuridagi_tashkilot_rasm_pkey" """,
+            """ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
+               DROP COLUMN "id" """,
+            """ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
+               RENAME COLUMN "_new_id" TO "id" """,
+            """ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
+               ALTER COLUMN "id" DROP DEFAULT""",
+            """ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
+               ADD PRIMARY KEY ("id")""",
+        ]:
+            schema_editor.execute(sql)
+    else:
+        # SQLite: recreate the table with a char(32) UUID pk.
+        with schema_editor.connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'"
+                " AND name='academic_huzuridagi_tashkilot_rasm'"
+            )
+            if not cursor.fetchone():
+                return  # table not yet created – nothing to do
+
+            cursor.execute("""
+                CREATE TABLE "academic_huzuridagi_tashkilot_rasm_new" (
+                    "id"         char(32)     NOT NULL PRIMARY KEY,
+                    "created_at" datetime     NOT NULL,
+                    "updated_at" datetime     NOT NULL,
+                    "image"      varchar(100) NOT NULL,
+                    "caption_uz" varchar(300) NOT NULL,
+                    "caption_ru" varchar(300) NOT NULL,
+                    "caption_en" varchar(300) NOT NULL,
+                    "order"      integer unsigned NOT NULL CHECK ("order" >= 0),
+                    "tashkilot_id" char(32)   NOT NULL
+                        REFERENCES "academic_huzuridagi_tashkilot" ("id")
+                        DEFERRABLE INITIALLY DEFERRED
+                )
+            """)
+
+            cursor.execute("""
+                SELECT created_at, updated_at, image,
+                       caption_uz, caption_ru, caption_en,
+                       "order", tashkilot_id
+                FROM "academic_huzuridagi_tashkilot_rasm"
+            """)
+            for row in cursor.fetchall():
+                cursor.execute("""
+                    INSERT INTO "academic_huzuridagi_tashkilot_rasm_new"
+                    (id, created_at, updated_at, image,
+                     caption_uz, caption_ru, caption_en, "order", tashkilot_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, (uuid.uuid4().hex,) + tuple(row))
+
+            cursor.execute('DROP TABLE "academic_huzuridagi_tashkilot_rasm"')
+            cursor.execute(
+                'ALTER TABLE "academic_huzuridagi_tashkilot_rasm_new"'
+                ' RENAME TO "academic_huzuridagi_tashkilot_rasm"'
+            )
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -16,24 +81,10 @@ class Migration(migrations.Migration):
             name='created_at',
             field=models.DateTimeField(auto_now_add=True, verbose_name='Yaratilgan vaqt'),
         ),
-        # PostgreSQL cannot cast bigint→uuid directly (USING "id"::uuid fails).
-        # Instead: add a new uuid column, drop the old bigint pk, rename.
-        migrations.RunSQL(
-            sql="""
-                ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
-                    ADD COLUMN "_new_id" uuid DEFAULT gen_random_uuid() NOT NULL;
-                ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
-                    DROP CONSTRAINT "academic_huzuridagi_tashkilot_rasm_pkey";
-                ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
-                    DROP COLUMN "id";
-                ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
-                    RENAME COLUMN "_new_id" TO "id";
-                ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
-                    ALTER COLUMN "id" DROP DEFAULT;
-                ALTER TABLE "academic_huzuridagi_tashkilot_rasm"
-                    ADD PRIMARY KEY ("id");
-            """,
-            reverse_sql=migrations.RunSQL.noop,
+        migrations.SeparateDatabaseAndState(
+            database_operations=[
+                migrations.RunPython(_change_pk_to_uuid, migrations.RunPython.noop),
+            ],
             state_operations=[
                 migrations.AlterField(
                     model_name='huzuridagitashkilotrasm',

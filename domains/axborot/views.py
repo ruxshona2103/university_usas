@@ -7,7 +7,7 @@ from drf_spectacular.utils import extend_schema
 from common.cache_mixin import cached_list
 from .models import AxborotSection
 from .serializers import AxborotSectionSerializer
-from domains.students.models import Person
+from domains.students.models import Person, PersonCategory
 from domains.students.serializers import PersonSerializer
 from domains.tracker.mixins import ViewsCountMixin
 
@@ -54,9 +54,10 @@ class AxborotPersonListAPIView(ViewsCountMixin, generics.ListAPIView):
     pagination_class   = None
 
     def get_queryset(self):
+        cat_ids = _axborot_cat_ids()
         return (
             Person.objects
-            .filter(is_active=True, category__slug='axborot-xizmati')
+            .filter(is_active=True, category__id__in=cat_ids)
             .select_related('category')
             .prefetch_related('images', 'tabs__tags')
             .order_by('order', '-id')
@@ -66,6 +67,14 @@ class AxborotPersonListAPIView(ViewsCountMixin, generics.ListAPIView):
         ctx = super().get_serializer_context()
         ctx['lang'] = _lang(self.request)
         return ctx
+
+
+def _axborot_cat_ids():
+    """axborot-xizmati va uning barcha bolalari ID lari."""
+    root = PersonCategory.objects.filter(slug='axborot-xizmati').prefetch_related('children').first()
+    if not root:
+        return []
+    return [root.id] + list(root.children.values_list('id', flat=True))
 
 
 @extend_schema(
@@ -83,6 +92,9 @@ class AxborotXizmatiPageAPIView(APIView):
         lang = _lang(request)
         ctx = {'request': request, 'lang': lang}
 
+        root = PersonCategory.objects.filter(slug='axborot-xizmati').prefetch_related('children').first()
+        cat_ids = [root.id] + list(root.children.values_list('id', flat=True)) if root else []
+
         sections_qs = (
             AxborotSection.objects
             .filter(is_active=True)
@@ -91,13 +103,22 @@ class AxborotXizmatiPageAPIView(APIView):
         )
         persons_qs = (
             Person.objects
-            .filter(is_active=True, category__slug='axborot-xizmati')
+            .filter(is_active=True, category__id__in=cat_ids)
             .select_related('category')
             .prefetch_related('images', 'tabs__tags')
             .order_by('order', '-id')
-        )
+        ) if cat_ids else Person.objects.none()
+
+        page_config = {
+            'title': {
+                'uz': root.title_uz,
+                'ru': root.title_ru or root.title_uz,
+                'en': root.title_en or root.title_uz,
+            },
+        } if root else None
 
         return Response({
+            'page_config': page_config,
             'sections': AxborotSectionSerializer(sections_qs, many=True, context=ctx).data,
             'persons': PersonSerializer(persons_qs, many=True, context=ctx).data,
         })

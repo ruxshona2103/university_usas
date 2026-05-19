@@ -57,7 +57,9 @@ class NationalRatingImage(TimeStampedModel):
         related_name='images',
         verbose_name="Milliy reyting",
     )
-    image = models.FileField(upload_to=national_rating_image_upload, verbose_name="Rasm")
+    image_uz = models.FileField(upload_to=national_rating_image_upload, verbose_name="Rasm (Uz)")
+    image_ru = models.FileField(upload_to=national_rating_image_upload, blank=True, null=True, verbose_name="Rasm (Ru)")
+    image_en = models.FileField(upload_to=national_rating_image_upload, blank=True, null=True, verbose_name="Rasm (En)")
     alt_uz = models.CharField(max_length=300, blank=True, verbose_name="Alt (Uz)")
     alt_ru = models.CharField(max_length=300, blank=True, verbose_name="Alt (Ru)")
     alt_en = models.CharField(max_length=300, blank=True, verbose_name="Alt (En)")

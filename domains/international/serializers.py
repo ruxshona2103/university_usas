@@ -190,7 +190,9 @@ class NationalRatingImageSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.URI)
     def get_image(self, obj):
-        return _abs_url(self.context.get('request'), obj.image)
+        lang = self.context.get('lang', 'uz')
+        img = getattr(obj, f'image_{lang}', None) or obj.image_uz
+        return _abs_url(self.context.get('request'), img)
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_alt(self, obj):

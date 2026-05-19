@@ -109,7 +109,7 @@ class InternationalRatingImageInline(admin.TabularInline):
 class NationalRatingImageInline(admin.TabularInline):
     model = NationalRatingImage
     extra = 1
-    fields = ('image', 'alt_uz', 'alt_ru', 'alt_en', 'order')
+    fields = ('image_uz', 'image_ru', 'image_en', 'alt_uz', 'alt_ru', 'alt_en', 'order')
     ordering = ('order',)
 
 

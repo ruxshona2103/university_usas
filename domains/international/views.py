@@ -145,7 +145,6 @@ class InternationalRatingDetailAPIView(ViewsCountMixin, generics.RetrieveAPIView
         return ctx
 
 
-@cached_list(120)
 @extend_schema(tags=['international'], summary="Milliy reytinglar ro'yxati")
 class NationalRatingListAPIView(generics.ListAPIView):
     """?lang=uz|ru|en"""

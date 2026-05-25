@@ -74,14 +74,15 @@ class KafedraRasmSerializer(serializers.ModelSerializer):
 
 
 class KafedraXodimSerializer(serializers.ModelSerializer):
-    """Professor-o'qituvchilar tarkibi — faqat rasm, ism, lavozim."""
+    """Professor-o'qituvchilar tarkibi — faqat rasm, ism, lavozim, daraja."""
     full_name = serializers.SerializerMethodField()
     lavozim   = serializers.SerializerMethodField()
+    daraja    = serializers.SerializerMethodField()
     photo_url = serializers.SerializerMethodField()
 
     class Meta:
         model  = KafedraXodim
-        fields = ['id', 'full_name', 'lavozim', 'photo_url', 'order']
+        fields = ['id', 'full_name', 'lavozim', 'daraja', 'photo_url', 'order']
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_full_name(self, obj):
@@ -92,6 +93,13 @@ class KafedraXodimSerializer(serializers.ModelSerializer):
         uz = obj.lavozim_uz or obj.person.title_uz or ''
         ru = obj.lavozim_ru or obj.person.title_ru or uz
         en = obj.lavozim_en or obj.person.title_en or uz
+        return {'uz': uz, 'ru': ru, 'en': en}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_daraja(self, obj):
+        uz = getattr(obj.person, 'degree_uz', None) or ''
+        ru = getattr(obj.person, 'degree_ru', None) or uz
+        en = getattr(obj.person, 'degree_en', None) or uz
         return {'uz': uz, 'ru': ru, 'en': en}
 
     @extend_schema_field(OpenApiTypes.STR)

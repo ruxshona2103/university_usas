@@ -6,9 +6,9 @@ from .models import AxborotSection, AxborotVazifa
 
 
 class AxborotVazifaForm(forms.ModelForm):
-    body_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Uz)")
-    body_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Ru)")
-    body_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (En)")
+    body_uz = forms.CharField(label="Matn (Uz)")
+    body_ru = forms.CharField(label="Matn (Ru)")
+    body_en = forms.CharField(label="Matn (En)")
 
     class Meta:
         model  = AxborotVazifa

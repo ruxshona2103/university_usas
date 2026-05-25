@@ -85,7 +85,7 @@ class KafedraRasmInline(admin.TabularInline):
 class KafedraXodimInline(admin.TabularInline):
     model               = KafedraXodim
     extra               = 1
-    fields              = ('person', 'order')
+    fields              = ('person', 'lavozim_uz', 'lavozim_ru', 'lavozim_en', 'order')
     ordering            = ('order',)
     autocomplete_fields = ['person']
 

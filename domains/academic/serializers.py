@@ -89,11 +89,10 @@ class KafedraXodimSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_lavozim(self, obj):
-        return {
-            'uz': obj.person.title_uz or '',
-            'ru': obj.person.title_ru or '',
-            'en': obj.person.title_en or '',
-        }
+        uz = obj.lavozim_uz or obj.person.title_uz or ''
+        ru = obj.lavozim_ru or obj.person.title_ru or uz
+        en = obj.lavozim_en or obj.person.title_en or uz
+        return {'uz': uz, 'ru': ru, 'en': en}
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_photo_url(self, obj):

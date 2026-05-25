@@ -22,6 +22,9 @@ class KafedraXodim(TimeStampedModel):
         related_name='kafedra_links',
         verbose_name="Shaxs",
     )
+    lavozim_uz = models.CharField(max_length=255, blank=True, verbose_name="Lavozim (Uz)")
+    lavozim_ru = models.CharField(max_length=255, blank=True, verbose_name="Lavozim (Ru)")
+    lavozim_en = models.CharField(max_length=255, blank=True, verbose_name="Lavozim (En)")
     order = models.PositiveIntegerField(default=0, verbose_name="Tartib")
 
     class Meta:

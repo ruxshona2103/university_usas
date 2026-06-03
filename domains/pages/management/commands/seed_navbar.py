@@ -29,22 +29,22 @@ CATEGORIES = [
 # (cat_key, id_slug, order, uz_name, ru_name, en_name, url)
 ITEMS = [
     # ── AKADEMIYA ────────────────────────────────────────────────────────────────
-    ("akademiya", "about-academy",        1,  "Akademiya haqida",                             "Об академии",                                      "About Academy",                 "/page/about-academy"),
+    ("akademiya", "about-academy",        1,  "Akademiya haqida",                             "Об Академии",                                      "About Academy",                 "/page/about-academy"),
     ("akademiya", "academy-in-numbers",   2,  "Akademiya raqamlarda",                         "Академия в цифрах",                                "Academy in Numbers",            "/api/academic/stats/"),
     ("akademiya", "rectorate",            3,  "Rektorat",                                     "Ректорат",                                         "Rectorate",                     "/api/categories/rektorat/"),
     ("akademiya", "academy-structure",    4,  "Tuzilma",                                      "Структура",                                        "Structure",                     "/api/org-structure/"),
     ("akademiya", "academy-details",      5,  "Rekvizitlar",                                  "Реквизиты",                                        "Details",                       "/api/academic/detail/"),
     ("akademiya", "academy-regulations",  6,  "Me'yoriy hujjatlar",                           "Нормативные документы",                            "Regulations",                   "/page/academy-regulations"),
     ("akademiya", "academy-buildings",    7,  "O'quv binolari va Sport inshootlari",           "Учебные корпуса",                                  "Academy Buildings",             "/page/academy-buildings"),
-    ("akademiya", "academy-organizations",8,  "Akademiya huzuridagi tashkilotlar",            "Организации при академии",                         "Organizations",                 "/page/academy-organizations"),
-    ("akademiya", "academy-council",      9,  "Akademiya kengashi",                           "Совет академии",                                   "Academy Council",               "/api/categories/akademiya-kengashi/"),
+    ("akademiya", "academy-organizations",8,  "Akademiya huzuridagi tashkilotlar",            "Подведомственные организации",                     "Organizations",                 "/page/academy-organizations"),
+    ("akademiya", "academy-council",      9,  "Akademiya kengashi",                           "Совет Академии",                                   "Academy Council",               "/api/categories/akademiya-kengashi/"),
     ("akademiya", "faculties",            10, "Fakultet",                                     "Факультеты",                                       "Faculties",                     "/api/academic/fakultet-kafedralar/"),
     ("akademiya", "public-organizations",  11, "Jamoat tashkilotlari",                        "Общественные организации",                         "Public Organizations",          "/page/public-organizations"),
     ("akademiya", "xotin-qizlar-qomitasi",12, "Xotin-qizlar qo'mitasi",                      "Женский комитет",                                  "Women's Committee",             "/page/xotin-qizlar-qomitasi"),
     ("akademiya", "yoshlar-ittifoqi",     13, "Yoshlar ittifoqi",                            "Молодёжный союз",                                  "Youth Union",                   "/page/yoshlar-ittifoqi"),
     ("akademiya", "kasaba-uyushmasi",     14, "Kasaba uyushmasi",                            "Профсоюз",                                         "Trade Union",                   "/page/kasaba-uyushmasi"),
     ("akademiya", "centers",              15, "Markazlar",                                    "Центры",                                           "Centers",                       "/api/categories/markazlar/"),
-    ("akademiya", "360-panorama",         13, "360° ko'rinish",                               "Просмотр 360°",                                    "360° View",                     "/360"),
+    ("akademiya", "360-panorama",         13, "360° ko'rinish",                               "Виртуальный тур 360°",                             "360° View",                     "/360"),
 
     # ── FAOLIYAT ─────────────────────────────────────────────────────────────────
     ("faoliyat", "faoliyat-sport",    1, "Sport faoliyat",                "Спортивная деятельность",              "Sports Activity",              "/api/activities/faoliyat/?category=sport-faoliyat"),
@@ -54,12 +54,12 @@ ITEMS = [
     ("faoliyat", "faoliyat-moliyaviy",5, "Moliyaviy faoliyat",           "Финансовая деятельность",              "Financial Activity",            "/api/activities/faoliyat/?category=moliyaviy-faoliyat"),
 
     # ── XALQARO ALOQALAR ─────────────────────────────────────────────────────────
-    ("xalqaro-aloqalar", "international-dept",          1, "Xalqaro bo'lim",                        "Международный отдел",                         "International Department",      "/page/international-dept"),
+    ("xalqaro-aloqalar", "international-dept",          1, "Xalqaro hamkorlik bo'limi",              "Международный отдел",                         "International Department",      "/page/international-dept"),
     ("xalqaro-aloqalar", "international-partners",      2, "Xalqaro hamkor tashkilotlar",           "Международные партнёрские организации",       "International Partners",        "/api/partner-organizations/"),
     ("xalqaro-aloqalar", "abroad-training",             3, "Xorijda malaka oshirish va ta'lim",     "Повышение квалификации и обучение за рубежom","Abroad Training",               "/api/international-posts/"),
     ("xalqaro-aloqalar", "international-announcements", 4, "Xalqaro bo'lim e'lonlari",              "Объявления международного отдела",            "International Announcements",   "/api/international-posts/"),
     ("xalqaro-aloqalar", "academic-mobility",           5, "Akademik almashinuv",                   "Академическая мобильность",                   "Academic Mobility",             "/api/international-posts/"),
-    ("xalqaro-aloqalar", "about-us-foreigners",         6, "Xorijliklar «Biz haqimizda»",           "Иностранцы «О нас»",                          "About Us (Foreigners)",         "/api/foreign-reviews/"),
+    ("xalqaro-aloqalar", "about-us-foreigners",         6, "Xorijliklar \"Biz haqimizda\"",          "Иностранцы «О нас»",                          "About Us (Foreigners)",         "/api/foreign-reviews/"),
     ("xalqaro-aloqalar", "foreign-professors",          7, "Xorijlik professor-o'qituvchilar",      "Иностранные профессора-преподаватели",         "Foreign Professors",            "/api/foreign-reviews/"),
     ("xalqaro-aloqalar", "rating-sportsmen",            8, "Sportchilarni reytingi",                "Рейтинг спортсменов",                         "Sportsmen Rating",              "/api/olimpiya/"),
     ("xalqaro-aloqalar", "rating-faculty",              9, "Professor-o'qituvchilarni reytingi",    "Рейтинг профессорско-преподавательского состава","Faculty Rating",              "/api/academic/fakultet-kafedralar/"),
@@ -431,7 +431,7 @@ O'QISH NATIJALARI
 
 Xorijda o'qitilgan fanlar akademiyaning o'quv rejasi doirasida hisobga olinadi. Kreditlarni o'tkazish tartibi xalqaro aloqalar bo'limi va o'quv ishlari bo'limi bilan kelishiladi.""",
 
-    "about-us-foreigners": """XORIJLIKLAR «BIZ HAQIMIZDA»
+    "about-us-foreigners": """XORIJLIKLAR "BIZ HAQIMIZDA"
 
 O'zbekiston davlat sport akademiyasi xalqaro hamkorlar va xorijiy mutaxassislar tomonidan yuqori baholanmoqda.
 

@@ -74,15 +74,17 @@ class KafedraRasmSerializer(serializers.ModelSerializer):
 
 
 class KafedraXodimSerializer(serializers.ModelSerializer):
-    """Professor-o'qituvchilar tarkibi — faqat rasm, ism, lavozim, daraja."""
+    """Professor-o'qituvchilar tarkibi — rasm, ism, lavozim, daraja, email, telefon."""
     full_name = serializers.SerializerMethodField()
     lavozim   = serializers.SerializerMethodField()
     daraja    = serializers.SerializerMethodField()
     photo_url = serializers.SerializerMethodField()
+    email     = serializers.SerializerMethodField()
+    phone     = serializers.SerializerMethodField()
 
     class Meta:
         model  = KafedraXodim
-        fields = ['id', 'full_name', 'lavozim', 'daraja', 'photo_url', 'order']
+        fields = ['id', 'full_name', 'lavozim', 'daraja', 'photo_url', 'order', 'email', 'phone']
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_full_name(self, obj):
@@ -111,6 +113,14 @@ class KafedraXodimSerializer(serializers.ModelSerializer):
             except Exception:
                 return None
         return None
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_email(self, obj):
+        return getattr(obj.person, 'email', None) or None
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_phone(self, obj):
+        return getattr(obj.person, 'phone', None) or None
 
 
 class KafedraPublicationSerializer(serializers.ModelSerializer):

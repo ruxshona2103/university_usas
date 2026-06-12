@@ -224,7 +224,8 @@ class NavbarPageSerializer(serializers.ModelSerializer):
     frontend tipiga qarab komponent ko'rsatadi.
 
     Block turlari:
-      hero, rich-text, stats, gallery, quote, table, timeline  ← ContentBlock
+      hero, rich-text, stats, gallery, quote, table, timeline,
+      announcement, image, button-link                          ← ContentBlock
       file-list, useful-links                                   ← LinkBlock
     """
     name     = serializers.SerializerMethodField()
@@ -315,6 +316,36 @@ class NavbarPageSerializer(serializers.ModelSerializer):
 
         if obj.block_type in ('stats', 'table', 'timeline'):
             return obj.json_data or {}
+
+        if obj.block_type == 'announcement':
+            return {
+                'title':   title,
+                'content': desc,
+                'link':    obj.link,
+                'variant': (obj.json_data or {}).get('variant', 'warning'),
+                'icon':    (obj.json_data or {}).get('icon', '🔔'),
+                'link_text': (obj.json_data or {}).get('link_text', ''),
+            }
+
+        if obj.block_type == 'image':
+            imgs = obj.images.all().order_by('order')
+            first = imgs.first()
+            src = _abs_url(self.context.get('request'), first.image) if first else None
+            return {
+                'src':     src,
+                'alt':     title,
+                'caption': desc,
+                'link':    obj.link,
+                'size':    (obj.json_data or {}).get('size', 'large'),
+            }
+
+        if obj.block_type == 'button-link':
+            return {
+                'label':  title,
+                'url':    obj.link,
+                'target': (obj.json_data or {}).get('target', '_blank'),
+                'variant': (obj.json_data or {}).get('variant', 'primary'),
+            }
 
         # fallback
         return base

@@ -6,13 +6,16 @@ from common.models import ContentImage
 
 
 class BlockType(models.TextChoices):
-    HERO       = 'hero',       'Hero banner'
-    RICH_TEXT  = 'rich-text',  'Matn (HTML)'
-    STATS      = 'stats',      'Statistikalar'
-    GALLERY    = 'gallery',    'Galereya'
-    QUOTE      = 'quote',      'Iqtibos'
-    TABLE      = 'table',      'Jadval'
-    TIMELINE   = 'timeline',   "Vaqt chizig'i"
+    HERO         = 'hero',         'Hero banner'
+    RICH_TEXT    = 'rich-text',    'Matn (HTML)'
+    STATS        = 'stats',        'Statistikalar'
+    GALLERY      = 'gallery',      'Galereya'
+    QUOTE        = 'quote',        'Iqtibos'
+    TABLE        = 'table',        'Jadval'
+    TIMELINE     = 'timeline',     "Vaqt chizig'i"
+    ANNOUNCEMENT = 'announcement', "E'lon / Xabarnoma"
+    IMAGE        = 'image',        'Rasm (katta)'
+    BUTTON_LINK  = 'button-link',  'Tugma + Havola'
 
 
 class LinkBlockType(models.TextChoices):

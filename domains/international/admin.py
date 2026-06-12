@@ -5,12 +5,16 @@ from django.http import JsonResponse
 from django.urls import path
 from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
 
+from django.db import models as db_models
+from django.forms import Textarea
+
 from .models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
     InternationalPost, InternationalPostImage,
     InternationalRating, InternationalRatingImage,
     NationalRating, NationalRatingImage,
     InternationalDeptConfig, MemorandumStat,
+    StudyInUzbekistanConfig,
 )
 
 
@@ -335,3 +339,39 @@ class XalqaroReytingBolimAdmin(admin.ModelAdmin):
         ("Tavsif", {'fields': ('description_uz', 'description_ru', 'description_en')}),
         ("Asosiy rasm va havola", {'fields': ('image', 'image_ru', 'image_en', 'link')}),
     )
+
+
+@admin.register(StudyInUzbekistanConfig)
+class StudyInUzbekistanConfigAdmin(admin.ModelAdmin):
+    """Singleton — faqat bitta yozuv mavjud bo'ladi."""
+
+    formfield_overrides = {
+        db_models.TextField: {'widget': Textarea(attrs={'rows': 6, 'cols': 80})},
+    }
+
+    fieldsets = (
+        ("Kirish matni", {
+            'description': "Sahifa bosh qismidagi matn. Oddiy matn yoki HTML qabul qiladi.",
+            'fields': ('intro_uz', 'intro_ru', 'intro_en'),
+        }),
+        ("Banner rasm", {
+            'fields': ('banner_image', 'banner_link', 'banner_caption_uz', 'banner_caption_ru', 'banner_caption_en'),
+        }),
+        ("E'lon qutisi", {
+            'fields': (
+                'announcement_show', 'announcement_variant', 'announcement_icon',
+                'announcement_title_uz', 'announcement_title_ru', 'announcement_title_en',
+                'announcement_text_uz', 'announcement_text_ru', 'announcement_text_en',
+                'announcement_link', 'announcement_link_text',
+            ),
+        }),
+        ("Portal tugmasi", {
+            'fields': ('portal_url', 'portal_button_uz', 'portal_button_ru', 'portal_button_en'),
+        }),
+    )
+
+    def has_add_permission(self, request):
+        return not StudyInUzbekistanConfig.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False

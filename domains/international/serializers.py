@@ -11,6 +11,7 @@ from domains.international.models import (
     AkademikAlmashinuv, AkademikAlmashinuvRasm,
     XalqaroReytingBolim, XalqaroReytingBolimRasm,
     XorijlikProfessor,
+    StudyInUzbekistanConfig,
 )
 
 
@@ -449,3 +450,57 @@ class XorijlikProfessorSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.URI)
     def get_photo_url(self, obj):
         return _abs_url(self.context.get('request'), obj.photo)
+
+
+class StudyInUzbekistanConfigSerializer(serializers.ModelSerializer):
+    intro          = serializers.SerializerMethodField()
+    banner_image   = serializers.SerializerMethodField()
+    banner_caption = serializers.SerializerMethodField()
+    announcement   = serializers.SerializerMethodField()
+    portal_button  = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = StudyInUzbekistanConfig
+        fields = [
+            'intro',
+            'banner_image', 'banner_link', 'banner_caption',
+            'announcement',
+            'portal_url', 'portal_button',
+        ]
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_intro(self, obj):
+        return getattr(obj, f'intro_{self._lang()}') or obj.intro_uz
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_banner_image(self, obj):
+        if not obj.banner_image:
+            return None
+        return _abs_url(self.context.get('request'), obj.banner_image)
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_banner_caption(self, obj):
+        return getattr(obj, f'banner_caption_{self._lang()}') or obj.banner_caption_uz
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_announcement(self, obj):
+        if not obj.announcement_show:
+            return None
+        lang = self._lang()
+        return {
+            'show':      obj.announcement_show,
+            'variant':   obj.announcement_variant,
+            'icon':      obj.announcement_icon,
+            'title':     getattr(obj, f'announcement_title_{lang}') or obj.announcement_title_uz,
+            'text':      getattr(obj, f'announcement_text_{lang}') or obj.announcement_text_uz,
+            'link':      obj.announcement_link,
+            'link_text': obj.announcement_link_text,
+        }
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_portal_button(self, obj):
+        lang = self._lang()
+        return getattr(obj, f'portal_button_{lang}') or obj.portal_button_uz or 'Study in Uzbekistan'

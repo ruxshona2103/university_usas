@@ -13,6 +13,7 @@ from domains.international.models import (
     NationalRating,
     InternationalDeptConfig, MemorandumStat, AkademikAlmashinuv,
     XalqaroReytingBolim, XalqaroReytingBolimRasm, XorijlikProfessor,
+    StudyInUzbekistanConfig,
 )
 from .serializers import (
     ForeignProfessorReviewSerializer, PartnerOrganizationSerializer, PartnerPageConfigSerializer,
@@ -21,6 +22,7 @@ from .serializers import (
     InternationalDeptConfigSerializer, MemorandumStatSerializer,
     AkademikAlmashinuvSerializer, XalqaroReytingBolimSerializer,
     XorijlikProfessorSerializer,
+    StudyInUzbekistanConfigSerializer,
 )
 
 
@@ -402,6 +404,22 @@ class XorijlikProfessorDetailBySlugAPIView(generics.RetrieveAPIView):
     permission_classes = [AllowAny]
     lookup_field       = 'slug'
     queryset           = XorijlikProfessor.objects.filter(is_active=True)
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        lang = self.request.query_params.get('lang', 'uz')
+        ctx['lang'] = lang if lang in ('uz', 'ru', 'en') else 'uz'
+        return ctx
+
+
+@extend_schema(tags=['international'], summary="Study in Uzbekistan sahifasi konfiguratsiyasi")
+class StudyInUzbekistanConfigAPIView(generics.RetrieveAPIView):
+    """?lang=uz|ru|en"""
+    serializer_class   = StudyInUzbekistanConfigSerializer
+    permission_classes = [AllowAny]
+
+    def get_object(self):
+        return StudyInUzbekistanConfig.load()
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()

@@ -1,12 +1,9 @@
 import json
 from django import forms
 from django.contrib import admin
+from django.db import models as db_models
 from django.http import JsonResponse
 from django.urls import path
-from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
-
-from django.db import models as db_models
-from django.forms import Textarea
 
 from .models import (
     ForeignProfessorReview, PartnerOrganization, PartnerPageConfig,
@@ -117,29 +114,11 @@ class NationalRatingImageInline(admin.TabularInline):
     ordering = ('order',)
 
 
-class InternationalRatingForm(forms.ModelForm):
-    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
-    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
-    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
-
-    class Meta:
-        model  = InternationalRating
-        fields = '__all__'
-
-
-class NationalRatingForm(forms.ModelForm):
-    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Uz)")
-    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Ru)")
-    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (En)")
-
-    class Meta:
-        model = NationalRating
-        fields = '__all__'
-
-
 @admin.register(InternationalRating)
 class InternationalRatingAdmin(admin.ModelAdmin):
-    form           = InternationalRatingForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display   = ('title_uz', 'date', 'order', 'is_active')
     list_editable  = ('order', 'is_active')
     list_filter    = ('is_active',)
@@ -161,7 +140,9 @@ class InternationalRatingAdmin(admin.ModelAdmin):
 
 @admin.register(NationalRating)
 class NationalRatingAdmin(admin.ModelAdmin):
-    form = NationalRatingForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display = ('name_uz', 'title_uz', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter = ('is_active',)
@@ -219,19 +200,11 @@ class MemorandumStatAdmin(AutoTranslateMixin, admin.ModelAdmin):
     )
 
 
-class InternationalPostForm(forms.ModelForm):
-    content_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Uz)")
-    content_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Ru)")
-    content_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (En)")
-
-    class Meta:
-        model  = InternationalPost
-        fields = '__all__'
-
-
 @admin.register(InternationalPost)
 class InternationalPostAdmin(admin.ModelAdmin):
-    form          = InternationalPostForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display  = ('title_uz', 'post_type', 'date', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('is_active', 'post_type')
@@ -256,21 +229,13 @@ class AkademikAlmashinuvRasmInline(admin.TabularInline):
     fields = ('image', 'image_ru', 'image_en', 'caption_uz', 'caption_ru', 'caption_en', 'order')
 
 
-class AkademikAlmashinuvForm(forms.ModelForm):
-    body_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Uz)")
-    body_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Ru)")
-    body_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (En)")
-
-    class Meta:
-        model  = AkademikAlmashinuv
-        fields = '__all__'
-
-
 @admin.register(AkademikAlmashinuv)
 class AkademikAlmashinuvAdmin(AutoTranslateMixin, admin.ModelAdmin):
     translate_url_name   = 'akademikalmashinuv_translate'
     change_form_template = 'admin/international/akademikalmashinuv/change_form.html'
-    form          = AkademikAlmashinuvForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display  = ('title_uz', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     search_fields = ('title_uz',)
@@ -284,22 +249,11 @@ class AkademikAlmashinuvAdmin(AutoTranslateMixin, admin.ModelAdmin):
 from .models import XalqaroReytingBolim, XalqaroReytingBolimRasm, XorijlikProfessor
 
 
-class XorijlikProfessorForm(forms.ModelForm):
-    bio_uz       = forms.CharField(widget=SummernoteWidget(), required=False, label="Bio (Uz)")
-    bio_ru       = forms.CharField(widget=SummernoteWidget(), required=False, label="Bio (Ru)")
-    bio_en       = forms.CharField(widget=SummernoteWidget(), required=False, label="Bio (En)")
-    education_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Ma'lumoti (Uz)")
-    education_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Ma'lumoti (Ru)")
-    education_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Ma'lumoti (En)")
-
-    class Meta:
-        model  = XorijlikProfessor
-        fields = '__all__'
-
-
 @admin.register(XorijlikProfessor)
 class XorijlikProfessorAdmin(admin.ModelAdmin):
-    form          = XorijlikProfessorForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display  = ('full_name', 'country', 'from_year', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('is_active', 'country')
@@ -346,7 +300,7 @@ class StudyInUzbekistanConfigAdmin(admin.ModelAdmin):
     """Singleton — faqat bitta yozuv mavjud bo'ladi."""
 
     formfield_overrides = {
-        db_models.TextField: {'widget': Textarea(attrs={'rows': 6, 'cols': 80})},
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 6, 'cols': 80})},
     }
 
     fieldsets = (

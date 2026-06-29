@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
+from django.db import models as db_models
 from django.utils.html import format_html
-from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
 
 from .models import IlmiyTadqiqot, IlmiyTadqiqotFile, IlmiyTadqiqotCategory
 
@@ -20,19 +20,11 @@ class IlmiyTadqiqotFileInline(admin.TabularInline):
     fields = ('title_uz', 'file', 'order')
 
 
-class IlmiyTadqiqotForm(forms.ModelForm):
-    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
-    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
-    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
-
-    class Meta:
-        model  = IlmiyTadqiqot
-        fields = '__all__'
-
-
 @admin.register(IlmiyTadqiqot)
 class IlmiyTadqiqotAdmin(admin.ModelAdmin):
-    form          = IlmiyTadqiqotForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display  = ('title_uz', 'category', 'author_uz', 'date', 'is_published', 'views')
     list_editable = ('is_published',)
     list_filter   = ('is_published', 'category')

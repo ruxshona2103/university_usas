@@ -1,9 +1,9 @@
 from django import forms
 from django.contrib import admin
+from django.db import models as db_models
 from django.http import JsonResponse
 from django.urls import path
 from django.utils.html import format_html
-from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
 
 from .models import (
     ContractPrice,
@@ -64,9 +64,6 @@ class OquvFaoliyatAdminForm(forms.ModelForm):
         label="Kategoriya",
         empty_label="---------",
     )
-    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
-    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
-    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
 
     class Meta:
         model  = IlmiyFaoliyat
@@ -172,6 +169,9 @@ class ServiceVehicleAdmin(admin.ModelAdmin):
 class OquvFaoliyatAdmin(admin.ModelAdmin):
     form                = OquvFaoliyatAdminForm
     change_form_template = 'admin/activities/ilmiyfaoliyat/change_form.html'
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
 
     list_display  = ('title_uz', 'category', 'file_link', 'order', 'is_active')
     list_editable = ('order', 'is_active')
@@ -280,19 +280,11 @@ class SportYonalishAdmin(admin.ModelAdmin):
     )
 
 
-class SportTadbirForm(forms.ModelForm):
-    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
-    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
-    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
-
-    class Meta:
-        model  = SportTadbir
-        fields = '__all__'
-
-
 @admin.register(SportTadbir)
 class SportTadbirAdmin(admin.ModelAdmin):
-    form          = SportTadbirForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display  = ('title_uz', 'event_date', 'location_uz', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     search_fields = ('title_uz', 'title_ru')

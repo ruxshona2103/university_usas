@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib import admin
-from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
+from django.db import models as db_models
 from .models import (
     QabulBolim, QabulBolimItem,
     QabulKomissiyaTarkibi,
@@ -13,25 +13,17 @@ from .models import (
 )
 
 
-class QabulBolimItemForm(forms.ModelForm):
-    body_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Uz)")
-    body_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Ru)")
-    body_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (En)")
-
-    class Meta:
-        model  = QabulBolimItem
-        fields = '__all__'
-
-
 class QabulBolimItemInline(admin.StackedInline):
     model  = QabulBolimItem
-    form   = QabulBolimItemForm
     extra  = 1
     fields = ('item_type', 'title_uz', 'body_uz', 'body_ru', 'body_en', 'file', 'link', 'order', 'is_active')
 
 
 @admin.register(QabulBolim)
 class QabulBolimAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display   = ('title_uz', 'bolim_type', 'slug', 'order', 'is_active')
     list_editable  = ('order', 'is_active')
     list_filter    = ('bolim_type', 'is_active')
@@ -87,19 +79,11 @@ class CallCenterAdmin(admin.ModelAdmin):
     )
 
 
-class QabulYangilikForm(forms.ModelForm):
-    body_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Uz)")
-    body_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (Ru)")
-    body_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Matn (En)")
-
-    class Meta:
-        model  = QabulYangilik
-        fields = '__all__'
-
-
 @admin.register(QabulYangilik)
 class QabulYangilikAdmin(admin.ModelAdmin):
-    form          = QabulYangilikForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display  = ('title_uz', 'date', 'views', 'order', 'is_published')
     list_editable = ('order', 'is_published')
     list_filter   = ('is_published',)

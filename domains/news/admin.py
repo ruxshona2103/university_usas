@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
+from django.db import models as db_models
 from django.utils.html import format_html
-from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
 
 from common.models import ContentImage
 from .models import (
@@ -37,18 +37,11 @@ class ArticleImageInline(GenericTabularInline):
 
 # Article admin (asosiy jadval — to'g'ridan-to'g'ri ro'yxatga olinmaydi)
 
-class ArticleForm(forms.ModelForm):
-    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
-    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
-    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
-
-    class Meta:
-        fields = '__all__'
-
-
 class ArticleAdminBase(admin.ModelAdmin):
     """News, Event, Blog proxy adminlari uchun umumiy base."""
-    form = ArticleForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_filter    = ('is_published', 'date')
     search_fields  = ('title_uz', 'title_ru', 'title_en')
     readonly_fields = ('slug', 'views', 'likes', 'comments', 'created_at', 'updated_at', 'image_preview')
@@ -309,6 +302,9 @@ class InformationImageInline(admin.TabularInline):
 
 
 class InformationContentAdminBase(admin.ModelAdmin):
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display   = ('title_uz', 'content_type', 'date', 'is_published', 'views', 'likes', 'comments')
     list_filter    = ('is_published',)
     search_fields  = ('title_uz', 'title_ru', 'title_en')

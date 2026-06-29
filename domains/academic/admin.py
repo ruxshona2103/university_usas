@@ -1,11 +1,11 @@
 import json
 
+from django import forms
 from django.contrib import admin
+from django.db import models as db_models
 from django.http import JsonResponse
 from django.urls import path
 from django.utils.text import slugify
-from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
-from django import forms
 
 from .models import (
     AcademyStat, AcademyDetailPage, FakultetKafedra, KafedraPublication,
@@ -124,22 +124,11 @@ class KafedraPublicationInline(admin.TabularInline):
     ordering = ('order',)
 
 
-class FakultetKafedraForm(forms.ModelForm):
-    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
-    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
-    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
-    about_uz       = forms.CharField(widget=SummernoteWidget(), required=False, label="Qo'shimcha (Uz)")
-    about_ru       = forms.CharField(widget=SummernoteWidget(), required=False, label="Qo'shimcha (Ru)")
-    about_en       = forms.CharField(widget=SummernoteWidget(), required=False, label="Qo'shimcha (En)")
-
-    class Meta:
-        model  = FakultetKafedra
-        fields = '__all__'
-
-
 @admin.register(FakultetKafedra)
 class FakultetKafedraAdmin(admin.ModelAdmin):
-    form          = FakultetKafedraForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display  = ('name_uz', 'type', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('type', 'is_active')

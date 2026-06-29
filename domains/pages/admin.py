@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
+from django.db import models as db_models
 from django.utils.html import format_html
-from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
 
 from common.models import ContentImage
 from .models import (
@@ -246,19 +246,11 @@ class NavbarCategoryAdmin(admin.ModelAdmin):
 
 
 # NAVBAR SAHIFALARI
-class NavbarSubItemForm(forms.ModelForm):
-    content_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (Uz)")
-    content_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (Ru)")
-    content_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Kontent (En)")
-
-    class Meta:
-        model  = NavbarSubItem
-        fields = '__all__'
-
-
 @admin.register(NavbarSubItem)
 class NavbarSubItemAdmin(admin.ModelAdmin):
-    form        = NavbarSubItemForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display = ('order', 'category', 'name_uz', 'page_type_badge', 'slug', 'is_active')
     list_display_links = ('name_uz',)
     list_editable = ('order', 'is_active')
@@ -405,19 +397,11 @@ class ContentImageInline(GenericTabularInline):
     fields = ('image', 'order')
 
 
-class ContentBlockForm(forms.ModelForm):
-    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
-    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
-    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
-
-    class Meta:
-        model  = ContentBlock
-        fields = '__all__'
-
-
 @admin.register(ContentBlock)
 class ContentBlockAdmin(admin.ModelAdmin):
-    form          = ContentBlockForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display  = ('block_type', 'title_uz', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('block_type', 'is_active', 'navbar_items__category')
@@ -710,19 +694,11 @@ class AboutAcademyImageInline(admin.TabularInline):
     ordering = ('order',)
 
 
-class AboutAcademyForm(forms.ModelForm):
-    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
-    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
-    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
-
-    class Meta:
-        model  = AboutAcademy
-        fields = '__all__'
-
-
 @admin.register(AboutAcademy)
 class AboutAcademyAdmin(admin.ModelAdmin):
-    form            = AboutAcademyForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     inlines         = [AboutAcademySectionInline, AboutAcademyProgramInline, AboutAcademyImageInline]
     readonly_fields = ('created_at', 'updated_at')
     fieldsets = (
@@ -1001,21 +977,13 @@ class SavolJavobCategoryAdmin(AutoTranslateMixin, admin.ModelAdmin):
     )
 
 
-class SavolJavobAdminForm(forms.ModelForm):
-    answer_uz = forms.CharField(widget=SummernoteWidget(), required=True, label="Javob (Uz)")
-    answer_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Javob (Ru)")
-    answer_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Javob (En)")
-
-    class Meta:
-        model  = SavolJavob
-        fields = '__all__'
-
-
 @admin.register(SavolJavob)
 class SavolJavobAdmin(AutoTranslateMixin, admin.ModelAdmin):
     translate_url_name   = 'savoljavob_translate'
     change_form_template = 'admin/pages/savoljavob/change_form.html'
-    form            = SavolJavobAdminForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display    = ('short_question', 'category', 'order', 'is_featured', 'is_active', 'views_count')
     list_filter     = ('category', 'is_active', 'is_featured')
     list_editable   = ('order', 'is_featured', 'is_active')

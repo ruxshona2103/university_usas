@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib import admin
+from django.db import models as db_models
 from django.utils.html import format_html
-from django_summernote.admin import SummernoteModelAdmin
-from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
 
 from .models import (
     SportMajmua, SportMajmuaImage,
@@ -123,19 +122,11 @@ class OlimpiyaAdmin(admin.ModelAdmin):
         return not OlimpiyaShaharchasi.objects.exists()
 
 
-class SharoitForm(forms.ModelForm):
-    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
-    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
-    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
-
-    class Meta:
-        model  = Sharoit
-        fields = '__all__'
-
-
 @admin.register(Sharoit)
 class SharoitAdmin(admin.ModelAdmin):
-    form          = SharoitForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display  = ('title_uz', 'category', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('category', 'is_active')

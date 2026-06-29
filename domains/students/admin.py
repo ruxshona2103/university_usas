@@ -5,7 +5,6 @@ from django.core.cache import cache
 from django.http import JsonResponse
 from django.urls import path
 from django.utils.html import format_html
-from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 from tinymce.widgets import TinyMCE
 
 from .models import Person, PersonCategory, PersonContent, PersonImage, StudentInfoCategory, StudentInfo, OlimpiyaChempion, MagistrGroup, MagistrStudent, MagistrTalaba, Stipendiya, PsixologXizmat, PsixologSection

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
+from django.db import models as db_models
 from django.utils.html import format_html
-from django_summernote.widgets import SummernoteInplaceWidget as SummernoteWidget
 
 from .models import TenderAnnouncement, TenderImage
 
@@ -12,19 +12,11 @@ class TenderImageInline(admin.TabularInline):
     fields = ('image', 'order')
 
 
-class TenderAnnouncementForm(forms.ModelForm):
-    description_uz = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Uz)")
-    description_ru = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (Ru)")
-    description_en = forms.CharField(widget=SummernoteWidget(), required=False, label="Tavsif (En)")
-
-    class Meta:
-        model  = TenderAnnouncement
-        fields = '__all__'
-
-
 @admin.register(TenderAnnouncement)
 class TenderAnnouncementAdmin(admin.ModelAdmin):
-    form          = TenderAnnouncementForm
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 8, 'cols': 80})},
+    }
     list_display  = ('title_uz', 'announcement_type', 'date', 'address', 'phone', 'is_published', 'views')
     list_editable = ('is_published',)
     list_filter   = ('announcement_type', 'is_published')

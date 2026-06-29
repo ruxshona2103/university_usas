@@ -75,26 +75,35 @@ class KafedraRasmSerializer(serializers.ModelSerializer):
 
 class KafedraXodimSerializer(serializers.ModelSerializer):
     """Professor-o'qituvchilar tarkibi — rasm, ism, lavozim, daraja, email, telefon."""
-    full_name = serializers.SerializerMethodField()
-    lavozim   = serializers.SerializerMethodField()
-    daraja    = serializers.SerializerMethodField()
-    photo_url = serializers.SerializerMethodField()
-    email     = serializers.SerializerMethodField()
-    phone     = serializers.SerializerMethodField()
+    full_name   = serializers.SerializerMethodField()
+    lavozim     = serializers.SerializerMethodField()
+    ilmiy_unvon = serializers.SerializerMethodField()
+    daraja      = serializers.SerializerMethodField()
+    photo_url   = serializers.SerializerMethodField()
+    email       = serializers.SerializerMethodField()
+    phone       = serializers.SerializerMethodField()
 
     class Meta:
         model  = KafedraXodim
-        fields = ['id', 'full_name', 'lavozim', 'daraja', 'photo_url', 'order', 'email', 'phone']
+        fields = ['id', 'full_name', 'lavozim', 'ilmiy_unvon', 'daraja', 'photo_url', 'order', 'email', 'phone']
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_full_name(self, obj):
-        return obj.person.full_name_uz
+        lang = self.context.get('lang', 'uz')
+        return getattr(obj.person, f'full_name_{lang}') or obj.person.full_name_uz
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_lavozim(self, obj):
         uz = obj.lavozim_uz or obj.person.title_uz or ''
         ru = obj.lavozim_ru or obj.person.title_ru or uz
         en = obj.lavozim_en or obj.person.title_en or uz
+        return {'uz': uz, 'ru': ru, 'en': en}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_ilmiy_unvon(self, obj):
+        uz = getattr(obj.person, 'position_uz', None) or ''
+        ru = getattr(obj.person, 'position_ru', None) or uz
+        en = getattr(obj.person, 'position_en', None) or uz
         return {'uz': uz, 'ru': ru, 'en': en}
 
     @extend_schema_field(OpenApiTypes.OBJECT)
@@ -175,6 +184,8 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
     name               = serializers.SerializerMethodField()
     description        = serializers.SerializerMethodField()
     about              = serializers.SerializerMethodField()
+    goals              = serializers.SerializerMethodField()
+    functions          = serializers.SerializerMethodField()
     sport_types        = serializers.SerializerMethodField()
     bachelor_subjects  = serializers.SerializerMethodField()
     master_subjects    = serializers.SerializerMethodField()
@@ -189,7 +200,7 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
         model  = FakultetKafedra
         fields = [
             'id', 'slug', 'type',
-            'name', 'description', 'about',
+            'name', 'description', 'about', 'goals', 'functions',
             'decree_info', 'phone', 'email', 'link',
             'sport_types', 'bachelor_subjects', 'master_subjects',
             'dean', 'vice_dean', 'mudiri',
@@ -209,6 +220,14 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_about(self, obj):
         return {'uz': obj.about_uz or '', 'ru': obj.about_ru or '', 'en': obj.about_en or ''}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_goals(self, obj):
+        return {'uz': obj.goals_uz or '', 'ru': obj.goals_ru or '', 'en': obj.goals_en or ''}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_functions(self, obj):
+        return {'uz': obj.functions_uz or '', 'ru': obj.functions_ru or '', 'en': obj.functions_en or ''}
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_sport_types(self, obj):

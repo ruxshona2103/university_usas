@@ -149,6 +149,14 @@ class FakultetKafedraAdmin(admin.ModelAdmin):
             'fields': ('about_uz', 'about_ru', 'about_en'),
             'classes': ('collapse',),
         }),
+        ("Maqsad va vazifalari", {
+            'fields': ('goals_uz', 'goals_ru', 'goals_en'),
+            'classes': ('collapse',),
+        }),
+        ("Funksiyalari", {
+            'fields': ('functions_uz', 'functions_ru', 'functions_en'),
+            'classes': ('collapse',),
+        }),
         ("Sport turlari", {
             'fields': ('sport_types_uz', 'sport_types_ru', 'sport_types_en'),
             'classes': ('collapse',),

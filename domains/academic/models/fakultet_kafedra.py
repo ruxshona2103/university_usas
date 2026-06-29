@@ -43,6 +43,15 @@ class FakultetKafedra(TimeStampedModel):
     about_uz    = models.TextField(blank=True, verbose_name="Qo'shimcha ma'lumot (Uz)")
     about_ru    = models.TextField(blank=True, verbose_name="Qo'shimcha ma'lumot (Ru)")
     about_en    = models.TextField(blank=True, verbose_name="Qo'shimcha ma'lumot (En)")
+
+    goals_uz = models.TextField(blank=True, verbose_name="Maqsad va vazifalari (Uz)")
+    goals_ru = models.TextField(blank=True, verbose_name="Maqsad va vazifalari (Ru)")
+    goals_en = models.TextField(blank=True, verbose_name="Maqsad va vazifalari (En)")
+
+    functions_uz = models.TextField(blank=True, verbose_name="Funksiyalari (Uz)")
+    functions_ru = models.TextField(blank=True, verbose_name="Funksiyalari (Ru)")
+    functions_en = models.TextField(blank=True, verbose_name="Funksiyalari (En)")
+
     phone       = models.CharField(max_length=50, blank=True, verbose_name="Telefon")
     email       = models.CharField(max_length=200, blank=True, verbose_name="E-mail")
 

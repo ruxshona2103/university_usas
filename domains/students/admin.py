@@ -383,6 +383,10 @@ class OlimpiyaChempionAdmin(AutoTranslateMixin, admin.ModelAdmin):
     )
     readonly_fields = ('image_preview',)
 
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        cache.clear()
+
     @admin.display(description="Rasm")
     def image_preview(self, obj):
         if obj.image:

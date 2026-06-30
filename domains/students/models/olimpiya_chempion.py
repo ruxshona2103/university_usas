@@ -22,6 +22,9 @@ class OlimpiyaChempion(TimeStampedModel):
     yonalish_uz  = models.CharField(max_length=300, blank=True, verbose_name="Sport turi (UZ)")
     yonalish_ru  = models.CharField(max_length=300, blank=True, verbose_name="Sport turi (RU)")
     yonalish_en  = models.CharField(max_length=300, blank=True, verbose_name="Sport turi (EN)")
+    yutuqlar_uz  = models.TextField(blank=True, verbose_name="Sovrinli o'rinlar (UZ)")
+    yutuqlar_ru  = models.TextField(blank=True, verbose_name="Sovrinli o'rinlar (RU)")
+    yutuqlar_en  = models.TextField(blank=True, verbose_name="Sovrinli o'rinlar (EN)")
     order        = models.PositiveIntegerField(default=0, verbose_name="Tartib")
     is_active    = models.BooleanField(default=True, verbose_name="Faolmi?")
 

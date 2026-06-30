@@ -363,6 +363,9 @@ class OlimpiyaChempionAdmin(AutoTranslateMixin, admin.ModelAdmin):
         ("Sport turi", {
             'fields': ('yonalish_uz', 'yonalish_ru', 'yonalish_en'),
         }),
+        ("Sovrinli o'rinlar", {
+            'fields': ('yutuqlar_uz', 'yutuqlar_ru', 'yutuqlar_en'),
+        }),
         ("Tartib va holat", {
             'fields': ('order', 'is_active'),
         }),

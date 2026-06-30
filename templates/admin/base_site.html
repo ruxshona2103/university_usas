@@ -63,11 +63,19 @@
     uzField.parentNode.insertBefore(btn, uzField.nextSibling);
 
     btn.addEventListener('click', function () {
-      /* For Summernote fields, read from the editor; fall back to textarea.value */
+      /* Read from the rich editor when present (TinyMCE or Summernote);
+         otherwise fall back to the raw textarea value. */
       var $ = window.jQuery;
-      var text = ($ && typeof $.fn.summernote !== 'undefined')
-        ? ($(uzField).data('summernote') ? $(uzField).summernote('code') : uzField.value).trim()
-        : uzField.value.trim();
+      var tmce = window.tinymce && window.tinymce.get(uzField.id);
+      var text;
+      if (tmce) {
+        text = tmce.getContent({ format: 'text' });
+      } else if ($ && typeof $.fn.summernote !== 'undefined' && $(uzField).data('summernote')) {
+        text = $(uzField).summernote('code');
+      } else {
+        text = uzField.value;
+      }
+      text = (text || '').trim();
       if (!text || text === '<p><br></p>') { alert("Avval UZ maydoni toʻldirilsin!"); return; }
       btn.disabled = true;
       btn.textContent = 'Tarjima qilinmoqda…';
@@ -84,11 +92,14 @@
         .then(function (r) { return r.json(); })
         .then(function (d) {
           if (d.error) { alert('Xato: ' + d.error); return; }
-          /* Write to textarea AND update Summernote visual editor if active */
+          /* Write to textarea AND update the visual editor (TinyMCE/Summernote) if active */
           function setField(field, value) {
             if (!field || !value) return;
             field.value = value;
-            if ($ && typeof $.fn.summernote !== 'undefined' && $(field).data('summernote')) {
+            var ed = window.tinymce && window.tinymce.get(field.id);
+            if (ed) {
+              ed.setContent(value);
+            } else if ($ && typeof $.fn.summernote !== 'undefined' && $(field).data('summernote')) {
               $(field).summernote('code', value);
             }
           }

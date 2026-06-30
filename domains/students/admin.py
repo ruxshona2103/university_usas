@@ -344,8 +344,19 @@ class MagistrTalabaAdmin(AutoTranslateMixin, admin.ModelAdmin):
         return "—"
 
 
+class OlimpiyaChempionForm(forms.ModelForm):
+    yutuqlar_uz = forms.CharField(widget=TinyMCE(), required=False, label="Sovrinli o'rinlar (Uz)")
+    yutuqlar_ru = forms.CharField(widget=TinyMCE(), required=False, label="Sovrinli o'rinlar (Ru)")
+    yutuqlar_en = forms.CharField(widget=TinyMCE(), required=False, label="Sovrinli o'rinlar (En)")
+
+    class Meta:
+        model  = OlimpiyaChempion
+        fields = '__all__'
+
+
 @admin.register(OlimpiyaChempion)
 class OlimpiyaChempionAdmin(AutoTranslateMixin, admin.ModelAdmin):
+    form                 = OlimpiyaChempionForm
     translate_url_name   = 'olimpiyachempion_translate'
     change_form_template = 'admin/students/olimpiyachempion/change_form.html'
     list_display  = ('full_name_uz', 'yonalish_uz', 'order', 'is_active', 'image_preview')

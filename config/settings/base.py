@@ -201,22 +201,47 @@ JAZZMIN_SETTINGS = {
     "hide_apps":          [],
     "hide_models":        [],
 
+    # Menyu tartibi saytdagi navbar oqimiga moslangan:
+    # Akademiya → Faoliyat → Xalqaro aloqalar → Talabalarga → Matbuot xizmati
+    # → Aloqa/Rektorga murojaat → Reyting → texnik.
     "order_with_respect_to": [
         "auth",
-        "pages",
-        "news",
-        "academic",
-        "students",
-        "activities",
+
+        # ── App-guruhlar tartibi (navbar top-menyu bo'yicha) ──
+        "pages",          # Akademiya (asosiy), Aloqa, ... (Sayt sozlamalari)
+        "academic",       # Akademiya: fakultet, kafedra, huzuridagi tashkilotlar
+        "infra",          # Akademiya: o'quv binolari va sport inshootlari
+        "activities",     # Faoliyat: sport / ilmiy
+        "international",   # Xalqaro aloqalar + Reyting
+        "students",       # Talabalarga + Faxrlarimiz (shaxslar)
+        "news",           # Matbuot xizmati
+        "contact",        # Aloqa / Rektorga murojaat
         "axborot",
-        "international",
         "qabul",
-        "contact",
         "tenders",
-        "infra",
+        "ilmiy_tadqiqot",
+        "tracker",
         "common",
         "django_celery_beat",
         "django_celery_results",
+
+        # ── "Sayt sozlamalari" (pages) ichidagi bo'limlar tartibi (navbar bo'yicha) ──
+        # Akademiya
+        "pages.aboutacademy", "pages.aboutacademysection", "pages.aboutacademyprogram",
+        "pages.akademiyamissiya", "pages.homepagehaqida", "pages.presidentquote", "pages.herovideo",
+        "pages.rekvizit", "pages.meyoriyhujjat", "pages.markaz",
+        "pages.orgsection", "pages.orgnode", "pages.partner",
+        # Faoliyat
+        "pages.ilmiybolim",
+        # Talabalarga
+        "pages.iqtidorlitalabalar", "pages.kampusxizmati", "pages.interaktivxizmat",
+        "pages.aboutsocial", "pages.aboutsocialsection",
+        # Aloqa
+        "pages.contactconfig", "pages.contactlocation",
+        "pages.savoljavobcategory", "pages.savoljavob",
+        # Texnik (navbar/bloklar)
+        "pages.navbarcategory", "pages.navbarsubitem",
+        "pages.contentblock", "pages.linkblock", "pages.sociallink",
     ],
 
     # ── Sidebar qo'shimcha havolalar ─────────────────────────────────────────

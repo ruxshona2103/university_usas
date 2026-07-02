@@ -69,6 +69,13 @@ class OrgNode(TimeStampedModel):
     description_ru = models.CharField(max_length=500, blank=True, verbose_name='Tavsif (Ru)')
     description_en = models.CharField(max_length=500, blank=True, verbose_name='Tavsif (En)')
 
+    # Batafsil ma'lumot — "Havola" bo'sh bo'lganda shu tugunning o'z sahifasi
+    # (/page/tuzilma/<slug>) sifatida ko'rsatiladi.
+    content_uz = models.TextField(blank=True, verbose_name="Batafsil ma'lumot (Uz)",
+                                  help_text="Havola bo'sh bo'lsa, tugun bosilganda shu matn o'z sahifasida ko'rsatiladi")
+    content_ru = models.TextField(blank=True, verbose_name="Batafsil ma'lumot (Ru)")
+    content_en = models.TextField(blank=True, verbose_name="Batafsil ma'lumot (En)")
+
     section       = models.ForeignKey(
         OrgSection,
         null=True, blank=True,

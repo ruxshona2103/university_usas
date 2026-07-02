@@ -463,10 +463,13 @@ class OrgNodeCardSerializer(serializers.ModelSerializer):
         # 1) Admin qo'lda kiritgan havola — eng yuqori ustuvorlik
         if obj.link:
             return obj.link
-        # 2) Rektor — rahbariyat sahifasiga
+        # 2) Admin tugunning o'z batafsil ma'lumotini yozgan bo'lsa — o'z sahifasi
+        if (obj.content_uz or '').strip():
+            return f'/page/tuzilma/{obj.slug}'
+        # 3) Rektor — rahbariyat sahifasiga
         if obj.node_type == OrgNode.NodeType.RECTOR:
             return '/page/rectorate'
-        # 3) Nomi/slug'i mos keladigan "Markaz va bo'lim" batafsil sahifasiga
+        # 4) Nomi/slug'i mos keladigan "Markaz va bo'lim" batafsil sahifasiga
         markaz_map = self.context.get('markaz_links') or {}
         target = markaz_map.get(obj.slug) or markaz_map.get(_norm_title(obj.title_uz))
         if target:
@@ -498,6 +501,46 @@ class OrgNodeCardSerializer(serializers.ModelSerializer):
             'ru': _url(obj.image_ru) or _url(obj.image),
             'en': _url(obj.image_en) or _url(obj.image),
         }
+
+
+class OrgNodeDetailSerializer(serializers.ModelSerializer):
+    """Tuzilma tugunining o'z sahifasi — /page/tuzilma/<slug>."""
+    title       = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    content     = serializers.SerializerMethodField()
+    image_url   = serializers.SerializerMethodField()
+
+    class Meta:
+        model  = OrgNode
+        fields = ['id', 'slug', 'node_type', 'title', 'description', 'content', 'image_url']
+
+    def _lang(self):
+        return self.context.get('lang', 'uz')
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_title(self, obj):
+        return getattr(obj, f'title_{self._lang()}') or obj.title_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_description(self, obj):
+        return getattr(obj, f'description_{self._lang()}') or obj.description_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_content(self, obj):
+        return getattr(obj, f'content_{self._lang()}') or obj.content_uz
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_image_url(self, obj):
+        request = self.context.get('request')
+        lang = self._lang()
+        field = getattr(obj, f'image_{lang}', None) if lang != 'uz' else None
+        field = field or obj.image
+        if not field:
+            return None
+        try:
+            return request.build_absolute_uri(field.url) if request else field.url
+        except Exception:
+            return None
 
 
 class OrgSectionSerializer(serializers.ModelSerializer):

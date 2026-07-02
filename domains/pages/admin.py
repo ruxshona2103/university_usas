@@ -1,4 +1,5 @@
 from django import forms
+from tinymce.widgets import TinyMCE
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.db import models as db_models
@@ -779,8 +780,19 @@ class OrgNodeChildInline(admin.TabularInline):
     show_change_link = True
 
 
+class OrgNodeAdminForm(forms.ModelForm):
+    content_uz = forms.CharField(widget=TinyMCE(), required=False, label="Batafsil ma'lumot (Uz)")
+    content_ru = forms.CharField(widget=TinyMCE(), required=False, label="Batafsil ma'lumot (Ru)")
+    content_en = forms.CharField(widget=TinyMCE(), required=False, label="Batafsil ma'lumot (En)")
+
+    class Meta:
+        model  = OrgNode
+        fields = '__all__'
+
+
 @admin.register(OrgNode)
 class OrgNodeAdmin(admin.ModelAdmin):
+    form          = OrgNodeAdminForm
     list_display  = ('indented_name', 'node_type', 'parent', 'order', 'is_highlighted', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter   = ('node_type', 'is_active', 'is_highlighted')
@@ -809,6 +821,14 @@ class OrgNodeAdmin(admin.ModelAdmin):
                 "Masalan: <code>/page/markazlar/buxgalteriya</code> yoki <code>/page/rectorate</code>. "
                 "Bo'sh qoldirsangiz — nomi mos keladigan «Markaz va bo'limlar» sahifasiga avtomatik ulanadi. "
                 "Rektor esa avtomatik rahbariyat sahifasiga."
+            ),
+        }),
+        ("Batafsil ma'lumot (o'z sahifasi)", {
+            'classes': ('collapse',),
+            'fields': ('content_uz', 'content_ru', 'content_en'),
+            'description': (
+                "«Havola» bo'sh bo'lsa va bu bo'lim boshqa joyda (markazlarda) mavjud bo'lmasa — "
+                "shu yerga yozilgan ma'lumot tugun bosilganda o'z sahifasida (/page/tuzilma/&lt;slug&gt;) ko'rsatiladi."
             ),
         }),
         ("Belgilar", {

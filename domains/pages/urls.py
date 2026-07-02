@@ -13,6 +13,7 @@ from .views import (
     UniversitetHayotiGalleryAPIView,
     OrgStructureAPIView,
     OrgSectionListAPIView,
+    OrgNodeDetailAPIView,
     RekvizitAPIView,
     InteraktivXizmatListAPIView,
     MarkazListAPIView,
@@ -43,6 +44,7 @@ urlpatterns = [
     path('universitet-hayoti/gallery/', UniversitetHayotiGalleryAPIView.as_view(), name='universitet-hayoti-gallery'),
     path('org-structure/',          OrgStructureAPIView.as_view(),     name='org-structure'),
     path('org-structure/sections/', OrgSectionListAPIView.as_view(),   name='org-section-list'),
+    path('org-structure/nodes/<slug:slug>/', OrgNodeDetailAPIView.as_view(), name='org-node-detail'),
 
     # Navbar
     path('navbar/',

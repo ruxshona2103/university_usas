@@ -473,6 +473,23 @@ class OrgSectionListAPIView(APIView):
         return Response(data)
 
 
+class OrgNodeDetailAPIView(APIView):
+    """
+    /api/org-structure/nodes/<slug>/
+    Tuzilma tugunining o'z batafsil sahifasi (havola bo'sh, ma'lumot yozilgan tugunlar uchun).
+    ?lang=uz|ru|en
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request, slug):
+        from .serializers import OrgNodeDetailSerializer
+        node = OrgNode.objects.filter(slug=slug, is_active=True).first()
+        if not node:
+            return Response({'detail': 'Not found'}, status=404)
+        ctx = {'lang': _lang(request), 'request': request}
+        return Response(OrgNodeDetailSerializer(node, context=ctx).data)
+
+
 @cached_list(300)
 @extend_schema(tags=['pages'], summary="Interaktiv xizmatlar ro'yxati")
 class InteraktivXizmatListAPIView(generics.ListAPIView):

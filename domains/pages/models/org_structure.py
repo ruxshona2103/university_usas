@@ -58,6 +58,12 @@ class OrgNode(TimeStampedModel):
     title_ru = models.CharField(max_length=400, blank=True, verbose_name='Nomi (Ru)')
     title_en = models.CharField(max_length=400, blank=True, verbose_name='Nomi (En)')
     slug    = models.SlugField(max_length=220, unique=True, blank=True, verbose_name='Slug')
+    link    = models.CharField(
+        max_length=500, blank=True,
+        verbose_name='Havola (batafsil sahifa)',
+        help_text="Bosilganda ochiladigan manzil, masalan: /page/markazlar/buxgalteriya yoki /page/rectorate. "
+                  "Bo'sh qoldirilsa — nomi mos keladigan markaz sahifasiga avtomatik ulanadi.",
+    )
 
     description_uz = models.CharField(max_length=500, blank=True, verbose_name='Tavsif (Uz)')
     description_ru = models.CharField(max_length=500, blank=True, verbose_name='Tavsif (Ru)')

@@ -803,6 +803,14 @@ class OrgNodeAdmin(admin.ModelAdmin):
         ("Joylashuv va tur", {
             'fields': ('parent', 'node_type', 'section', 'section_order', 'order'),
         }),
+        ("Havola (bosilganda ochiladigan sahifa)", {
+            'fields': ('link',),
+            'description': (
+                "Masalan: <code>/page/markazlar/buxgalteriya</code> yoki <code>/page/rectorate</code>. "
+                "Bo'sh qoldirsangiz — nomi mos keladigan «Markaz va bo'limlar» sahifasiga avtomatik ulanadi. "
+                "Rektor esa avtomatik rahbariyat sahifasiga."
+            ),
+        }),
         ("Belgilar", {
             'fields': ('is_starred', 'is_double_starred', 'is_highlighted', 'is_active'),
             'description': (

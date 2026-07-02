@@ -435,18 +435,43 @@ class OrgNodeSerializer(serializers.ModelSerializer):
 # Org Sections (frontend card view)
 # ──────────────────────────────────────────────────────────────────────────────
 
+def _norm_title(text):
+    """Nomni taqqoslash uchun normallashtirish (apostrof/probel farqlarini yo'qotadi)."""
+    import re
+    s = (text or '').lower().strip()
+    for ch in ('ʻ', 'ʼ', '`', '‘', '’', '´'):
+        s = s.replace(ch, "'")
+    return re.sub(r'\s+', ' ', s)
+
+
 class OrgNodeCardSerializer(serializers.ModelSerializer):
     title       = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
     image_url   = serializers.SerializerMethodField()
+    link        = serializers.SerializerMethodField()
 
     class Meta:
         model  = OrgNode
         fields = [
             'id', 'slug', 'node_type', 'title', 'description',
             'is_starred', 'is_double_starred', 'is_highlighted',
-            'image_url', 'section_order',
+            'image_url', 'section_order', 'link',
         ]
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_link(self, obj):
+        # 1) Admin qo'lda kiritgan havola — eng yuqori ustuvorlik
+        if obj.link:
+            return obj.link
+        # 2) Rektor — rahbariyat sahifasiga
+        if obj.node_type == OrgNode.NodeType.RECTOR:
+            return '/page/rectorate'
+        # 3) Nomi/slug'i mos keladigan "Markaz va bo'lim" batafsil sahifasiga
+        markaz_map = self.context.get('markaz_links') or {}
+        target = markaz_map.get(obj.slug) or markaz_map.get(_norm_title(obj.title_uz))
+        if target:
+            return f'/page/markazlar/{target}'
+        return ''
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_title(self, obj):

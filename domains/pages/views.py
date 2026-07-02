@@ -461,7 +461,14 @@ class OrgSectionListAPIView(APIView):
             .prefetch_related('nodes')
             .order_by('order')
         )
-        ctx = {'lang': lang, 'request': request}
+        # Tuzilma tugunlarini "Markaz va bo'limlar" batafsil sahifalariga ulash uchun
+        # slug va normallashtirilgan nom bo'yicha qidiruv jadvali.
+        from .serializers import _norm_title
+        markaz_links = {}
+        for slug, name_uz in Markaz.objects.filter(is_active=True).values_list('slug', 'name_uz'):
+            markaz_links[slug] = slug
+            markaz_links[_norm_title(name_uz)] = slug
+        ctx = {'lang': lang, 'request': request, 'markaz_links': markaz_links}
         data = OrgSectionSerializer(sections, many=True, context=ctx).data
         return Response(data)
 

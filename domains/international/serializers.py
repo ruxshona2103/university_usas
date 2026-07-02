@@ -109,6 +109,7 @@ class InternationalDeptConfigSerializer(serializers.ModelSerializer):
     head_position      = serializers.SerializerMethodField()
     head_working_hours = serializers.SerializerMethodField()
     tasks              = serializers.SerializerMethodField()
+    memorandum_stats   = serializers.SerializerMethodField()
     head_photo         = serializers.SerializerMethodField()
 
     class Meta:
@@ -117,6 +118,7 @@ class InternationalDeptConfigSerializer(serializers.ModelSerializer):
             'slug',
             'head_name', 'head_position', 'head_working_hours',
             'head_phone', 'head_email', 'head_photo', 'tasks',
+            'memorandum_stats',
         ]
 
     def _lang(self):
@@ -141,7 +143,22 @@ class InternationalDeptConfigSerializer(serializers.ModelSerializer):
     @extend_schema_field(serializers.ListField(child=serializers.CharField()))
     def get_tasks(self, obj):
         raw = getattr(obj, f'tasks_{self._lang()}') or obj.tasks_uz or ''
-        return [line.strip() for line in raw.splitlines() if line.strip()]
+        tasks = []
+        for line in raw.splitlines():
+            s = line.strip()
+            if not s:
+                continue
+            # "RAQAMLI MA'LUMOTLAR" sarlavhasidan keyingi qatorlar alohida
+            # `memorandum_stats` bo'limiga o'tadi — vazifalar ro'yxatiga kirmaydi.
+            if 'raqamli ma' in s.lower():
+                break
+            tasks.append(s)
+        return tasks
+
+    @extend_schema_field(serializers.ListField(child=serializers.DictField()))
+    def get_memorandum_stats(self, obj):
+        qs = MemorandumStat.objects.all().order_by('order')
+        return MemorandumStatSerializer(qs, many=True, context=self.context).data
 
 
 class MemorandumStatSerializer(serializers.ModelSerializer):

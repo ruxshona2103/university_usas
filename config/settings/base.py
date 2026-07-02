@@ -215,9 +215,9 @@ JAZZMIN_SETTINGS = {
         "international",   # Xalqaro aloqalar + Reyting
         "students",       # Talabalarga + Faxrlarimiz (shaxslar)
         "news",           # Matbuot xizmati
+        "qabul",          # Qabul
         "contact",        # Aloqa / Rektorga murojaat
         "axborot",
-        "qabul",
         "tenders",
         "ilmiy_tadqiqot",
         "tracker",
@@ -225,21 +225,22 @@ JAZZMIN_SETTINGS = {
         "django_celery_beat",
         "django_celery_results",
 
-        # ── "Sayt sozlamalari" (pages) ichidagi bo'limlar tartibi (navbar bo'yicha) ──
+        # ── "Sayt sozlamalari" (pages) ichidagi bo'limlar — navbar ketma-ketligida ──
         # Akademiya
-        "pages.aboutacademy", "pages.aboutacademysection", "pages.aboutacademyprogram",
-        "pages.akademiyamissiya", "pages.homepagehaqida", "pages.presidentquote", "pages.herovideo",
-        "pages.rekvizit", "pages.meyoriyhujjat", "pages.markaz",
-        "pages.orgsection", "pages.orgnode", "pages.partner",
+        "pages.aboutacademy", "pages.akademiyamissiya",
+        "pages.rekvizit", "pages.meyoriyhujjat",
+        "pages.orgsection", "pages.orgnode",
+        "pages.partner", "pages.markaz",
         # Faoliyat
         "pages.ilmiybolim",
         # Talabalarga
-        "pages.iqtidorlitalabalar", "pages.kampusxizmati", "pages.interaktivxizmat",
-        "pages.aboutsocial", "pages.aboutsocialsection",
+        "pages.iqtidorlitalabalar", "pages.kampusxizmati", "pages.interaktivxizmat", "pages.aboutsocial",
         # Aloqa
         "pages.contactconfig", "pages.contactlocation",
         "pages.savoljavobcategory", "pages.savoljavob",
-        # Texnik (navbar/bloklar)
+        # Qo'shimcha / texnik (navbarda alohida bo'lim emas) — oxirida
+        "pages.homepagehaqida", "pages.presidentquote", "pages.herovideo",
+        "pages.aboutacademysection", "pages.aboutacademyprogram", "pages.aboutsocialsection",
         "pages.navbarcategory", "pages.navbarsubitem",
         "pages.contentblock", "pages.linkblock", "pages.sociallink",
     ],

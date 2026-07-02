@@ -175,6 +175,10 @@ class InternationalDeptConfigAdmin(AutoTranslateMixin, admin.ModelAdmin):
                        'head_phone', 'head_email'),
         }),
         ("Vazifalari (Uz / Ru / En)", {'fields': ('tasks_uz', 'tasks_ru', 'tasks_en')}),
+        ("Raqamli ma'lumotlar (Uz / Ru / En)", {
+            'fields': ('digital_data_uz', 'digital_data_ru', 'digital_data_en'),
+            'description': "Oddiy matn — sahifada «Bo'lim vazifalari» ostida alohida bo'lim bo'lib chiqadi.",
+        }),
     )
 
     def has_add_permission(self, request):

@@ -109,7 +109,7 @@ class InternationalDeptConfigSerializer(serializers.ModelSerializer):
     head_position      = serializers.SerializerMethodField()
     head_working_hours = serializers.SerializerMethodField()
     tasks              = serializers.SerializerMethodField()
-    memorandum_stats   = serializers.SerializerMethodField()
+    digital_data       = serializers.SerializerMethodField()
     head_photo         = serializers.SerializerMethodField()
 
     class Meta:
@@ -118,7 +118,7 @@ class InternationalDeptConfigSerializer(serializers.ModelSerializer):
             'slug',
             'head_name', 'head_position', 'head_working_hours',
             'head_phone', 'head_email', 'head_photo', 'tasks',
-            'memorandum_stats',
+            'digital_data',
         ]
 
     def _lang(self):
@@ -155,10 +155,9 @@ class InternationalDeptConfigSerializer(serializers.ModelSerializer):
             tasks.append(s)
         return tasks
 
-    @extend_schema_field(serializers.ListField(child=serializers.DictField()))
-    def get_memorandum_stats(self, obj):
-        qs = MemorandumStat.objects.all().order_by('order')
-        return MemorandumStatSerializer(qs, many=True, context=self.context).data
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_digital_data(self, obj):
+        return (getattr(obj, f'digital_data_{self._lang()}') or obj.digital_data_uz or '').strip()
 
 
 class MemorandumStatSerializer(serializers.ModelSerializer):

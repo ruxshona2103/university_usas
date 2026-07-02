@@ -26,6 +26,11 @@ class InternationalDeptConfig(models.Model):
     tasks_ru = models.TextField(blank=True, verbose_name="Vazifalari (Ru)")
     tasks_en = models.TextField(blank=True, verbose_name="Vazifalari (En)")
 
+    # Raqamli ma'lumotlar — oddiy matn (vazifalardan keyin alohida bo'lim bo'lib chiqadi)
+    digital_data_uz = models.TextField(blank=True, verbose_name="Raqamli ma'lumotlar (Uz)", help_text="Oddiy matn — sahifada «Bo'lim vazifalari» ostida alohida bo'lim bo'lib ko'rsatiladi")
+    digital_data_ru = models.TextField(blank=True, verbose_name="Raqamli ma'lumotlar (Ru)")
+    digital_data_en = models.TextField(blank=True, verbose_name="Raqamli ma'lumotlar (En)")
+
     class Meta:
         db_table            = 'international_dept_config'
         verbose_name        = "Xalqaro bo'lim konfiguratsiyasi"

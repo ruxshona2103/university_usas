@@ -28,16 +28,28 @@ class FakultetKafedra(TimeStampedModel):
     sport_types_uz = models.TextField(blank=True, verbose_name="Sport turlari (Uz)", help_text="Har birini yangi satrga yozing")
     sport_types_ru = models.TextField(blank=True, verbose_name="Sport turlari (Ru)")
     sport_types_en = models.TextField(blank=True, verbose_name="Sport turlari (En)")
+    # Sport turlari ro'yxati sarlavhasi (bo'sh bo'lsa — standart matn)
+    sport_types_title_uz = models.CharField(max_length=200, blank=True, verbose_name="Sport turlari — sarlavha (Uz)", help_text="Bo'sh qoldirilsa standart matn ishlatiladi")
+    sport_types_title_ru = models.CharField(max_length=200, blank=True, verbose_name="Sport turlari — sarlavha (Ru)")
+    sport_types_title_en = models.CharField(max_length=200, blank=True, verbose_name="Sport turlari — sarlavha (En)")
 
     # Bakalavriat fanlari — har bir satr bitta fan
     bachelor_subjects_uz = models.TextField(blank=True, verbose_name="Bakalavriat fanlari (Uz)", help_text="Har birini yangi satrga yozing")
     bachelor_subjects_ru = models.TextField(blank=True, verbose_name="Bakalavriat fanlari (Ru)")
     bachelor_subjects_en = models.TextField(blank=True, verbose_name="Bakalavriat fanlari (En)")
+    # Bakalavr ro'yxati sarlavhasi (bo'sh bo'lsa — standart "Bakalavr yo'nalishlari")
+    bachelor_subjects_title_uz = models.CharField(max_length=200, blank=True, verbose_name="Bakalavr — sarlavha (Uz)", help_text="Bo'sh qoldirilsa standart matn ishlatiladi")
+    bachelor_subjects_title_ru = models.CharField(max_length=200, blank=True, verbose_name="Bakalavr — sarlavha (Ru)")
+    bachelor_subjects_title_en = models.CharField(max_length=200, blank=True, verbose_name="Bakalavr — sarlavha (En)")
 
     # Magistratura fanlari — har bir satr bitta fan
     master_subjects_uz = models.TextField(blank=True, verbose_name="Magistratura fanlari (Uz)", help_text="Har birini yangi satrga yozing")
     master_subjects_ru = models.TextField(blank=True, verbose_name="Magistratura fanlari (Ru)")
     master_subjects_en = models.TextField(blank=True, verbose_name="Magistratura fanlari (En)")
+    # Magistratura ro'yxati sarlavhasi (bo'sh bo'lsa — standart "Magistratura yo'nalishlari")
+    master_subjects_title_uz = models.CharField(max_length=200, blank=True, verbose_name="Magistratura — sarlavha (Uz)", help_text="Bo'sh qoldirilsa standart matn ishlatiladi")
+    master_subjects_title_ru = models.CharField(max_length=200, blank=True, verbose_name="Magistratura — sarlavha (Ru)")
+    master_subjects_title_en = models.CharField(max_length=200, blank=True, verbose_name="Magistratura — sarlavha (En)")
 
     decree_info = models.CharField(max_length=300, blank=True, verbose_name="Asos hujjat (farmon/qaror)")
     about_uz    = models.TextField(blank=True, verbose_name="Qo'shimcha ma'lumot (Uz)")

@@ -158,15 +158,24 @@ class FakultetKafedraAdmin(admin.ModelAdmin):
             'classes': ('collapse',),
         }),
         ("Sport turlari", {
-            'fields': ('sport_types_uz', 'sport_types_ru', 'sport_types_en'),
+            'fields': (
+                'sport_types_title_uz', 'sport_types_title_ru', 'sport_types_title_en',
+                'sport_types_uz', 'sport_types_ru', 'sport_types_en',
+            ),
             'classes': ('collapse',),
         }),
         ("Bakalavriat fanlari", {
-            'fields': ('bachelor_subjects_uz', 'bachelor_subjects_ru', 'bachelor_subjects_en'),
+            'fields': (
+                'bachelor_subjects_title_uz', 'bachelor_subjects_title_ru', 'bachelor_subjects_title_en',
+                'bachelor_subjects_uz', 'bachelor_subjects_ru', 'bachelor_subjects_en',
+            ),
             'classes': ('collapse',),
         }),
         ("Magistratura fanlari", {
-            'fields': ('master_subjects_uz', 'master_subjects_ru', 'master_subjects_en'),
+            'fields': (
+                'master_subjects_title_uz', 'master_subjects_title_ru', 'master_subjects_title_en',
+                'master_subjects_uz', 'master_subjects_ru', 'master_subjects_en',
+            ),
             'classes': ('collapse',),
         }),
         ("Kontakt va havola", {

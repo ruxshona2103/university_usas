@@ -189,6 +189,9 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
     sport_types        = serializers.SerializerMethodField()
     bachelor_subjects  = serializers.SerializerMethodField()
     master_subjects    = serializers.SerializerMethodField()
+    sport_types_title       = serializers.SerializerMethodField()
+    bachelor_subjects_title = serializers.SerializerMethodField()
+    master_subjects_title   = serializers.SerializerMethodField()
     dean               = serializers.SerializerMethodField()
     vice_dean          = serializers.SerializerMethodField()
     mudiri             = serializers.SerializerMethodField()
@@ -203,6 +206,7 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
             'name', 'description', 'about', 'goals', 'functions',
             'decree_info', 'phone', 'email', 'link',
             'sport_types', 'bachelor_subjects', 'master_subjects',
+            'sport_types_title', 'bachelor_subjects_title', 'master_subjects_title',
             'dean', 'vice_dean', 'mudiri',
             'publications', 'professor_tarkibi', 'rasmlar',
             'order',
@@ -252,6 +256,18 @@ class FakultetKafedraDetailSerializer(serializers.ModelSerializer):
             'ru': _split_lines(obj.master_subjects_ru),
             'en': _split_lines(obj.master_subjects_en),
         }
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_sport_types_title(self, obj):
+        return {'uz': obj.sport_types_title_uz or '', 'ru': obj.sport_types_title_ru or '', 'en': obj.sport_types_title_en or ''}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_bachelor_subjects_title(self, obj):
+        return {'uz': obj.bachelor_subjects_title_uz or '', 'ru': obj.bachelor_subjects_title_ru or '', 'en': obj.bachelor_subjects_title_en or ''}
+
+    @extend_schema_field(OpenApiTypes.OBJECT)
+    def get_master_subjects_title(self, obj):
+        return {'uz': obj.master_subjects_title_uz or '', 'ru': obj.master_subjects_title_ru or '', 'en': obj.master_subjects_title_en or ''}
 
     @extend_schema_field(OpenApiTypes.OBJECT)
     def get_dean(self, obj):
